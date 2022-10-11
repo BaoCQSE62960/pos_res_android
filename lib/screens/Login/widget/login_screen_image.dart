@@ -19,19 +19,13 @@ class LoginScreenImage extends StatelessWidget {
         Row(
           children: [
             const Spacer(),
-            // ClipRRect(
-            //   borderRadius: BorderRadius.circular(radius),
-            // child:
             Expanded(
               flex: 8,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset("assets/images/logo.png"),
               ),
-              // ),
-              // child: Image.asset("assets/images/logo.png"),
             ),
-            // ),
             const Spacer(),
           ],
         ),

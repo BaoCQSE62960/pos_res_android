@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/config/theme.dart';
 
 class Background extends StatelessWidget {
   final Widget child;
@@ -15,8 +16,8 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // body: Container(
-      body: SizedBox(
+      body: Container(
+        color: primaryColor,
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
         child: Stack(

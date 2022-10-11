@@ -1,7 +1,8 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
 
 import '../../../config/theme.dart';
 
@@ -53,7 +54,16 @@ class LoginForm extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 primary: activeColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const TableLayoutScreen();
+                    },
+                  ),
+                );
+              },
               child: Text(
                 "Đăng nhập".toUpperCase(),
               ),

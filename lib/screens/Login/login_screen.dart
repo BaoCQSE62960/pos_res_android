@@ -21,20 +21,24 @@ class LoginScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: textLightColor,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15.0),
-                        topRight: Radius.circular(15.0),
-                        bottomLeft: Radius.circular(15.0),
-                        bottomRight: Radius.circular(15.0)),
+                    borderRadius: BorderRadius.circular(15.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: shadowColor,
+                        blurRadius: 4,
+                        offset: Offset(0, 4), // Shadow position
+                      ),
+                    ],
                   ),
                   height: 390,
+                  // width: 390,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       SizedBox(
-                        width: 450,
+                        width: 420,
                         child: LoginForm(),
                       ),
                     ],

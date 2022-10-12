@@ -34,73 +34,76 @@ class _SideBarState extends State<SideBar> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        SizedBox(
-          width: defaultPadding * 6,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisSize: MainAxisSize.max,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              FlatButton(
-                onPressed: () => {},
-                color: activeColor,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  // Replace with a Row for horizontal icon + text
-                  children: const <Widget>[
-                    Icon(
-                      Icons.table_bar,
-                      size: 50,
-                      color: textLightColor,
-                    ),
-                    Text(
-                      "SƠ ĐỒ BÀN",
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.w700,
+        Container(
+          color: activeColor,
+          child: SizedBox(
+            width: defaultPadding * 6,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisSize: MainAxisSize.max,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () => {},
+                  color: activeColor,
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    // Replace with a Row for horizontal icon + text
+                    children: const <Widget>[
+                      Icon(
+                        Icons.table_bar,
+                        size: 50,
                         color: textLightColor,
                       ),
-                    ),
-                  ],
+                      Text(
+                        "SƠ ĐỒ BÀN",
+                        style: TextStyle(
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w700,
+                          color: textLightColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                color: activeColor,
-                height: defaultPadding * 31,
-              ),
-              FlatButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const LoginScreen();
-                      },
-                    ),
-                  );
-                },
-                color: activeColor,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  // Replace with a Row for horizontal icon + text
-                  children: const <Widget>[
-                    Icon(
-                      Icons.logout,
-                      size: 50,
-                      color: textLightColor,
-                    ),
-                    Text(
-                      'ĐĂNG XUẤT',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
+                Container(
+                  color: activeColor,
+                  height: defaultPadding * 31,
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const LoginScreen();
+                        },
+                      ),
+                    );
+                  },
+                  color: activeColor,
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    // Replace with a Row for horizontal icon + text
+                    children: const <Widget>[
+                      Icon(
+                        Icons.logout,
+                        size: 50,
                         color: textLightColor,
                       ),
-                    ),
-                  ],
+                      Text(
+                        'ĐĂNG XUẤT',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: textLightColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

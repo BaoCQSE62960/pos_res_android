@@ -16,18 +16,32 @@ class LoginScreenImage extends StatelessWidget {
         //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         // ),
         const SizedBox(height: defaultPadding * 2),
-        Row(
-          children: [
-            const Spacer(),
-            Expanded(
-              flex: 8,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset("assets/images/logo.png"),
+        Container(
+          width: 390,
+          decoration: BoxDecoration(
+            color: textLightColor,
+            borderRadius: BorderRadius.circular(15.0),
+            boxShadow: const [
+              BoxShadow(
+                color: shadowColor,
+                blurRadius: 4,
+                offset: Offset(0, 4), // Shadow position
               ),
-            ),
-            const Spacer(),
-          ],
+            ],
+          ),
+          child: Row(
+            children: [
+              // const Spacer(),
+              Expanded(
+                flex: 8,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset("assets/images/logo.png"),
+                ),
+              ),
+              // const Spacer(),
+            ],
+          ),
         ),
         const SizedBox(height: defaultPadding * 2),
       ],

@@ -10,7 +10,7 @@ const deactiveColor = Color(0xFFD9D9D9);
 const deactiveLightColor = Color(0xFFF4F4F4);
 const selectColor = Color(0xFFC8E1FF);
 const selectedColor = Color(0xFFEFF6FF);
-const warningColor = Color(0xFFFCD64D);
+const warningColor = Color(0xFFFBC400);
 const voidColor = Color(0xFFFB4F4F);
 
 const double defaultPadding = 16.0;

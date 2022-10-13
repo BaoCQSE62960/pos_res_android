@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../config/theme.dart';
-import '../../Login/login_screen.dart';
 
 class LocationFilter extends StatefulWidget {
   const LocationFilter({Key? key}) : super(key: key);
@@ -21,57 +20,28 @@ class _LocationFilterState extends State<LocationFilter> {
           color: textLightColor,
           child: SizedBox(
             // width: defaultPadding * 6,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.max,
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+            child: Column(
+              children: [
                 Container(
-                  width: defaultPadding * 0.5,
+                  height: defaultPadding * 0.5,
                 ),
-                // Hero(
-                //   tag: "floor1_btn",
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       primary: activeColor,
-                //     ),
-                //     onPressed: () {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) {
-                //             return const LoginScreen();
-                //           },
-                //         ),
-                //       );
-                //     },
-                //     child: Text(
-                //       "Lầu 1".toUpperCase(),
-                //     ),
-                //   ),
-                // ),
-                Column(
-                  children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // mainAxisSize: MainAxisSize.max,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
                     Container(
-                      height: defaultPadding * 0.5,
+                      width: defaultPadding * 0.5,
                     ),
+
                     Hero(
                       tag: "allLocation_btn",
                       child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const LoginScreen();
-                              },
-                            ),
-                          );
-                        },
+                        onPressed: () {},
                         style: TextButton.styleFrom(
                           shape: const RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(12))),
+                                  BorderRadius.all(Radius.circular(5))),
                           minimumSize: const Size(100, 50),
                           backgroundColor: selectColor,
                           // padding: const EdgeInsets.all(15),
@@ -81,53 +51,66 @@ class _LocationFilterState extends State<LocationFilter> {
                         child: const Text(
                           'Tất cả',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      width: defaultPadding * 0.5,
+                    ),
+                    Hero(
+                      tag: "floor1_btn",
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          minimumSize: const Size(100, 50),
+                          backgroundColor: selectColor,
+                          // padding: const EdgeInsets.all(15),
+                        ),
+                        // color: selectColor,
+                        // padding: const EdgeInsets.all(10),
+                        child: const Text(
+                          'Lầu 1',
+                          style: TextStyle(
+                            fontSize: 16,
                             // fontWeight: FontWeight.w700,
                             color: textColor,
                           ),
                         ),
                       ),
                     ),
-                    Container(
-                      height: defaultPadding * 0.5,
-                    ),
+                    // Hero(
+                    //   tag: "floor1_btn",
+                    //   child: ElevatedButton(
+                    //     style: ElevatedButton.styleFrom(
+                    //       primary: activeColor,
+                    //     ),
+                    //     onPressed: () {
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) {
+                    //             return const LoginScreen();
+                    //           },
+                    //         ),
+                    //       );
+                    //     },
+                    //     child: Text(
+                    //       "Lầu 1".toUpperCase(),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
-
                 Container(
-                  width: defaultPadding * 0.5,
-                ),
-                Hero(
-                  tag: "floor1_btn",
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const LoginScreen();
-                          },
-                        ),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      minimumSize: const Size(100, 50),
-                      backgroundColor: selectColor,
-                      // padding: const EdgeInsets.all(15),
-                    ),
-                    // color: selectColor,
-                    // padding: const EdgeInsets.all(10),
-                    child: const Text(
-                      'Lầu 1',
-                      style: TextStyle(
-                        fontSize: 14,
-                        // fontWeight: FontWeight.w700,
-                        color: textColor,
-                      ),
-                    ),
-                  ),
+                  height: defaultPadding * 0.5,
                 ),
               ],
             ),

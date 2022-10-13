@@ -44,7 +44,16 @@ class _SideBarState extends State<SideBar> {
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 FlatButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const TableLayoutScreen();
+                        },
+                      ),
+                    );
+                  },
                   color: activeColor,
                   padding: const EdgeInsets.all(20),
                   child: Column(

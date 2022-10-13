@@ -15,6 +15,9 @@ class TransactionBtn extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               primary: activeColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
             ),
             onPressed: () {
               Navigator.push(

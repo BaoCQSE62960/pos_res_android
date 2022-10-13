@@ -8,30 +8,29 @@ class PaymentBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Hero(
-          tag: "payment_btn",
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: activeColor,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const PaymentScreen();
-                  },
-                ),
-              );
-            },
-            child: Text(
-              "Thanh toán".toUpperCase(),
-            ),
+    return Hero(
+      tag: "payment_btn",
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: activeColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
           ),
         ),
-      ],
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const PaymentScreen();
+              },
+            ),
+          );
+        },
+        child: Text(
+          "Thanh toán".toUpperCase(),
+        ),
+      ),
     );
   }
 }

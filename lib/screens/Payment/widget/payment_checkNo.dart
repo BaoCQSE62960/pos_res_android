@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../../../config/theme.dart';
@@ -14,7 +16,7 @@ class PaymentCheckNo extends StatelessWidget {
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: textColor,
+          color: activeColor,
         ),
       ),
     );

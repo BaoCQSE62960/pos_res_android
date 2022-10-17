@@ -29,7 +29,7 @@ class PaymentMethodItem extends StatelessWidget {
             height: defaultPadding * 5,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: selectColor,
+                backgroundColor: selectColor,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   // side: BorderSide(color: primaryColor),

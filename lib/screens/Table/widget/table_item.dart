@@ -80,7 +80,7 @@ class TableItem extends StatelessWidget {
                 height: defaultPadding * 5,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: textLightColor,
+                    backgroundColor: textLightColor,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(15.0),

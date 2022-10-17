@@ -53,7 +53,7 @@ class PaymentInput extends StatelessWidget {
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: activeColor,
+                backgroundColor: activeColor,
               ),
               onPressed: () => SystemNavigator.pop(),
               // onPressed: () => exit(0),

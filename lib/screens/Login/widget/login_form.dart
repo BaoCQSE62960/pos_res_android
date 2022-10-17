@@ -1,5 +1,3 @@
-// import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
@@ -53,7 +51,7 @@ class LoginForm extends StatelessWidget {
             tag: "login_btn",
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: activeColor,
+                backgroundColor: activeColor,
               ),
               onPressed: () {
                 Navigator.push(
@@ -75,7 +73,7 @@ class LoginForm extends StatelessWidget {
             tag: "close_btn",
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: voidColor,
+                backgroundColor: voidColor,
               ),
               onPressed: () => SystemNavigator.pop(),
               // onPressed: () => exit(0),

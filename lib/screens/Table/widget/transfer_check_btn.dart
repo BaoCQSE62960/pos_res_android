@@ -11,7 +11,7 @@ class TransferCheckBtn extends StatelessWidget {
       tag: "transfer_check_btn",
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: activeColor,
+          backgroundColor: activeColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),

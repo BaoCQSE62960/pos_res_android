@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import '../../config/routes.dart';
 import '../../config/theme.dart';
@@ -19,16 +17,17 @@ class _SideBarState extends State<SideBar> {
     return Stack(
       children: <Widget>[
         Container(
-          color: activeColor,
+          color: sideBarColor,
           child: SizedBox(
-            // height: MediaQuery.of(context).size.height,
-            width: defaultPadding * 6,
+            height: MediaQuery.of(context).size.height - defaultPadding * 1.5,
+            // width: defaultPadding * 6,
+            width: MediaQuery.of(context).size.width / 14,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // mainAxisSize: MainAxisSize.max,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -39,8 +38,12 @@ class _SideBarState extends State<SideBar> {
                       ),
                     );
                   },
-                  color: sideBarColor,
-                  padding: const EdgeInsets.all(20),
+                  style: TextButton.styleFrom(
+                    backgroundColor: sideBarColor,
+                    // textStyle: GoogleFonts.fredokaOne(),
+                  ),
+                  // color: sideBarColor,
+                  // padding: const EdgeInsets.all(20),
                   child: Column(
                     // Replace with a Row for horizontal icon + text
                     children: const <Widget>[
@@ -62,9 +65,10 @@ class _SideBarState extends State<SideBar> {
                 ),
                 Container(
                   color: sideBarColor,
-                  height: defaultPadding * 30.75,
+                  // height: defaultPadding * 30.75,
+                  height: defaultPadding * 30,
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -75,8 +79,11 @@ class _SideBarState extends State<SideBar> {
                       ),
                     );
                   },
-                  color: sideBarColor,
-                  padding: const EdgeInsets.all(20),
+                  style: TextButton.styleFrom(
+                    backgroundColor: sideBarColor,
+                  ),
+                  // color: sideBarColor,
+                  // padding: const EdgeInsets.all(20),
                   child: Column(
                     // Replace with a Row for horizontal icon + text
                     children: const <Widget>[

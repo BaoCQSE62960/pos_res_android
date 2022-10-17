@@ -12,7 +12,7 @@ class PaymentBtn extends StatelessWidget {
       tag: "payment_btn",
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: activeColor,
+          backgroundColor: activeColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),

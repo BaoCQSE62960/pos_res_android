@@ -11,7 +11,7 @@ class TransferTableBtn extends StatelessWidget {
       tag: "transfer_table_btn",
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: activeColor,
+          backgroundColor: activeColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),

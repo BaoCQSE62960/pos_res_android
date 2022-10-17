@@ -18,7 +18,7 @@ class PaymentTab extends StatelessWidget {
             tag: "payment_check",
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: activeColor,
+                backgroundColor: activeColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -53,7 +53,7 @@ class PaymentTab extends StatelessWidget {
             tag: "payment_paid",
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: primaryColor,
+                backgroundColor: primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),

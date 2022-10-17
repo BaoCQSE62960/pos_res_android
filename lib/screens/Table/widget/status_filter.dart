@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/routes.dart';
 import '../../../config/theme.dart';
 
 class StatusFilter extends StatefulWidget {
@@ -16,6 +17,9 @@ class _StatusFilterState extends State<StatusFilter> {
       children: <Widget>[
         Container(
           color: textLightColor,
+          margin: const EdgeInsets.only(
+            right: defaultPadding * 0.5,
+          ),
           child: SizedBox(
             child: Column(
               children: [
@@ -114,6 +118,33 @@ class _StatusFilterState extends State<StatusFilter> {
                               ),
                             ),
                           ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: defaultPadding * 0.5,
+                    ),
+                    Hero(
+                      tag: "allLocation_btn",
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                          minimumSize: const Size(100, 50),
+                          backgroundColor: selectColor,
+                          // padding: const EdgeInsets.all(15),
+                        ),
+                        // color: selectColor,
+                        // padding: const EdgeInsets.all(10),
+                        child: const Text(
+                          'Tất cả',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: textColor,
+                          ),
                         ),
                       ),
                     ),

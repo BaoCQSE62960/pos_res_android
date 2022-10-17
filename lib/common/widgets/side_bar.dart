@@ -1,26 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-
+import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../screens/Login/login_screen.dart';
-
-class TableLayoutScreen extends StatelessWidget {
-  const TableLayoutScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // return Background(
-    return Scaffold(
-      backgroundColor: textLightColor,
-      body: Container(
-        height: double.infinity,
-        color: activeColor,
-        child: const SideBar(),
-      ),
-    );
-  }
-}
+import '../../screens/Table/table_layout_screen.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({Key? key}) : super(key: key);
@@ -37,6 +21,7 @@ class _SideBarState extends State<SideBar> {
         Container(
           color: activeColor,
           child: SizedBox(
+            // height: MediaQuery.of(context).size.height,
             width: defaultPadding * 6,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,7 +39,7 @@ class _SideBarState extends State<SideBar> {
                       ),
                     );
                   },
-                  color: activeColor,
+                  color: sideBarColor,
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     // Replace with a Row for horizontal icon + text
@@ -76,8 +61,8 @@ class _SideBarState extends State<SideBar> {
                   ),
                 ),
                 Container(
-                  color: activeColor,
-                  height: defaultPadding * 31,
+                  color: sideBarColor,
+                  height: defaultPadding * 30.75,
                 ),
                 FlatButton(
                   onPressed: () {
@@ -90,7 +75,7 @@ class _SideBarState extends State<SideBar> {
                       ),
                     );
                   },
-                  color: activeColor,
+                  color: sideBarColor,
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     // Replace with a Row for horizontal icon + text

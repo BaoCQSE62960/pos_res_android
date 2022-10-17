@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/screens/Payment/widget/payment_method_item.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
-import 'table_item.dart';
 
-class TableLayout extends StatelessWidget {
-  const TableLayout({Key? key}) : super(key: key);
+class PaymentMethod extends StatelessWidget {
+  const PaymentMethod({Key? key}) : super(key: key);
+
   Widget getTextWidgets(int num) {
     List<Widget> list = <Widget>[];
     for (var i = 0; i < num; i++) {
       list.add(
         const SizedBox(
-          child: TableItem(),
+          child: PaymentMethodItem(),
         ),
       );
     }
     return Padding(
-      padding: const EdgeInsets.all(defaultPadding * 0.5),
+      padding: const EdgeInsets.all(defaultPadding),
       child: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5,
-            crossAxisSpacing: defaultPadding * 0.5,
-            mainAxisSpacing: defaultPadding * 0.5,
-            childAspectRatio: 1.571428,
+            crossAxisCount: 4,
+            crossAxisSpacing: defaultPadding,
+            mainAxisSpacing: defaultPadding,
+            childAspectRatio: 2,
           ),
           children: list),
     );

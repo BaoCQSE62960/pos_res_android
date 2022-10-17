@@ -8,16 +8,11 @@ import '../../common/widgets/background.dart';
 import '../../common/widgets/responsive.dart';
 import '../../config/routes.dart';
 import '../../config/theme.dart';
-import 'widget/location_filter.dart';
+import '../Table/widget/location_filter.dart';
 
-class TableLayoutScreen extends StatefulWidget {
-  const TableLayoutScreen({Key? key}) : super(key: key);
+class DemoScreen extends StatelessWidget {
+  const DemoScreen({Key? key}) : super(key: key);
 
-  @override
-  State<TableLayoutScreen> createState() => _TableLayoutScreenState();
-}
-
-class _TableLayoutScreenState extends State<TableLayoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -25,6 +20,7 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
         child: SafeArea(
           child: Responsive(
             tablet: Row(
+              // mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(
                   child: SideBar(),
@@ -52,11 +48,25 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
                         color: textLightColor,
                         height: defaultPadding * 0.5,
                       ),
-                      Container(
-                        color: textLightColor,
-                        height: defaultPadding * 34.38,
-                        width: defaultPadding * 58,
-                        child: const TableLayout(),
+                      Row(
+                        children: [
+                          Container(
+                            color: textLightColor,
+                            width: defaultPadding * 0.5,
+                            height: defaultPadding * 34.38,
+                          ),
+                          Container(
+                            color: textLightColor,
+                            height: defaultPadding * 34.38,
+                            width: defaultPadding * 57,
+                            child: const TableLayout(),
+                          ),
+                          Container(
+                            color: textLightColor,
+                            width: defaultPadding * 0.5,
+                            height: defaultPadding * 34.38,
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         child: ActionButton(),

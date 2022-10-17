@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/routes.dart';
 import '../../../config/theme.dart';
 import '../../Login/login_screen.dart';
 
@@ -22,8 +23,9 @@ class TableItem extends StatelessWidget {
           );
         },
         child: Container(
+          // margin: const EdgeInsets.all(defaultPadding * 0.25),
           decoration: BoxDecoration(
-            color: textLightColor,
+            color: deactiveColor,
             borderRadius: BorderRadius.circular(15.0),
             boxShadow: const [
               BoxShadow(
@@ -39,14 +41,12 @@ class TableItem extends StatelessWidget {
                 decoration: const BoxDecoration(
                   color: activeColor,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15.0),
-                      topRight: Radius.circular(15.0),
-                      bottomLeft: Radius.zero,
-                      bottomRight: Radius.zero),
+                    topLeft: Radius.circular(15.0),
+                    topRight: Radius.circular(15.0),
+                  ),
                 ),
-                // color: activeColor,
                 height: defaultPadding * 2,
-                width: defaultPadding * 8,
+                width: defaultPadding * 11,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -54,7 +54,7 @@ class TableItem extends StatelessWidget {
                       width: defaultPadding * 2,
                     ),
                     const Text(
-                      "Bàn ?",
+                      "Bàn 1",
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -76,15 +76,13 @@ class TableItem extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: defaultPadding * 8,
-                height: defaultPadding * 4,
+                width: defaultPadding * 11,
+                height: defaultPadding * 5,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: textLightColor,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.zero,
-                          topRight: Radius.zero,
                           bottomLeft: Radius.circular(15.0),
                           bottomRight: Radius.circular(15.0)),
                       side: BorderSide(color: primaryColor),
@@ -95,36 +93,6 @@ class TableItem extends StatelessWidget {
                   onPressed: () {},
                   child: Column(
                     children: [
-                      // Container(
-                      //   height: defaultPadding * 0.5,
-                      // ),
-
-                      // Container(
-                      //   color: activeColor,
-                      //   height: defaultPadding * 2,
-                      //   width: defaultPadding * 12,
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Container(
-                      //         width: defaultPadding,
-                      //       ),
-                      //       const Text(
-                      //         "Bàn ?",
-                      //         style: TextStyle(
-                      //           fontSize: 20,
-                      //           fontWeight: FontWeight.bold,
-                      //         ),
-                      //       ),
-                      //       const Text(
-                      //         "(0)",
-                      //         style: TextStyle(
-                      //           fontSize: 12,
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       Container(
                         color: textLightColor,
                         height: defaultPadding * 2,
@@ -145,20 +113,19 @@ class TableItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: 28,
-                            height: 28,
+                            width: defaultPadding * 2.5,
+                            height: defaultPadding * 2.5,
                             child: TextButton(
                               onPressed: () {},
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                // minimumSize: const Size(24, 24),
                                 backgroundColor: warningColor,
                               ),
                               child: const Icon(
                                 Icons.dining,
-                                size: defaultPadding * 0.8,
+                                size: defaultPadding * 1.5,
                                 color: textLightColor,
                               ),
                             ),
@@ -167,20 +134,19 @@ class TableItem extends StatelessWidget {
                             width: defaultPadding * 0.3,
                           ),
                           SizedBox(
-                            width: 28,
-                            height: 28,
+                            width: defaultPadding * 2.5,
+                            height: defaultPadding * 2.5,
                             child: TextButton(
                               onPressed: () {},
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                // minimumSize: const Size(24, 24),
                                 backgroundColor: voidColor,
                               ),
                               child: const Icon(
                                 Icons.cancel,
-                                size: defaultPadding,
+                                size: defaultPadding * 1.5,
                                 color: textLightColor,
                               ),
                             ),
@@ -189,20 +155,19 @@ class TableItem extends StatelessWidget {
                             width: defaultPadding * 0.3,
                           ),
                           SizedBox(
-                            width: 28,
-                            height: 28,
+                            width: defaultPadding * 2.5,
+                            height: defaultPadding * 2.5,
                             child: TextButton(
                               onPressed: () {},
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                // minimumSize: const Size(24, 24),
                                 backgroundColor: shadowColor,
                               ),
                               child: const Icon(
                                 Icons.timelapse_rounded,
-                                size: defaultPadding,
+                                size: defaultPadding * 1.5,
                                 color: textLightColor,
                               ),
                             ),

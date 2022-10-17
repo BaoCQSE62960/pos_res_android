@@ -3,6 +3,7 @@ import 'package:pos_res_android/screens/Table/widget/transaction_btn.dart';
 import 'package:pos_res_android/screens/Table/widget/transfer_check_btn.dart';
 import 'package:pos_res_android/screens/Table/widget/transfer_table_btn.dart';
 
+import '../../../config/routes.dart';
 import '../../../config/theme.dart';
 import 'payment_btn.dart';
 

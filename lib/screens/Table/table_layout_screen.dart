@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/screens/Table/widget/action_button.dart';
+import 'package:pos_res_android/screens/Table/widget/table_action_button.dart';
 import 'package:pos_res_android/screens/Table/widget/status_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout.dart';
 
@@ -35,27 +35,36 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
                     children: [
                       Container(
                         color: textLightColor,
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              child: StatusFilter(),
-                            ),
-                            Container(
-                                color: textLightColor,
-                                height: defaultPadding * 3.1,
-                                width: defaultPadding * 25,
-                                child: const LocationFilter()),
-                          ],
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 13,
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                child: Padding(
+                                  padding: EdgeInsets.all(defaultPadding / 4.5),
+                                  child: StatusFilter(),
+                                ),
+                              ),
+                              SizedBox(
+                                child: Container(
+                                    color: textLightColor,
+                                    width: MediaQuery.of(context).size.width *
+                                            0.5 -
+                                        defaultPadding * 3.3,
+                                    child: const LocationFilter()),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Container(
                         color: textLightColor,
-                        height: defaultPadding * 0.5,
-                      ),
-                      Container(
-                        color: textLightColor,
-                        height: defaultPadding * 34.38,
-                        width: defaultPadding * 58,
+                        // height: defaultPadding * 34.38,
+                        // width: defaultPadding * 58,
+                        height: MediaQuery.of(context).size.height -
+                            defaultPadding * 8.5,
+                        width: MediaQuery.of(context).size.width,
                         child: const TableLayout(),
                       ),
                       const SizedBox(

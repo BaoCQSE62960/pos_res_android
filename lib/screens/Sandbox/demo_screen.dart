@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/screens/Table/widget/action_button.dart';
+import 'package:pos_res_android/screens/Table/widget/table_action_button.dart';
 import 'package:pos_res_android/screens/Table/widget/status_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout.dart';
 

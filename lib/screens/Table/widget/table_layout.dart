@@ -16,13 +16,16 @@ class TableLayout extends StatelessWidget {
       );
     }
     return Padding(
-      padding: const EdgeInsets.all(defaultPadding * 0.5),
+      padding: const EdgeInsets.only(
+        left: defaultPadding * 0.5,
+        right: defaultPadding * 0.5,
+      ),
       child: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
-            crossAxisSpacing: defaultPadding * 0.5,
+            crossAxisSpacing: defaultPadding,
             mainAxisSpacing: defaultPadding * 0.5,
-            childAspectRatio: 1.571428,
+            childAspectRatio: 1.55,
           ),
           children: list),
     );
@@ -32,7 +35,7 @@ class TableLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: textLightColor,
-      body: getTextWidgets(1),
+      body: getTextWidgets(22),
     );
   }
 }

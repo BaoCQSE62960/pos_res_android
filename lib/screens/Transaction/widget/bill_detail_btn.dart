@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
 
-class TransferTableBtn extends StatelessWidget {
-  const TransferTableBtn({Key? key}) : super(key: key);
+class BillDetailBtn extends StatelessWidget {
+  const BillDetailBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "transfer_table_btn",
+      tag: "bill_detail_btn",
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(
@@ -19,9 +20,18 @@ class TransferTableBtn extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const BillDetailScreen();
+                },
+              ),
+            );
+          },
           child: Text(
-            "Chuyển bàn".toUpperCase(),
+            "Xem hóa đơn".toUpperCase(),
           ),
         ),
       ),

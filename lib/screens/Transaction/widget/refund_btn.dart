@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
 
-class TransferTableBtn extends StatelessWidget {
-  const TransferTableBtn({Key? key}) : super(key: key);
+class RefundBtn extends StatelessWidget {
+  const RefundBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "transfer_table_btn",
+      tag: "refund_btn",
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(
@@ -19,9 +19,18 @@ class TransferTableBtn extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) {
+            //       return const PaymentScreen();
+            //     },
+            //   ),
+            // );
+          },
           child: Text(
-            "Chuyển bàn".toUpperCase(),
+            "Hoàn trả".toUpperCase(),
           ),
         ),
       ),

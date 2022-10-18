@@ -29,13 +29,13 @@ class PaymentTab extends StatelessWidget {
                 children: const [
                   Icon(
                     Icons.fastfood,
-                    size: 24,
+                    size: defaultSize * 6,
                     color: textLightColor,
                   ),
                   Text(
                     "Chi tiết hóa đơn",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: defaultSize * 2.5,
                     ),
                   ),
                 ],
@@ -64,13 +64,13 @@ class PaymentTab extends StatelessWidget {
                 children: const [
                   Icon(
                     Icons.payment,
-                    size: 24,
+                    size: defaultSize * 6,
                     color: textColor,
                   ),
                   Text(
                     "Chi tiết thanh toán",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: defaultSize * 2.5,
                       color: textColor,
                     ),
                   ),

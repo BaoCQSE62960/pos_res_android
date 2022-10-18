@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Transaction/widget/check_detail_btn.dart';
+import 'package:pos_res_android/screens/Transaction/widget/bill_detail_btn.dart';
+import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_action_button.dart';
-import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
 
 import '../../common/widgets/background.dart';
 import '../../common/widgets/responsive.dart';
@@ -10,21 +10,21 @@ import '../../config/routes.dart';
 import '../../config/theme.dart';
 
 const List<Widget> status = <Widget>[
-  Text('Hoạt động'),
-  Text('Hủy'),
+  // Text('Hoạt động'),
+  // Text('Hủy'),
   Text('Đóng'),
-  // Text('Hoàn tiền'),
+  Text('Hoàn tiền'),
 ];
 
-class TransactionScreen extends StatefulWidget {
-  const TransactionScreen({Key? key}) : super(key: key);
+class BillScreen extends StatefulWidget {
+  const BillScreen({Key? key}) : super(key: key);
 
   @override
-  State<TransactionScreen> createState() => _TransactionScreenState();
+  State<BillScreen> createState() => _BillScreenState();
 }
 
-class _TransactionScreenState extends State<TransactionScreen> {
-  final List<bool> _selectedStatus = <bool>[false, false, false];
+class _BillScreenState extends State<BillScreen> {
+  final List<bool> _selectedStatus = <bool>[false, false];
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -54,7 +54,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 left: defaultPadding * 0.25,
                                 right: defaultPadding * 0.25,
                               ),
-                              child: TransactionTab(),
+                              child: BillTab(),
                             ),
                             // decoration: const BoxDecoration(
                             //   border: Border(
@@ -121,7 +121,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                               borderColor: primaryColor,
                               constraints: const BoxConstraints(
                                 minHeight: defaultPadding * 2,
-                                minWidth: defaultPadding * 6.5,
+                                minWidth: defaultPadding * 9.75,
                               ),
                               isSelected: _selectedStatus,
                               children: status,
@@ -149,154 +149,17 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         ],
                       ),
                     ),
-                    // Container(
-                    //   color: deactiveLightColor,
-                    //   height: MediaQuery.of(context).size.height -
-                    //       defaultPadding * 8,
-                    //   width: MediaQuery.of(context).size.width -
-                    //       MediaQuery.of(context).size.width / 14,
-                    // ),
                     Container(
-                      color: textLightColor,
+                      color: deactiveLightColor,
                       height: MediaQuery.of(context).size.height -
                           defaultPadding * 8,
                       width: MediaQuery.of(context).size.width -
-                          MediaQuery.of(context).size.width / 14,
-                      child: DataTable(
-                        columns: const <DataColumn>[
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Ngày',
-                                style: TextStyle(
-                                  // fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Mã hóa đơn',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Bàn',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Khu vực',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Thuế',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Tổng thanh toán',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Trạng thái',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        rows: const <DataRow>[
-                          DataRow(
-                            cells: <DataCell>[
-                              DataCell(
-                                SizedBox(
-                                  width: 80,
-                                  child: Text('19/12/2020'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 100,
-                                  child: Text('4512786'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 30,
-                                  child: Text('A1'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 60,
-                                  child: Text('Sảnh A'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 75,
-                                  child: Text('50.000.000'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 90,
-                                  child: Text('550.000.000'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 80,
-                                  child: Text('Hoạt động'),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // DataRow(
-                          //   cells: <DataCell>[
-                          //     DataCell(Text('Janine')),
-                          //     DataCell(Text('43')),
-                          //     DataCell(Text('Professor')),
-                          //   ],
-                          // ),
-                        ],
-                      ),
+                          defaultPadding * 4.6,
                     ),
                     Container(
                       color: textLightColor,
                       width: MediaQuery.of(context).size.width -
-                          MediaQuery.of(context).size.width / 14,
+                          defaultPadding * 4.6,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -309,7 +172,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                             ),
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width / 4.5,
-                              child: const CheckDetailBtn(),
+                              child: const BillDetailBtn(),
                             ),
                           ),
                         ],

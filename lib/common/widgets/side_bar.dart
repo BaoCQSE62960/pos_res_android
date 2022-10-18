@@ -49,13 +49,91 @@ class _SideBarState extends State<SideBar> {
                     children: const <Widget>[
                       Icon(
                         Icons.table_bar,
-                        size: 50,
+                        size: defaultSize * 12.5,
                         color: textLightColor,
                       ),
                       Text(
                         "SƠ ĐỒ BÀN",
                         style: TextStyle(
-                          fontSize: 10.5,
+                          fontSize: defaultSize * 2.5,
+                          fontWeight: FontWeight.w700,
+                          color: textLightColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+                    //       return AlertDialog(
+                    //         content: Stack(
+                    //           children: <Widget>[
+                    //             Positioned(
+                    //               right: -40.0,
+                    //               top: -40.0,
+                    //               child: InkResponse(
+                    //                 onTap: () {
+                    //                   Navigator.of(context).pop();
+                    //                 },
+                    //                 child: const CircleAvatar(
+                    //                   child: Icon(Icons.close),
+                    //                   backgroundColor: Colors.red,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             Form(
+                    //               // key: _formKey,
+                    //               child: Column(
+                    //                 mainAxisSize: MainAxisSize.min,
+                    //                 children: <Widget>[
+                    //                   Padding(
+                    //                     padding: const EdgeInsets.all(8.0),
+                    //                     child: TextFormField(),
+                    //                   ),
+                    //                   Padding(
+                    //                     padding: const EdgeInsets.all(8.0),
+                    //                     child: TextFormField(),
+                    //                   ),
+                    //                   // Padding(
+                    //                   //   padding: const EdgeInsets.all(8.0),
+                    //                   //   child: RaisedButton(
+                    //                   //     child: Text("Submitß"),
+                    //                   //     onPressed: () {
+                    //                   //       if (_formKey.currentState.validate()) {
+                    //                   //         _formKey.currentState.save();
+                    //                   //       }
+                    //                   //     },
+                    //                   //   ),
+                    //                   // )
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       );
+                    //     });
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: sideBarColor,
+                    // textStyle: GoogleFonts.fredokaOne(),
+                  ),
+                  // color: sideBarColor,
+                  // padding: const EdgeInsets.all(20),
+                  child: Column(
+                    // Replace with a Row for horizontal icon + text
+                    children: const <Widget>[
+                      Icon(
+                        Icons.people_alt_sharp,
+                        size: defaultSize * 12.5,
+                        color: textLightColor,
+                      ),
+                      Text(
+                        "CHUYỂN CA",
+                        style: TextStyle(
+                          fontSize: defaultSize * 2.5,
                           fontWeight: FontWeight.w700,
                           color: textLightColor,
                         ),
@@ -65,8 +143,7 @@ class _SideBarState extends State<SideBar> {
                 ),
                 Container(
                   color: sideBarColor,
-                  // height: defaultPadding * 30.75,
-                  height: defaultPadding * 30,
+                  height: defaultPadding * 28.5,
                 ),
                 TextButton(
                   onPressed: () {
@@ -89,13 +166,13 @@ class _SideBarState extends State<SideBar> {
                     children: const <Widget>[
                       Icon(
                         Icons.logout,
-                        size: 50,
+                        size: defaultSize * 12.5,
                         color: textLightColor,
                       ),
                       Text(
                         'ĐĂNG XUẤT',
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: defaultSize * 2.5,
                           fontWeight: FontWeight.w700,
                           color: textLightColor,
                         ),

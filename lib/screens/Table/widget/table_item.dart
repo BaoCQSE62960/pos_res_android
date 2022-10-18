@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
-import '../../Login/login_screen.dart';
 
 class TableItem extends StatelessWidget {
   const TableItem({Key? key}) : super(key: key);
@@ -12,26 +11,16 @@ class TableItem extends StatelessWidget {
     return Hero(
       tag: "table_demo_btn",
       child: GestureDetector(
-        onDoubleTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return const LoginScreen();
-              },
-            ),
-          );
-        },
+        onDoubleTap: () {},
         child: Container(
-          // margin: const EdgeInsets.all(defaultPadding * 0.25),
           decoration: BoxDecoration(
             color: deactiveColor,
             borderRadius: BorderRadius.circular(15.0),
             boxShadow: const [
               BoxShadow(
                 color: shadowColor,
-                blurRadius: 4,
-                offset: Offset(0, 4), // Shadow position
+                blurRadius: 3,
+                offset: Offset(0, 3), // Shadow position
               ),
             ],
           ),
@@ -178,6 +167,10 @@ class TableItem extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // Container(
+              //   height: defaultPadding * 0.5,
+              // )
             ],
           ),
         ),

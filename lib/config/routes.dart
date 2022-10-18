@@ -4,4 +4,5 @@
 
 // double scrennWidth = MediaQuery.of(context).size.width;
 // double screenHeight = MediaQuery.of(context).size.height;
-const double defaultPadding = 16.0;
+const double defaultPadding = 16;
+const double defaultSize = 4;

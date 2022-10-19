@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/order/order.dart';
 
 class SimpleBlocDelegate extends BlocObserver {
@@ -23,8 +23,14 @@ class SimpleBlocDelegate extends BlocObserver {
   }
 }
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+    supportedLocales: const [Locale('en', 'US')],
+    path: 'assets/i18n',
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -34,8 +40,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'POS Restaurant',
-      theme: Theme.of(context),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: OrderScreen(),
     );
   }

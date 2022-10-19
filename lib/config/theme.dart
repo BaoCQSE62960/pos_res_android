@@ -15,7 +15,7 @@ const warningColor = Color.fromARGB(255, 250, 206, 46);
 const warningColorBackground = Color.fromARGB(255, 255, 242, 195);
 const voidColor = Color(0xFFFB4F4F);
 const voidColorBackground = Color.fromARGB(255, 255, 218, 218);
-final dividerColor = Color.fromARGB(255, 238, 236, 236).withOpacity(0.2);
+final dividerColor = Color.fromARGB(255, 36, 35, 35).withOpacity(0.4);
 final textColor2 = Colors.grey[700];
 
 const double defaultPadding = 16.0;

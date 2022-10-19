@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/screens/order/order.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
@@ -19,7 +20,16 @@ class TransferTableBtn extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const OrderScreen();
+                },
+              ),
+            );
+          },
           child: Text(
             "Chuyển bàn".toUpperCase(),
           ),

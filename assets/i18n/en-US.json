@@ -1,0 +1,18 @@
+{
+    "order":
+    {
+        "void": "Hủy",
+        "special_request": "Yêu cầu",
+        "remind": "Nhắc nhở",
+        "send": "Gửi đơn",
+        "total": "Tổng cộng",
+        "subtotal": "Tổng phụ",
+        "tax": "Thuế",
+        "search": "Tìm kiếm",
+        "customer": "Khách hàng",
+        "note": "Ghi chú",
+        "order_id": "Đơn hàng",
+        "open_time": "Mở vào",
+        "out_of_stock": "Hết hàng"
+    }
+}

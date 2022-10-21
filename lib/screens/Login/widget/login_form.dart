@@ -22,11 +22,23 @@ class LoginForm extends StatelessWidget {
             cursorColor: primaryColor,
             // onSaved: (email) {},
             decoration: const InputDecoration(
+              filled: true,
               fillColor: deactiveLightColor,
+              // iconColor: primaryColor,
+              prefixIconColor: primaryColor,
+              contentPadding: EdgeInsets.symmetric(
+                  horizontal: defaultPadding, vertical: defaultPadding),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderSide: BorderSide.none,
+              ),
               hintText: "Tài khoản",
               prefixIcon: Padding(
                 padding: EdgeInsets.all(defaultPadding),
-                child: Icon(Icons.person),
+                child: Icon(
+                  Icons.person,
+                  color: primaryColor,
+                ),
               ),
             ),
           ),
@@ -37,11 +49,22 @@ class LoginForm extends StatelessWidget {
               obscureText: true,
               cursorColor: textColor,
               decoration: const InputDecoration(
+                filled: true,
                 fillColor: deactiveLightColor,
+                prefixIconColor: primaryColor,
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: defaultPadding),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  borderSide: BorderSide.none,
+                ),
                 hintText: "Mật khẩu",
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.lock),
+                  child: Icon(
+                    Icons.lock,
+                    color: primaryColor,
+                  ),
                 ),
               ),
             ),
@@ -52,6 +75,10 @@ class LoginForm extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: activeColor,
+                elevation: 0,
+                shape: const StadiumBorder(),
+                maximumSize: const Size(double.infinity, 56),
+                minimumSize: const Size(double.infinity, 56),
               ),
               onPressed: () {
                 Navigator.push(
@@ -74,6 +101,10 @@ class LoginForm extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: voidColor,
+                elevation: 0,
+                shape: const StadiumBorder(),
+                maximumSize: const Size(double.infinity, 56),
+                minimumSize: const Size(double.infinity, 56),
               ),
               onPressed: () => SystemNavigator.pop(),
               // onPressed: () => exit(0),

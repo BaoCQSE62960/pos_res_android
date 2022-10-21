@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
+import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/config/theme.dart';
 
 class TransferCheckBtn extends StatelessWidget {
   const TransferCheckBtn({Key? key}) : super(key: key);

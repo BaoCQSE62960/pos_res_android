@@ -31,7 +31,15 @@ class PaymentInput extends StatelessWidget {
               textInputAction: TextInputAction.done,
               cursorColor: primaryColor,
               decoration: InputDecoration(
+                filled: true,
                 fillColor: selectedColor,
+                prefixIconColor: primaryColor,
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: defaultPadding),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  borderSide: BorderSide.none,
+                ),
                 hintText: "Nhập số tiền",
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(defaultPadding),
@@ -54,6 +62,10 @@ class PaymentInput extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: activeColor,
+                elevation: 0,
+                shape: const StadiumBorder(),
+                maximumSize: const Size(double.infinity, 56),
+                minimumSize: const Size(double.infinity, 56),
               ),
               onPressed: () => SystemNavigator.pop(),
               // onPressed: () => exit(0),

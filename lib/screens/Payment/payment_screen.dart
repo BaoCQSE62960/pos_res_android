@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_tab.dart';
+import 'package:pos_res_android/screens/order/widget/calculate_price_widget.dart';
+import 'package:pos_res_android/screens/order/widget/order_customer_info_widget.dart';
+import 'package:pos_res_android/screens/order/widget/order_detail_info_widget.dart';
+import 'package:pos_res_android/screens/order/widget/order_general_info_widget.dart';
 
 import '../../common/widgets/background.dart';
 import '../../common/widgets/responsive.dart';
 import '../../common/widgets/side_bar.dart';
 import '../../config/routes.dart';
 import '../../config/theme.dart';
-import 'widget/payment_checkNo.dart';
 import 'widget/payment_top.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -26,67 +28,38 @@ class PaymentScreen extends StatelessWidget {
                 const SizedBox(
                   child: SideBar(),
                 ),
-                Container(
-                  width: defaultPadding * 20,
-                  height: defaultPadding * 43.5,
-                  // color: deactiveLightColor,
-                  decoration: const BoxDecoration(
-                    color: textLightColor,
-                    // borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: shadowColor,
-                        blurRadius: 4,
-                        offset: Offset(4, 4), // Shadow position
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: defaultPadding * 2.5,
-                            width: defaultPadding * 20,
-                            // color: deactiveColor,
-                            child: const PaymentCheckNo(),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: primaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: defaultPadding * 4,
-                        // width: defaultPadding * 2,
-                        // color: deactiveLightColor,
-                        child: const PaymentTab(),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: primaryColor,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: defaultPadding * 26.5,
-                        color: deactiveColor,
-                      ),
-                      Container(
-                        height: defaultPadding * 4,
-                        color: deactiveLightColor,
-                      ),
-                      Container(
-                        height: defaultPadding * 2.5,
-                        color: deactiveColor,
-                      ),
-                      Container(
-                        height: defaultPadding * 4,
-                        color: deactiveLightColor,
-                      ),
-                    ],
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    width: defaultPadding * 20,
+                    height: defaultPadding * 43.5,
+                    // color: deactiveLightColor,
+                    decoration: const BoxDecoration(
+                      color: textLightColor,
+                      // borderRadius: BorderRadius.circular(15.0),
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: shadowColor,
+                      //     blurRadius: 4,
+                      //     offset: Offset(4, 4), // Shadow position
+                      //   ),
+                      // ],
+                    ),
+                    child: Column(
+                      children: [
+                        const Expanded(flex: 1, child: OrderGeneralInfo()),
+                        const Divider(color: dividerColor),
+                        Expanded(
+                            flex: 1,
+                            child: OrderCustomerInfo(
+                              context: context,
+                            )),
+                        const Divider(color: dividerColor),
+                        const Expanded(flex: 7, child: OrderDetailInfo()),
+                        const Divider(color: dividerColor),
+                        Expanded(flex: 3, child: calculatePriceWidget()),
+                      ],
+                    ),
                   ),
                 ),
                 Container(

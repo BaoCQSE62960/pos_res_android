@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Table/widget/transaction_btn.dart';
-import 'package:pos_res_android/screens/Table/widget/transfer_check_btn.dart';
-import 'package:pos_res_android/screens/Table/widget/transfer_table_btn.dart';
+import 'package:pos_res_android/screens/Table/widget/buttons/payment_btn.dart';
+import 'package:pos_res_android/screens/Table/widget/buttons/transaction_btn.dart';
+import 'package:pos_res_android/screens/Table/widget/buttons/transfer_check_btn.dart';
+import 'package:pos_res_android/screens/Table/widget/buttons/transfer_table_btn.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
-import 'payment_btn.dart';
 
 class ActionButton extends StatefulWidget {
   const ActionButton({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _ActionButtonState extends State<ActionButton> {
                 Padding(
                   padding: const EdgeInsets.all(defaultPadding * 0.25),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       // Container(
                       //   width: defaultPadding,
@@ -46,13 +46,13 @@ class _ActionButtonState extends State<ActionButton> {
                           child: const TransferCheckBtn(),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(defaultPadding * 0.25),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 4.5,
-                          child: const PaymentBtn(),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(defaultPadding * 0.25),
+                      //   child: SizedBox(
+                      //     width: MediaQuery.of(context).size.width / 4.5,
+                      //     child: const PaymentBtn(),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.all(defaultPadding * 0.25),
                         child: SizedBox(

@@ -12,7 +12,7 @@ class TotalVND extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          "299.000",
+          "69.300",
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,

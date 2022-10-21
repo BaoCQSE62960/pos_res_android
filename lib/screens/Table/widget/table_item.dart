@@ -46,14 +46,14 @@ class TableItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: deactiveColor,
                 borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(
-                    width: 2.0,
-                    color: state.currentSelectedMode == SelectedMode.NONE
-                        ? Colors.white
-                        : (state.firstSelectedTableName == id ||
-                                state.secondSelectedTableName == id
-                            ? Colors.blue
-                            : Colors.white)),
+                // border: Border.all(
+                //     width: 2,
+                //     color: state.currentSelectedMode == SelectedMode.NONE
+                //         ? primaryColor
+                //         : (state.firstSelectedTableName == id ||
+                //                 state.secondSelectedTableName == id
+                //             ? Colors.blue
+                //             : primaryColor)),
                 boxShadow: const [
                   BoxShadow(
                     color: shadowColor,

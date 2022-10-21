@@ -17,6 +17,7 @@ class CustomOutlinedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
+      width: 143,
       child: OutlinedButton.icon(
           style: OutlinedButton.styleFrom(
             shadowColor: shadowColor,

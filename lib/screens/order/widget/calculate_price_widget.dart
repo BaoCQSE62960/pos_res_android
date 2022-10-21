@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pos_res_android/screens/Payment/payment_screen.dart';
+import 'package:pos_res_android/screens/order/widget/buttons/payment_btn.dart';
 
 Container calculatePriceWidget() {
   return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 30.0),
+    margin: const EdgeInsets.symmetric(horizontal: 20.0),
     child: Column(
       children: [
         Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -58,8 +61,12 @@ Container calculatePriceWidget() {
             ],
           ),
         ),
+        const Padding(
+          padding: EdgeInsets.only(top: defaultPadding),
+          child: ChargeBtn(),
+        ),
         Padding(
-          padding: const EdgeInsets.only(top: 20.0),
+          padding: const EdgeInsets.only(top: 8),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             CustomToolButton(
@@ -72,13 +79,14 @@ Container calculatePriceWidget() {
               color: voidColorBackground,
             ),
             CustomToolButton(
-                icons: const Icon(
-                  Icons.notifications,
-                  color: warningColor,
-                ),
-                text: 'order.remind'.tr(),
-                textColors: warningColor,
-                color: warningColorBackground),
+              icons: const Icon(
+                Icons.notifications,
+                color: warningColor,
+              ),
+              text: 'order.remind'.tr(),
+              textColors: warningColor,
+              color: warningColorBackground,
+            ),
             CustomToolButton(
               icons: const Icon(
                 Icons.send,

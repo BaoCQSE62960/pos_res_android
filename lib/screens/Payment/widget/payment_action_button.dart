@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/config/theme.dart';
 
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
-
-class PaymentTab extends StatelessWidget {
-  const PaymentTab({Key? key}) : super(key: key);
+class PaymentActionButton extends StatelessWidget {
+  const PaymentActionButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +12,9 @@ class PaymentTab extends StatelessWidget {
       children: [
         SizedBox(
           height: defaultPadding * 3,
-          width: defaultPadding * 9.25,
+          width: defaultPadding * 8.5,
           child: Hero(
-            tag: "payment_check",
+            tag: "close_check_btn",
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: activeColor,
@@ -28,14 +27,14 @@ class PaymentTab extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   Icon(
-                    Icons.fastfood,
+                    Icons.document_scanner,
                     size: defaultSize * 6,
                     color: textLightColor,
                   ),
                   Text(
-                    "Chi tiết hóa đơn",
+                    "Đóng hóa đơn",
                     style: TextStyle(
-                      fontSize: defaultSize * 2.5,
+                      fontSize: defaultSize * 3,
                     ),
                   ),
                 ],
@@ -48,12 +47,12 @@ class PaymentTab extends StatelessWidget {
         ),
         SizedBox(
           height: defaultPadding * 3,
-          width: defaultPadding * 9.25,
+          width: defaultPadding * 8.5,
           child: Hero(
-            tag: "payment_paid",
+            tag: "undo_btn",
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
+                backgroundColor: activeColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -63,15 +62,15 @@ class PaymentTab extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   Icon(
-                    Icons.payment,
+                    Icons.undo,
                     size: defaultSize * 6,
-                    color: textColor,
+                    color: textLightColor,
                   ),
                   Text(
-                    "Chi tiết thanh toán",
+                    "Hoàn tác",
                     style: TextStyle(
-                      fontSize: defaultSize * 2.5,
-                      color: textColor,
+                      fontSize: defaultSize * 3,
+                      color: textLightColor,
                     ),
                   ),
                 ],

@@ -35,7 +35,7 @@ class MenuItemCard extends StatelessWidget {
     return Wrap(
       children: [
         SizedBox(
-          height: 100,
+          height: 70,
           width: double.infinity,
           child: ClipRRect(
             borderRadius: const BorderRadius.only(

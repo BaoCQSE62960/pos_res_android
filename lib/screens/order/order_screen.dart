@@ -150,10 +150,7 @@ class _OrderScreenState extends State<OrderScreen> {
         color: Colors.white,
         child: Row(
           children: [
-            const Expanded(
-              flex: 2,
-              child: SideBar(),
-            ),
+            const SideBar(),
             Expanded(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -168,9 +165,9 @@ class _OrderScreenState extends State<OrderScreen> {
                           context: context,
                         )),
                     const Divider(color: dividerColor),
-                    Expanded(flex: 7, child: OrderDetailInfo()),
+                    Expanded(flex: 6, child: OrderDetailInfo()),
                     const Divider(color: dividerColor),
-                    Expanded(flex: 3, child: calculatePriceWidget()),
+                    Expanded(flex: 4, child: calculatePriceWidget()),
                   ]),
                 ),
                 flex: 8),

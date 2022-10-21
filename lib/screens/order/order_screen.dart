@@ -3,7 +3,6 @@ import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
 import 'package:pos_res_android/screens/Order/widget/menu_item_cart.dart';

@@ -230,7 +230,7 @@ class TableItem extends StatelessWidget {
       onPressed: () {},
     );
     AlertDialog alert = AlertDialog(
-      title: Text("Xác nhận chuyển bàn"),
+      title: const Text("Xác nhận chuyển bàn"),
       content: Text("Bạn có đồng ý chuyển tất cả hóa đơn của bàn #" +
           firstTable +
           " sang bàn #" +

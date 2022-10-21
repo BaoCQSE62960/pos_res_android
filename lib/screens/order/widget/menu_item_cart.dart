@@ -30,6 +30,7 @@ class MenuItemCard extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Wrap MenuItemDetail() {
     return Wrap(
       children: [

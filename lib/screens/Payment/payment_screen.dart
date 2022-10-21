@@ -55,7 +55,7 @@ class PaymentScreen extends StatelessWidget {
                               context: context,
                             )),
                         const Divider(color: dividerColor),
-                        const Expanded(flex: 7, child: OrderDetailInfo()),
+                        Expanded(flex: 7, child: OrderDetailInfo()),
                         const Divider(color: dividerColor),
                         Expanded(flex: 3, child: calculatePriceWidget()),
                       ],

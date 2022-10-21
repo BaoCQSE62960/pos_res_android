@@ -48,6 +48,7 @@ class OrderDetailInfo extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   ActionPane NewOrderActionPane() {
     return ActionPane(
       motion: const ScrollMotion(),
@@ -79,6 +80,7 @@ class OrderDetailInfo extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   ActionPane DoneOrderActionPane() {
     return ActionPane(
       motion: const ScrollMotion(),

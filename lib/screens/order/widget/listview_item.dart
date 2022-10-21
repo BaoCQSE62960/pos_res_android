@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
 
@@ -58,7 +56,7 @@ class ActionItemList extends StatelessWidget {
                               style: TextStyle(
                                   color: textColor2,
                                   fontWeight: FontWeight.bold)),
-                          Spacer(),
+                          const Spacer(),
                           !isDone
                               ? TextButton(
                                   onPressed: () {},
@@ -73,7 +71,7 @@ class ActionItemList extends StatelessWidget {
                                     color: textLightColor,
                                   ),
                                 )
-                              : SizedBox()
+                              : const SizedBox()
                         ],
                       ),
                     ],

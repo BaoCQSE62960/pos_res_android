@@ -3,6 +3,7 @@
     {
         "void": "Hủy",
         "special_request": "Yêu cầu",
+        "done": "Đã giao",
         "remind": "Nhắc nhở",
         "send": "Gửi đơn",
         "total": "Tổng cộng",
@@ -13,6 +14,22 @@
         "note": "Ghi chú",
         "order_id": "Đơn hàng",
         "open_time": "Mở vào",
-        "out_of_stock": "Hết hàng"
-    }
+        "out_of_stock": "Hết hàng",
+        "confirm": "Xác nhận",
+        "customer_name": "Tên khác hàng",
+        "number_of_seats": "Số ghế",
+        "customer_info": "Thông tin khách hàng",
+        "check_note": "Ghi chú đơn hàng",
+        "check_note_hint": "Ghi chú ...",
+        "special_request_title": "Yêu cầu đặc biệt"
+    },
+    "change_shift":
+    {
+        "appbar_title": "Chuyển ca"
+    },
+    "dialog":
+    {
+        "agree": "Đồng ý",
+        "cancel": "Hủy"
+    } 
 }

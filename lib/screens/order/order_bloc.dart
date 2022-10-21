@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:pos_res_android/screens/order/order.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 
 class OrderBloc {
   static final int DEFAULT_COMPACT_MODE_FLEX = 2;

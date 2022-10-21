@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/screens/ChangeShift/change_shift_screen.dart';
 import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../screens/Login/login_screen.dart';
@@ -21,7 +22,7 @@ class _SideBarState extends State<SideBar> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height - defaultPadding * 1.5,
             // width: defaultPadding * 6,
-            width: MediaQuery.of(context).size.width / 14,
+            //width: MediaQuery.of(context).size.width / 14,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // mainAxisSize: MainAxisSize.max,
@@ -65,6 +66,14 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const ChangeShiftScreen();
+                        },
+                      ),
+                    );
                     // showDialog(
                     //     context: context,
                     //     builder: (BuildContext context) {

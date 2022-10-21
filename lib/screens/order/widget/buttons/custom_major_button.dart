@@ -29,27 +29,23 @@ class CustomMajorButton extends StatelessWidget {
             elevation: 3,
           ),
           onPressed: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox.fromSize(
-                  size: const Size.fromRadius(25),
-                  child: FittedBox(
-                    child: icons,
-                  ),
-                ),
-                Text(
-                  text,
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 10,
-                      color: textColors),
-                )
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // SizedBox.fromSize(
+              //   size: const Size.fromRadius(25),
+              //   child: FittedBox(
+              //     child: icons,
+              //   ),
+              // ),
+              Text(
+                text,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: textColors),
+              )
+            ],
           )),
     );
   }

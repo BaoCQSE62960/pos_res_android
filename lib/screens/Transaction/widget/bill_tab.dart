@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Transaction/bill_screen.dart';
-import 'package:pos_res_android/screens/Transaction/transaction_screen.dart';
+import 'package:pos_res_android/screens/Transaction/search_bill_screen.dart';
+import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
@@ -34,7 +34,7 @@ class BillTab extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const TransactionScreen();
+                          return const SearchCheckScreen();
                         },
                       ),
                     );
@@ -72,7 +72,7 @@ class BillTab extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const BillScreen();
+                          return const SearchBillScreen();
                         },
                       ),
                     );

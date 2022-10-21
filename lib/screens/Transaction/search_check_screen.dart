@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Transaction/widget/check_detail_btn.dart';
+import 'package:pos_res_android/screens/Transaction/widget/buttons/check_detail_btn.dart';
+import 'package:pos_res_android/screens/Transaction/widget/check_table.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_action_button.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
 
@@ -16,15 +17,19 @@ const List<Widget> status = <Widget>[
   // Text('Hoàn tiền'),
 ];
 
-class TransactionScreen extends StatefulWidget {
-  const TransactionScreen({Key? key}) : super(key: key);
+class SearchCheckScreen extends StatefulWidget {
+  const SearchCheckScreen({Key? key}) : super(key: key);
 
   @override
-  State<TransactionScreen> createState() => _TransactionScreenState();
+  State<SearchCheckScreen> createState() => _SearchCheckScreenState();
 }
 
-class _TransactionScreenState extends State<TransactionScreen> {
+class _SearchCheckScreenState extends State<SearchCheckScreen> {
   final List<bool> _selectedStatus = <bool>[false, false, false];
+  final List<String> selectedStatus = <String>["Hoạt động", "Hủy", "Đóng"];
+  final bool isSelect = false;
+  String statusFilter = "Hoạt động";
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -78,9 +83,16 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 obscureText: true,
                                 cursorColor: textColor,
                                 decoration: const InputDecoration(
+                                  filled: true,
+                                  fillColor: deactiveLightColor,
+                                  prefixIconColor: primaryColor,
                                   contentPadding: EdgeInsets.fromLTRB(
                                       defaultSize * 4, 0, 0, 0),
-                                  fillColor: deactiveLightColor,
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    borderSide: BorderSide.none,
+                                  ),
                                   hintText: "Mã hóa đơn",
                                   // prefixIcon: Padding(
                                   //   padding: EdgeInsets.all(defaultPadding),
@@ -96,23 +108,27 @@ class _TransactionScreenState extends State<TransactionScreen> {
                               left: defaultPadding * 0.25,
                             ),
                             child: ToggleButtons(
+                              //       for (int i = 0; i < _selectedFruits.length; i++) {
+                              //         _selectedFruits[i] = i == index;
+
                               onPressed: (int index) {
-                                setState(() {
-                                  _selectedStatus[index] =
-                                      !_selectedStatus[index];
-                                  if (index == 0 && _selectedStatus[index]) {
-                                  } else if (index == 0 &&
-                                      !_selectedStatus[index]) {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return const LoginScreen();
-                                    //     },
-                                    //   ),
-                                    // );
-                                  }
-                                });
+                                setState(
+                                  () {
+                                    for (int i = 0;
+                                        i < _selectedStatus.length;
+                                        i++) {
+                                      _selectedStatus[i] = i == index;
+                                      statusFilter = selectedStatus[index];
+                                      // ignore: avoid_print
+                                      print(statusFilter);
+                                      // _selectedStatus[index] =
+                                      //     !_selectedStatus[index];
+                                      // if (index == 0 && _selectedStatus[index]) {
+                                      // } else if (index == 0 &&
+                                      //     !_selectedStatus[index]) {
+                                    }
+                                  },
+                                );
                               },
                               selectedBorderColor: activeColor,
                               selectedColor: textColor,
@@ -162,136 +178,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           defaultPadding * 8,
                       width: MediaQuery.of(context).size.width -
                           MediaQuery.of(context).size.width / 14,
-                      child: DataTable(
-                        columns: const <DataColumn>[
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Ngày',
-                                style: TextStyle(
-                                  // fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Mã hóa đơn',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Bàn',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Khu vực',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Thuế',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Tổng thanh toán',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Expanded(
-                              child: Text(
-                                'Trạng thái',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        rows: const <DataRow>[
-                          DataRow(
-                            cells: <DataCell>[
-                              DataCell(
-                                SizedBox(
-                                  width: 80,
-                                  child: Text('19/12/2020'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 100,
-                                  child: Text('4512786'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 30,
-                                  child: Text('A1'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 60,
-                                  child: Text('Sảnh A'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 75,
-                                  child: Text('50.000.000'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 90,
-                                  child: Text('550.000.000'),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 80,
-                                  child: Text('Hoạt động'),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // DataRow(
-                          //   cells: <DataCell>[
-                          //     DataCell(Text('Janine')),
-                          //     DataCell(Text('43')),
-                          //     DataCell(Text('Professor')),
-                          //   ],
-                          // ),
-                        ],
-                      ),
+                      child: const CheckDatatable(),
                     ),
                     Container(
                       color: textLightColor,

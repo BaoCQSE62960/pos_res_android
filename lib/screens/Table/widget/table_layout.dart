@@ -35,7 +35,7 @@ class TableLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: textLightColor,
-      body: getTextWidgets(22),
+      body: getTextWidgets(7),
     );
   }
 }

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
+import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/screens/order/order.dart';
 
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
-
-class AllCheckDetailBtn extends StatelessWidget {
-  const AllCheckDetailBtn({Key? key}) : super(key: key);
+class TransferTableBtn extends StatelessWidget {
+  const TransferTableBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "all_check_detail_btn",
+      tag: "transfer_table_btn",
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(
@@ -25,13 +24,13 @@ class AllCheckDetailBtn extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const CheckDetailScreen();
+                  return const OrderScreen();
                 },
               ),
             );
           },
           child: Text(
-            "Chi tiết".toUpperCase(),
+            "Chuyển bàn".toUpperCase(),
           ),
         ),
       ),

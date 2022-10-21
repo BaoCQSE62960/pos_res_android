@@ -4,7 +4,8 @@ import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Table/widget/payment_btn.dart';
+import 'package:pos_res_android/screens/order/widget/order_general_info_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CheckDetailScreen extends StatelessWidget {
   const CheckDetailScreen({Key? key}) : super(key: key);
@@ -20,45 +21,178 @@ class CheckDetailScreen extends StatelessWidget {
                 const SizedBox(
                   child: SideBar(),
                 ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    width: defaultPadding * 20,
+                    height: defaultPadding * 43.5,
+                    decoration: const BoxDecoration(
+                      color: textLightColor,
+                    ),
+                    child: Column(
                       children: [
-                        Container(
-                          color: textLightColor,
-                          height: MediaQuery.of(context).size.height -
-                              defaultPadding * 5,
-                          width: MediaQuery.of(context).size.width / 2 -
-                              MediaQuery.of(context).size.width / 28,
+                        const Expanded(flex: 1, child: OrderGeneralInfo()),
+                        const Divider(color: dividerColor),
+                        Expanded(
+                          flex: 15,
+                          child: Scrollbar(
+                            child: ListView.separated(
+                              separatorBuilder: (context, index) {
+                                return const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 30.0),
+                                  child: Divider(
+                                    color: dividerColor,
+                                  ),
+                                );
+                              },
+                              itemCount: 6,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.all(10),
+                                  width: double.infinity,
+                                  height: defaultPadding * 3,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          margin: const EdgeInsets.all(5),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "1",
+                                                    style: TextStyle(
+                                                      color: textColor2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        flex: 1,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin: const EdgeInsets.all(5),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Cánh gà chiên",
+                                                      style: TextStyle(
+                                                          color: textColor2),
+                                                    ),
+                                                    Text(
+                                                      "Size vừa",
+                                                      style: TextStyle(
+                                                          color: textColor2),
+                                                    ),
+                                                  ]),
+                                              const Spacer(),
+                                              Row(
+                                                children: [
+                                                  Text("10.500",
+                                                      style: TextStyle(
+                                                          color: textColor2,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        flex: 8,
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                        Container(
-                          color: textColor2,
-                          height: MediaQuery.of(context).size.height -
-                              defaultPadding * 5,
-                          width: MediaQuery.of(context).size.width / 2 -
-                              MediaQuery.of(context).size.width / 28,
+                        const Divider(color: dividerColor),
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'order.subtotal'.tr(),
+                                        style: TextStyle(color: textColor2),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        "63.000",
+                                        style: TextStyle(
+                                            color: textColor2,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ]),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'order.tax'.tr(),
+                                        style: TextStyle(color: textColor2),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        "6.300",
+                                        style: TextStyle(
+                                            color: textColor2,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'order.total'.tr(),
+                                        style: TextStyle(
+                                            color: textColor2,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        "69.300",
+                                        style: TextStyle(
+                                            color: textColor2,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    Container(
-                      color: textLightColor,
-                      width: MediaQuery.of(context).size.width -
-                          MediaQuery.of(context).size.width / 14,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(defaultPadding * 0.5),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width / 4.5,
-                              child: const PaymentBtn(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),

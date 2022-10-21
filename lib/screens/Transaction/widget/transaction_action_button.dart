@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Transaction/widget/check_detail_btn.dart';
-import 'package:pos_res_android/screens/Transaction/widget/refund_btn.dart';
+import 'package:pos_res_android/screens/Table/widget/buttons/payment_btn.dart';
+import 'package:pos_res_android/screens/Transaction/widget/buttons/refund_btn.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
-import '../../Table/widget/payment_btn.dart';
 
 class TransactionActionButton extends StatelessWidget {
   const TransactionActionButton({Key? key}) : super(key: key);

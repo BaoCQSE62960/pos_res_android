@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Transaction/widget/bill_detail_btn.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
+import 'package:pos_res_android/screens/Transaction/widget/buttons/bill_detail_btn.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_action_button.dart';
 
 import '../../common/widgets/background.dart';
@@ -16,14 +16,14 @@ const List<Widget> status = <Widget>[
   Text('Hoàn tiền'),
 ];
 
-class BillScreen extends StatefulWidget {
-  const BillScreen({Key? key}) : super(key: key);
+class SearchBillScreen extends StatefulWidget {
+  const SearchBillScreen({Key? key}) : super(key: key);
 
   @override
-  State<BillScreen> createState() => _BillScreenState();
+  State<SearchBillScreen> createState() => _SearchBillScreenState();
 }
 
-class _BillScreenState extends State<BillScreen> {
+class _SearchBillScreenState extends State<SearchBillScreen> {
   final List<bool> _selectedStatus = <bool>[false, false];
   @override
   Widget build(BuildContext context) {
@@ -78,9 +78,16 @@ class _BillScreenState extends State<BillScreen> {
                                 obscureText: true,
                                 cursorColor: textColor,
                                 decoration: const InputDecoration(
+                                  filled: true,
+                                  fillColor: deactiveLightColor,
+                                  prefixIconColor: primaryColor,
                                   contentPadding: EdgeInsets.fromLTRB(
                                       defaultSize * 4, 0, 0, 0),
-                                  fillColor: deactiveLightColor,
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30)),
+                                    borderSide: BorderSide.none,
+                                  ),
                                   hintText: "Mã hóa đơn",
                                   // prefixIcon: Padding(
                                   //   padding: EdgeInsets.all(defaultPadding),
@@ -97,22 +104,15 @@ class _BillScreenState extends State<BillScreen> {
                             ),
                             child: ToggleButtons(
                               onPressed: (int index) {
-                                setState(() {
-                                  _selectedStatus[index] =
-                                      !_selectedStatus[index];
-                                  if (index == 0 && _selectedStatus[index]) {
-                                  } else if (index == 0 &&
-                                      !_selectedStatus[index]) {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return const LoginScreen();
-                                    //     },
-                                    //   ),
-                                    // );
-                                  }
-                                });
+                                setState(
+                                  () {
+                                    for (int i = 0;
+                                        i < _selectedStatus.length;
+                                        i++) {
+                                      _selectedStatus[i] = i == index;
+                                    }
+                                  },
+                                );
                               },
                               selectedBorderColor: activeColor,
                               selectedColor: textColor,

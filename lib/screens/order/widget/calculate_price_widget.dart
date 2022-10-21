@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/order/widget/buttons/custom_tool_button.dart';
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 Container calculatePriceWidget() {

@@ -1,0 +1,1 @@
+enum SelectedMode { NONE, CHANGE_TABLE, CHANGE_ORDER }

@@ -2,24 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  const CustomElevatedButton(
-      {Key? key, required this.icons, required this.text})
-      : super(key: key);
+  const CustomElevatedButton({Key? key, required this.text}) : super(key: key);
 
-  final Icon icons;
   final String text;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
+    return ElevatedButton(
         style: ElevatedButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           shadowColor: shadowColor,
           elevation: 3,
           backgroundColor: activeColor,
         ),
         onPressed: () {},
-        icon: icons,
-        label: Text(
+        child: Text(
           text,
           style: const TextStyle(
               fontWeight: FontWeight.normal, fontSize: 15, color: Colors.white),

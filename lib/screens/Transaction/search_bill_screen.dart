@@ -104,22 +104,15 @@ class _SearchBillScreenState extends State<SearchBillScreen> {
                             ),
                             child: ToggleButtons(
                               onPressed: (int index) {
-                                setState(() {
-                                  _selectedStatus[index] =
-                                      !_selectedStatus[index];
-                                  if (index == 0 && _selectedStatus[index]) {
-                                  } else if (index == 0 &&
-                                      !_selectedStatus[index]) {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return const LoginScreen();
-                                    //     },
-                                    //   ),
-                                    // );
-                                  }
-                                });
+                                setState(
+                                  () {
+                                    for (int i = 0;
+                                        i < _selectedStatus.length;
+                                        i++) {
+                                      _selectedStatus[i] = i == index;
+                                    }
+                                  },
+                                );
                               },
                               selectedBorderColor: activeColor,
                               selectedColor: textColor,

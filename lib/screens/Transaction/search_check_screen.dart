@@ -26,7 +26,9 @@ class SearchCheckScreen extends StatefulWidget {
 
 class _SearchCheckScreenState extends State<SearchCheckScreen> {
   final List<bool> _selectedStatus = <bool>[false, false, false];
+  final List<String> selectedStatus = <String>["Hoạt động", "Hủy", "Đóng"];
   final bool isSelect = false;
+  String statusFilter = "Hoạt động";
 
   @override
   Widget build(BuildContext context) {
@@ -106,23 +108,27 @@ class _SearchCheckScreenState extends State<SearchCheckScreen> {
                               left: defaultPadding * 0.25,
                             ),
                             child: ToggleButtons(
+                              //       for (int i = 0; i < _selectedFruits.length; i++) {
+                              //         _selectedFruits[i] = i == index;
+
                               onPressed: (int index) {
-                                setState(() {
-                                  _selectedStatus[index] =
-                                      !_selectedStatus[index];
-                                  if (index == 0 && _selectedStatus[index]) {
-                                  } else if (index == 0 &&
-                                      !_selectedStatus[index]) {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) {
-                                    //       return const LoginScreen();
-                                    //     },
-                                    //   ),
-                                    // );
-                                  }
-                                });
+                                setState(
+                                  () {
+                                    for (int i = 0;
+                                        i < _selectedStatus.length;
+                                        i++) {
+                                      _selectedStatus[i] = i == index;
+                                      statusFilter = selectedStatus[index];
+                                      // ignore: avoid_print
+                                      print(statusFilter);
+                                      // _selectedStatus[index] =
+                                      //     !_selectedStatus[index];
+                                      // if (index == 0 && _selectedStatus[index]) {
+                                      // } else if (index == 0 &&
+                                      //     !_selectedStatus[index]) {
+                                    }
+                                  },
+                                );
                               },
                               selectedBorderColor: activeColor,
                               selectedColor: textColor,

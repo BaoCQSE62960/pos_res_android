@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/transaction/controller/check_controller.dart';
 import 'package:pos_res_android/repos/transaction/models/check.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
 
@@ -14,6 +16,7 @@ class CheckDatatable extends StatefulWidget {
 class _CheckDatatableState extends State<CheckDatatable> {
   final List<bool> _selectedStatus = <bool>[false, false, false];
   final List<String> selectedStatus = <String>["Hoạt động", "Hủy", "Đóng"];
+  final CheckController controller = Get.put(CheckController());
   List checkFilter = [];
   String statusFilter = "";
 
@@ -89,6 +92,16 @@ class _CheckDatatableState extends State<CheckDatatable> {
                       //   child: Icon(Icons.lock),
                       // ),
                     ),
+                    onChanged: (String input) {
+                      setState(
+                        () {
+                          checkFilter = checks
+                              .where(
+                                  (element) => element.checkno.contains(input))
+                              .toList();
+                        },
+                      );
+                    },
                   ),
                 ),
               ),
@@ -221,12 +234,12 @@ class _CheckDatatableState extends State<CheckDatatable> {
               ],
               rows: checkFilter
                   .map((checkFilter) => DataRow(cells: [
-                        DataCell(Text(checkFilter.date)),
-                        DataCell(Text(checkFilter.checkNo)),
-                        DataCell(Text(checkFilter.tableName)),
-                        DataCell(Text(checkFilter.locationName)),
-                        DataCell(Text(checkFilter.tax.toString())),
-                        DataCell(Text(checkFilter.total.toString())),
+                        DataCell(Text(checkFilter.note)),
+                        DataCell(Text(checkFilter.checkno)),
+                        DataCell(Text(checkFilter.tablename)),
+                        DataCell(Text(checkFilter.locationname)),
+                        DataCell(Text(checkFilter.totaltax.toString())),
+                        DataCell(Text(checkFilter.totalamount.toString())),
                         DataCell(Text(checkFilter.status)),
                       ]))
                   .toList()),

@@ -90,6 +90,16 @@ class _BillDatatableState extends State<BillDatatable> {
                       //   child: Icon(Icons.lock),
                       // ),
                     ),
+                    onChanged: (String input) {
+                      setState(
+                        () {
+                          billFilter = bills
+                              .where(
+                                  (element) => element.billNo.contains(input))
+                              .toList();
+                        },
+                      );
+                    },
                   ),
                 ),
               ),
@@ -105,7 +115,16 @@ class _BillDatatableState extends State<BillDatatable> {
                         for (int i = 0; i < _selectedStatus.length; i++) {
                           _selectedStatus[i] = i == index;
                           statusFilter = selectedStatus[index];
+                          if (i == _selectedStatus.length) {
+                            statusFilter = "";
+                          }
+                          print("_selectedStatus: $_selectedStatus");
+                          print(_selectedStatus[i]);
+                          print("statusFilter: $statusFilter");
+                          print("index: $index");
+                          print("i: $i");
                         }
+
                         billFilter = bills
                             .where((element) =>
                                 element.status.contains(statusFilter))

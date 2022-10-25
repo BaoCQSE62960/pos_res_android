@@ -1,72 +1,72 @@
 class Check {
   // final DateInputElement date;
-  String date;
-  String checkNo;
-  String tableName;
-  String locationName;
-  int tax;
-  int total;
+  String note;
+  String checkno;
+  String tablename;
+  String locationname;
+  int totaltax;
+  int totalamount;
   String status;
 
   Check({
-    required this.date,
-    required this.checkNo,
-    required this.tableName,
-    required this.locationName,
-    required this.tax,
-    required this.total,
+    required this.note,
+    required this.checkno,
+    required this.tablename,
+    required this.locationname,
+    required this.totaltax,
+    required this.totalamount,
     required this.status,
   });
 }
 
 var checks = <Check>[
   Check(
-      date: "19/12/2020",
-      checkNo: "4512786",
-      tableName: "A1",
-      locationName: "Sảnh A",
-      tax: 50000000,
-      total: 550000000,
+      note: "19/12/2020",
+      checkno: "4512786",
+      tablename: "A1",
+      locationname: "Sảnh A",
+      totaltax: 50000000,
+      totalamount: 550000000,
       status: "Hoạt động"),
   Check(
-      date: "19/10/2022",
-      checkNo: "456",
-      tableName: "L1-01",
-      locationName: "Lầu 1",
-      tax: 72000,
-      total: 792000,
+      note: "19/10/2022",
+      checkno: "456",
+      tablename: "L1-01",
+      locationname: "Lầu 1",
+      totaltax: 72000,
+      totalamount: 792000,
       status: "Hoạt động"),
   Check(
-      date: "19/12/2021",
-      checkNo: "523",
-      tableName: "L2-01",
-      locationName: "Lầu 2",
-      tax: 50000,
-      total: 550000,
+      note: "19/12/2021",
+      checkno: "523",
+      tablename: "L2-01",
+      locationname: "Lầu 2",
+      totaltax: 50000,
+      totalamount: 550000,
       status: "Hoạt động"),
   Check(
-      date: "19/11/2020",
-      checkNo: "896",
-      tableName: "B3",
-      locationName: "Sảnh B",
-      tax: 100000,
-      total: 1100000,
+      note: "19/11/2020",
+      checkno: "896",
+      tablename: "B3",
+      locationname: "Sảnh B",
+      totaltax: 100000,
+      totalamount: 1100000,
       status: "Hủy"),
   Check(
-      date: "29/12/2020",
-      checkNo: "451542",
-      tableName: "A2",
-      locationName: "Sảnh A",
-      tax: 6300,
-      total: 69300,
+      note: "29/12/2020",
+      checkno: "451542",
+      tablename: "A2",
+      locationname: "Sảnh A",
+      totaltax: 6300,
+      totalamount: 69300,
       status: "Đóng"),
   Check(
-      date: "20/12/2020",
-      checkNo: "27845",
-      tableName: "A5",
-      locationName: "Sảnh A",
-      tax: 50000,
-      total: 550000,
+      note: "20/12/2020",
+      checkno: "27845",
+      tablename: "A5",
+      locationname: "Sảnh A",
+      totaltax: 50000,
+      totalamount: 550000,
       status: "Đóng"),
 ];
 

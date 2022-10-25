@@ -10,6 +10,7 @@ class LoginScreenImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String logoURL = "assets/images/Logo.png";
     return Column(
       children: [
         // const Text(
@@ -37,7 +38,11 @@ class LoginScreenImage extends StatelessWidget {
                 flex: 8,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.asset("assets/images/Logo.png"),
+                  child: Image.asset(logoURL),
+                  // child: Image.network(
+                  //   logoURL,
+                  //   // fit: BoxFit.fill,
+                  // ),
                 ),
               ),
               // const Spacer(),

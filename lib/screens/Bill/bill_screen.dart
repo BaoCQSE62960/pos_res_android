@@ -28,7 +28,7 @@ class BillScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height -
                           defaultPadding * 5,
                       width: MediaQuery.of(context).size.width -
-                          MediaQuery.of(context).size.width / 14,
+                          defaultPadding * 4.5,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -42,9 +42,9 @@ class BillScreen extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    right: defaultPadding,
-                                    left: defaultPadding * 0.5,
-                                    top: defaultPadding * 5,
+                                    right: defaultPadding * 0.5,
+                                    left: defaultPadding,
+                                    top: defaultPadding * 7,
                                     bottom: defaultPadding,
                                   ),
                                   child: TextFormField(
@@ -69,8 +69,8 @@ class BillScreen extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    right: defaultPadding,
-                                    left: defaultPadding * 0.5,
+                                    right: defaultPadding * 0.5,
+                                    left: defaultPadding,
                                     top: defaultPadding,
                                     bottom: defaultPadding,
                                   ),
@@ -96,8 +96,8 @@ class BillScreen extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    right: defaultPadding,
-                                    left: defaultPadding * 0.5,
+                                    right: defaultPadding * 0.5,
+                                    left: defaultPadding,
                                     top: defaultPadding,
                                     bottom: defaultPadding,
                                   ),
@@ -115,6 +115,74 @@ class BillScreen extends StatelessWidget {
                                       ),
                                       hintText: "Tên khách hàng: "
                                           "Khách 2",
+                                      hintStyle: TextStyle(
+                                          fontSize: defaultSize * 4.5,
+                                          color: textColor),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: defaultPadding * 0.5,
+                                    left: defaultPadding,
+                                    top: defaultPadding,
+                                    bottom: defaultPadding,
+                                  ),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.multiline,
+                                    minLines: 5,
+                                    maxLines: null,
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      filled: true,
+                                      fillColor: deactiveLightColor,
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          defaultSize * 4, 27, 0, 6),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      hintText: "Ghi chú: "
+                                          "",
+                                      hintStyle: TextStyle(
+                                          fontSize: defaultSize * 4.5,
+                                          color: textColor),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: textLightColor,
+                            height: MediaQuery.of(context).size.height -
+                                defaultPadding * 5,
+                            width: MediaQuery.of(context).size.width / 2 -
+                                MediaQuery.of(context).size.width / 28,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: defaultPadding,
+                                    left: defaultPadding * 0.5,
+                                    top: defaultPadding * 7,
+                                    bottom: defaultPadding,
+                                  ),
+                                  child: TextFormField(
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      filled: true,
+                                      fillColor: deactiveLightColor,
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          defaultSize * 4, 0, 0, 0),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      hintText: "Tổng cộng: "
+                                          "63.000",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -204,14 +272,14 @@ class BillScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
                     Container(
                       color: textLightColor,
                       width: MediaQuery.of(context).size.width -
-                          MediaQuery.of(context).size.width / 14,
+                          defaultPadding * 4.5,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

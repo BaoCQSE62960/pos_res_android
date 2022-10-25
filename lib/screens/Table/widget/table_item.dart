@@ -4,7 +4,6 @@ import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
-import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../config/routes.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+// ignore: library_prefixes
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../common/widgets/background.dart';
 import '../../common/widgets/responsive.dart';
@@ -7,8 +9,37 @@ import '../../config/routes.dart';
 import 'widget/login_form.dart';
 import 'widget/login_screen_image.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late IO.Socket socket;
+  // String uri = "http://localhost:5000";
+  String uri = "http://192.168.1.6:5000";
+
+  @override
+  void initState() {
+    super.initState();
+    connectAndListen();
+  }
+
+  void connectAndListen() {
+    print("call func");
+    socket =
+        IO.io(uri, IO.OptionBuilder().setTransports(['websocket']).build());
+
+    socket.emit('join-pos-location', '1');
+    socket.onConnect((_) {
+      print("connect");
+      socket.emit('msg', 'test connect from client');
+    });
+
+    socket.onDisconnect((_) => print('disconnect'));
+  }
 
   @override
   Widget build(BuildContext context) {

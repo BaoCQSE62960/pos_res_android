@@ -9,6 +9,10 @@ class ChangeTable extends TableLayoutEvent {
   ChangeTable();
 }
 
+class ChangeOrder extends TableLayoutEvent {
+  ChangeOrder();
+}
+
 class ResetAction extends TableLayoutEvent {
   ResetAction();
 }

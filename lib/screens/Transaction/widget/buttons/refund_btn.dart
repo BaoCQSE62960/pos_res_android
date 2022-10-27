@@ -36,7 +36,7 @@ class _RefundBtnState extends State<RefundBtn> {
             _showMyDialog();
           },
           child: Text(
-            "Hoàn trả".toUpperCase(),
+            "Hoàn tiền".toUpperCase(),
           ),
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_table.dart';
 import 'package:pos_res_android/screens/Transaction/widget/buttons/bill_detail_btn.dart';
-import 'package:pos_res_android/screens/Transaction/widget/transaction_action_button.dart';
 
 import '../../common/widgets/background.dart';
 import '../../common/widgets/responsive.dart';
@@ -58,13 +57,8 @@ class _SearchBillScreenState extends State<SearchBillScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const TransactionActionButton(),
                           Padding(
-                            padding: const EdgeInsets.only(
-                              right: defaultPadding * 0.25,
-                              top: defaultPadding * 0.25,
-                              bottom: defaultPadding * 0.25,
-                            ),
+                            padding: const EdgeInsets.all(defaultPadding * 0.5),
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width / 4.5,
                               child: const BillDetailBtn(),

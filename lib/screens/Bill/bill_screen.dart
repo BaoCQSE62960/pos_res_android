@@ -60,7 +60,7 @@ class BillScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Ngày: "
-                                          "25/12/2021",
+                                          "29/12/2020",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -87,7 +87,7 @@ class BillScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Mã hóa đơn: "
-                                          "140157",
+                                          "2912202",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -181,7 +181,7 @@ class BillScreen extends StatelessWidget {
                                             Radius.circular(30)),
                                         borderSide: BorderSide.none,
                                       ),
-                                      hintText: "Tổng cộng: "
+                                      hintText: "Tổng: "
                                           "63.000",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
@@ -235,7 +235,7 @@ class BillScreen extends StatelessWidget {
                                             Radius.circular(30)),
                                         borderSide: BorderSide.none,
                                       ),
-                                      hintText: "Tổng thanh toán: "
+                                      hintText: "Thanh toán: "
                                           "69.300",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
@@ -263,7 +263,7 @@ class BillScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Trạng thái: "
-                                          "Đã đóng",
+                                          "Hoàn tiền",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),

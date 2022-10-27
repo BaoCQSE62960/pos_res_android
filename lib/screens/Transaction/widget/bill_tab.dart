@@ -17,7 +17,7 @@ class BillTab extends StatelessWidget {
         children: [
           SizedBox(
             height: defaultPadding * 2.5,
-            width: defaultPadding * 9.25,
+            width: defaultPadding * 10,
             child: Hero(
               tag: "check_tab",
               child: Padding(
@@ -40,7 +40,7 @@ class BillTab extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    "Tìm theo hóa đơn",
+                    "Tìm đơn hàng",
                     style: TextStyle(
                       fontSize: defaultSize * 2.75,
                       color: textColor,
@@ -55,7 +55,7 @@ class BillTab extends StatelessWidget {
           // ),
           SizedBox(
             height: defaultPadding * 2.5,
-            width: defaultPadding * 9.25,
+            width: defaultPadding * 10,
             child: Hero(
               tag: "bill_tab",
               child: Padding(
@@ -78,7 +78,7 @@ class BillTab extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    "Tìm theo thanh toán",
+                    "Tìm hóa đơn thanh toán",
                     style: TextStyle(
                       fontSize: defaultSize * 2.75,
                       color: textColor,

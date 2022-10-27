@@ -61,7 +61,7 @@ class _BillDatatableState extends State<BillDatatable> {
 
               SizedBox(
                 width: MediaQuery.of(context).size.width / 5 +
-                    defaultPadding * 7.05,
+                    defaultPadding * 5.55,
                 height: defaultPadding * 3,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -84,7 +84,7 @@ class _BillDatatableState extends State<BillDatatable> {
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         borderSide: BorderSide.none,
                       ),
-                      hintText: "Mã hóa đơn",
+                      hintText: "Mã thanh toán",
                       // prefixIcon: Padding(
                       //   padding: EdgeInsets.all(defaultPadding),
                       //   child: Icon(Icons.lock),
@@ -183,7 +183,7 @@ class _BillDatatableState extends State<BillDatatable> {
                 ),
                 DataColumn(
                   label: Text(
-                    'Mã hóa đơn',
+                    'Mã thanh toán',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

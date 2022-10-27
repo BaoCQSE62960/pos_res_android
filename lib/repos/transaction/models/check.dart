@@ -22,7 +22,7 @@ class Check {
 var checks = <Check>[
   Check(
       note: "19/12/2020",
-      checkno: "4512786",
+      checkno: "1912201",
       tablename: "A1",
       locationname: "Sảnh A",
       totaltax: 50000000,
@@ -30,7 +30,7 @@ var checks = <Check>[
       status: "Hoạt động"),
   Check(
       note: "19/10/2022",
-      checkno: "456",
+      checkno: "1910221",
       tablename: "L1-01",
       locationname: "Lầu 1",
       totaltax: 72000,
@@ -38,7 +38,7 @@ var checks = <Check>[
       status: "Hoạt động"),
   Check(
       note: "19/12/2021",
-      checkno: "523",
+      checkno: "19122131",
       tablename: "L2-01",
       locationname: "Lầu 2",
       totaltax: 50000,
@@ -46,7 +46,7 @@ var checks = <Check>[
       status: "Hoạt động"),
   Check(
       note: "19/11/2020",
-      checkno: "896",
+      checkno: "1911203",
       tablename: "B3",
       locationname: "Sảnh B",
       totaltax: 100000,
@@ -54,7 +54,7 @@ var checks = <Check>[
       status: "Hủy"),
   Check(
       note: "29/12/2020",
-      checkno: "451542",
+      checkno: "2912202",
       tablename: "A2",
       locationname: "Sảnh A",
       totaltax: 6300,
@@ -62,7 +62,7 @@ var checks = <Check>[
       status: "Đóng"),
   Check(
       note: "20/12/2020",
-      checkno: "27845",
+      checkno: "2012203",
       tablename: "A5",
       locationname: "Sảnh A",
       totaltax: 50000,

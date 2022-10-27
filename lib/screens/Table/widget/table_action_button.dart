@@ -52,13 +52,13 @@ class _ActionButtonState extends State<ActionButton> {
                       //     child: const PaymentBtn(),
                       //   ),
                       // ),
-                      Padding(
-                        padding: const EdgeInsets.all(defaultPadding * 0.25),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 4.5,
-                          child: const TransactionBtn(),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(defaultPadding * 0.25),
+                      //   child: SizedBox(
+                      //     width: MediaQuery.of(context).size.width / 4.5,
+                      //     child: const TransactionBtn(),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

@@ -61,7 +61,7 @@ class CheckScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Ngày: "
-                                          "13/06/2020",
+                                          "19/12/2021",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -115,7 +115,7 @@ class CheckScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Mã hóa đơn: "
-                                          "140140",
+                                          "19122131",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -169,7 +169,7 @@ class CheckScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Bàn: "
-                                          "L1",
+                                          "L2-01",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -196,7 +196,7 @@ class CheckScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Khu vực: "
-                                          "Lầu 1",
+                                          "Lầu 2",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -344,8 +344,8 @@ class CheckScreen extends StatelessWidget {
                                             Radius.circular(30)),
                                         borderSide: BorderSide.none,
                                       ),
-                                      hintText: "Tổng cộng: "
-                                          "63.000",
+                                      hintText: "Tổng: "
+                                          "500.000",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -372,7 +372,7 @@ class CheckScreen extends StatelessWidget {
                                         borderSide: BorderSide.none,
                                       ),
                                       hintText: "Thuế: "
-                                          "6.300",
+                                          "50.000",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),
@@ -398,8 +398,8 @@ class CheckScreen extends StatelessWidget {
                                             Radius.circular(30)),
                                         borderSide: BorderSide.none,
                                       ),
-                                      hintText: "Tổng thanh toán: "
-                                          "69.300",
+                                      hintText: "Thanh toán: "
+                                          "550.000",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,
                                           color: textColor),

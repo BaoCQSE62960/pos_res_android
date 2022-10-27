@@ -63,7 +63,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 5 +
-                    defaultPadding * 7.05,
+                    defaultPadding * 5.55,
                 height: defaultPadding * 3,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -86,7 +86,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         borderSide: BorderSide.none,
                       ),
-                      hintText: "Mã hóa đơn",
+                      hintText: "Mã đơn hàng",
                       // prefixIcon: Padding(
                       //   padding: EdgeInsets.all(defaultPadding),
                       //   child: Icon(Icons.lock),
@@ -183,7 +183,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
                 ),
                 DataColumn(
                   label: Text(
-                    'Mã hóa đơn',
+                    'Mã đơn hàng',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

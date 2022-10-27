@@ -4,6 +4,7 @@ import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
+import 'package:pos_res_android/repos/repository/menu_repository.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
@@ -21,108 +22,108 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  List<CustomMajorButton> listMajor = [
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.flatware,
-          color: activeColor,
-        ),
-        text: "Tất cả",
-        color: activeColor,
-        textColors: Colors.white),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.lunch_dining,
-          color: activeColor,
-        ),
-        text: "Burger",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.local_pizza,
-          color: activeColor,
-        ),
-        text: "Pizza",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.dinner_dining,
-          color: activeColor,
-        ),
-        text: "Mì",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.coffee,
-          color: activeColor,
-        ),
-        text: "Nước uống",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.cake,
-          color: activeColor,
-        ),
-        text: "Tráng miệng",
-        color: Colors.white,
-        textColors: activeColor),
-  ];
+  // List<CustomMajorButton> listMajor = [
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.flatware,
+  //         color: activeColor,
+  //       ),
+  //       text: "Tất cả",
+  //       color: activeColor,
+  //       textColors: Colors.white),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.lunch_dining,
+  //         color: activeColor,
+  //       ),
+  //       text: "Burger",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Pizza",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.dinner_dining,
+  //         color: activeColor,
+  //       ),
+  //       text: "Mì",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.coffee,
+  //         color: activeColor,
+  //       ),
+  //       text: "Nước uống",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.cake,
+  //         color: activeColor,
+  //       ),
+  //       text: "Tráng miệng",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  // ];
 
   // Fake major list, delete later
-  List<CustomMajorButton> listMenu = [
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.flatware,
-          color: activeColor,
-        ),
-        text: "Tất cả",
-        color: activeColor,
-        textColors: Colors.white),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.lunch_dining,
-          color: activeColor,
-        ),
-        text: "Menu #1",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.local_pizza,
-          color: activeColor,
-        ),
-        text: "Menu #2",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.local_pizza,
-          color: activeColor,
-        ),
-        text: "Menu #3",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.local_pizza,
-          color: activeColor,
-        ),
-        text: "Menu #4",
-        color: Colors.white,
-        textColors: activeColor),
-    const CustomMajorButton(
-        icons: Icon(
-          Icons.local_pizza,
-          color: activeColor,
-        ),
-        text: "Menu #5",
-        color: Colors.white,
-        textColors: activeColor),
-  ];
+  // List<CustomMajorButton> listMenu = [
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.flatware,
+  //         color: activeColor,
+  //       ),
+  //       text: "Tất cả",
+  //       color: activeColor,
+  //       textColors: Colors.white),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.lunch_dining,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #1",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #2",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #3",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #4",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #5",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  // ];
 
   List<MenuItemCard> listMenuItem = [
     const MenuItemCard(
@@ -150,7 +151,8 @@ class _OrderScreenState extends State<OrderScreen> {
         providers: [
           BlocProvider(
               create: (context) => OrderLayoutBloc(
-                  majorGroupRepository: MajorGroupRepositoryImpl())
+                  majorGroupRepository: MajorGroupRepositoryImpl(),
+                  menuRepository: MenuRepositoryImpl())
                 ..add(LoadData())),
           BlocProvider(
             create: (context) => TableLayoutBloc(),
@@ -216,8 +218,22 @@ class _OrderScreenState extends State<OrderScreen> {
                                                 text: state
                                                     .listMajorGroups[index]
                                                     .name,
-                                                color: activeColor,
-                                                textColors: Colors.white);
+                                                color:
+                                                    state.currentSelectedMajorID ==
+                                                            state
+                                                                .listMajorGroups[
+                                                                    index]
+                                                                .id
+                                                        ? activeColor
+                                                        : Colors.white,
+                                                textColors:
+                                                    state.currentSelectedMajorID ==
+                                                            state
+                                                                .listMajorGroups[
+                                                                    index]
+                                                                .id
+                                                        ? Colors.white
+                                                        : activeColor);
                                           },
                                           itemCount:
                                               state.listMajorGroups.length,
@@ -235,9 +251,23 @@ class _OrderScreenState extends State<OrderScreen> {
                                     padding: const EdgeInsets.all(5.0),
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      return listMenu[index];
+                                      return CustomMajorButton(
+                                          icons: const Icon(
+                                            Icons.local_pizza,
+                                            color: activeColor,
+                                          ),
+                                          text: state.listMenus[index].name,
+                                          color: state.currentSelectedMenuID ==
+                                                  state.listMenus[index].id
+                                              ? activeColor
+                                              : Colors.white,
+                                          textColors:
+                                              state.currentSelectedMenuID ==
+                                                      state.listMenus[index].id
+                                                  ? Colors.white
+                                                  : activeColor);
                                     },
-                                    itemCount: 6,
+                                    itemCount: state.listMenus.length,
                                   ),
                                   flex: 1,
                                 ),

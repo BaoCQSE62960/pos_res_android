@@ -43,7 +43,7 @@ class TableLayout extends StatelessWidget {
         },
         child: GridView(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
+              crossAxisCount: 6,
               crossAxisSpacing: defaultPadding,
               mainAxisSpacing: defaultPadding * 0.5,
               childAspectRatio: 1.55,

@@ -1,32 +1,51 @@
-import 'dart:async';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/repos/models/majorgroup.dart';
+import 'package:pos_res_android/repos/models/menu.dart';
+import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
+import 'package:pos_res_android/repos/repository/menu_repository.dart';
+import 'package:pos_res_android/screens/Order/order_event.dart';
+import 'package:pos_res_android/screens/Order/order_state.dart';
 
-import 'package:pos_res_android/screens/Order/order.dart';
-
-class OrderBloc {
-  static final int DEFAULT_COMPACT_MODE_FLEX = 2;
-  static final int DEFAULT_OPEN_MODE_FLEX = 10;
-  static final int DEFAULT_SIDE_MENU_FLEX = 1;
-  var state = OrderState(2, 1, false);
-
-  final eventController = StreamController<OrderEvent>();
-
-  final stateController = StreamController<OrderState>();
-
-  OrderBloc() {
-    eventController.stream.listen((event) {
-      if (event is OpenSideMenu) {
-        state =
-            OrderState(DEFAULT_OPEN_MODE_FLEX, DEFAULT_SIDE_MENU_FLEX, true);
-      } else if (event is CloseSideMenu) {
-        state = OrderState(
-            DEFAULT_COMPACT_MODE_FLEX, DEFAULT_SIDE_MENU_FLEX, false);
-      }
-      stateController.sink.add(state);
-    });
+class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
+  OrderLayoutBloc(
+      {required this.majorGroupRepository, required this.menuRepository})
+      : super(const OrderLayoutState()) {
+    on<LoadData>(_loadData);
+    on<ChangeMode>(_changeMode);
   }
 
-  void dispose() {
-    stateController.close();
-    eventController.close();
+  final MajorGroupRepositoryImpl majorGroupRepository;
+  final MenuRepositoryImpl menuRepository;
+
+  void _loadData(LoadData event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      final List<MajorGroup> listMajorGroups =
+          await majorGroupRepository.getMajorGroups();
+      final List<Menu> listMenu = await menuRepository.getMenu();
+      emit(
+        state.copywith(
+            listMajorGroups: listMajorGroups,
+            listMenus: listMenu,
+            orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _changeMode(ChangeMode event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      emit(
+        state.copywith(
+            currentMode: state.currentMode == CurrentMode.order
+                ? CurrentMode.payment
+                : CurrentMode.order,
+            orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
   }
 }

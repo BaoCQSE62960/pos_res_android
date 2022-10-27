@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
 
 import '../../../config/routes.dart';
@@ -85,7 +87,9 @@ class LoginForm extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const TableLayoutScreen();
+                      return BlocProvider(
+                          create: (context) => TableLayoutBloc(),
+                          child: const TableLayoutScreen());
                     },
                   ),
                 );

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/screens/Order/order.dart';
+import 'package:pos_res_android/screens/Order/order_screen.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 
 import '../../../config/routes.dart';
 import '../../../config/theme.dart';
@@ -22,14 +23,10 @@ class TableItem extends StatelessWidget {
         return Hero(
           tag: "table_demo_btn",
           child: GestureDetector(
-            onTap: () async {
+            onLongPress: () {
               counterBloc.add(counterBloc.state.firstSelectedTableName.isEmpty
                   ? FirstSelectTable(firstTableName: id)
                   : SecondSelectTable(secondTableName: id));
-              state.secondSelectedTableName != ""
-                  ? showConfirmDialog(context, state.firstSelectedTableName,
-                      state.secondSelectedTableName)
-                  : null;
             },
             onDoubleTap: () {
               Navigator.push(
@@ -45,14 +42,14 @@ class TableItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: deactiveColor,
                 borderRadius: BorderRadius.circular(15.0),
-                // border: Border.all(
-                //     width: 2,
-                //     color: state.currentSelectedMode == SelectedMode.NONE
-                //         ? primaryColor
-                //         : (state.firstSelectedTableName == id ||
-                //                 state.secondSelectedTableName == id
-                //             ? Colors.blue
-                //             : primaryColor)),
+                border: Border.all(
+                    width: 2,
+                    color: state.currentSelectedMode == SelectedMode.NONE
+                        ? deactiveColor
+                        : (state.firstSelectedTableName == id ||
+                                state.secondSelectedTableName == id
+                            ? Colors.blue
+                            : deactiveColor)),
                 boxShadow: const [
                   BoxShadow(
                     color: shadowColor,
@@ -214,36 +211,6 @@ class TableItem extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
-  }
-
-  showConfirmDialog(
-      BuildContext context, String firstTable, String secondTable) {
-    Widget cancelButton = TextButton(
-      child: Text("dialog.cancel".tr()),
-      onPressed: () {},
-    );
-    Widget continueButton = TextButton(
-      child: Text("dialog.agree".tr()),
-      onPressed: () {},
-    );
-    AlertDialog alert = AlertDialog(
-      title: const Text("Xác nhận chuyển bàn"),
-      content: Text("Bạn có đồng ý chuyển tất cả hóa đơn của bàn #" +
-          firstTable +
-          " sang bàn #" +
-          secondTable +
-          " ?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
       },
     );
   }

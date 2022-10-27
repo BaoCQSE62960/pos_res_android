@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
+import 'package:pos_res_android/screens/Table/table_layout_event.dart';
+import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
+import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
+import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
 
 class OrderDetailInfo extends StatelessWidget {
   OrderDetailInfo({
@@ -42,6 +49,7 @@ class OrderDetailInfo extends StatelessWidget {
             startActionPane: !actionItemList[index].isDone
                 ? NewOrderActionPane()
                 : DoneOrderActionPane(),
+            endActionPane: ChangeOrderActionPane(context),
           );
         },
       ),
@@ -90,6 +98,47 @@ class OrderDetailInfo extends StatelessWidget {
           backgroundColor: voidColor,
           foregroundColor: Colors.white,
           icon: Icons.delete,
+          // label: 'order.void'.tr(),
+        ),
+      ],
+      extentRatio: 0.2,
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  ActionPane ChangeOrderActionPane(BuildContext context) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    tableBloc.add(ChangeOrder());
+    return ActionPane(
+      motion: const ScrollMotion(),
+      children: [
+        SlidableAction(
+          onPressed: (context) {
+            showCupertinoModalBottomSheet(
+              context: context,
+              builder: (_) {
+                return BlocProvider.value(
+                    value: tableBloc,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        FilterSection(),
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(vertical: 15.0),
+                        //   child: Text(
+                        //     "Chọn bàn cần đổi",
+                        //     style: TextStyle(color: activeColor, fontSize: 20),
+                        //   ),
+                        // ),
+                        Expanded(child: TableSection()),
+                      ],
+                    ));
+              },
+            );
+          },
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          icon: Icons.change_circle,
           // label: 'order.void'.tr(),
         ),
       ],

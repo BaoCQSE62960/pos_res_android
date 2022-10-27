@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:pos_res_android/screens/ChangeShift/change_shift_event.dart';
 import 'package:pos_res_android/screens/ChangeShift/change_shift_state.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 
 class ChangeShiftBloc {
   var state = ChangeShiftState();
 
-  final eventController = StreamController<OrderEvent>();
+  final eventController = StreamController<ChangeShiftEvent>();
 
   final stateController = StreamController<ChangeShiftState>();
 

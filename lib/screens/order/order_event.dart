@@ -1,9 +1,14 @@
-abstract class OrderEvent {}
+import 'package:equatable/equatable.dart';
 
-class CloseSideMenu extends OrderEvent {
-  CloseSideMenu();
+class OrderLayoutEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
-class OpenSideMenu extends OrderEvent {
-  OpenSideMenu();
+class LoadData extends OrderLayoutEvent {
+  LoadData();
+}
+
+class ChangeMode extends OrderLayoutEvent {
+  ChangeMode();
 }

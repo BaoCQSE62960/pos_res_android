@@ -43,6 +43,7 @@ dependencies:
   http: ^0.13.5
   get: ^4.6.5
   socket_io_client: ^2.0.0
+  modal_bottom_sheet: ^2.1.2
 
 dev_dependencies:
   flutter_test:

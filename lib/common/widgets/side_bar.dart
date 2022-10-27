@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/screens/ChangeShift/change_shift_screen.dart';
+import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
 import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../screens/Login/login_screen.dart';
@@ -70,60 +71,10 @@ class _SideBarState extends State<SideBar> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const ChangeShiftScreen();
+                          return const SearchCheckScreen();
                         },
                       ),
                     );
-                    // showDialog(
-                    //     context: context,
-                    //     builder: (BuildContext context) {
-                    //       return AlertDialog(
-                    //         content: Stack(
-                    //           children: <Widget>[
-                    //             Positioned(
-                    //               right: -40.0,
-                    //               top: -40.0,
-                    //               child: InkResponse(
-                    //                 onTap: () {
-                    //                   Navigator.of(context).pop();
-                    //                 },
-                    //                 child: const CircleAvatar(
-                    //                   child: Icon(Icons.close),
-                    //                   backgroundColor: Colors.red,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             Form(
-                    //               // key: _formKey,
-                    //               child: Column(
-                    //                 mainAxisSize: MainAxisSize.min,
-                    //                 children: <Widget>[
-                    //                   Padding(
-                    //                     padding: const EdgeInsets.all(8.0),
-                    //                     child: TextFormField(),
-                    //                   ),
-                    //                   Padding(
-                    //                     padding: const EdgeInsets.all(8.0),
-                    //                     child: TextFormField(),
-                    //                   ),
-                    //                   // Padding(
-                    //                   //   padding: const EdgeInsets.all(8.0),
-                    //                   //   child: RaisedButton(
-                    //                   //     child: Text("Submitß"),
-                    //                   //     onPressed: () {
-                    //                   //       if (_formKey.currentState.validate()) {
-                    //                   //         _formKey.currentState.save();
-                    //                   //       }
-                    //                   //     },
-                    //                   //   ),
-                    //                   // )
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     });
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -135,14 +86,14 @@ class _SideBarState extends State<SideBar> {
                     // Replace with a Row for horizontal icon + text
                     children: const <Widget>[
                       Icon(
-                        Icons.people_alt_sharp,
+                        Icons.search,
                         size: defaultSize * 12.5,
                         color: textLightColor,
                       ),
                       Text(
-                        "CHUYỂN CA",
+                        "TÌM HÓA ĐƠN",
                         style: TextStyle(
-                          fontSize: defaultSize * 2.5,
+                          fontSize: defaultSize * 2.125,
                           fontWeight: FontWeight.w700,
                           color: textLightColor,
                         ),

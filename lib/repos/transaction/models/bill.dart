@@ -22,7 +22,7 @@ class Bill {
 var bills = <Bill>[
   Bill(
       date: "29/12/2020",
-      billNo: "451542",
+      billNo: "2912202",
       tableName: "A2",
       locationName: "Sảnh A",
       tax: 6300,
@@ -30,7 +30,7 @@ var bills = <Bill>[
       status: "Hoàn tiền"),
   Bill(
       date: "20/12/2020",
-      billNo: "27845",
+      billNo: "2012205",
       tableName: "A5",
       locationName: "Sảnh A",
       tax: 50000,

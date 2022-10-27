@@ -165,137 +165,10 @@ class _OrderScreenState extends State<OrderScreen> {
               child: Row(
                 children: [
                   const SizedBox(child: SideBar()),
-                  Expanded(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Column(children: [
-                          const Expanded(flex: 1, child: OrderGeneralInfo()),
-                          const Divider(color: dividerColor),
-                          Expanded(
-                              flex: 1,
-                              child: OrderCustomerInfo(
-                                context: context,
-                              )),
-                          const Divider(color: dividerColor),
-                          Expanded(flex: 6, child: OrderDetailInfo()),
-                          const Divider(color: dividerColor),
-                          Expanded(flex: 4, child: calculatePriceWidget()),
-                        ]),
-                      ),
-                      flex: 8),
-                  Expanded(
-                      child: Column(children: [
-                        const Expanded(flex: 1, child: SearchBar()),
-                        Expanded(
-                            flex: 10,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  const BoxShadow(color: dividerColor),
-                                  BoxShadow(
-                                      color: Colors.grey[100]!,
-                                      blurRadius: 3.0,
-                                      offset: const Offset(4.0, 3.0)),
-                                ],
-                              ),
-                              child: Column(children: [
-                                Expanded(
-                                  child: state.orderLayoutStatus.isSuccess
-                                      ? ListView.separated(
-                                          separatorBuilder: (context, index) {
-                                            return const SizedBox(width: 10);
-                                          },
-                                          padding: const EdgeInsets.all(5.0),
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) {
-                                            return CustomMajorButton(
-                                                icons: const Icon(
-                                                  Icons.flatware,
-                                                  color: activeColor,
-                                                ),
-                                                text: state
-                                                    .listMajorGroups[index]
-                                                    .name,
-                                                color:
-                                                    state.currentSelectedMajorID ==
-                                                            state
-                                                                .listMajorGroups[
-                                                                    index]
-                                                                .id
-                                                        ? activeColor
-                                                        : Colors.white,
-                                                textColors:
-                                                    state.currentSelectedMajorID ==
-                                                            state
-                                                                .listMajorGroups[
-                                                                    index]
-                                                                .id
-                                                        ? Colors.white
-                                                        : activeColor);
-                                          },
-                                          itemCount:
-                                              state.listMajorGroups.length,
-                                        )
-                                      : const Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                  flex: 2,
-                                ),
-                                Expanded(
-                                  child: ListView.separated(
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(width: 10);
-                                    },
-                                    padding: const EdgeInsets.all(5.0),
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      return CustomMajorButton(
-                                          icons: const Icon(
-                                            Icons.local_pizza,
-                                            color: activeColor,
-                                          ),
-                                          text: state.listMenus[index].name,
-                                          color: state.currentSelectedMenuID ==
-                                                  state.listMenus[index].id
-                                              ? activeColor
-                                              : Colors.white,
-                                          textColors:
-                                              state.currentSelectedMenuID ==
-                                                      state.listMenus[index].id
-                                                  ? Colors.white
-                                                  : activeColor);
-                                    },
-                                    itemCount: state.listMenus.length,
-                                  ),
-                                  flex: 1,
-                                ),
-                                Expanded(
-                                  child: GridView.builder(
-                                    padding: const EdgeInsets.all(5.0),
-                                    itemCount: 2,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 5),
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Card(
-                                        elevation: 8,
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: GridTile(
-                                            child: listMenuItem[index]),
-                                      );
-                                    },
-                                  ),
-                                  flex: 8,
-                                )
-                              ]),
-                            ))
-                      ]),
-                      flex: 16)
+                  buildOrderDetailWidget(context),
+                  state.currentMode == CurrentMode.order
+                      ? buildOrderMenuWidget(state)
+                      : buildOrderPaymentWidget()
                 ],
               ),
             );
@@ -303,5 +176,146 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       ),
     ));
+  }
+
+  Expanded buildOrderPaymentWidget() {
+    // Implement layout for payment here.
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            const BoxShadow(color: dividerColor),
+            BoxShadow(
+                color: Colors.grey[100]!,
+                blurRadius: 3.0,
+                offset: const Offset(4.0, 3.0)),
+          ],
+        ),
+      ),
+      flex: 16,
+    );
+  }
+
+  Expanded buildOrderMenuWidget(OrderLayoutState state) {
+    return Expanded(
+        child: Column(children: [
+          const Expanded(flex: 1, child: SearchBar()),
+          Expanded(
+              flex: 10,
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    const BoxShadow(color: dividerColor),
+                    BoxShadow(
+                        color: Colors.grey[100]!,
+                        blurRadius: 3.0,
+                        offset: const Offset(4.0, 3.0)),
+                  ],
+                ),
+                child: Column(children: [
+                  Expanded(
+                    child: state.orderLayoutStatus.isSuccess
+                        ? ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(width: 10);
+                            },
+                            padding: const EdgeInsets.all(5.0),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return CustomMajorButton(
+                                  icons: const Icon(
+                                    Icons.flatware,
+                                    color: activeColor,
+                                  ),
+                                  text: state.listMajorGroups[index].name,
+                                  color: state.currentSelectedMajorID ==
+                                          state.listMajorGroups[index].id
+                                      ? activeColor
+                                      : Colors.white,
+                                  textColors: state.currentSelectedMajorID ==
+                                          state.listMajorGroups[index].id
+                                      ? Colors.white
+                                      : activeColor);
+                            },
+                            itemCount: state.listMajorGroups.length,
+                          )
+                        : const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                    flex: 2,
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 10);
+                      },
+                      padding: const EdgeInsets.all(5.0),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return CustomMajorButton(
+                            icons: const Icon(
+                              Icons.local_pizza,
+                              color: activeColor,
+                            ),
+                            text: state.listMenus[index].name,
+                            color: state.currentSelectedMenuID ==
+                                    state.listMenus[index].id
+                                ? activeColor
+                                : Colors.white,
+                            textColors: state.currentSelectedMenuID ==
+                                    state.listMenus[index].id
+                                ? Colors.white
+                                : activeColor);
+                      },
+                      itemCount: state.listMenus.length,
+                    ),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(5.0),
+                      itemCount: 2,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          elevation: 8,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: GridTile(child: listMenuItem[index]),
+                        );
+                      },
+                    ),
+                    flex: 8,
+                  )
+                ]),
+              ))
+        ]),
+        flex: 16);
+  }
+
+  Expanded buildOrderDetailWidget(BuildContext context) {
+    return Expanded(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Column(children: [
+            const Expanded(flex: 1, child: OrderGeneralInfo()),
+            const Divider(color: dividerColor),
+            Expanded(
+                flex: 1,
+                child: OrderCustomerInfo(
+                  context: context,
+                )),
+            const Divider(color: dividerColor),
+            Expanded(flex: 6, child: OrderDetailInfo()),
+            const Divider(color: dividerColor),
+            Expanded(flex: 4, child: calculatePriceWidget()),
+          ]),
+        ),
+        flex: 8);
   }
 }

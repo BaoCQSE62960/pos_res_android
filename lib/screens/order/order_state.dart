@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/majorgroup.dart';
 import 'package:pos_res_android/repos/models/menu.dart';
-import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 
 enum OrderLayoutStatus { initial, success, error, loading, selected }
+
+enum CurrentMode { order, payment }
 
 extension OrderLayoutStatusX on OrderLayoutStatus {
   bool get isInitial => this == OrderLayoutStatus.initial;
@@ -18,6 +19,7 @@ class OrderLayoutState extends Equatable {
       {this.orderLayoutStatus = OrderLayoutStatus.initial,
       this.currentSelectedMajorID = 1,
       this.currentSelectedMenuID = 1,
+      this.currentMode = CurrentMode.order,
       List<MajorGroup>? listMajorGroups,
       List<Menu>? listMenus})
       : listMajorGroups = listMajorGroups ?? const [],
@@ -27,6 +29,7 @@ class OrderLayoutState extends Equatable {
   final List<Menu> listMenus;
   final int currentSelectedMajorID;
   final int currentSelectedMenuID;
+  final currentMode;
 
   @override
   List<Object?> get props => [
@@ -41,6 +44,7 @@ class OrderLayoutState extends Equatable {
       List<Menu>? listMenus,
       int? currentSelectedMajorID,
       int? currentSelectedMenuID,
+      CurrentMode? currentMode,
       required OrderLayoutStatus orderLayoutStatus}) {
     return OrderLayoutState(
         currentSelectedMajorID:
@@ -49,6 +53,7 @@ class OrderLayoutState extends Equatable {
             currentSelectedMenuID ?? this.currentSelectedMenuID,
         listMajorGroups: listMajorGroups ?? this.listMajorGroups,
         listMenus: listMenus ?? this.listMenus,
+        currentMode: currentMode ?? this.currentMode,
         orderLayoutStatus: orderLayoutStatus);
   }
 }

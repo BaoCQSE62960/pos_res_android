@@ -19,39 +19,28 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
 
   void _mapChangeTableEventToStage(
       ChangeTable event, Emitter<TableLayoutState> emit) async {
-    // emit(state.copyWith(status: CategoryStatus.loading));
     try {
       emit(
         state.copywith(currentSelectedMode: SelectedMode.CHANGE_TABLE),
       );
-      print(state.currentSelectedMode);
-      print(state.firstSelectedTableName);
-      print(state.secondSelectedTableName);
     } catch (error, stacktrace) {
       print(stacktrace);
-      // emit(state.copyWith(status: CategoryStatus.error));
     }
   }
 
   void _mapChangeOrderEventToStage(
       ChangeOrder event, Emitter<TableLayoutState> emit) async {
-    // emit(state.copyWith(status: CategoryStatus.loading));
     try {
       emit(
         state.copywith(currentSelectedMode: SelectedMode.CHANGE_ORDER),
       );
-      print(state.currentSelectedMode);
-      print(state.firstSelectedTableName);
-      print(state.secondSelectedTableName);
     } catch (error, stacktrace) {
       print(stacktrace);
-      // emit(state.copyWith(status: CategoryStatus.error));
     }
   }
 
   void _mapResetActionEventToStage(
       ResetAction event, Emitter<TableLayoutState> emit) async {
-    // emit(state.copyWith(status: CategoryStatus.loading));
     try {
       emit(
         state.copywith(
@@ -59,75 +48,30 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
             firstSelectedTableName: "",
             secondSelectedTableName: ""),
       );
-      print(state.currentSelectedMode);
-      print(state.firstSelectedTableName);
-      print(state.secondSelectedTableName);
     } catch (error, stacktrace) {
       print(stacktrace);
-      // emit(state.copyWith(status: CategoryStatus.error));
     }
   }
 
   void _mapSelectFirstTableEventToStage(
       FirstSelectTable event, Emitter<TableLayoutState> emit) async {
-    // emit(state.copyWith(status: CategoryStatus.loading));
     try {
       emit(
         state.copywith(firstSelectedTableName: event.firstTableName),
       );
-      if (state.currentSelectedMode == SelectedMode.CHANGE_ORDER) {}
-      print(state.currentSelectedMode);
-      print(state.firstSelectedTableName);
-      print(state.secondSelectedTableName);
     } catch (error, stacktrace) {
       print(stacktrace);
-      // emit(state.copyWith(status: CategoryStatus.error));
     }
   }
 
   void _mapSelectSecondTableEventToStage(
       SecondSelectTable event, Emitter<TableLayoutState> emit) async {
-    // emit(state.copyWith(status: CategoryStatus.loading));
     try {
       emit(
         state.copywith(secondSelectedTableName: event.secondTableName),
       );
-      print(state.currentSelectedMode);
-      print(state.firstSelectedTableName);
-      print(state.secondSelectedTableName);
     } catch (error, stacktrace) {
       print(stacktrace);
-      // emit(state.copyWith(status: CategoryStatus.error));
     }
   }
-
-  // showConfirmDialog(
-  //     BuildContext context, String firstTable, String secondTable) {
-  //   Widget cancelButton = TextButton(
-  //     child: Text("dialog.cancel".tr()),
-  //     onPressed: () {},
-  //   );
-  //   Widget continueButton = TextButton(
-  //     child: Text("dialog.agree".tr()),
-  //     onPressed: () {},
-  //   );
-  //   AlertDialog alert = AlertDialog(
-  //     title: const Text("Xác nhận chuyển đơn"),
-  //     content: Text("Bạn có đồng ý chuyển đơn này của bàn #" +
-  //         firstTable +
-  //         " sang bàn #" +
-  //         secondTable +
-  //         " ?"),
-  //     actions: [
-  //       cancelButton,
-  //       continueButton,
-  //     ],
-  //   );
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return alert;
-  //     },
-  //   );
-  // }
 }

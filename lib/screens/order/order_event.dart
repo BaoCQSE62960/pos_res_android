@@ -8,3 +8,7 @@ class OrderLayoutEvent extends Equatable {
 class LoadData extends OrderLayoutEvent {
   LoadData();
 }
+
+class ChangeMode extends OrderLayoutEvent {
+  ChangeMode();
+}

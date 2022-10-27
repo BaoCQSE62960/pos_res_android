@@ -11,6 +11,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       {required this.majorGroupRepository, required this.menuRepository})
       : super(const OrderLayoutState()) {
     on<LoadData>(_loadData);
+    on<ChangeMode>(_changeMode);
   }
 
   final MajorGroupRepositoryImpl majorGroupRepository;
@@ -28,9 +29,23 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             listMenus: listMenu,
             orderLayoutStatus: OrderLayoutStatus.success),
       );
-    } catch (error, stacktrace) {
-      print(stacktrace);
-      // emit(state.copyWith(status: CategoryStatus.error));
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _changeMode(ChangeMode event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      emit(
+        state.copywith(
+            currentMode: state.currentMode == CurrentMode.order
+                ? CurrentMode.payment
+                : CurrentMode.order,
+            orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }
   }
 }

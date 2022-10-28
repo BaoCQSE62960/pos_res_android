@@ -4,6 +4,7 @@ import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/transaction/controller/check_controller.dart';
 import 'package:pos_res_android/repos/transaction/models/check.dart';
+import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
 
 class CheckDatatable extends StatefulWidget {
@@ -137,6 +138,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
                   fillColor: selectColor,
                   color: textColor,
                   borderColor: primaryColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
                   constraints: const BoxConstraints(
                     minHeight: defaultPadding * 2,
                     minWidth: defaultPadding * 6.5,
@@ -216,7 +218,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
                 ),
                 DataColumn(
                   label: Text(
-                    'Tổng thanh toán',
+                    'Thành tiền',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -233,7 +235,9 @@ class _CheckDatatableState extends State<CheckDatatable> {
                 ),
               ],
               rows: checkFilter
-                  .map((checkFilter) => DataRow(cells: [
+                  .map(
+                    (checkFilter) => DataRow(
+                      cells: [
                         DataCell(Text(checkFilter.note)),
                         DataCell(Text(checkFilter.checkno)),
                         DataCell(Text(checkFilter.tablename)),
@@ -241,7 +245,19 @@ class _CheckDatatableState extends State<CheckDatatable> {
                         DataCell(Text(checkFilter.totaltax.toString())),
                         DataCell(Text(checkFilter.totalamount.toString())),
                         DataCell(Text(checkFilter.status)),
-                      ]))
+                      ],
+                      onLongPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const CheckDetailScreen();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
                   .toList()),
         ),
       ],

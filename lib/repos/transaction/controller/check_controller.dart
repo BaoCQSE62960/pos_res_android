@@ -37,6 +37,7 @@ class CheckController extends GetxController {
       listCheck.addAll(helperList);
       update();
     } catch (error) {
+      // ignore: avoid_print
       print(error);
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/ChangeShift/change_shift_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
 import '../../config/routes.dart';
 import '../../config/theme.dart';
@@ -35,7 +36,10 @@ class _SideBarState extends State<SideBar> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const TableLayoutScreen();
+                          return BlocProvider(
+                            create: (context) => TableLayoutBloc(),
+                            child: const TableLayoutScreen(),
+                          );
                         },
                       ),
                     );

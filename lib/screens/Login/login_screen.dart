@@ -28,16 +28,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void connectAndListen() {
+    // ignore: avoid_print
     print("call func");
     socket =
         IO.io(uri, IO.OptionBuilder().setTransports(['websocket']).build());
 
     socket.emit('join-pos-location', '1');
     socket.onConnect((_) {
+      // ignore: avoid_print
       print("connect");
       socket.emit('msg', 'test connect from client');
     });
 
+    // ignore: avoid_print
     socket.onDisconnect((_) => print('disconnect'));
   }
 

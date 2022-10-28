@@ -29,6 +29,7 @@ class OrderLayoutState extends Equatable {
   final List<Menu> listMenus;
   final int currentSelectedMajorID;
   final int currentSelectedMenuID;
+  // ignore: prefer_typing_uninitialized_variables
   final currentMode;
 
   @override

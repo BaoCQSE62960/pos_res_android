@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_action_button.dart';
-import 'package:pos_res_android/screens/order/widget/order_general_info_widget.dart';
 
 class PaymentPaidItem extends StatelessWidget {
   const PaymentPaidItem({Key? key}) : super(key: key);
@@ -11,8 +10,8 @@ class PaymentPaidItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Expanded(flex: 1, child: OrderGeneralInfo()),
-        const Divider(color: dividerColor),
+        // const Expanded(flex: 1, child: OrderGeneralInfo()),
+        // const Divider(color: dividerColor),
         Expanded(
           flex: 10,
           child: Scrollbar(
@@ -44,7 +43,10 @@ class PaymentPaidItem extends StatelessWidget {
                                   children: [
                                     Text(
                                       "Tiền mặt",
-                                      style: TextStyle(color: textColor2),
+                                      style: TextStyle(
+                                        color: textColor2,
+                                        fontSize: defaultSize * 4,
+                                      ),
                                     ),
                                   ]),
                               const Spacer(),
@@ -53,8 +55,10 @@ class PaymentPaidItem extends StatelessWidget {
                                   Text(
                                     "50.000",
                                     style: TextStyle(
-                                        color: textColor2,
-                                        fontWeight: FontWeight.bold),
+                                      color: textColor2,
+                                      fontSize: defaultSize * 4,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -72,56 +76,65 @@ class PaymentPaidItem extends StatelessWidget {
         ),
         const Divider(color: dividerColor),
         Expanded(
-          flex: 2,
+          flex: 4,
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30.0),
+            margin:
+                const EdgeInsets.symmetric(horizontal: defaultPadding * 1.5),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Row(
                     children: [
                       Text(
                         "Đã thanh toán",
-                        style: TextStyle(color: textColor2),
+                        style: TextStyle(
+                          color: textColor2,
+                          fontSize: defaultSize * 5,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const Spacer(),
                       Text(
                         "50.000",
                         style: TextStyle(
-                            color: textColor2, fontWeight: FontWeight.bold),
+                          color: textColor2,
+                          fontSize: defaultSize * 5,
+                          fontWeight: FontWeight.bold,
+                        ),
                       )
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Tổng thanh toán",
-                        style: TextStyle(
-                            color: textColor2,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      const Spacer(),
-                      Text(
-                        "69.300",
-                        style: TextStyle(
-                            color: textColor2,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      )
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 20),
+                //   child: Row(
+                //     children: [
+                //       Text(
+                //         "Tổng thanh toán",
+                //         style: TextStyle(
+                //             color: textColor2,
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 20),
+                //       ),
+                //       const Spacer(),
+                //       Text(
+                //         "69.300",
+                //         style: TextStyle(
+                //             color: textColor2,
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 20),
+                //       )
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
         ),
         const Expanded(
-          flex: 1,
+          // flex: 1,
+          flex: 4,
           child: Padding(
             padding: EdgeInsets.only(
               bottom: defaultPadding * 0.75,

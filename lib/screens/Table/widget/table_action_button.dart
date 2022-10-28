@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Table/widget/buttons/transaction_btn.dart';
 import 'package:pos_res_android/screens/Table/widget/buttons/transfer_check_btn.dart';
 import 'package:pos_res_android/screens/Table/widget/buttons/transfer_table_btn.dart';
 

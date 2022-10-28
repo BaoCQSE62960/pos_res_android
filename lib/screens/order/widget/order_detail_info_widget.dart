@@ -8,7 +8,6 @@ import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
-import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
 

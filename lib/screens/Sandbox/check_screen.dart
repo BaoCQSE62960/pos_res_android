@@ -398,7 +398,7 @@ class CheckScreen extends StatelessWidget {
                                             Radius.circular(30)),
                                         borderSide: BorderSide.none,
                                       ),
-                                      hintText: "Thanh toán: "
+                                      hintText: "Thành tiền: "
                                           "550.000",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,

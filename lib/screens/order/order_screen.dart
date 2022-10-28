@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
+import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
 import 'package:pos_res_android/repos/repository/menu_repository.dart';
@@ -12,6 +13,10 @@ import 'package:pos_res_android/screens/Order/widget/menu_item_cart.dart';
 import 'package:pos_res_android/screens/Order/widget/order_customer_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_detail_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
+import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
+import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
+import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
+import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -145,37 +150,38 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-              create: (context) => OrderLayoutBloc(
-                  majorGroupRepository: MajorGroupRepositoryImpl(),
-                  menuRepository: MenuRepositoryImpl())
-                ..add(LoadData())),
-          BlocProvider(
-            create: (context) => TableLayoutBloc(),
-          )
-        ],
-        child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
-          builder: (context, state) {
-            return Container(
-              color: Colors.white,
-              child: Row(
-                children: [
-                  const SizedBox(child: SideBar()),
-                  buildOrderDetailWidget(context),
-                  state.currentMode == CurrentMode.order
-                      ? buildOrderMenuWidget(state)
-                      : buildOrderPaymentWidget()
-                ],
-              ),
-            );
-          },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                create: (context) => OrderLayoutBloc(
+                    majorGroupRepository: MajorGroupRepositoryImpl(),
+                    menuRepository: MenuRepositoryImpl())
+                  ..add(LoadData())),
+            BlocProvider(
+              create: (context) => TableLayoutBloc(),
+            )
+          ],
+          child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+            builder: (context, state) {
+              return Container(
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    const SizedBox(child: SideBar()),
+                    buildOrderDetailWidget(context),
+                    state.currentMode == CurrentMode.order
+                        ? buildOrderMenuWidget(state)
+                        : buildOrderPaymentWidget()
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
-    ));
+    );
   }
 
   Expanded buildOrderPaymentWidget() {
@@ -190,6 +196,59 @@ class _OrderScreenState extends State<OrderScreen> {
                 blurRadius: 3.0,
                 offset: const Offset(4.0, 3.0)),
           ],
+        ),
+        child: Container(
+          color: textLightColor,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  width: defaultPadding * 39.6,
+                  height: defaultPadding * 20,
+                  color: textLightColor,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: defaultPadding * 4,
+                        color: textLightColor,
+                        child: const TotalVND(),
+                      ),
+                      Container(
+                        height: defaultPadding * 20,
+                        color: deactiveLightColor,
+                        child: const PaymentMethod(),
+                      ),
+                      Container(
+                        height: defaultPadding * 4,
+                        width: defaultPadding * 43,
+                        child: const PaymentInput(),
+                        color: textLightColor,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Divider(color: dividerColor),
+              Expanded(
+                flex: 1,
+                //
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: defaultPadding * 35,
+                      height: defaultPadding * 43.5,
+                      decoration: const BoxDecoration(
+                        color: textLightColor,
+                      ),
+                      child: const PaymentPaidItem(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       flex: 16,

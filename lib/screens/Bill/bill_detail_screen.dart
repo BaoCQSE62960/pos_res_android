@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Bill/widget/bill_info.dart';
 import 'package:pos_res_android/screens/Bill/widget/item_detail.dart';
@@ -72,7 +71,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         borderRadius: const BorderRadius.all(Radius.circular(30)),
         constraints: const BoxConstraints(
           minHeight: defaultPadding * 2,
-          minWidth: defaultPadding * 11.7,
+          // minWidth: defaultPadding * 11.7,
+          minWidth: defaultPadding * 14.9,
         ),
         isSelected: _selectedTab,
         children: tab,

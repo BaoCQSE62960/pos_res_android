@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:pos_res_android/repos/transaction/models/check.dart';
+import 'package:pos_res_android/repos/models/check.dart';
 
 class CheckController extends GetxController {
   static const apiBaseUrl = 'http://localhost:5000/';

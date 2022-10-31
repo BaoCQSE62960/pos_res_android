@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout.dart';
 

@@ -22,3 +22,9 @@ const warningColorBackground = Color(0xFFFFF2C3);
 const voidColorBackground = Color(0xFFFFDADA);
 const dividerColor = Color(0xFFEEECEC);
 final textColor2 = Colors.grey[700];
+
+//padding & size
+// double scrennWidth = MediaQuery.of(context).size.width;
+// double screenHeight = MediaQuery.of(context).size.height;
+const double defaultPadding = 16;
+const double defaultSize = 4;

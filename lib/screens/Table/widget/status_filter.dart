@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
+import 'package:pos_res_android/config/theme.dart';
 
 class StatusFilter extends StatefulWidget {
   const StatusFilter({Key? key}) : super(key: key);

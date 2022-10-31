@@ -1,12 +1,33 @@
-// import 'dart:js';
-
-// import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/screens/Login/login_screen.dart';
+import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
+import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
+import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
 
 class PosRestaurantRoute {
   static const order = "/";
+
+  static Map<String, Widget Function(BuildContext)> pageroutes =
+      <String, WidgetBuilder>{
+    '/login': (BuildContext context) => const LoginScreen(),
+    '/tableoverview': (BuildContext context) => BlocProvider(
+        create: (context) => TableLayoutBloc(),
+        child: const TableLayoutScreen()),
+    '/search/checklist': (BuildContext context) => const SearchCheckScreen(),
+    '/logout': (BuildContext context) => const LoginScreen(),
+  };
 }
 
-// double scrennWidth = MediaQuery.of(context).size.width;
-// double screenHeight = MediaQuery.of(context).size.height;
-const double defaultPadding = 16;
-const double defaultSize = 4;
+String uriLocal = "http://localhost:5000";
+
+//Bao's uri
+//Home
+// String uri = "http://192.168.1.6:5000";
+//Q9
+String uri = "http://192.168.0.6:5000";
+
+//Duc's uri
+
+String logoURL =
+    "https://firebasestorage.googleapis.com/v0/b/pos-restaurant-30dcc.appspot.com/o/logo.png?alt=media&token=3abf9469-7d3c-49e7-a2dd-d47dbdb03f37";

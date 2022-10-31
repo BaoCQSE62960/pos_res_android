@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/transaction/controller/check_controller.dart';
-import 'package:pos_res_android/repos/transaction/models/check.dart';
+import 'package:pos_res_android/repos/models/check.dart';
+import 'package:pos_res_android/repos/services/check_service.dart';
 import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
 
@@ -63,8 +62,9 @@ class _CheckDatatableState extends State<CheckDatatable> {
                 // ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 5 +
-                    defaultPadding * 5.55,
+                // width: MediaQuery.of(context).size.width / 5 +
+                //     defaultPadding * 5.55,
+                width: MediaQuery.of(context).size.width / 3,
                 height: defaultPadding * 3,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -141,7 +141,8 @@ class _CheckDatatableState extends State<CheckDatatable> {
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   constraints: const BoxConstraints(
                     minHeight: defaultPadding * 2,
-                    minWidth: defaultPadding * 6.5,
+                    // minWidth: defaultPadding * 6.5,
+                    minWidth: defaultPadding * 9,
                   ),
                   isSelected: _selectedStatus,
                   children: status,

@@ -1,9 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
-
-import '../../../config/theme.dart';
+import 'package:pos_res_android/config/theme.dart';
 
 class LocationFilter extends StatelessWidget {
   const LocationFilter({Key? key}) : super(key: key);

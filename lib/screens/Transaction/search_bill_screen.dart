@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/common/widgets/background.dart';
+import 'package:pos_res_android/common/widgets/responsive.dart';
+import 'package:pos_res_android/common/widgets/side_bar.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_table.dart';
-
-import '../../common/widgets/background.dart';
-import '../../common/widgets/responsive.dart';
-import '../../common/widgets/side_bar.dart';
-import '../../config/routes.dart';
-import '../../config/theme.dart';
 
 class SearchBillScreen extends StatefulWidget {
   const SearchBillScreen({Key? key}) : super(key: key);

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method_item.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
 
 class PaymentMethod extends StatelessWidget {
   const PaymentMethod({Key? key}) : super(key: key);

@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
-import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
-import '../../config/routes.dart';
-import '../../config/theme.dart';
-import '../../screens/Login/login_screen.dart';
-import '../../screens/Table/table_layout_screen.dart';
+import 'package:pos_res_android/config/theme.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({Key? key}) : super(key: key);
@@ -22,7 +16,7 @@ class _SideBarState extends State<SideBar> {
         Container(
           color: sideBarColor,
           child: SizedBox(
-            height: MediaQuery.of(context).size.height - defaultPadding * 1.5,
+            height: MediaQuery.of(context).size.height - defaultPadding * 1.4,
             // width: defaultPadding * 6,
             //width: MediaQuery.of(context).size.width / 14,
             child: Column(
@@ -32,17 +26,18 @@ class _SideBarState extends State<SideBar> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return BlocProvider(
-                            create: (context) => TableLayoutBloc(),
-                            child: const TableLayoutScreen(),
-                          );
-                        },
-                      ),
-                    );
+                    Navigator.of(context).pushNamed('/tableoverview');
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return BlocProvider(
+                    //         create: (context) => TableLayoutBloc(),
+                    //         child: const TableLayoutScreen(),
+                    //       );
+                    //     },
+                    //   ),
+                    // );
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -71,14 +66,15 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const SearchCheckScreen();
-                        },
-                      ),
-                    );
+                    Navigator.of(context).pushNamed('/search/checklist');
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return const SearchCheckScreen();
+                    //     },
+                    //   ),
+                    // );
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -111,14 +107,15 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const LoginScreen();
-                        },
-                      ),
-                    );
+                    Navigator.of(context).pushNamed('/logout');
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return const LoginScreen();
+                    //     },
+                    //   ),
+                    // );
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,

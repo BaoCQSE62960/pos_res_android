@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
 
 class AllCheckDetailBtn extends StatelessWidget {
   const AllCheckDetailBtn({Key? key}) : super(key: key);

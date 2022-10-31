@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
-import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
+import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/services/login_service.dart';
 
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
-
+// ignore: must_be_immutable
 class LoginForm extends StatelessWidget {
-  const LoginForm({
-    Key? key,
-  }) : super(key: key);
+  // Socket socket;
+  // LoginForm({Key? key, required this.socket}) : super(key: key);
+
+  const LoginForm({Key? key}) : super(key: key);
+
+  Future<bool> loginToSystem(String username, String password) async {
+    LoginService service = LoginService();
+    bool result = await service.login(username, password);
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
+    String username = "";
+    String password = "";
     return Form(
       child: Column(
         children: [
@@ -23,6 +29,9 @@ class LoginForm extends StatelessWidget {
             textInputAction: TextInputAction.next,
             cursorColor: primaryColor,
             // onSaved: (email) {},
+            onChanged: (value) {
+              username = value;
+            },
             decoration: const InputDecoration(
               filled: true,
               fillColor: deactiveLightColor,
@@ -50,6 +59,9 @@ class LoginForm extends StatelessWidget {
               textInputAction: TextInputAction.done,
               obscureText: true,
               cursorColor: textColor,
+              onChanged: (value) {
+                password = value;
+              },
               decoration: const InputDecoration(
                 filled: true,
                 fillColor: deactiveLightColor,
@@ -82,18 +94,23 @@ class LoginForm extends StatelessWidget {
                 maximumSize: const Size(double.infinity, 56),
                 minimumSize: const Size(double.infinity, 56),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return BlocProvider(
-                          create: (context) => TableLayoutBloc(),
-                          child: const TableLayoutScreen());
-                    },
-                  ),
-                );
+              onPressed: () async {
+                if (await loginToSystem(username, password)) {
+                  Navigator.of(context).pushNamed('/tableoverview');
+                }
               },
+              // onPressed: () {
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) {
+              //         return BlocProvider(
+              //             create: (context) => TableLayoutBloc(),
+              //             child: const TableLayoutScreen());
+              //       },
+              //     ),
+              //   );
+              // },
               child: Text(
                 "Đăng nhập".toUpperCase(),
               ),
@@ -110,7 +127,10 @@ class LoginForm extends StatelessWidget {
                 maximumSize: const Size(double.infinity, 56),
                 minimumSize: const Size(double.infinity, 56),
               ),
-              onPressed: () => SystemNavigator.pop(),
+              onPressed: () {
+                // socket.disconnectServer();
+                SystemNavigator.pop();
+              },
               // onPressed: () => exit(0),
               child: Text(
                 "Thoát".toUpperCase(),

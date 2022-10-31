@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/transaction/models/bill.dart';
+import 'package:pos_res_android/repos/models/bill.dart';
 import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
 
@@ -61,8 +60,9 @@ class _BillDatatableState extends State<BillDatatable> {
               ),
 
               SizedBox(
-                width: MediaQuery.of(context).size.width / 5 +
-                    defaultPadding * 5.55,
+                // width: MediaQuery.of(context).size.width / 5 +
+                //     defaultPadding * 5.55,
+                width: MediaQuery.of(context).size.width / 3,
                 height: defaultPadding * 3,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -146,7 +146,8 @@ class _BillDatatableState extends State<BillDatatable> {
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   constraints: const BoxConstraints(
                     minHeight: defaultPadding * 2,
-                    minWidth: defaultPadding * 9.75,
+                    // minWidth: defaultPadding * 9.75,
+                    minWidth: defaultPadding * 13.5,
                   ),
                   isSelected: _selectedStatus,
                   children: status,

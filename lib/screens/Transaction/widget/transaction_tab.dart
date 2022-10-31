@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Transaction/search_bill_screen.dart';
 import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
 
 class TransactionTab extends StatelessWidget {
   const TransactionTab({Key? key}) : super(key: key);

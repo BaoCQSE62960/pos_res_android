@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
 import 'package:pos_res_android/repos/repository/menu_repository.dart';

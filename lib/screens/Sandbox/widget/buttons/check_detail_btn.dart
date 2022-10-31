@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
 

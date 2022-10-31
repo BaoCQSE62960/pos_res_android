@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/order_screen.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
 
 class TableItem extends StatelessWidget {
   const TableItem({Key? key, required this.id}) : super(key: key);
@@ -68,7 +66,8 @@ class TableItem extends StatelessWidget {
                       ),
                     ),
                     height: defaultPadding * 2 - defaultSize * 0.9,
-                    width: defaultPadding * 11,
+                    // width: defaultPadding * 11,
+                    width: defaultPadding * 12,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -99,7 +98,8 @@ class TableItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultPadding * 11,
+                    // width: defaultPadding * 11,
+                    width: defaultPadding * 12,
                     height: defaultPadding * 5,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(

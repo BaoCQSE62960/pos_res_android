@@ -6,7 +6,7 @@ import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Bill/widget/bill_info.dart';
 import 'package:pos_res_android/screens/Bill/widget/item_detail.dart';
 import 'package:pos_res_android/screens/Bill/widget/payment_detail.dart';
-import 'package:pos_res_android/screens/Sandbox/widget/buttons/refund_btn.dart';
+import 'package:pos_res_android/screens/Bill/widget/refund_btn.dart';
 import 'package:pos_res_android/screens/order/widget/order_general_info_widget.dart';
 
 class BillDetailScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Check/widget/detail_btn.dart';
+import 'package:pos_res_android/screens/Sandbox/widget/buttons/detail_btn(check).dart';
 import 'package:pos_res_android/screens/Table/widget/buttons/payment_btn.dart';
 import 'package:pos_res_android/screens/order/order.dart';
 

@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     SizedBox(
                       width: 360,
                       child: LoginForm(

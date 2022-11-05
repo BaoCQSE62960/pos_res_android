@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/bill.dart';
@@ -17,6 +18,8 @@ class _BillDatatableState extends State<BillDatatable> {
 
   List billFilter = [];
   String statusFilter = "";
+  final newFormat = DateFormat('yyyy-MM-dd');
+
   List<Widget> status = <Widget>[
     // Text('Hoạt động'),
     // Text('Hủy'),
@@ -244,12 +247,12 @@ class _BillDatatableState extends State<BillDatatable> {
                   .map(
                     (billFilter) => DataRow(
                       cells: [
-                        DataCell(Text(billFilter.date)),
+                        DataCell(Text(newFormat.format(billFilter.date))),
                         DataCell(Text(billFilter.billNo)),
                         DataCell(Text(billFilter.tableName)),
                         DataCell(Text(billFilter.locationName)),
-                        DataCell(Text(billFilter.tax.toString())),
-                        DataCell(Text(billFilter.total.toString())),
+                        DataCell(Text(billFilter.totaltax.toString())),
+                        DataCell(Text(billFilter.totalamount.toString())),
                         DataCell(Text(billFilter.status)),
                       ],
                       onLongPress: () {

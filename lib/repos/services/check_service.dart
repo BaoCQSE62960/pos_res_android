@@ -24,7 +24,7 @@ class CheckController extends GetxController {
 
         checkResponse['checkData'].forEach((result) => {
               helperList.add(Check(
-                note: result['note'],
+                date: result['date'],
                 checkno: result['checkno'],
                 tablename: result['tablename'],
                 locationname: result['locationname'],

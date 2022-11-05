@@ -3,8 +3,8 @@ import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Bill/widget/detail_btn.dart';
-import 'package:pos_res_android/screens/Sandbox/widget/buttons/refund_btn.dart';
+import 'package:pos_res_android/screens/Sandbox/widget/buttons/detail_btn.dart';
+import 'package:pos_res_android/screens/Bill/widget/refund_btn.dart';
 
 class BillScreen extends StatelessWidget {
   const BillScreen({Key? key}) : super(key: key);

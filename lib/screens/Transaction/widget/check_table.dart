@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_res_android/config/theme.dart';
@@ -19,6 +20,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
   final CheckController controller = Get.put(CheckController());
   List checkFilter = [];
   String statusFilter = "";
+  final newFormat = DateFormat('yyyy-MM-dd');
 
   List<Widget> status = <Widget>[
     const Text('Hoạt động'),
@@ -239,7 +241,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
                   .map(
                     (checkFilter) => DataRow(
                       cells: [
-                        DataCell(Text(checkFilter.note)),
+                        DataCell(Text(newFormat.format(checkFilter.date))),
                         DataCell(Text(checkFilter.checkno)),
                         DataCell(Text(checkFilter.tablename)),
                         DataCell(Text(checkFilter.locationname)),

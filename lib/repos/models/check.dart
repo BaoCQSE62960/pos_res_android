@@ -1,6 +1,5 @@
 class Check {
-  // final DateInputElement date;
-  String note;
+  DateTime date;
   String checkno;
   String tablename;
   String locationname;
@@ -9,7 +8,7 @@ class Check {
   String status;
 
   Check({
-    required this.note,
+    required this.date,
     required this.checkno,
     required this.tablename,
     required this.locationname,
@@ -21,7 +20,7 @@ class Check {
 
 var checks = <Check>[
   Check(
-      note: "19/12/2020",
+      date: DateTime.utc(2020, 12, 19),
       checkno: "1912201",
       tablename: "A1",
       locationname: "Sảnh A",
@@ -29,7 +28,8 @@ var checks = <Check>[
       totalamount: 550000000,
       status: "Hoạt động"),
   Check(
-      note: "19/10/2022",
+      // date: DateTime.parse("formattedString"),
+      date: DateTime.utc(2022, 10, 19),
       checkno: "1910221",
       tablename: "L1-01",
       locationname: "Lầu 1",
@@ -37,7 +37,7 @@ var checks = <Check>[
       totalamount: 792000,
       status: "Hoạt động"),
   Check(
-      note: "19/12/2021",
+      date: DateTime.utc(2021, 12, 19),
       checkno: "19122131",
       tablename: "L2-01",
       locationname: "Lầu 2",
@@ -45,7 +45,7 @@ var checks = <Check>[
       totalamount: 550000,
       status: "Hoạt động"),
   Check(
-      note: "19/11/2020",
+      date: DateTime.utc(2020, 11, 19),
       checkno: "1911203",
       tablename: "B3",
       locationname: "Sảnh B",
@@ -53,7 +53,7 @@ var checks = <Check>[
       totalamount: 1100000,
       status: "Hủy"),
   Check(
-      note: "29/12/2020",
+      date: DateTime.utc(2020, 12, 29),
       checkno: "2912202",
       tablename: "A2",
       locationname: "Sảnh A",
@@ -61,7 +61,7 @@ var checks = <Check>[
       totalamount: 69300,
       status: "Đóng"),
   Check(
-      note: "20/12/2020",
+      date: DateTime.utc(2020, 12, 20),
       checkno: "2012203",
       tablename: "A5",
       locationname: "Sảnh A",

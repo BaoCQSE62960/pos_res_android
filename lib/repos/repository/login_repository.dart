@@ -1,32 +1,96 @@
+// ignore_for_file: avoid_print
+
 import 'package:http/http.dart';
 import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/repos/models/opening.dart';
 
 class LoginRepository {
   String uriConnect = uri;
   //login
-  Future<bool> login(String username, String password) async {
+  Future login(String username, String password) async {
+    String msg = "";
     bool result = false;
     Map data = {"username": username, "password": password};
     var body = json.encode(data);
-    // ignore: avoid_print
+
     print(body);
     Response res = await post(Uri.parse(uriConnect + '/login/'),
         headers: {"Content-Type": "application/json"}, body: body);
-    // ignore: avoid_print
+
     print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
       _updateCookie(res);
-      // ignore: avoid_print
       print("login success" + res.body);
+      msg = res.body;
     } else {
-      // ignore: avoid_print
-      print(res.body);
+      msg = res.body;
+      print("msg: " + msg);
     }
-    return result;
+
+    return [result, msg];
+  }
+
+  //get shift
+  Future<List<Shift>> getShifts() async {
+    headers = storage.getItem('headers');
+    Response res =
+        await get(Uri.parse(uriConnect + '/login/shift/'), headers: headers);
+    if (res.statusCode == 200) {
+      print('Get shift successful');
+      Map<String, dynamic> body = jsonDecode(res.body);
+      List<Shift> list = ListShift.fromJson(body['shiftList']).list;
+      return list;
+    } else {
+      throw Exception('Failed to load shift');
+      // print('Failed to load shift ' + res.body);
+      // return [];
+    }
+  }
+
+  //cashier open
+  Future open(String username, String password) async {
+    String msg = "";
+    bool result = false;
+    Map data = {"username": username, "password": password};
+    var body = json.encode(data);
+
+    print(body);
+    Response res = await post(Uri.parse(uriConnect + '/login/'),
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      result = true;
+      _updateCookie(res);
+      print("login success" + res.body);
+      msg = res.body;
+    } else {
+      msg = res.body;
+      print("msg: " + msg);
+    }
+
+    return [result, msg];
+  }
+
+//logout
+  Future logout() async {
+    String msg = "";
+    bool result = false;
+    Response res = await post(Uri.parse(uriConnect + '/logout/'),
+        headers: {"Content-Type": "application/json"});
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      result = true;
+      print("logout success" + res.body);
+    } else {
+      print(res.body);
+      msg = res.body;
+    }
+    return [result, msg];
   }
 
   // cookie

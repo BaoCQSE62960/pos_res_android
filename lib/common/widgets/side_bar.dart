@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/services/login_service.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({Key? key}) : super(key: key);
@@ -7,6 +9,15 @@ class SideBar extends StatefulWidget {
   @override
   State<SideBar> createState() => _SideBarState();
 }
+
+List result = [];
+Future logoutFromSystem() async {
+  LoginService service = LoginService();
+  result = await service.logout();
+  return result;
+}
+
+String closingAmount = "0";
 
 class _SideBarState extends State<SideBar> {
   @override
@@ -27,17 +38,6 @@ class _SideBarState extends State<SideBar> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed('/tableoverview');
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return BlocProvider(
-                    //         create: (context) => TableLayoutBloc(),
-                    //         child: const TableLayoutScreen(),
-                    //       );
-                    //     },
-                    //   ),
-                    // );
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -67,23 +67,11 @@ class _SideBarState extends State<SideBar> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed('/search/checklist');
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return const SearchCheckScreen();
-                    //     },
-                    //   ),
-                    // );
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
-                    // textStyle: GoogleFonts.fredokaOne(),
                   ),
-                  // color: sideBarColor,
-                  // padding: const EdgeInsets.all(20),
                   child: Column(
-                    // Replace with a Row for horizontal icon + text
                     children: const <Widget>[
                       Icon(
                         Icons.search,
@@ -103,27 +91,54 @@ class _SideBarState extends State<SideBar> {
                 ),
                 Container(
                   color: sideBarColor,
-                  height: defaultPadding * 28.5,
+                  // height: defaultPadding * 28.5,
+                  height: defaultPadding * 26,
                 ),
                 TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/logout');
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return const LoginScreen();
-                    //     },
-                    //   ),
-                    // );
+                  onPressed: () async {
+                    Navigator.of(context).pushNamed('/cashierlog');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
                   ),
-                  // color: sideBarColor,
-                  // padding: const EdgeInsets.all(20),
                   child: Column(
-                    // Replace with a Row for horizontal icon + text
+                    children: const <Widget>[
+                      Icon(
+                        Icons.text_snippet,
+                        size: defaultSize * 12,
+                        color: textLightColor,
+                      ),
+                      Text(
+                        'HOẠT ĐỘNG',
+                        style: TextStyle(
+                          fontSize: defaultSize * 2.4,
+                          fontWeight: FontWeight.w700,
+                          color: textLightColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    result = await logoutFromSystem();
+                    if (result[0] == true) {
+                      if (result[1].toString().contains("CASHIER")) {
+                        _closingDialog();
+                      } else {
+                        Navigator.of(context).pushNamed('/login');
+                      }
+                    }
+                    if (result[0] == false) {
+                      Navigator.of(context).pushNamed('/login');
+                      _logoutFailDialog();
+                      // print("message: " + result[1]);
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: sideBarColor,
+                  ),
+                  child: Column(
                     children: const <Widget>[
                       Icon(
                         Icons.logout,
@@ -146,6 +161,120 @@ class _SideBarState extends State<SideBar> {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _logoutFailDialog() async {
+    List split1, split2;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        String finalMsg = result[1];
+        split1 = finalMsg.split(':');
+        finalMsg = split1[1];
+        split2 = finalMsg.split('"');
+        finalMsg = split2[1];
+        return WarningPopUp(msg: finalMsg);
+      },
+    );
+  }
+
+  Future<void> _closingDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Xác nhận đóng ca',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: <Widget>[
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: defaultPadding * 0.5),
+                  child: SizedBox(
+                    height: defaultPadding * 4,
+                    width: defaultPadding * 13.5,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      cursorColor: textColor,
+                      onChanged: (value) {
+                        closingAmount = value;
+                      },
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: deactiveLightColor,
+                        prefixIconColor: primaryColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          borderSide: BorderSide.none,
+                        ),
+                        hintText: "Tiền đóng ca",
+                        prefixIcon: Icon(
+                          Icons.attach_money,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        right: defaultPadding * 0.5,
+                        bottom: defaultPadding * 0.5,
+                      ),
+                      child: SizedBox(
+                        width: defaultPadding * 6,
+                        child: ElevatedButton(
+                          child: const Text('Xác nhận'),
+                          onPressed: () {
+                            // ignore: avoid_print
+                            print(closingAmount);
+                            closingAmount = "0";
+                            // Navigator.of(context).pop();
+                            Navigator.of(context).pushNamed('/login');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: activeColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: defaultPadding * 0.5,
+                        bottom: defaultPadding * 0.5,
+                      ),
+                      child: SizedBox(
+                        width: defaultPadding * 6,
+                        child: ElevatedButton(
+                          child: const Text('Đóng'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: voidColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

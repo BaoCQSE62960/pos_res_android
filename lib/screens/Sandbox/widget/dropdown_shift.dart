@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/opening.dart';
+import 'package:pos_res_android/repos/models/shift.dart';
 import 'package:pos_res_android/repos/services/login_service.dart';
 
 List<Shift> list = [];

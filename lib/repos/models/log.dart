@@ -12,6 +12,14 @@ class CashierLog {
     required this.amount,
     required this.fullname,
   });
+
+  // factory CashierLog.fromJson(Map<String, dynamic> json) => CashierLog(
+  //       shiftname: json['shiftname'],
+  //       creationtime: json['creationtime'],
+  //       type: json['type'],
+  //       amount: json['amount'],
+  //       fullname: json['fullname'],
+  //     );
 }
 
 var logs = <CashierLog>[

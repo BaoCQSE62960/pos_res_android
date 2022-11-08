@@ -5,10 +5,11 @@ import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/opening.dart';
+import 'package:pos_res_android/repos/models/shift.dart';
 
 class LoginRepository {
   String uriConnect = uri;
+
   //login
   Future login(String username, String password) async {
     String msg = "";
@@ -52,21 +53,24 @@ class LoginRepository {
   }
 
   //cashier open
-  Future open(String username, String password) async {
+  Future open(int shiftId, int amount) async {
+    headers = storage.getItem('headers');
     String msg = "";
     bool result = false;
-    Map data = {"username": username, "password": password};
+    Map data = {"shiftid": shiftId, "amount": amount};
     var body = json.encode(data);
 
     print(body);
-    Response res = await post(Uri.parse(uriConnect + '/login/'),
-        headers: {"Content-Type": "application/json"}, body: body);
+    Response res = await put(
+        Uri.parse(uriConnect + '/login/cashieropen/$shiftId'),
+        headers: headers,
+        body: body);
 
     print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
-      _updateCookie(res);
-      print("login success" + res.body);
+      // _updateCookie(res);
+      print("open successful" + res.body);
       msg = res.body;
     } else {
       msg = res.body;
@@ -76,12 +80,59 @@ class LoginRepository {
     return [result, msg];
   }
 
-//logout
-  Future logout() async {
+  //cashier close
+  Future close(int amount) async {
+    headers = storage.getItem('headers');
     String msg = "";
     bool result = false;
-    Response res = await post(Uri.parse(uriConnect + '/logout/'),
-        headers: {"Content-Type": "application/json"});
+    Map data = {"amount": amount};
+    var body = json.encode(data);
+
+    print(body);
+    Response res = await post(Uri.parse(uriConnect + '/logout/cashierclose/'),
+        headers: headers, body: body);
+
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      result = true;
+      // _updateCookie(res);
+      print("close successful" + res.body);
+      msg = res.body;
+    } else {
+      msg = res.body;
+      print("msg: " + msg);
+    }
+
+    return [result, msg];
+  }
+
+  //get role
+  Future getRole() async {
+    String msg = "";
+    bool result = false;
+    headers = storage.getItem('headers');
+    Response res =
+        await get(Uri.parse(uriConnect + '/logout/role/'), headers: headers);
+    if (res.statusCode == 200) {
+      result = true;
+      print('Get role successful' + res.body);
+      msg = res.body;
+      print(msg);
+    } else {
+      print('Failed to load role ' + res.body);
+      msg = res.body;
+      print(msg);
+    }
+    return [result, msg];
+  }
+
+  //logout
+  Future logout() async {
+    headers = storage.getItem('headers');
+    String msg = "";
+    bool result = false;
+    Response res =
+        await post(Uri.parse(uriConnect + '/logout/'), headers: headers);
     print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;

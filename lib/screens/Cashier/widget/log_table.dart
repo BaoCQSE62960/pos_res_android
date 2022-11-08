@@ -33,6 +33,14 @@ class _LogDatatableState extends State<LogDatatable> {
               columns: const [
                 DataColumn(
                   label: Text(
+                    'Tên thu ngân',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
                     'Ca làm việc',
                     style: TextStyle(
                       // fontStyle: FontStyle.italic,
@@ -63,21 +71,14 @@ class _LogDatatableState extends State<LogDatatable> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Tên thu ngân',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  numeric: true,
+                  // numeric: true,
                 ),
               ],
               rows: logFilter
                   .map(
                     (logFilter) => DataRow(
                       cells: [
+                        DataCell(Text(logFilter.fullname)),
                         DataCell(Text(logFilter.shiftname)),
                         DataCell(
                             Text(newFormat.format(logFilter.creationtime))),
@@ -98,7 +99,6 @@ class _LogDatatableState extends State<LogDatatable> {
                           ),
                           showEditIcon: true,
                         ),
-                        DataCell(Text(logFilter.fullname)),
                       ],
                     ),
                   )

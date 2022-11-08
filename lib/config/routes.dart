@@ -31,9 +31,9 @@ String uriLocal = "http://localhost:5000";
 //Bao's uri
 //Home
 // String uri = "http://192.168.1.5:5000";
-String uri = "http://192.168.1.6:5000";
+// String uri = "http://192.168.1.6:5000";
 //Q9
-// String uri = "http://192.168.0.6:5000";
+String uri = "http://192.168.0.6:5000";
 
 //Duc's uri
 // String uri = "http://10.0.2.2:5000";

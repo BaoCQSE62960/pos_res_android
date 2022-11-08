@@ -10,16 +10,36 @@ class SideBar extends StatefulWidget {
   State<SideBar> createState() => _SideBarState();
 }
 
-List result = [];
-Future logoutFromSystem() async {
-  LoginService service = LoginService();
-  result = await service.logout();
-  return result;
-}
-
-String closingAmount = "0";
-
 class _SideBarState extends State<SideBar> {
+  List currentUserRole = [];
+  List result = [];
+  LoginService service = LoginService();
+  String closingAmount = "";
+  late int amount;
+
+  Future getCurrentUserRole() async {
+    LoginService service = LoginService();
+    currentUserRole = await service.getRole();
+    return currentUserRole;
+  }
+
+  Future logoutFromSystem() async {
+    LoginService service = LoginService();
+    result = await service.logout();
+    return result;
+  }
+
+  Future<void> _missingAmountDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        String msg = "Xin hãy nhập số tiền!";
+        return WarningPopUp(msg: msg);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -109,9 +129,9 @@ class _SideBarState extends State<SideBar> {
                         color: textLightColor,
                       ),
                       Text(
-                        'HOẠT ĐỘNG',
+                        'NHẬT KÝ',
                         style: TextStyle(
-                          fontSize: defaultSize * 2.4,
+                          fontSize: defaultSize * 2.5,
                           fontWeight: FontWeight.w700,
                           color: textLightColor,
                         ),
@@ -121,18 +141,17 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    result = await logoutFromSystem();
-                    if (result[0] == true) {
-                      if (result[1].toString().contains("CASHIER")) {
-                        _closingDialog();
+                    currentUserRole = await getCurrentUserRole();
+                    if (currentUserRole[1].toString().contains("CASHIER")) {
+                      _closingDialog();
+                    } else {
+                      result = await logoutFromSystem();
+                      if (result[0] == true) {
+                        Navigator.of(context).pushNamed('/login');
                       } else {
                         Navigator.of(context).pushNamed('/login');
+                        _logoutFailDialog();
                       }
-                    }
-                    if (result[0] == false) {
-                      Navigator.of(context).pushNamed('/login');
-                      _logoutFailDialog();
-                      // print("message: " + result[1]);
                     }
                   },
                   style: TextButton.styleFrom(
@@ -237,12 +256,21 @@ class _SideBarState extends State<SideBar> {
                         width: defaultPadding * 6,
                         child: ElevatedButton(
                           child: const Text('Xác nhận'),
-                          onPressed: () {
-                            // ignore: avoid_print
-                            print(closingAmount);
-                            closingAmount = "0";
-                            // Navigator.of(context).pop();
-                            Navigator.of(context).pushNamed('/login');
+                          onPressed: () async {
+                            if (closingAmount.isEmpty) {
+                              _missingAmountDialog();
+                            } else {
+                              amount = int.parse(closingAmount);
+                              service.close(amount);
+                              result = await logoutFromSystem();
+                              if (result[0] == true) {
+                                Navigator.of(context).pushNamed('/login');
+                              } else {
+                                Navigator.of(context).pushNamed('/login');
+                                _logoutFailDialog();
+                              }
+                            }
+                            closingAmount = "";
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: activeColor,

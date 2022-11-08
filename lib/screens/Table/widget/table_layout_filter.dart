@@ -3,11 +3,14 @@ import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/widget/location_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/status_filter.dart';
 
-class FilterSection extends StatelessWidget {
-  const FilterSection({
-    Key? key,
-  }) : super(key: key);
+class FilterSection extends StatefulWidget {
+  const FilterSection({Key? key}) : super(key: key);
 
+  @override
+  State<FilterSection> createState() => _FilterSectionState();
+}
+
+class _FilterSectionState extends State<FilterSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,19 +20,15 @@ class FilterSection extends StatelessWidget {
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              child: Padding(
-                padding: EdgeInsets.all(defaultPadding / 3.5),
-                child: StatusFilter(),
-              ),
+            const Padding(
+              padding: EdgeInsets.all(defaultPadding / 3.5),
+              child: StatusFilter(),
             ),
-            SizedBox(
-              child: Container(
-                  color: textLightColor,
-                  width: MediaQuery.of(context).size.width * 0.5 +
-                      defaultPadding * 5,
-                  child: const LocationFilter()),
-            ),
+            Container(
+                color: textLightColor,
+                width: MediaQuery.of(context).size.width * 0.5 +
+                    defaultPadding * 5,
+                child: const LocationFilter()),
           ],
         ),
       ),

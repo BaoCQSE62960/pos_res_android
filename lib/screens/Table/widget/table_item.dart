@@ -135,21 +135,24 @@ class TableItem extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: defaultPadding * 2.5,
-                                height: defaultPadding * 2.5,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                              Visibility(
+                                visible: true,
+                                child: SizedBox(
+                                  width: defaultPadding * 2.5,
+                                  height: defaultPadding * 2.5,
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    style: TextButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      backgroundColor: warningColor,
                                     ),
-                                    backgroundColor: warningColor,
-                                  ),
-                                  child: const Icon(
-                                    Icons.dining,
-                                    size: defaultPadding * 1.5,
-                                    color: textLightColor,
+                                    child: const Icon(
+                                      Icons.dining,
+                                      size: defaultPadding * 1.5,
+                                      color: textLightColor,
+                                    ),
                                   ),
                                 ),
                               ),

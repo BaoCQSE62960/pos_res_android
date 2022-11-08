@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/opening.dart';
+import 'package:pos_res_android/repos/models/shift.dart';
 import 'package:pos_res_android/repos/repository/login_repository.dart';
 
 class LoginService {
@@ -14,5 +14,17 @@ class LoginService {
 
   Future<List<Shift>> getShifts() async {
     return repos.getShifts();
+  }
+
+  Future getRole() async {
+    return repos.getRole();
+  }
+
+  Future open(int shiftId, int amount) async {
+    return repos.open(shiftId, amount);
+  }
+
+  Future close(int amount) async {
+    return repos.close(amount);
   }
 }

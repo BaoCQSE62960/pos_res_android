@@ -1,22 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/common/utils/socket.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
+import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 import 'package:pos_res_android/screens/Table/widget/table_item.dart';
 
 class TableLayout extends StatelessWidget {
-  const TableLayout({Key? key}) : super(key: key);
+  // const TableLayout({Key? key, required this.context, required this.socket})
+  //     : super(key: key);
+  const TableLayout({Key? key, required this.context}) : super(key: key);
+
+  final BuildContext context;
+  // final Socket socket;
 
   Widget getTextWidgets(int num) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     List<Widget> list = <Widget>[];
     for (var i = 0; i < num; i++) {
       list.add(
         SizedBox(
           child: TableItem(
-            id: i.toString(),
+            tableDetail: tableBloc.state.tableOverview.listTable[i],
           ),
         ),
       );
@@ -55,9 +62,13 @@ class TableLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    // socket.socket.on('update-pos-tableOverview', (data) {
+    //   tableBloc.add(LoadData(locationID: '0'));
+    // });
     return Scaffold(
       backgroundColor: textLightColor,
-      body: getTextWidgets(7),
+      body: getTextWidgets(tableBloc.state.tableOverview.listTable.length),
     );
   }
 

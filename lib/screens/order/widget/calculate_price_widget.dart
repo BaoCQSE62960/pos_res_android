@@ -74,6 +74,7 @@ Container calculatePriceWidget(BuildContext context) {
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             CustomToolButton(
+              onPressed: () {},
               icons: const Icon(
                 Icons.delete,
                 color: voidColor,
@@ -83,6 +84,7 @@ Container calculatePriceWidget(BuildContext context) {
               color: voidColorBackground,
             ),
             CustomToolButton(
+              onPressed: () {},
               icons: const Icon(
                 Icons.notifications,
                 color: warningColor,
@@ -92,6 +94,9 @@ Container calculatePriceWidget(BuildContext context) {
               color: warningColorBackground,
             ),
             CustomToolButton(
+              onPressed: () {
+                orderBloc.add(SendOrder());
+              },
               icons: const Icon(
                 Icons.send,
                 color: activeColor,

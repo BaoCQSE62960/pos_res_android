@@ -5,5 +5,5 @@ class SpecialRequests {
   final String name;
 
   factory SpecialRequests.fromJson(Map<String, dynamic> json) =>
-      SpecialRequests(id: json['id'], name: json['name']);
+      SpecialRequests(id: json['id'] ?? 0, name: json['name']);
 }

@@ -11,6 +11,7 @@ import 'package:pos_res_android/repos/repository/menu_repository.dart';
 import 'package:pos_res_android/repos/repository/note_repository.dart';
 import 'package:pos_res_android/repos/repository/specialrequests_repository.dart';
 import 'package:pos_res_android/repos/repository/tableinfo_repository.dart';
+import 'package:pos_res_android/repos/repository/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
@@ -50,7 +51,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   specialRequestsRepository: SpecialRequestsRepositoryImpl())
                 ..add(LoadData())),
           BlocProvider(
-            create: (context) => TableLayoutBloc(),
+            create: (context) => TableLayoutBloc(
+                tableOverviewRepository: TableOverviewRepositoryImpl()),
           )
         ],
         child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(

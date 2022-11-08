@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/specialrequest.dart';
+import 'package:pos_res_android/repos/models/checkdetail.dart';
 import 'package:pos_res_android/repos/models/specialrequests.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
@@ -36,17 +36,22 @@ class OrderDetailInfo extends StatelessWidget {
         itemBuilder: (context, index) {
           return Slidable(
             child: ActionItemList(
+                checkDetail: orderBloc.state.check.checkDetail[index],
                 name: orderBloc.state.check.checkDetail[index].itemname,
                 sepcialRequest: specialRequestProcess(
                     orderBloc.state.check.checkDetail[index].specialRequest),
-                price: currencyFormat
-                    .format(orderBloc.state.check.checkDetail[index].amount),
+                price: orderBloc.state.check.checkDetail[index].isLocal
+                    ? currencyFormat.format(
+                        orderBloc.state.check.checkDetail[index].amount *
+                            orderBloc.state.check.checkDetail[index].quantity)
+                    : currencyFormat.format(
+                        orderBloc.state.check.checkDetail[index].amount),
                 isDone: false),
-            startActionPane: orderBloc.state.check.checkDetail[index].status ==
-                    'WAITING'
-                ? WaitingOrderActionPane(
-                    orderBloc.state.check.checkDetail[index].itemid, orderBloc)
-                : DoneOrderActionPane(),
+            startActionPane:
+                orderBloc.state.check.checkDetail[index].status == 'WAITING'
+                    ? WaitingOrderActionPane(
+                        orderBloc.state.check.checkDetail[index], orderBloc)
+                    : DoneOrderActionPane(),
             endActionPane: ChangeOrderActionPane(context),
           );
         },
@@ -55,7 +60,8 @@ class OrderDetailInfo extends StatelessWidget {
   }
 
   // ignore: non_constant_identifier_names
-  ActionPane WaitingOrderActionPane(int itemid, OrderLayoutBloc orderBloc) {
+  ActionPane WaitingOrderActionPane(
+      CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
       motion: const ScrollMotion(),
       children: [
@@ -68,8 +74,10 @@ class OrderDetailInfo extends StatelessWidget {
         ),
         SlidableAction(
           onPressed: (context) {
-            orderBloc.add(LoadSpecialRequestsForItem(id: itemid));
-            specialRequestDialog(context);
+            orderBloc.add(LoadSpecialRequestsForItem(
+                itemid: checkDetail.itemid,
+                checkdetailid: checkDetail.checkdetailidLocal));
+            specialRequestDialog(context, checkDetail.checkdetailidLocal);
           },
           backgroundColor: warningColor,
           foregroundColor: Colors.white,
@@ -125,7 +133,7 @@ class OrderDetailInfo extends StatelessWidget {
     );
   }
 
-  String specialRequestProcess(List<SpecialRequest> specialRequests) {
+  String specialRequestProcess(List<SpecialRequests> specialRequests) {
     String result = '';
     specialRequests.asMap().forEach((key, value) {
       if (key == 0) {
@@ -137,7 +145,8 @@ class OrderDetailInfo extends StatelessWidget {
     return result;
   }
 
-  Future<dynamic> specialRequestDialog(BuildContext context) {
+  Future<dynamic> specialRequestDialog(
+      BuildContext context, int checkdetailid) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return showDialog(
         context: context,
@@ -195,7 +204,7 @@ class OrderDetailInfo extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5.0),
                             child: state.orderLayoutStatus.isLoading
-                                ? CircularProgressIndicator()
+                                ? const CircularProgressIndicator()
                                 : Container(
                                     height: 350,
                                     width: double.infinity,
@@ -220,9 +229,13 @@ class OrderDetailInfo extends StatelessWidget {
                                                 ? false
                                                 : state
                                                     .listSelectedSpecialRequest
-                                                    .contains(orderBloc.state
+                                                    .any((element) =>
+                                                        element.id ==
+                                                        orderBloc
+                                                            .state
                                                             .listSpecialRequest[
-                                                        index]),
+                                                                index]
+                                                            .id),
                                             onChanged: (value) {
                                               orderBloc.add(
                                                   SelectSpecialRequestForItem(
@@ -244,7 +257,10 @@ class OrderDetailInfo extends StatelessWidget {
                               width: double.infinity,
                               child: CustomElevatedButton(
                                 text: 'order.confirm'.tr(),
-                                callback: () {},
+                                callback: () {
+                                  orderBloc.add(UpdateSpecialRequestForItem(
+                                      checkdetailid: checkdetailid));
+                                },
                               ),
                             ),
                           ),
@@ -299,6 +315,8 @@ class OrderDetailInfo extends StatelessWidget {
                             itemCount: orderBloc.state.check.checkDetail.length,
                             itemBuilder: (context, index) {
                               return ActionItemList(
+                                  checkDetail:
+                                      orderBloc.state.check.checkDetail[index],
                                   currentMode: Mode.changeorder,
                                   name: orderBloc
                                       .state.check.checkDetail[index].itemname,
@@ -328,7 +346,7 @@ class OrderDetailInfo extends StatelessWidget {
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: const [
+                                      children: [
                                         FilterSection(),
                                         Expanded(child: TableSection()),
                                       ],

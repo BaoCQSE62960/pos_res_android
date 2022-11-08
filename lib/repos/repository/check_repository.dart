@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:pos_res_android/repos/models/check.dart';
+import 'package:pos_res_android/repos/models/dto/checkDTO.dart';
 import 'package:pos_res_android/repos/services/check_service.dart';
 
 class CheckRepositoryImpl extends CheckService {
@@ -14,6 +15,24 @@ class CheckRepositoryImpl extends CheckService {
       return Check.fromJson(responseJson);
     } else {
       throw Exception('Failed to load menu');
+    }
+  }
+
+  @override
+  Future<http.Response> updateCheck(CheckDTO checkDTO) async {
+    var body = json.encode(checkDTO.toJson());
+    http.Response response =
+        await http.post(Uri.parse("http://10.0.2.2:5000/order/check/add"),
+            headers: {
+              "Content-Type": "application/json",
+              "Cookie":
+                  "connect.sid=s%3A2jUJ9cTZJX-mDC1TWWXCDTB6GXK1dn7y.WyjkzTT5wgw6HJ0Y%2BpxqJQg%2F7xY0Bto5apUSF8RTRj0"
+            },
+            body: body);
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to update table info');
     }
   }
 }

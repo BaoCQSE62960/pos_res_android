@@ -1,8 +1,9 @@
-import 'package:pos_res_android/repos/models/specialrequest.dart';
+import 'package:pos_res_android/repos/models/specialrequests.dart';
 
 class CheckDetail {
   CheckDetail(
-      {required this.checkdetailid,
+      {required this.checkdetailidLocal,
+      required this.checkdetailid,
       required this.itemid,
       required this.itemname,
       required this.quantity,
@@ -10,28 +11,33 @@ class CheckDetail {
       required this.isreminded,
       required this.amount,
       required this.status,
-      required this.specialRequest});
+      required this.specialRequest,
+      required this.isLocal});
 
+  final int checkdetailidLocal;
   final int checkdetailid;
   final int itemid;
   final String itemname;
-  final int quantity;
+  int quantity;
   final String note;
   final bool isreminded;
-  final int amount;
+  int amount;
   final String status;
-  List<SpecialRequest> specialRequest;
+  final bool isLocal;
+  List<SpecialRequests> specialRequest;
 
   factory CheckDetail.fromJson(Map<String, dynamic> json) => CheckDetail(
+      checkdetailidLocal: -1,
+      isLocal: false,
       checkdetailid: json['checkdetailid'],
       itemid: json['itemid'],
       itemname: json['itemname'],
       quantity: json['quantity'],
       note: json['note'],
       isreminded: json['isreminded'],
-      amount: json['amount'],
+      amount: json['subtotal'],
       status: json['status'],
       specialRequest: (json['specialrequest'] as List)
-          .map((e) => SpecialRequest.fromJson(e))
+          .map((e) => SpecialRequests.fromJson(e))
           .toList());
 }

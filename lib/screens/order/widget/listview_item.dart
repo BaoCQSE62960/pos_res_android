@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/checkdetail.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
 
 enum Mode { orderdetail, changeorder }
@@ -11,12 +12,14 @@ class ActionItemList extends StatelessWidget {
       required this.sepcialRequest,
       required this.price,
       required this.isDone,
+      required this.checkDetail,
       this.currentMode = Mode.orderdetail});
   final String name;
   final String sepcialRequest;
   final String price;
   final bool isDone;
   final Mode currentMode;
+  final CheckDetail checkDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,10 @@ class ActionItemList extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-                margin: const EdgeInsets.all(5), child: CustomQuantityButton()),
+                margin: const EdgeInsets.all(5),
+                child: CustomQuantityButton(
+                  checkDetail: checkDetail,
+                )),
             flex: 1,
           ),
           Expanded(

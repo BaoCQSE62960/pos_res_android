@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/item.dart';
 import 'package:pos_res_android/repos/models/specialrequests.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
 
 class OrderLayoutEvent extends Equatable {
   @override
@@ -48,9 +49,11 @@ class UpdateNote extends OrderLayoutEvent {
 }
 
 class LoadSpecialRequestsForItem extends OrderLayoutEvent {
-  LoadSpecialRequestsForItem({required this.id});
+  LoadSpecialRequestsForItem(
+      {required this.itemid, required this.checkdetailid});
 
-  final int id;
+  final int itemid;
+  final int checkdetailid;
 }
 
 class SelectSpecialRequestForItem extends OrderLayoutEvent {
@@ -60,7 +63,18 @@ class SelectSpecialRequestForItem extends OrderLayoutEvent {
 }
 
 class UpdateSpecialRequestForItem extends OrderLayoutEvent {
-  UpdateSpecialRequestForItem({required this.checkid});
+  UpdateSpecialRequestForItem({required this.checkdetailid});
 
-  final int checkid;
+  final int checkdetailid;
+}
+
+class UpdateQuantity extends OrderLayoutEvent {
+  UpdateQuantity({required this.checkDetailIDLocal, required this.mode});
+
+  final int checkDetailIDLocal;
+  final QuantityUpdateMode mode;
+}
+
+class SendOrder extends OrderLayoutEvent {
+  SendOrder();
 }

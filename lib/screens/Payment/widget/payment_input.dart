@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
+import 'package:pos_res_android/config/theme.dart';
 
 class PaymentInput extends StatelessWidget {
   const PaymentInput({

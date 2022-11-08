@@ -17,7 +17,8 @@ class CustomToolButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 80,
+      // width: 80,
+      width: 110,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: color,

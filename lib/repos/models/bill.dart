@@ -1,11 +1,10 @@
 class Bill {
-  // final DateInputElement date;
-  String date;
+  DateTime date;
   String billNo;
   String tableName;
   String locationName;
-  int tax;
-  int total;
+  int totaltax;
+  int totalamount;
   String status;
 
   Bill({
@@ -13,27 +12,27 @@ class Bill {
     required this.billNo,
     required this.tableName,
     required this.locationName,
-    required this.tax,
-    required this.total,
+    required this.totaltax,
+    required this.totalamount,
     required this.status,
   });
 }
 
 var bills = <Bill>[
   Bill(
-      date: "29/12/2020",
+      date: DateTime.utc(2020, 12, 29),
       billNo: "2912202",
       tableName: "A2",
       locationName: "Sảnh A",
-      tax: 6300,
-      total: 69300,
+      totaltax: 6300,
+      totalamount: 69300,
       status: "Hoàn tiền"),
   Bill(
-      date: "20/12/2020",
+      date: DateTime.utc(2020, 12, 20),
       billNo: "2012205",
       tableName: "A5",
       locationName: "Sảnh A",
-      tax: 50000,
-      total: 550000,
+      totaltax: 50000,
+      totalamount: 550000,
       status: "Đóng"),
 ];

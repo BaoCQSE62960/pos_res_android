@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
+import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/config/theme.dart';
 
 class LoginScreenImage extends StatelessWidget {
   const LoginScreenImage({
@@ -11,8 +10,6 @@ class LoginScreenImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // String logoURL = "assets/images/Logo.png";
-    String logoURL =
-        "https://firebasestorage.googleapis.com/v0/b/pos-restaurant-30dcc.appspot.com/o/logo.png?alt=media&token=3abf9469-7d3c-49e7-a2dd-d47dbdb03f37";
     return Column(
       children: [
         // const Text(

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pos_res_android/repos/models/majorgroup.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 
 enum TableLayoutStatus { initial, success, error, loading, selected }

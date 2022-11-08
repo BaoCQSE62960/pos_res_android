@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Bill/widget/detail_btn.dart';
-import 'package:pos_res_android/screens/Transaction/widget/buttons/refund_btn.dart';
+import 'package:pos_res_android/screens/Sandbox/widget/buttons/detail_btn.dart';
+import 'package:pos_res_android/screens/Bill/widget/refund_btn.dart';
 
 class BillScreen extends StatelessWidget {
   const BillScreen({Key? key}) : super(key: key);
@@ -235,7 +234,7 @@ class BillScreen extends StatelessWidget {
                                             Radius.circular(30)),
                                         borderSide: BorderSide.none,
                                       ),
-                                      hintText: "Thanh toán: "
+                                      hintText: "Thành tiền: "
                                           "69.300",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,

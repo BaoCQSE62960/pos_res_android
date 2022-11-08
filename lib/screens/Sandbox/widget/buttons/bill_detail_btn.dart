@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Check/check_screen.dart';
+import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 
-class CheckDetailBtn extends StatelessWidget {
-  const CheckDetailBtn({Key? key}) : super(key: key);
+class BillDetailBtn extends StatelessWidget {
+  const BillDetailBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "check_detail_btn",
+      tag: "bill_detail_btn",
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(
@@ -24,7 +23,8 @@ class CheckDetailBtn extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const CheckScreen();
+                  return const BillDetailScreen();
+                  // return const BillScreen();
                 },
               ),
             );

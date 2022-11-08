@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/order_screen.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
 
 class TableItem extends StatelessWidget {
   const TableItem({Key? key, required this.id}) : super(key: key);
@@ -43,7 +40,7 @@ class TableItem extends StatelessWidget {
                 color: deactiveColor,
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                    width: 2,
+                    width: defaultSize * 0.5,
                     color: state.currentSelectedMode == SelectedMode.NONE
                         ? deactiveColor
                         : (state.firstSelectedTableName == id ||
@@ -68,8 +65,9 @@ class TableItem extends StatelessWidget {
                         topRight: Radius.circular(15.0),
                       ),
                     ),
-                    height: defaultPadding * 2,
-                    width: defaultPadding * 11,
+                    height: defaultPadding * 2 - defaultSize * 0.9,
+                    // width: defaultPadding * 11,
+                    width: defaultPadding * 12,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -100,7 +98,8 @@ class TableItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: defaultPadding * 11,
+                    // width: defaultPadding * 11,
+                    width: defaultPadding * 12,
                     height: defaultPadding * 5,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -136,21 +135,24 @@ class TableItem extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: defaultPadding * 2.5,
-                                height: defaultPadding * 2.5,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                              Visibility(
+                                visible: true,
+                                child: SizedBox(
+                                  width: defaultPadding * 2.5,
+                                  height: defaultPadding * 2.5,
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    style: TextButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      backgroundColor: warningColor,
                                     ),
-                                    backgroundColor: warningColor,
-                                  ),
-                                  child: const Icon(
-                                    Icons.dining,
-                                    size: defaultPadding * 1.5,
-                                    color: textLightColor,
+                                    child: const Icon(
+                                      Icons.dining,
+                                      size: defaultPadding * 1.5,
+                                      color: textLightColor,
+                                    ),
                                   ),
                                 ),
                               ),

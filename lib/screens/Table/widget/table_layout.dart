@@ -1,13 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
-import 'table_item.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:pos_res_android/screens/Table/widget/table_item.dart';
 
 class TableLayout extends StatelessWidget {
   const TableLayout({Key? key}) : super(key: key);
@@ -43,10 +41,12 @@ class TableLayout extends StatelessWidget {
         },
         child: GridView(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              // crossAxisCount: 5,
               crossAxisCount: 6,
               crossAxisSpacing: defaultPadding,
               mainAxisSpacing: defaultPadding * 0.5,
-              childAspectRatio: 1.55,
+              // childAspectRatio: 1.55,
+              childAspectRatio: 1.65,
             ),
             children: list),
       ),

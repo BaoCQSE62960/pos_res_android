@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Check/widget/detail_btn.dart';
+import 'package:pos_res_android/screens/Sandbox/widget/buttons/detail_btn(check).dart';
 import 'package:pos_res_android/screens/Table/widget/buttons/payment_btn.dart';
 import 'package:pos_res_android/screens/order/order.dart';
 
@@ -398,7 +397,7 @@ class CheckScreen extends StatelessWidget {
                                             Radius.circular(30)),
                                         borderSide: BorderSide.none,
                                       ),
-                                      hintText: "Thanh toán: "
+                                      hintText: "Thành tiền: "
                                           "550.000",
                                       hintStyle: TextStyle(
                                           fontSize: defaultSize * 4.5,

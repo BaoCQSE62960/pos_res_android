@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/common/widgets/background.dart';
+import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/widget/table_action_button.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
-
-import '../../common/widgets/background.dart';
-import '../../common/widgets/responsive.dart';
 
 class TableLayoutScreen extends StatefulWidget {
   const TableLayoutScreen({Key? key}) : super(key: key);

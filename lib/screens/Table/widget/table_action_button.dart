@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/Table/widget/buttons/transaction_btn.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/widget/buttons/transfer_check_btn.dart';
 import 'package:pos_res_android/screens/Table/widget/buttons/transfer_table_btn.dart';
-
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
 
 class ActionButton extends StatefulWidget {
   const ActionButton({Key? key}) : super(key: key);

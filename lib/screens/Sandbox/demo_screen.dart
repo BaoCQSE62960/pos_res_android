@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/common/widgets/background.dart';
+import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
+import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/screens/Table/widget/location_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_action_button.dart';
 import 'package:pos_res_android/screens/Table/widget/status_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout.dart';
-
-import '../../common/widgets/background.dart';
-import '../../common/widgets/responsive.dart';
-import '../../config/routes.dart';
-import '../../config/theme.dart';
-import '../Table/widget/location_filter.dart';
 
 class DemoScreen extends StatelessWidget {
   const DemoScreen({Key? key}) : super(key: key);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/ChangeShift/change_shift_bloc.dart';
-import 'package:pos_res_android/screens/ChangeShift/change_shift_state.dart';
+import 'package:pos_res_android/screens/Sandbox/ChangeShift/change_shift_bloc.dart';
+import 'package:pos_res_android/screens/Sandbox/ChangeShift/change_shift_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ChangeShiftScreen extends StatefulWidget {

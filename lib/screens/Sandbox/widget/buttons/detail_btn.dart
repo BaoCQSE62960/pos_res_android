@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Bill/bill_screen.dart';
+import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 
-class BillDetailBtn extends StatelessWidget {
-  const BillDetailBtn({Key? key}) : super(key: key);
+class AllBillDetailBtn extends StatelessWidget {
+  const AllBillDetailBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "bill_detail_btn",
+      tag: "all_bill_detail_btn",
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(
@@ -24,13 +23,13 @@ class BillDetailBtn extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const BillScreen();
+                  return const BillDetailScreen();
                 },
               ),
             );
           },
           child: Text(
-            "Xem hóa đơn".toUpperCase(),
+            "Chi tiết".toUpperCase(),
           ),
         ),
       ),

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/screens/Check/widget/check_info.dart';
+import 'package:pos_res_android/screens/Check/widget/item_detail.dart';
 import 'package:pos_res_android/screens/order/widget/order_general_info_widget.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class CheckDetailScreen extends StatelessWidget {
   const CheckDetailScreen({Key? key}) : super(key: key);
@@ -21,178 +21,53 @@ class CheckDetailScreen extends StatelessWidget {
                 const SizedBox(
                   child: SideBar(),
                 ),
-                Expanded(
-                  flex: 4,
-                  child: Container(
-                    width: defaultPadding * 20,
-                    height: defaultPadding * 43.5,
-                    decoration: const BoxDecoration(
-                      color: textLightColor,
-                    ),
-                    child: Column(
+                Column(
+                  children: [
+                    Row(
                       children: [
-                        const Expanded(flex: 1, child: OrderGeneralInfo()),
-                        const Divider(color: dividerColor),
-                        Expanded(
-                          flex: 15,
-                          child: Scrollbar(
-                            child: ListView.separated(
-                              separatorBuilder: (context, index) {
-                                return const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 30.0),
-                                  child: Divider(
-                                    color: dividerColor,
-                                  ),
-                                );
-                              },
-                              itemCount: 6,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  margin: const EdgeInsets.all(10),
-                                  width: double.infinity,
-                                  height: defaultPadding * 3,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          margin: const EdgeInsets.all(5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "1",
-                                                    style: TextStyle(
-                                                      color: textColor2,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        flex: 1,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          margin: const EdgeInsets.all(5),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Cánh gà chiên",
-                                                      style: TextStyle(
-                                                          color: textColor2),
-                                                    ),
-                                                    Text(
-                                                      "Size vừa",
-                                                      style: TextStyle(
-                                                          color: textColor2),
-                                                    ),
-                                                  ]),
-                                              const Spacer(),
-                                              Row(
-                                                children: [
-                                                  Text("10.500",
-                                                      style: TextStyle(
-                                                          color: textColor2,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        flex: 8,
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
+                        Container(
+                          color: textLightColor,
+                          width: defaultPadding * 2.5,
+                          height: defaultPadding * 2.5,
+                          child: const Padding(
+                            padding:
+                                EdgeInsets.only(top: defaultPadding * 0.25),
+                            child: BackButton(color: textColor),
                           ),
                         ),
-                        const Divider(color: dividerColor),
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'order.subtotal'.tr(),
-                                        style: TextStyle(color: textColor2),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "63.000",
-                                        style: TextStyle(
-                                            color: textColor2,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ]),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'order.tax'.tr(),
-                                        style: TextStyle(color: textColor2),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "6.300",
-                                        style: TextStyle(
-                                            color: textColor2,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 20),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'order.total'.tr(),
-                                        style: TextStyle(
-                                            color: textColor2,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "69.300",
-                                        style: TextStyle(
-                                            color: textColor2,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        Container(
+                            color: textLightColor,
+                            width: MediaQuery.of(context).size.width -
+                                defaultPadding * 7,
+                            height: defaultPadding * 2.5,
+                            child: const Padding(
+                              padding:
+                                  EdgeInsets.only(top: defaultPadding * 0.5),
+                              child: OrderGeneralInfo(),
+                            )),
                       ],
                     ),
-                  ),
+                    Row(
+                      children: [
+                        Container(
+                          color: textLightColor,
+                          height: MediaQuery.of(context).size.height -
+                              defaultPadding * 4,
+                          width: MediaQuery.of(context).size.width * 0.6 -
+                              defaultPadding * 4.5,
+                          child: const Padding(
+                            padding: EdgeInsets.all(defaultPadding),
+                            child: CheckInfo(),
+                          ),
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height -
+                                defaultPadding * 4,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: const CheckItemDetail()),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),

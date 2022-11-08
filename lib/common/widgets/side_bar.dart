@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/screens/ChangeShift/change_shift_screen.dart';
-import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
-import '../../config/routes.dart';
-import '../../config/theme.dart';
-import '../../screens/Login/login_screen.dart';
-import '../../screens/Table/table_layout_screen.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
+import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/services/login_service.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({Key? key}) : super(key: key);
@@ -14,6 +11,35 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
+  List currentUserRole = [];
+  List result = [];
+  LoginService service = LoginService();
+  String closingAmount = "";
+  late int amount;
+
+  Future getCurrentUserRole() async {
+    LoginService service = LoginService();
+    currentUserRole = await service.getRole();
+    return currentUserRole;
+  }
+
+  Future logoutFromSystem() async {
+    LoginService service = LoginService();
+    result = await service.logout();
+    return result;
+  }
+
+  Future<void> _missingAmountDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        String msg = "Xin hãy nhập số tiền!";
+        return WarningPopUp(msg: msg);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -21,7 +47,7 @@ class _SideBarState extends State<SideBar> {
         Container(
           color: sideBarColor,
           child: SizedBox(
-            height: MediaQuery.of(context).size.height - defaultPadding * 1.5,
+            height: MediaQuery.of(context).size.height - defaultPadding * 1.4,
             // width: defaultPadding * 6,
             //width: MediaQuery.of(context).size.width / 14,
             child: Column(
@@ -31,14 +57,7 @@ class _SideBarState extends State<SideBar> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const TableLayoutScreen();
-                        },
-                      ),
-                    );
+                    Navigator.of(context).pushNamed('/tableoverview');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -67,23 +86,12 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const SearchCheckScreen();
-                        },
-                      ),
-                    );
+                    Navigator.of(context).pushNamed('/search/checklist');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
-                    // textStyle: GoogleFonts.fredokaOne(),
                   ),
-                  // color: sideBarColor,
-                  // padding: const EdgeInsets.all(20),
                   child: Column(
-                    // Replace with a Row for horizontal icon + text
                     children: const <Widget>[
                       Icon(
                         Icons.search,
@@ -103,26 +111,53 @@ class _SideBarState extends State<SideBar> {
                 ),
                 Container(
                   color: sideBarColor,
-                  height: defaultPadding * 28.5,
+                  // height: defaultPadding * 28.5,
+                  height: defaultPadding * 26,
                 ),
                 TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const LoginScreen();
-                        },
-                      ),
-                    );
+                  onPressed: () async {
+                    Navigator.of(context).pushNamed('/cashierlog');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
                   ),
-                  // color: sideBarColor,
-                  // padding: const EdgeInsets.all(20),
                   child: Column(
-                    // Replace with a Row for horizontal icon + text
+                    children: const <Widget>[
+                      Icon(
+                        Icons.text_snippet,
+                        size: defaultSize * 12,
+                        color: textLightColor,
+                      ),
+                      Text(
+                        'NHẬT KÝ',
+                        style: TextStyle(
+                          fontSize: defaultSize * 2.5,
+                          fontWeight: FontWeight.w700,
+                          color: textLightColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    currentUserRole = await getCurrentUserRole();
+                    if (currentUserRole[1].toString().contains("CASHIER")) {
+                      _closingDialog();
+                    } else {
+                      result = await logoutFromSystem();
+                      if (result[0] == true) {
+                        Navigator.of(context).pushNamed('/login');
+                      } else {
+                        Navigator.of(context).pushNamed('/login');
+                        _logoutFailDialog();
+                      }
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: sideBarColor,
+                  ),
+                  child: Column(
                     children: const <Widget>[
                       Icon(
                         Icons.logout,
@@ -145,6 +180,129 @@ class _SideBarState extends State<SideBar> {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _logoutFailDialog() async {
+    List split1, split2;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        String finalMsg = result[1];
+        split1 = finalMsg.split(':');
+        finalMsg = split1[1];
+        split2 = finalMsg.split('"');
+        finalMsg = split2[1];
+        return WarningPopUp(msg: finalMsg);
+      },
+    );
+  }
+
+  Future<void> _closingDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Xác nhận đóng ca',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: <Widget>[
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: defaultPadding * 0.5),
+                  child: SizedBox(
+                    height: defaultPadding * 4,
+                    width: defaultPadding * 13.5,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      cursorColor: textColor,
+                      onChanged: (value) {
+                        closingAmount = value;
+                      },
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: deactiveLightColor,
+                        prefixIconColor: primaryColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          borderSide: BorderSide.none,
+                        ),
+                        hintText: "Tiền đóng ca",
+                        prefixIcon: Icon(
+                          Icons.attach_money,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        right: defaultPadding * 0.5,
+                        bottom: defaultPadding * 0.5,
+                      ),
+                      child: SizedBox(
+                        width: defaultPadding * 6,
+                        child: ElevatedButton(
+                          child: const Text('Xác nhận'),
+                          onPressed: () async {
+                            if (closingAmount.isEmpty) {
+                              _missingAmountDialog();
+                            } else {
+                              amount = int.parse(closingAmount);
+                              service.close(amount);
+                              result = await logoutFromSystem();
+                              if (result[0] == true) {
+                                Navigator.of(context).pushNamed('/login');
+                              } else {
+                                Navigator.of(context).pushNamed('/login');
+                                _logoutFailDialog();
+                              }
+                            }
+                            closingAmount = "";
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: activeColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: defaultPadding * 0.5,
+                        bottom: defaultPadding * 0.5,
+                      ),
+                      child: SizedBox(
+                        width: defaultPadding * 6,
+                        child: ElevatedButton(
+                          child: const Text('Đóng'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: voidColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
 
-import '../../../config/routes.dart';
-import '../../../config/theme.dart';
-
-class AllCheckDetailBtn extends StatelessWidget {
-  const AllCheckDetailBtn({Key? key}) : super(key: key);
+class CheckDetailBtn extends StatelessWidget {
+  const CheckDetailBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: "all_check_detail_btn",
+      tag: "check_detail_btn",
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(
@@ -25,13 +23,14 @@ class AllCheckDetailBtn extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
+                  // return const CheckScreen();
                   return const CheckDetailScreen();
                 },
               ),
             );
           },
           child: Text(
-            "Chi tiết".toUpperCase(),
+            "Xem hóa đơn".toUpperCase(),
           ),
         ),
       ),

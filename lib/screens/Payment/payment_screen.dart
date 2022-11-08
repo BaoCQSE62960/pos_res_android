@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/common/widgets/background.dart';
+import 'package:pos_res_android/common/widgets/responsive.dart';
+import 'package:pos_res_android/common/widgets/side_bar.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
-
-import '../../common/widgets/background.dart';
-import '../../common/widgets/responsive.dart';
-import '../../common/widgets/side_bar.dart';
-import '../../config/routes.dart';
-import '../../config/theme.dart';
-import 'widget/payment_top.dart';
+import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({Key? key}) : super(key: key);

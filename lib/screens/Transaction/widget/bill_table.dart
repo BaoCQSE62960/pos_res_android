@@ -1,7 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/transaction/models/bill.dart';
+import 'package:pos_res_android/repos/models/bill.dart';
+import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
 
 class BillDatatable extends StatefulWidget {
@@ -17,6 +18,8 @@ class _BillDatatableState extends State<BillDatatable> {
 
   List billFilter = [];
   String statusFilter = "";
+  final newFormat = DateFormat('yyyy-MM-dd');
+
   List<Widget> status = <Widget>[
     // Text('Hoạt động'),
     // Text('Hủy'),
@@ -60,8 +63,9 @@ class _BillDatatableState extends State<BillDatatable> {
               ),
 
               SizedBox(
-                width: MediaQuery.of(context).size.width / 5 +
-                    defaultPadding * 5.55,
+                // width: MediaQuery.of(context).size.width / 5 +
+                //     defaultPadding * 5.55,
+                width: MediaQuery.of(context).size.width / 3,
                 height: defaultPadding * 3,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -118,10 +122,15 @@ class _BillDatatableState extends State<BillDatatable> {
                           if (i == _selectedStatus.length) {
                             statusFilter = "";
                           }
+                          // ignore: avoid_print
                           print("_selectedStatus: $_selectedStatus");
+                          // ignore: avoid_print
                           print(_selectedStatus[i]);
+                          // ignore: avoid_print
                           print("statusFilter: $statusFilter");
+                          // ignore: avoid_print
                           print("index: $index");
+                          // ignore: avoid_print
                           print("i: $i");
                         }
 
@@ -137,9 +146,11 @@ class _BillDatatableState extends State<BillDatatable> {
                   fillColor: selectColor,
                   color: textColor,
                   borderColor: primaryColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
                   constraints: const BoxConstraints(
                     minHeight: defaultPadding * 2,
-                    minWidth: defaultPadding * 9.75,
+                    // minWidth: defaultPadding * 9.75,
+                    minWidth: defaultPadding * 13.5,
                   ),
                   isSelected: _selectedStatus,
                   children: status,
@@ -216,7 +227,7 @@ class _BillDatatableState extends State<BillDatatable> {
                 ),
                 DataColumn(
                   label: Text(
-                    'Tổng thanh toán',
+                    'Thành tiền',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -233,15 +244,29 @@ class _BillDatatableState extends State<BillDatatable> {
                 ),
               ],
               rows: billFilter
-                  .map((billFilter) => DataRow(cells: [
-                        DataCell(Text(billFilter.date)),
+                  .map(
+                    (billFilter) => DataRow(
+                      cells: [
+                        DataCell(Text(newFormat.format(billFilter.date))),
                         DataCell(Text(billFilter.billNo)),
                         DataCell(Text(billFilter.tableName)),
                         DataCell(Text(billFilter.locationName)),
-                        DataCell(Text(billFilter.tax.toString())),
-                        DataCell(Text(billFilter.total.toString())),
+                        DataCell(Text(billFilter.totaltax.toString())),
+                        DataCell(Text(billFilter.totalamount.toString())),
                         DataCell(Text(billFilter.status)),
-                      ]))
+                      ],
+                      onLongPress: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const BillDetailScreen();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
                   .toList()),
         ),
       ],

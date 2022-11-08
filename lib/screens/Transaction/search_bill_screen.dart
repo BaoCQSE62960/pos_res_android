@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/common/widgets/background.dart';
+import 'package:pos_res_android/common/widgets/responsive.dart';
+import 'package:pos_res_android/common/widgets/side_bar.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_table.dart';
-import 'package:pos_res_android/screens/Transaction/widget/buttons/bill_detail_btn.dart';
-
-import '../../common/widgets/background.dart';
-import '../../common/widgets/responsive.dart';
-import '../../common/widgets/side_bar.dart';
-import '../../config/routes.dart';
-import '../../config/theme.dart';
 
 class SearchBillScreen extends StatefulWidget {
   const SearchBillScreen({Key? key}) : super(key: key);
@@ -23,7 +20,6 @@ class _SearchBillScreenState extends State<SearchBillScreen> {
         child: SafeArea(
           child: Responsive(
             tablet: Row(
-              // mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(
                   child: SideBar(),
@@ -31,41 +27,13 @@ class _SearchBillScreenState extends State<SearchBillScreen> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Container(
-                    //   color: textLightColor,
-                    //   height: defaultPadding * 3,
-                    //   child: const Padding(
-                    //     padding: EdgeInsets.only(
-                    //       left: defaultPadding * 0.25,
-                    //       right: defaultPadding * 0.25,
-                    //     ),
-                    //     child: BillFilter(),
-                    //   ),
-                    // ),
                     Container(
                       color: textLightColor,
                       height: MediaQuery.of(context).size.height -
-                          defaultPadding * 5,
+                          defaultPadding * 1.5,
                       width: MediaQuery.of(context).size.width -
                           defaultPadding * 4.5,
                       child: const BillDatatable(),
-                    ),
-                    Container(
-                      color: textLightColor,
-                      width: MediaQuery.of(context).size.width -
-                          defaultPadding * 4.6,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(defaultPadding * 0.5),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width / 4.5,
-                              child: const BillDetailBtn(),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),

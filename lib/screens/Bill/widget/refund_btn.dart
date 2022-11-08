@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 
 class RefundBtn extends StatefulWidget {
@@ -33,7 +32,7 @@ class _RefundBtnState extends State<RefundBtn> {
             ),
           ),
           onPressed: () {
-            _showMyDialog();
+            _refundDialog();
           },
           child: Text(
             "Hoàn tiền".toUpperCase(),
@@ -43,10 +42,10 @@ class _RefundBtnState extends State<RefundBtn> {
     );
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _refundDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(

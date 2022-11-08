@@ -4,6 +4,7 @@ import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/repos/models/menu.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_res_android/repos/services/menu_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MenuRepositoryImpl extends MenuService {
   String uriConnect = uri;
@@ -13,7 +14,10 @@ class MenuRepositoryImpl extends MenuService {
         await http.get(Uri.parse(uriConnect + "/order/menu/"));
     var responseJson = json.decode(response.body);
     if (response.statusCode == 200) {
-      return (responseJson as List).map((e) => Menu.fromJson(e)).toList();
+      List<Menu> menus =
+          (responseJson as List).map((e) => Menu.fromJson(e)).toList();
+      menus.insert(0, Menu(id: 0, name: 'order.all'.tr(), isdefault: true));
+      return menus;
     } else {
       throw Exception('Failed to load menu');
     }

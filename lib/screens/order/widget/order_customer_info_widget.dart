@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_outlined_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,7 +19,7 @@ class OrderCustomerInfo extends StatelessWidget {
         children: [
           CustomOutlinedButton(
             function: () {
-              showCustomerDialog();
+              showCustomerDialog(context);
             },
             icons: const Icon(
               Icons.person_add,
@@ -28,7 +30,7 @@ class OrderCustomerInfo extends StatelessWidget {
           const Spacer(),
           CustomOutlinedButton(
             function: () {
-              showNoteDialog();
+              showNoteDialog(context);
             },
             icons: const Icon(
               Icons.note,
@@ -41,7 +43,16 @@ class OrderCustomerInfo extends StatelessWidget {
     );
   }
 
-  Future<dynamic> showCustomerDialog() {
+  Future<dynamic> showCustomerDialog(BuildContext context) {
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    TextEditingController guestNameController = TextEditingController();
+    TextEditingController coverController = TextEditingController();
+    guestNameController.text = orderBloc.state.tableInfo.guestname.isEmpty
+        ? ''
+        : orderBloc.state.tableInfo.guestname;
+    coverController.text = orderBloc.state.tableInfo.cover == 0
+        ? ''
+        : orderBloc.state.tableInfo.cover.toString();
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -78,7 +89,8 @@ class OrderCustomerInfo extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          controller: guestNameController,
                           decoration: InputDecoration(
                               hintText: 'order.customer_name'.tr(),
                               enabledBorder: OutlineInputBorder(
@@ -92,7 +104,8 @@ class OrderCustomerInfo extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          controller: coverController,
                           decoration: InputDecoration(
                               hintText: 'order.number_of_seats'.tr(),
                               enabledBorder: OutlineInputBorder(
@@ -106,7 +119,15 @@ class OrderCustomerInfo extends StatelessWidget {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: CustomElevatedButton(text: 'order.confirm'.tr()),
+                        child: CustomElevatedButton(
+                          text: 'order.confirm'.tr(),
+                          callback: () {
+                            orderBloc.add(UpdateInfo(
+                                guestname: guestNameController.text,
+                                cover: int.parse(coverController.text)));
+                            Navigator.pop(context);
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -117,7 +138,11 @@ class OrderCustomerInfo extends StatelessWidget {
         });
   }
 
-  Future<dynamic> showNoteDialog() {
+  Future<dynamic> showNoteDialog(BuildContext context) {
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    TextEditingController noteController = TextEditingController();
+    noteController.text =
+        orderBloc.state.note.note.isEmpty ? '' : orderBloc.state.note.note;
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -154,7 +179,8 @@ class OrderCustomerInfo extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          controller: noteController,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           minLines: 6,
@@ -171,7 +197,14 @@ class OrderCustomerInfo extends StatelessWidget {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: CustomElevatedButton(text: 'order.confirm'.tr()),
+                        child: CustomElevatedButton(
+                          text: 'order.confirm'.tr(),
+                          callback: () {
+                            orderBloc
+                                .add(UpdateNote(note: noteController.text));
+                            Navigator.pop(context);
+                          },
+                        ),
                       ),
                     ],
                   ),

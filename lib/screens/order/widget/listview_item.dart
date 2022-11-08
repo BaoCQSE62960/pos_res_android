@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
 
+enum Mode { orderdetail, changeorder }
+
 class ActionItemList extends StatelessWidget {
   const ActionItemList(
       {Key? key,
       required this.name,
       required this.sepcialRequest,
       required this.price,
-      required this.isDone})
-      : super(key: key);
+      required this.isDone,
+      this.currentMode = Mode.orderdetail});
   final String name;
   final String sepcialRequest;
   final String price;
   final bool isDone;
+  final Mode currentMode;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +41,11 @@ class ActionItemList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Cánh gà chiên",
+                          name,
                           style: TextStyle(color: textColor2),
                         ),
                         const Spacer(),
-                        Text("Nhiều sốt",
+                        Text(sepcialRequest,
                             style: TextStyle(
                                 color: textColor2,
                                 fontStyle: FontStyle.italic)),
@@ -52,7 +55,7 @@ class ActionItemList extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Text("10.500",
+                          Text(price,
                               style: TextStyle(
                                   color: textColor2,
                                   fontWeight: FontWeight.bold)),
@@ -80,7 +83,16 @@ class ActionItemList extends StatelessWidget {
               ),
             ),
             flex: 8,
-          )
+          ),
+          currentMode == Mode.changeorder
+              ? Expanded(
+                  flex: 1,
+                  child: Checkbox(
+                    value: false,
+                    onChanged: (newValue) {},
+                  ),
+                )
+              : const SizedBox()
         ],
       ),
     );

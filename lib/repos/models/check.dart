@@ -61,56 +61,56 @@ class ListCheck {
 //       date: DateTime.utc(2020, 12, 19),
 //       checkno: "2012191",
 //       tablename: "A1",
-//       locationname: "Sảnh A",
+//       locationname: "S?nh A",
 //       totaltax: 50000000,
 //       totalamount: 550000000,
-//       status: "Hoạt động"),
+//       status: "Ho?t �?ng"),
 //   Check(
 //       id: 2,
 //       // date: DateTime.parse("formattedString"),
 //       date: DateTime.utc(2022, 10, 19),
 //       checkno: "1910221",
 //       tablename: "L1-01",
-//       locationname: "Lầu 1",
+//       locationname: "L?u 1",
 //       totaltax: 72000,
 //       totalamount: 792000,
-//       status: "Hoạt động"),
+//       status: "Ho?t �?ng"),
 //   Check(
 //       id: 3,
 //       date: DateTime.utc(2021, 12, 19),
 //       checkno: "19122131",
 //       tablename: "L2-01",
-//       locationname: "Lầu 2",
+//       locationname: "L?u 2",
 //       totaltax: 50000,
 //       totalamount: 550000,
-//       status: "Hoạt động"),
+//       status: "Ho?t �?ng"),
 //   Check(
 //       id: 4,
 //       date: DateTime.utc(2020, 11, 19),
 //       checkno: "1911203",
 //       tablename: "B3",
-//       locationname: "Sảnh B",
+//       locationname: "S?nh B",
 //       totaltax: 100000,
 //       totalamount: 1100000,
-//       status: "Hủy"),
+//       status: "H?y"),
 //   Check(
 //       id: 5,
 //       date: DateTime.utc(2020, 12, 29),
 //       checkno: "2912202",
 //       tablename: "A2",
-//       locationname: "Sảnh A",
+//       locationname: "S?nh A",
 //       totaltax: 6300,
 //       totalamount: 69300,
-//       status: "Đóng"),
+//       status: "��ng"),
 //   Check(
 //       id: 6,
 //       date: DateTime.utc(2020, 12, 20),
 //       checkno: "2012203",
 //       tablename: "A5",
-//       locationname: "Sảnh A",
+//       locationname: "S?nh A",
 //       totaltax: 50000,
 //       totalamount: 550000,
-//       status: "Đóng"),
+//       status: "��ng"),
 // ];
 
   // factory Check.fromJson(Map<String, dynamic> json) => Check(
@@ -145,3 +145,51 @@ class ListCheck {
   //     tax.hashCode ^
   //     total.hashCode ^
   //     status.hashCode;
+import 'package:pos_res_android/repos/models/checkdetail.dart';
+
+class Check {
+  Check(
+      {required this.checkid,
+      required this.checkno,
+      required this.subtotal,
+      required this.totaltax,
+      required this.totalamount,
+      required this.creationtime,
+      required this.locationid,
+      required this.tableid,
+      required this.checkDetail});
+
+  final int checkid;
+  final String checkno;
+  int subtotal;
+  int totaltax;
+  int totalamount;
+  final String creationtime;
+  final int locationid;
+  final int tableid;
+  final List<CheckDetail> checkDetail;
+
+  static Check EMPTY = Check(
+      checkid: 0,
+      checkno: '',
+      subtotal: 0,
+      totaltax: 0,
+      totalamount: 0,
+      creationtime: '',
+      locationid: 0,
+      tableid: 0,
+      checkDetail: []);
+
+  factory Check.fromJson(Map<String, dynamic> json) => Check(
+      checkid: json['check']['checkid'],
+      checkno: json['check']['checkno'],
+      subtotal: json['check']['subtotal'],
+      totaltax: json['check']['totaltax'],
+      totalamount: json['check']['totalamount'],
+      creationtime: json['check']['creationtime'],
+      locationid: json['check']['locationid'],
+      tableid: json['check']['tableid'],
+      checkDetail: (json['check']['checkdetail'] as List)
+          .map((e) => CheckDetail.fromJson(e))
+          .toList());
+}

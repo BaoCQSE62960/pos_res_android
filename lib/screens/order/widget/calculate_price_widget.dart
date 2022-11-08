@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pos_res_android/screens/order/widget/buttons/payment_btn.dart';
 
-Container calculatePriceWidget() {
+final currencyFormat = new NumberFormat("#,##0", "en_US");
+
+Container calculatePriceWidget(BuildContext context) {
+  final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 20.0),
     child: Column(
@@ -16,7 +22,7 @@ Container calculatePriceWidget() {
           ),
           const Spacer(),
           Text(
-            "11.500",
+            currencyFormat.format(orderBloc.state.check.subtotal),
             style: TextStyle(color: textColor2, fontWeight: FontWeight.bold),
           ),
         ]),
@@ -30,7 +36,7 @@ Container calculatePriceWidget() {
               ),
               const Spacer(),
               Text(
-                "500",
+                currencyFormat.format(orderBloc.state.check.totaltax),
                 style:
                     TextStyle(color: textColor2, fontWeight: FontWeight.bold),
               )
@@ -50,7 +56,7 @@ Container calculatePriceWidget() {
               ),
               const Spacer(),
               Text(
-                "12.000",
+                currencyFormat.format(orderBloc.state.check.totalamount),
                 style: TextStyle(
                     color: textColor2,
                     fontWeight: FontWeight.bold,

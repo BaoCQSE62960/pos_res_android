@@ -1,9 +1,22 @@
 import 'dart:convert';
 
-import 'package:localstorage/localstorage.dart';
-import 'package:pos_res_android/config/routes.dart';
+import 'package:http/http.dart' as http;
 import 'package:pos_res_android/repos/models/check.dart';
-import 'package:http/http.dart';
+import 'package:pos_res_android/repos/services/check_service.dart';
+
+class CheckRepositoryImpl extends CheckService {
+  @override
+  Future<Check> getCheckByID(String id) async {
+    http.Response response =
+        await http.get(Uri.parse("http://10.0.2.2:5000/order/check/" + id));
+    var responseJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      return Check.fromJson(responseJson);
+    } else {
+      throw Exception('Failed to load menu');
+    }
+  }
+}
 
 class CheckRepository {
   String uriConnect = uri;

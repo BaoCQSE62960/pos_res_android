@@ -6,6 +6,7 @@ class CustomToolButton extends StatelessWidget {
       required this.icons,
       required this.text,
       required this.color,
+      required this.onPressed,
       required this.textColors})
       : super(key: key);
 
@@ -13,6 +14,7 @@ class CustomToolButton extends StatelessWidget {
   final String text;
   final Color color;
   final Color textColors;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class CustomToolButton extends StatelessWidget {
             shadowColor: color,
             elevation: 3,
           ),
-          onPressed: () {},
+          onPressed: onPressed,
           child: Padding(
             padding: const EdgeInsets.only(
               top: 4,

@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/location.dart';
-import 'package:pos_res_android/repos/services/table_service.dart';
+import 'package:pos_res_android/repos/models/cashier/location.dart';
+import 'package:pos_res_android/repos/services/cashier/table_service.dart';
 
 class LocationFilter extends StatefulWidget {
   const LocationFilter({Key? key}) : super(key: key);

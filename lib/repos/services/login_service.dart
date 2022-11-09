@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/shift.dart';
+import 'package:pos_res_android/repos/models/cashier/shift.dart';
 import 'package:pos_res_android/repos/repository/login_repository.dart';
 
 class LoginService {

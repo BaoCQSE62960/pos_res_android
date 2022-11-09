@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
+
+enum Mode { orderdetail, changeorder }
 
 class ActionItemList extends StatelessWidget {
   const ActionItemList(
@@ -8,12 +11,15 @@ class ActionItemList extends StatelessWidget {
       required this.name,
       required this.sepcialRequest,
       required this.price,
-      required this.isDone})
-      : super(key: key);
+      required this.isDone,
+      required this.checkDetail,
+      this.currentMode = Mode.orderdetail});
   final String name;
   final String sepcialRequest;
   final String price;
   final bool isDone;
+  final Mode currentMode;
+  final CheckDetail checkDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,10 @@ class ActionItemList extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-                margin: const EdgeInsets.all(5), child: CustomQuantityButton()),
+                margin: const EdgeInsets.all(5),
+                child: CustomQuantityButton(
+                  checkDetail: checkDetail,
+                )),
             flex: 1,
           ),
           Expanded(
@@ -38,11 +47,11 @@ class ActionItemList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Cánh gà chiên",
+                          name,
                           style: TextStyle(color: textColor2),
                         ),
                         const Spacer(),
-                        Text("Nhiều sốt",
+                        Text(sepcialRequest,
                             style: TextStyle(
                                 color: textColor2,
                                 fontStyle: FontStyle.italic)),
@@ -52,26 +61,12 @@ class ActionItemList extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Text("10.500",
+                          Text(price,
                               style: TextStyle(
                                   color: textColor2,
                                   fontWeight: FontWeight.bold)),
                           const Spacer(),
-                          !isDone
-                              ? TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    backgroundColor: warningColor,
-                                  ),
-                                  child: const Icon(
-                                    Icons.dining,
-                                    color: textLightColor,
-                                  ),
-                                )
-                              : const SizedBox()
+                          buildIconWidget(checkDetail.status)
                         ],
                       ),
                     ],
@@ -80,9 +75,67 @@ class ActionItemList extends StatelessWidget {
               ),
             ),
             flex: 8,
-          )
+          ),
+          currentMode == Mode.changeorder
+              ? Expanded(
+                  flex: 1,
+                  child: Checkbox(
+                    value: false,
+                    onChanged: (newValue) {},
+                  ),
+                )
+              : const SizedBox()
         ],
       ),
     );
+  }
+
+  Widget buildIconWidget(String status) {
+    switch (status) {
+      case 'READY':
+        return TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: warningColor,
+          ),
+          child: const Icon(
+            Icons.dining,
+            color: textLightColor,
+          ),
+        );
+      case 'WAITING':
+        return TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: shadowColor,
+          ),
+          child: const Icon(
+            Icons.timelapse_rounded,
+            color: textLightColor,
+          ),
+        );
+      case 'RECALL':
+        return TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: voidColor,
+          ),
+          child: const Icon(
+            Icons.cancel,
+            color: textLightColor,
+          ),
+        );
+      default:
+        return SizedBox();
+    }
   }
 }

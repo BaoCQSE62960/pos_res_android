@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  const CustomElevatedButton({Key? key, required this.text}) : super(key: key);
+  const CustomElevatedButton(
+      {Key? key, required this.text, required this.callback});
 
   final String text;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class CustomElevatedButton extends StatelessWidget {
           elevation: 3,
           backgroundColor: activeColor,
         ),
-        onPressed: () {},
+        onPressed: callback,
         child: Text(
           text,
           style: const TextStyle(

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/check.dart';
-import 'package:http/http.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
 
 class CheckRepository {
   String uriConnect = uri;

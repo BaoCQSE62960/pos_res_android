@@ -5,8 +5,8 @@ import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/location.dart';
-import 'package:pos_res_android/repos/models/table.dart';
+import 'package:pos_res_android/repos/models/cashier/location.dart';
+import 'package:pos_res_android/repos/models/cashier/table.dart';
 
 class TableRepository {
   String uriConnect = uri;

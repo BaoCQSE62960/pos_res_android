@@ -1,5 +1,5 @@
-import 'package:pos_res_android/repos/models/location.dart';
-import 'package:pos_res_android/repos/repository/table_repository.dart';
+import 'package:pos_res_android/repos/models/cashier/location.dart';
+import 'package:pos_res_android/repos/repository/cashier/table_repository.dart';
 
 class TableService {
   TableRepository repos = TableRepository();

@@ -1,5 +1,5 @@
-import 'package:pos_res_android/repos/models/check.dart';
-import 'package:pos_res_android/repos/repository/check_repository.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
+import 'package:pos_res_android/repos/repository/cashier/check_repository.dart';
 
 class CheckService {
   CheckRepository repos = CheckRepository();

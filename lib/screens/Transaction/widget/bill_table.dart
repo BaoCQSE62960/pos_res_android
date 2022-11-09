@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/bill.dart';
+import 'package:pos_res_android/repos/models/cashier/bill.dart';
 import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
 

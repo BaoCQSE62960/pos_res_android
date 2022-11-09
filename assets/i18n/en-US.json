@@ -21,7 +21,9 @@
         "customer_info": "Thông tin khách hàng",
         "check_note": "Ghi chú đơn hàng",
         "check_note_hint": "Ghi chú ...",
-        "special_request_title": "Yêu cầu đặc biệt"
+        "special_request_title": "Yêu cầu đặc biệt",
+        "change_order": "Chuyển đơn",
+        "all": "Tất cả" 
     },
     "change_shift":
     {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:pos_res_android/repos/models/item.dart';
+import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 
 final currencyFormat = new NumberFormat("#,##0", "en_US");

@@ -45,6 +45,7 @@ class ListTable {
     return ListTable(list: list);
   }
 }
+
 class TableDetail {
   TableDetail(
       {required this.id,
@@ -71,7 +72,7 @@ class TableDetail {
       id: json['id'],
       status: json['status'],
       tablename: json['tablename'],
-      checkid: json['checkid'] ?? -1,
+      checkid: json['checkid'] ?? 0,
       totalamount: json['totalamount'] ?? 0,
       cover: json['cover'] ?? 0,
       iswaiting: json['iswaiting'],

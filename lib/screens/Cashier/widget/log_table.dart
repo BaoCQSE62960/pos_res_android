@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/log.dart';
+import 'package:pos_res_android/repos/models/cashier/log.dart';
 
 class LogDatatable extends StatefulWidget {
   const LogDatatable({Key? key}) : super(key: key);

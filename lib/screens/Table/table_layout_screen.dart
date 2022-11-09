@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/utils/socket.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
-import 'package:pos_res_android/repos/repository/tableoverview_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/widget/table_action_button.dart';

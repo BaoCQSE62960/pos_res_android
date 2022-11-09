@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
 
 enum Mode { orderdetail, changeorder }
@@ -66,21 +66,7 @@ class ActionItemList extends StatelessWidget {
                                   color: textColor2,
                                   fontWeight: FontWeight.bold)),
                           const Spacer(),
-                          !isDone
-                              ? TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    backgroundColor: warningColor,
-                                  ),
-                                  child: const Icon(
-                                    Icons.dining,
-                                    color: textLightColor,
-                                  ),
-                                )
-                              : const SizedBox()
+                          buildIconWidget(checkDetail.status)
                         ],
                       ),
                     ],
@@ -102,5 +88,54 @@ class ActionItemList extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget buildIconWidget(String status) {
+    switch (status) {
+      case 'READY':
+        return TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: warningColor,
+          ),
+          child: const Icon(
+            Icons.dining,
+            color: textLightColor,
+          ),
+        );
+      case 'WAITING':
+        return TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: shadowColor,
+          ),
+          child: const Icon(
+            Icons.timelapse_rounded,
+            color: textLightColor,
+          ),
+        );
+      case 'RECALL':
+        return TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: voidColor,
+          ),
+          child: const Icon(
+            Icons.cancel,
+            color: textLightColor,
+          ),
+        );
+      default:
+        return SizedBox();
+    }
   }
 }

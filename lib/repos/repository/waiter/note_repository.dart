@@ -1,14 +1,20 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:pos_res_android/repos/models/note.dart';
-import 'package:pos_res_android/repos/services/note_service.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/repos/models/waiter/note.dart';
+import 'package:pos_res_android/repos/services/waiter/note_service.dart';
 
 class NoteRepositoryImpl extends NoteService {
+  String uriConnect = uri;
+  final LocalStorage storage = LocalStorage('cookie');
+  Map<String, String> headers = {"content-type": "application/json"};
+
   @override
   Future<Note> getNoteByCheckID(String checkID) async {
-    http.Response response = await http.get(
-        Uri.parse("http://10.0.2.2:5000/order/check/" + checkID + "/note/"));
+    http.Response response = await http
+        .get(Uri.parse(uriConnect + "/order/check/" + checkID + "/note/"));
     var responseJson = json.decode(response.body);
     if (response.statusCode == 200) {
       return Note.fromJson(responseJson);
@@ -19,14 +25,11 @@ class NoteRepositoryImpl extends NoteService {
 
   @override
   Future<http.Response> updateNoteByCheckID(String checkID, Note note) async {
+    headers = storage.getItem('headers');
     var body = json.encode(note.toJson());
     http.Response response = await http.put(
-        Uri.parse("http://10.0.2.2:5000/order/check/" + checkID + "/note/"),
-        headers: {
-          "Content-Type": "application/json",
-          "Cookie":
-              "connect.sid=s%3AE5t9At-wFmzDNzbWXPNP_FoiLyBUDzpq.%2BNzso8HEoUfQwDVp4viwieuBtEdKQCb3slkJdu8pqow"
-        },
+        Uri.parse(uriConnect + "/order/check/" + checkID + "/note/"),
+        headers: headers,
         body: body);
     if (response.statusCode == 200) {
       return response;

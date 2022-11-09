@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/table.dart';
+import 'package:pos_res_android/repos/models/cashier/table.dart';
 
 class TableOverview {
   TableOverview({required this.locationid, required this.listTable});

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/majorgroup.dart';
-import 'package:pos_res_android/repos/services/majorgroup_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pos_res_android/repos/models/waiter/majorgroup.dart';
+import 'package:pos_res_android/repos/services/waiter/majorgroup_service.dart';
 
 class MajorGroupRepositoryImpl extends MajorGroupService {
   String uriConnect = uri;

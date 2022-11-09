@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/menu.dart';
 import 'package:http/http.dart' as http;
-import 'package:pos_res_android/repos/services/menu_service.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:pos_res_android/repos/models/waiter/menu.dart';
+import 'package:pos_res_android/repos/services/waiter/menu_service.dart';
 
 class MenuRepositoryImpl extends MenuService {
   String uriConnect = uri;

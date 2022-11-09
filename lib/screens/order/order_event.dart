@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:pos_res_android/repos/models/item.dart';
-import 'package:pos_res_android/repos/models/specialrequests.dart';
-import 'package:pos_res_android/screens/Order/order.dart';
+import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/repos/models/waiter/item.dart';
+import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
 
 class OrderLayoutEvent extends Equatable {
@@ -10,7 +10,10 @@ class OrderLayoutEvent extends Equatable {
 }
 
 class LoadData extends OrderLayoutEvent {
-  LoadData();
+  LoadData({required this.tableid, required this.checkid});
+
+  final int checkid;
+  final int tableid;
 }
 
 class ChangeMenu extends OrderLayoutEvent {

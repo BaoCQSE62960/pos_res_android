@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/shift.dart';
+import 'package:pos_res_android/repos/models/cashier/shift.dart';
 import 'package:pos_res_android/repos/services/login_service.dart';
 
 class PickShiftPopUp extends StatefulWidget {

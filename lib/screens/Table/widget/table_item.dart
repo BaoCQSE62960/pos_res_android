@@ -1,10 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/table.dart';
+import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/screens/Order/order_screen.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
+import 'package:pos_res_android/screens/Table/table_layout_state.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
@@ -18,49 +20,51 @@ class TableItem extends StatelessWidget {
     final TableLayoutBloc counterBloc =
         BlocProvider.of<TableLayoutBloc>(context);
     return BlocBuilder<TableLayoutBloc, TableLayoutState>(
-      builder: (context, state) {
-        return Hero(
-          tag: "table_demo_btn",
-          child: GestureDetector(
-            onLongPress: () {
-              counterBloc.add(counterBloc.state.firstSelectedTableName.isEmpty
-                  ? FirstSelectTable(firstTableName: id)
-                  : SecondSelectTable(secondTableName: id));
-            },
-            onDoubleTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const OrderScreen();
-                  },
-                ),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: deactiveColor,
-                borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(
-                    width: defaultSize * 0.5,
-                    color: state.currentSelectedMode == SelectedMode.NONE
-                        ? deactiveColor
-                        : (counterBloc.state.firstSelectedTableName ==
-                                    tableDetail.id.toString() ||
-                                counterBloc.state.secondSelectedTableName ==
-                                    tableDetail.id.toString()
-                            ? Colors.blue
-                            : deactiveColor)),
-            boxShadow: const [
-              BoxShadow(
-                color: shadowColor,
-                blurRadius: 3,
-                offset: Offset(0, 3), // Shadow position
+        builder: (context, state) {
+      return Hero(
+        tag: "table_demo_btn",
+        child: GestureDetector(
+          onLongPress: () {
+            counterBloc.add(counterBloc.state.firstSelectedTableName.isEmpty
+                ? FirstSelectTable(firstTableName: tableDetail.id.toString())
+                : SecondSelectTable(
+                    secondTableName: tableDetail.id.toString()));
+          },
+          onDoubleTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return OrderScreen(
+                    table: tableDetail,
+                  );
+                },
               ),
-            ],
-          ),
-          child: Column(
-            children: [
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: deactiveColor,
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(
+                  width: defaultSize * 0.5,
+                  color: state.currentSelectedMode == SelectedMode.NONE
+                      ? deactiveColor
+                      : (counterBloc.state.firstSelectedTableName ==
+                                  tableDetail.id.toString() ||
+                              counterBloc.state.secondSelectedTableName ==
+                                  tableDetail.id.toString()
+                          ? Colors.blue
+                          : deactiveColor)),
+              boxShadow: const [
+                BoxShadow(
+                  color: shadowColor,
+                  blurRadius: 3,
+                  offset: Offset(0, 3), // Shadow position
+                ),
+              ],
+            ),
+            child: Column(children: [
               Container(
                 decoration: BoxDecoration(
                   color: tableDetail.status == 'NOT_USE'
@@ -117,7 +121,6 @@ class TableItem extends StatelessWidget {
                     // maximumSize:
                     //     const Size(defaultPadding * 8, defaultPadding * 8),
                   ),
-
                   onPressed: () {},
                   child: Column(
                     children: [
@@ -217,85 +220,14 @@ class TableItem extends StatelessWidget {
                                       ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Visibility(
-                                visible: true,
-                                child: SizedBox(
-                                  width: defaultPadding * 2.5,
-                                  height: defaultPadding * 2.5,
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    style: TextButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      backgroundColor: warningColor,
-                                    ),
-                                    child: const Icon(
-                                      Icons.dining,
-                                      size: defaultPadding * 1.5,
-                                      color: textLightColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: defaultPadding * 0.3,
-                              ),
-                              SizedBox(
-                                width: defaultPadding * 2.5,
-                                height: defaultPadding * 2.5,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    backgroundColor: voidColor,
-                                  ),
-                                  child: const Icon(
-                                    Icons.cancel,
-                                    size: defaultPadding * 1.5,
-                                    color: textLightColor,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: defaultPadding * 0.3,
-                              ),
-                              SizedBox(
-                                width: defaultPadding * 2.5,
-                                height: defaultPadding * 2.5,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    backgroundColor: shadowColor,
-                                  ),
-                                  child: const Icon(
-                                    Icons.timelapse_rounded,
-                                    size: defaultPadding * 1.5,
-                                    color: textLightColor,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    ],
                   ),
                 ),
               ),
-            ],
+            ]),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

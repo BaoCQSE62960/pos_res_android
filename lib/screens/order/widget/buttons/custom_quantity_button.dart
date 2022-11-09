@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 
 enum QuantityUpdateMode { increase, decrease }

@@ -1,24 +1,23 @@
-import 'dart:math';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/repos/models/check.dart';
-import 'package:pos_res_android/repos/models/checkdetail.dart';
-import 'package:pos_res_android/repos/models/dto/checkDTO.dart';
-import 'package:pos_res_android/repos/models/dto/itemDTO.dart';
-import 'package:pos_res_android/repos/models/dto/specialrequestDTO.dart';
-import 'package:pos_res_android/repos/models/item.dart';
-import 'package:pos_res_android/repos/models/majorgroup.dart';
-import 'package:pos_res_android/repos/models/menu.dart';
-import 'package:pos_res_android/repos/models/note.dart';
-import 'package:pos_res_android/repos/models/specialrequests.dart';
-import 'package:pos_res_android/repos/models/tableinfo.dart';
-import 'package:pos_res_android/repos/repository/check_repository.dart';
-import 'package:pos_res_android/repos/repository/item_repository.dart';
-import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
-import 'package:pos_res_android/repos/repository/menu_repository.dart';
-import 'package:pos_res_android/repos/repository/note_repository.dart';
-import 'package:pos_res_android/repos/repository/specialrequests_repository.dart';
-import 'package:pos_res_android/repos/repository/tableinfo_repository.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/itemDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/specialrequestDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/check.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/item.dart';
+import 'package:pos_res_android/repos/models/waiter/majorgroup.dart';
+import 'package:pos_res_android/repos/models/waiter/menu.dart';
+import 'package:pos_res_android/repos/models/waiter/note.dart';
+import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
+import 'package:pos_res_android/repos/models/waiter/tableinfo.dart';
+import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/menu_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/note_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/specialrequests_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/screens/Order/order_event.dart';
 import 'package:pos_res_android/screens/Order/order_state.dart';
 import 'package:http/http.dart' as http;
@@ -64,11 +63,17 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       final List<Menu> listMenu = await menuRepository.getMenu();
       final List<Item> listItem = await itemRepository
           .getItemByMenuID(state.currentSelectedMenuID.toString());
-      final Check check = await checkRepository.getCheckByID('9');
-      final TableInfo tableInfo =
-          await tableInfoRepository.getTableInfoByCheckID('9');
+      final Check check = event.checkid == 0
+          ? Check.EMPTY
+          : await checkRepository.getCheckByID(event.checkid.toString());
+      final TableInfo tableInfo = event.checkid == 0
+          ? TableInfo.EMPTY
+          : await tableInfoRepository
+              .getTableInfoByCheckID(event.checkid.toString());
       emit(
         state.copywith(
+            tableId: event.tableid,
+            checkId: event.checkid,
             listMajorGroups: listMajorGroups,
             listMenus: listMenu,
             listItems: listItem,
@@ -189,6 +194,19 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   void _addItem(AddItem event, Emitter<OrderLayoutState> emit) async {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     try {
+      if (state.checkId == 0) {
+        OpenTableDTO openTableDTO =
+            await checkRepository.openTable(state.tableId);
+        final Check check =
+            await checkRepository.getCheckByID(openTableDTO.checkid.toString());
+        final TableInfo tableInfo = await tableInfoRepository
+            .getTableInfoByCheckID(openTableDTO.checkid.toString());
+        emit(state.copywith(
+            checkId: openTableDTO.checkid,
+            check: check,
+            tableInfo: tableInfo,
+            orderLayoutStatus: OrderLayoutStatus.loading));
+      }
       CheckDetail detail = CheckDetail(
           checkdetailidLocal: state.currentLocalID++,
           isLocal: true,
@@ -199,7 +217,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
           note: '',
           isreminded: false,
           amount: event.item.price,
-          status: 'WAITING',
+          status: 'LOCAL',
           specialRequest: []);
       state.check.checkDetail.insert(0, detail);
       state.check.subtotal = state.check.subtotal + event.item.price;

@@ -464,7 +464,8 @@ class CheckScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return const OrderScreen();
+                                      // return const OrderScreen();
+                                      return SizedBox();
                                     },
                                   ),
                                 );

@@ -5,7 +5,7 @@ import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/shift.dart';
+import 'package:pos_res_android/repos/models/cashier/shift.dart';
 
 class LoginRepository {
   String uriConnect = uri;

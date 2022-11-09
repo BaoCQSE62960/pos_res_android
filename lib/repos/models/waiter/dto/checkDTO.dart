@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/dto/itemDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/itemDTO.dart';
 
 class CheckDTO {
   CheckDTO({required this.checkid, required this.listItemDTO});

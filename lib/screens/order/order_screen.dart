@@ -4,14 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/repository/check_repository.dart';
-import 'package:pos_res_android/repos/repository/item_repository.dart';
-import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
-import 'package:pos_res_android/repos/repository/menu_repository.dart';
-import 'package:pos_res_android/repos/repository/note_repository.dart';
-import 'package:pos_res_android/repos/repository/specialrequests_repository.dart';
-import 'package:pos_res_android/repos/repository/tableinfo_repository.dart';
-import 'package:pos_res_android/repos/repository/tableoverview_repository.dart';
+import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/menu_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/note_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/specialrequests_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
@@ -26,7 +27,9 @@ import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key}) : super(key: key);
+  const OrderScreen({Key? key, required this.table}) : super(key: key);
+
+  final TableDetail table;
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
@@ -49,7 +52,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   tableInfoRepository: TableInfoRepositoryImpl(),
                   noteRepository: NoteRepositoryImpl(),
                   specialRequestsRepository: SpecialRequestsRepositoryImpl())
-                ..add(LoadData())),
+                ..add(LoadData(
+                    checkid: widget.table.checkid, tableid: widget.table.id))),
           BlocProvider(
             create: (context) => TableLayoutBloc(
                 tableOverviewRepository: TableOverviewRepositoryImpl()),
@@ -72,7 +76,7 @@ class _OrderScreenState extends State<OrderScreen> {
           },
         ),
       ),
-    );
+    ));
   }
 
   Expanded buildOrderPaymentWidget() {

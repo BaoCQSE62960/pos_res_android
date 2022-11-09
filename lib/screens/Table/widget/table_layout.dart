@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/utils/socket.dart';
+import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
@@ -53,7 +54,7 @@ class TableLayout extends StatelessWidget {
               crossAxisSpacing: defaultPadding,
               mainAxisSpacing: defaultPadding * 0.5,
               // childAspectRatio: 1.55,
-              childAspectRatio: 1.65,
+              childAspectRatio: 1.55,
             ),
             children: list),
       ),

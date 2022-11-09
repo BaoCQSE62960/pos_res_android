@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:pos_res_android/repos/models/check.dart';
-import 'package:pos_res_android/repos/models/item.dart';
-import 'package:pos_res_android/repos/models/majorgroup.dart';
-import 'package:pos_res_android/repos/models/menu.dart';
-import 'package:pos_res_android/repos/models/note.dart';
-import 'package:pos_res_android/repos/models/specialrequests.dart';
-import 'package:pos_res_android/repos/models/tableinfo.dart';
+import 'package:pos_res_android/repos/models/waiter/check.dart';
+import 'package:pos_res_android/repos/models/waiter/item.dart';
+import 'package:pos_res_android/repos/models/waiter/majorgroup.dart';
+import 'package:pos_res_android/repos/models/waiter/menu.dart';
+import 'package:pos_res_android/repos/models/waiter/note.dart';
+import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
+import 'package:pos_res_android/repos/models/waiter/tableinfo.dart';
 
 enum OrderLayoutStatus { initial, success, error, loading, selected }
 
@@ -27,6 +27,8 @@ class OrderLayoutState extends Equatable {
       this.currentMode = CurrentMode.order,
       this.specialRequestNote = '',
       this.currentLocalID = 0,
+      this.checkId = 0,
+      this.tableId = 0,
       List<MajorGroup>? listMajorGroups,
       Check? check,
       TableInfo? tableInfo,
@@ -57,6 +59,8 @@ class OrderLayoutState extends Equatable {
   String specialRequestNote;
   final currentMode;
   int currentLocalID;
+  int checkId;
+  int tableId;
 
   @override
   List<Object?> get props => [
@@ -72,7 +76,9 @@ class OrderLayoutState extends Equatable {
         listSpecialRequest,
         listSelectedSpecialRequest,
         specialRequestNote,
-        currentLocalID
+        currentLocalID,
+        checkId,
+        tableId
       ];
 
   OrderLayoutState copywith(
@@ -89,6 +95,8 @@ class OrderLayoutState extends Equatable {
       List<SpecialRequests>? listSelectedSpecialRequest,
       String? specialRequestNote,
       int? currentLocalID,
+      int? checkId,
+      int? tableId,
       required OrderLayoutStatus orderLayoutStatus}) {
     return OrderLayoutState(
         currentSelectedMajorID:
@@ -107,6 +115,8 @@ class OrderLayoutState extends Equatable {
         tableInfo: tableInfo ?? this.tableInfo,
         currentMode: currentMode ?? this.currentMode,
         currentLocalID: currentLocalID ?? this.currentLocalID,
+        checkId: checkId ?? this.checkId,
+        tableId: tableId ?? this.tableId,
         orderLayoutStatus: orderLayoutStatus);
   }
 }

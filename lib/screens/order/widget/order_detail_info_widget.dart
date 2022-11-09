@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/checkdetail.dart';
-import 'package:pos_res_android/repos/models/specialrequests.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
@@ -47,16 +47,29 @@ class OrderDetailInfo extends StatelessWidget {
                     : currencyFormat.format(
                         orderBloc.state.check.checkDetail[index].amount),
                 isDone: false),
-            startActionPane:
-                orderBloc.state.check.checkDetail[index].status == 'WAITING'
-                    ? WaitingOrderActionPane(
-                        orderBloc.state.check.checkDetail[index], orderBloc)
-                    : DoneOrderActionPane(),
+            startActionPane: actionPaneBuilder(
+                orderBloc.state.check.checkDetail[index].status,
+                orderBloc.state.check.checkDetail[index],
+                orderBloc),
             endActionPane: ChangeOrderActionPane(context),
           );
         },
       ),
     );
+  }
+
+  ActionPane? actionPaneBuilder(
+      String status, CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
+    switch (status) {
+      case 'READY':
+        return WaitingOrderActionPane(checkDetail, orderBloc);
+      case 'LOCAL':
+        return LocalOrderActionPane(checkDetail, orderBloc);
+      case 'RECALL':
+        return DoneOrderActionPane(checkDetail, orderBloc);
+      default:
+        return null;
+    }
   }
 
   // ignore: non_constant_identifier_names
@@ -71,7 +84,16 @@ class OrderDetailInfo extends StatelessWidget {
           foregroundColor: Colors.white,
           icon: Icons.done,
           // label: 'order.done'.tr(),
-        ),
+        )
+      ],
+    );
+  }
+
+  ActionPane LocalOrderActionPane(
+      CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
+    return ActionPane(
+      motion: const ScrollMotion(),
+      children: [
         SlidableAction(
           onPressed: (context) {
             orderBloc.add(LoadSpecialRequestsForItem(
@@ -83,20 +105,14 @@ class OrderDetailInfo extends StatelessWidget {
           foregroundColor: Colors.white,
           icon: Icons.share,
           // label: 'order.special_request'.tr(),
-        ),
-        SlidableAction(
-          onPressed: (context) {},
-          backgroundColor: voidColor,
-          foregroundColor: Colors.white,
-          icon: Icons.delete,
-          // label: 'order.void'.tr(),
-        ),
+        )
       ],
     );
   }
 
   // ignore: non_constant_identifier_names
-  ActionPane DoneOrderActionPane() {
+  ActionPane DoneOrderActionPane(
+      CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
       motion: const ScrollMotion(),
       children: [

@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/dto/specialrequestDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/specialrequestDTO.dart';
 
 class ItemDTO {
   ItemDTO(

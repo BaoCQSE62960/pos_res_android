@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/common/utils/socket.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
-import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 import 'package:pos_res_android/screens/Table/widget/table_item.dart';
 

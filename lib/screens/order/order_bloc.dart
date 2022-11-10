@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls, unused_local_variable
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/itemDTO.dart';
@@ -21,7 +23,7 @@ import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dar
 import 'package:pos_res_android/screens/Order/order_event.dart';
 import 'package:pos_res_android/screens/Order/order_state.dart';
 import 'package:http/http.dart' as http;
-import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
+import 'package:pos_res_android/screens/Order/widget/custom_quantity_button.dart';
 
 class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   OrderLayoutBloc(

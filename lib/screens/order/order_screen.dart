@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
@@ -14,8 +13,8 @@ import 'package:pos_res_android/repos/repository/waiter/specialrequests_reposito
 import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
-import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
+import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/menu_item_cart.dart';
 import 'package:pos_res_android/screens/Order/widget/order_customer_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_detail_info_widget.dart';

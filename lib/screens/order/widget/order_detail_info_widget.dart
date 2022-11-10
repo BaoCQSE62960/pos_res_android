@@ -89,6 +89,7 @@ class OrderDetailInfo extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   ActionPane LocalOrderActionPane(
       CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
@@ -172,8 +173,8 @@ class OrderDetailInfo extends StatelessWidget {
             child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
                 builder: (context, state) {
               return Dialog(
-                insetPadding:
-                    EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+                insetPadding: const EdgeInsets.symmetric(
+                    vertical: 50.0, horizontal: 400.0),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: SingleChildScrollView(
@@ -181,7 +182,7 @@ class OrderDetailInfo extends StatelessWidget {
                     children: <Widget>[
                       Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 80,
                             child: Center(
                               child: Text(
@@ -197,7 +198,7 @@ class OrderDetailInfo extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 5.0, left: 10, right: 10),
-                            child: Container(
+                            child: SizedBox(
                               height: 100,
                               width: double.infinity,
                               child: TextField(
@@ -221,7 +222,7 @@ class OrderDetailInfo extends StatelessWidget {
                                 horizontal: 10, vertical: 5.0),
                             child: state.orderLayoutStatus.isLoading
                                 ? const CircularProgressIndicator()
-                                : Container(
+                                : SizedBox(
                                     height: 350,
                                     width: double.infinity,
                                     child: Scrollbar(
@@ -299,14 +300,14 @@ class OrderDetailInfo extends StatelessWidget {
         builder: (BuildContext context) {
           return Dialog(
             insetPadding:
-                EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+                const EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
             child: Column(
               children: <Widget>[
                 Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 80,
                       child: Center(
                         child: Text(
@@ -318,7 +319,7 @@ class OrderDetailInfo extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
+                      child: SizedBox(
                         height: 350,
                         width: double.infinity,
                         child: Scrollbar(
@@ -363,7 +364,7 @@ class OrderDetailInfo extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        FilterSection(),
+                                        const FilterSection(),
                                         Expanded(child: TableSection()),
                                       ],
                                     ));

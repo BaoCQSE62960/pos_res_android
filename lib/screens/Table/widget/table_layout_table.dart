@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/common/utils/socket.dart';
-import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
@@ -13,7 +10,7 @@ class TableSection extends StatelessWidget {
 
   // Socket socket;
 
-  TableSection({Key? key});
+  const TableSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

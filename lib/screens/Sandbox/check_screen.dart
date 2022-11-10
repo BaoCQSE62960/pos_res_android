@@ -5,7 +5,6 @@ import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Sandbox/widget/buttons/detail_btn(check).dart';
 import 'package:pos_res_android/screens/Table/widget/buttons/payment_btn.dart';
-import 'package:pos_res_android/screens/order/order.dart';
 
 class CheckScreen extends StatelessWidget {
   const CheckScreen({Key? key}) : super(key: key);
@@ -465,7 +464,7 @@ class CheckScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) {
                                       // return const OrderScreen();
-                                      return SizedBox();
+                                      return const SizedBox();
                                     },
                                   ),
                                 );

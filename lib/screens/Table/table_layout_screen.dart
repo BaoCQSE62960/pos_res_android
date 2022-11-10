@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
-import 'package:pos_res_android/common/utils/socket.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
@@ -53,11 +52,11 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const FilterSection(),
+                      children: const [
+                        FilterSection(),
                         // TableSection(socket: socket),
                         TableSection(),
-                        const SizedBox(
+                        SizedBox(
                           child: ActionButton(),
                         ),
                       ],

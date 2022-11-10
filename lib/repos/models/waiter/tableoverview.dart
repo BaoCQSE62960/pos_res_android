@@ -6,6 +6,7 @@ class TableOverview {
   final String locationid;
   final List<TableDetail> listTable;
 
+  // ignore: non_constant_identifier_names
   static TableOverview EMPTY =
       TableOverview(locationid: '0', listTable: const []);
 

@@ -19,6 +19,7 @@ extension OrderLayoutStatusX on OrderLayoutStatus {
   bool get isSelected => this == OrderLayoutStatus.selected;
 }
 
+// ignore: must_be_immutable
 class OrderLayoutState extends Equatable {
   OrderLayoutState(
       {this.orderLayoutStatus = OrderLayoutStatus.initial,
@@ -57,6 +58,7 @@ class OrderLayoutState extends Equatable {
   final List<SpecialRequests> listSpecialRequest;
   List<SpecialRequests> listSelectedSpecialRequest;
   String specialRequestNote;
+  // ignore: prefer_typing_uninitialized_variables
   final currentMode;
   int currentLocalID;
   int checkId;

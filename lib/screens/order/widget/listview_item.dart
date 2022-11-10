@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
-import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
+import 'package:pos_res_android/screens/Order/widget/custom_quantity_button.dart';
 
 enum Mode { orderdetail, changeorder }
 
 class ActionItemList extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ActionItemList(
       {Key? key,
       required this.name,
@@ -135,7 +136,7 @@ class ActionItemList extends StatelessWidget {
           ),
         );
       default:
-        return SizedBox();
+        return const SizedBox();
     }
   }
 }

@@ -4,6 +4,7 @@ class TableInfo {
   final String guestname;
   final int cover;
 
+  // ignore: non_constant_identifier_names
   static TableInfo EMPTY = TableInfo(guestname: '', cover: 0);
 
   factory TableInfo.fromJson(Map<String, dynamic> json) =>

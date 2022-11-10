@@ -3,7 +3,8 @@ import 'package:pos_res_android/config/theme.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton(
-      {Key? key, required this.text, required this.callback});
+      {Key? key, required this.text, required this.callback})
+      : super(key: key);
 
   final String text;
   final VoidCallback callback;

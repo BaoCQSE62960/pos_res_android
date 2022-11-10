@@ -22,6 +22,7 @@ class Check {
   final int tableid;
   final List<CheckDetail> checkDetail;
 
+  // ignore: non_constant_identifier_names
   static Check EMPTY = Check(
       checkid: 0,
       checkno: '',

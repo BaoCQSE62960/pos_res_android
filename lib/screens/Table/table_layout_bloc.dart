@@ -3,7 +3,6 @@
 // import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/common/utils/socket.dart';
 import 'package:pos_res_android/repos/models/waiter/tableoverview.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';

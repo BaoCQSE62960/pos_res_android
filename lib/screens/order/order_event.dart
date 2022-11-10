@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
-import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
+import 'package:pos_res_android/screens/Order/widget/custom_quantity_button.dart';
 
 class OrderLayoutEvent extends Equatable {
   @override

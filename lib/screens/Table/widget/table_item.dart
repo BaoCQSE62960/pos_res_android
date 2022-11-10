@@ -145,12 +145,12 @@ class TableItem extends StatelessWidget {
                         ),
                       ),
                       tableDetail.status == 'NOT_USE'
-                          ? SizedBox()
+                          ? const SizedBox()
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 !tableDetail.isready
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : SizedBox(
                                         width: defaultPadding * 2.5,
                                         height: defaultPadding * 2.5,
@@ -174,7 +174,7 @@ class TableItem extends StatelessWidget {
                                   width: defaultPadding * 0.3,
                                 ),
                                 !tableDetail.isrecall
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : SizedBox(
                                         width: defaultPadding * 2.5,
                                         height: defaultPadding * 2.5,
@@ -198,7 +198,7 @@ class TableItem extends StatelessWidget {
                                   width: defaultPadding * 0.3,
                                 ),
                                 !tableDetail.iswaiting
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : SizedBox(
                                         width: defaultPadding * 2.5,
                                         height: defaultPadding * 2.5,

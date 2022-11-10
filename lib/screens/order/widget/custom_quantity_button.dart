@@ -7,7 +7,8 @@ import 'package:pos_res_android/screens/Order/order.dart';
 enum QuantityUpdateMode { increase, decrease }
 
 class CustomQuantityButton extends StatelessWidget {
-  const CustomQuantityButton({Key? key, required this.checkDetail});
+  const CustomQuantityButton({Key? key, required this.checkDetail})
+      : super(key: key);
 
   final CheckDetail checkDetail;
 

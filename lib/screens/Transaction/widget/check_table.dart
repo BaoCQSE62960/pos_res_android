@@ -33,11 +33,7 @@ class _CheckDatatableState extends State<CheckDatatable> {
 
   Future checkList() async {
     checks = await service.getCheckList();
-    print("checks: ");
-    print(checks);
     checkFilter = checks;
-    print("check filter: ");
-    print(checkFilter);
     return checks;
   }
 

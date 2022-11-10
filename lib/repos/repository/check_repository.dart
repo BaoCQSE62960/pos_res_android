@@ -9,26 +9,21 @@ class CheckRepository {
   String uriConnect = uri;
 
   Future<List<Check>> getCheckList() async {
-    headers = storage.getItem('headers');
-
-    @override
+    Map<String, String> headers = storage.getItem('headers');
     Response res = await get(Uri.parse(uriConnect + '/search/checklist/'),
         headers: headers);
+
+    List<Check> list = [];
     if (res.statusCode == 200) {
-      // ignore: avoid_print
       print('Get check list successful');
-      print("res:" + res.body);
-      Map<String, dynamic> body = jsonDecode(res.body);
-      List<Check> list = ListCheck.fromJson(body['checkList']).list;
+      List<dynamic> body = jsonDecode(res.body);
+      list = ListCheck.fromJson(body).list;
       return list;
     } else {
-      throw Exception('Failed to load check list');
-      // print('Failed to load shift ' + res.body);
-      // return [];
+      throw Exception('cautch at getCheckList');
     }
   }
 
   // cookie
   final LocalStorage storage = LocalStorage('cookie');
-  Map<String, String> headers = {"content-type": "application/json"};
 }

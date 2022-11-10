@@ -89,7 +89,7 @@ class LoginRepository {
     var body = json.encode(data);
 
     print(body);
-    Response res = await post(Uri.parse(uriConnect + '/logout/cashierclose/'),
+    Response res = await put(Uri.parse(uriConnect + '/logout/cashierclose/'),
         headers: headers, body: body);
 
     print(res.statusCode);

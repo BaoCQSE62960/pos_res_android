@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 class Check {
   int id;
   DateTime date;
@@ -22,7 +24,7 @@ class Check {
   factory Check.fromJson(Map<String, dynamic> json) {
     return Check(
       id: json['id'],
-      date: json['date'],
+      date: DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').parse(json['creationtime']),
       checkno: json['checkno'],
       tablename: json['tablename'],
       locationname: json['locationname'],
@@ -46,11 +48,5 @@ class ListCheck {
   factory ListCheck.fromJson(List<dynamic> parseJson) {
     List<Check> list = parseJson.map((e) => Check.fromJson(e)).toList();
     return ListCheck(list: list);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['checklist'] = list;
-    return data;
   }
 }

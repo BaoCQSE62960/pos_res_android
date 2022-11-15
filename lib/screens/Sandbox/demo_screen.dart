@@ -6,7 +6,6 @@ import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Table/widget/location_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_action_button.dart';
 import 'package:pos_res_android/screens/Table/widget/status_filter.dart';
-import 'package:pos_res_android/screens/Table/widget/table_layout.dart';
 
 class DemoScreen extends StatelessWidget {
   const DemoScreen({Key? key}) : super(key: key);

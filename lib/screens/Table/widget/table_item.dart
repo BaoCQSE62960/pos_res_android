@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_res_android/common/utils/navigation_service.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
@@ -202,7 +203,8 @@ class TableItem extends StatelessWidget {
             listCheckDetail: orderBloc.state.listSelectedCheckDetail,
             currentCheckID: orderBloc.state.checkId,
             targatTableID: tableid));
-        Navigator.of(context).pushNamed('/tableoverview');
+        Navigator.of(NavigationService.navigatorKey.currentContext!)
+            .pushNamed('/tableoverview');
       },
     );
     AlertDialog alert = AlertDialog(
@@ -237,8 +239,8 @@ class TableItem extends StatelessWidget {
             locationID: 0,
             currentTableID: orderBloc.state.tableId,
             targatTableID: tableid));
-
-        Navigator.of(context).pushNamed('/tableoverview');
+        Navigator.of(NavigationService.navigatorKey.currentContext!)
+            .pushNamed('/tableoverview');
       },
     );
     AlertDialog alert = AlertDialog(

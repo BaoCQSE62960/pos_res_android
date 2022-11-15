@@ -29,7 +29,23 @@ class TableRepository {
   }
 
   //get location table
-  Future<List> getLocationTable(int locationId) async {
+  // Future<List> getLocationTable(int locationId) async {
+  //   headers = storage.getItem('headers');
+  //   Response res = await get(
+  //       Uri.parse(uriConnect + '/tableoverview/location/$locationId'),
+  //       headers: headers);
+  //   if (res.statusCode == 200) {
+  //     print('Get location table successful');
+  //     Map<String, dynamic> body = jsonDecode(res.body);
+  //     String locationId = body[0];
+  //     List<Table> listTable = ListTable.fromJson(body[1]).list;
+  //     return [locationId, listTable];
+  //   } else {
+  //     throw Exception('Failed to load location table');
+  //   }
+  // }
+
+  Future<List<Table>> getLocationTable(int locationId) async {
     headers = storage.getItem('headers');
     Response res = await get(
         Uri.parse(uriConnect + '/tableoverview/location/$locationId'),
@@ -37,9 +53,8 @@ class TableRepository {
     if (res.statusCode == 200) {
       print('Get location table successful');
       Map<String, dynamic> body = jsonDecode(res.body);
-      String locationId = body[0];
-      List<Table> listTable = ListTable.fromJson(body[1]).list;
-      return [locationId, listTable];
+      List<Table> list = ListTable.fromJson(body['tables']).list;
+      return list;
     } else {
       throw Exception('Failed to load location table');
     }

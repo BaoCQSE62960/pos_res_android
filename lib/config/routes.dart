@@ -25,6 +25,9 @@ class PosRestaurantRoute {
 // String uri = "http://10.1.126.179:5000";
 
 //Bao's uri
+//4G
+// String uri = "http://192.168.41.136:5000";
+
 //Home
 // String uri = "http://192.168.1.5:5000";
 // String uri = "http://192.168.1.6:5000";

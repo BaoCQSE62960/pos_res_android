@@ -5,7 +5,7 @@ import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Check/widget/check_info.dart';
 import 'package:pos_res_android/screens/Check/widget/item_detail.dart';
-import 'package:pos_res_android/screens/order/widget/order_general_info_widget.dart';
+import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
 
 class CheckDetailScreen extends StatelessWidget {
   const CheckDetailScreen({Key? key}) : super(key: key);

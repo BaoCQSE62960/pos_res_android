@@ -1,8 +1,42 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/bill.dart';
 
-class BillInfo extends StatelessWidget {
-  const BillInfo({Key? key}) : super(key: key);
+class BillInfo extends StatefulWidget {
+  final List<BillItem> list;
+  const BillInfo({Key? key, required this.list}) : super(key: key);
+
+  @override
+  State<BillInfo> createState() => _BillInfoState();
+}
+
+class _BillInfoState extends State<BillInfo> {
+  List<BillItem> billItem = [];
+  String shiftNameShow = "";
+  String? guestNameShow = "";
+  String? noteShow = "";
+  String statusShow = "";
+  final newFormat = DateFormat('yyyy-MM-dd');
+
+  @override
+  void initState() {
+    super.initState();
+    billItem = widget.list;
+
+    guestNameShow = billItem[0].guestname;
+    noteShow = billItem[0].note;
+    statusShow = billItem[0].status;
+
+    guestNameShow ??= "";
+    noteShow ??= "";
+
+    if (statusShow == 'REFUND') {
+      statusShow = 'Hoàn tiền';
+    } else if (statusShow == 'CLOSED') {
+      statusShow = 'Đóng';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +58,7 @@ class BillInfo extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Ngày: "
-                "29/12/2020",
+            // hintText: "Ngày: ${newFormat.format(billItem[0].creationtime)}",
             hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),

@@ -44,10 +44,7 @@ class _DropdownShiftState extends State<DropdownShift> {
               ),
               onChanged: (String? value) {
                 setState(() {
-                  print(shiftName);
                   dropdownValue = value!;
-                  // ignore: avoid_print
-                  print(value);
                 });
               },
               items: shiftName.map<DropdownMenuItem<String>>(

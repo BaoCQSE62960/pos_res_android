@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/payment.dart';
 import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
 import 'package:pos_res_android/repos/repository/menu_repository.dart';
+import 'package:pos_res_android/repos/services/payment_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
@@ -26,6 +29,15 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  List<Payment> methods = [];
+  // List methods = [1];
+  final PaymentService service = Get.put(PaymentService());
+
+  Future<List<Payment>> getMethodList() async {
+    List<Payment> met = await service.getPaymentMethodList();
+    return met;
+  }
+
   // List<CustomMajorButton> listMajor = [
   //   const CustomMajorButton(
   //       icons: Icon(
@@ -202,31 +214,17 @@ class _OrderScreenState extends State<OrderScreen> {
             children: [
               Expanded(
                 flex: 2,
-                child: Container(
-                  width: defaultPadding * 39.6,
-                  height: defaultPadding * 20,
-                  color: textLightColor,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: defaultPadding * 4,
-                        color: textLightColor,
-                        child: const TotalVND(),
-                      ),
-                      Container(
-                        height: defaultPadding * 20,
-                        color: deactiveLightColor,
-                        child: const PaymentMethod(),
-                      ),
-                      Container(
-                        height: defaultPadding * 4,
-                        width: defaultPadding * 43,
-                        child: const PaymentInput(),
-                        color: textLightColor,
-                      ),
-                    ],
-                  ),
-                ),
+                child: FutureBuilder(
+                    future: getMethodList(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        List<Payment> list = snapshot.requireData;
+                        return PaymentMethod(
+                          list: list,
+                        );
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    }),
               ),
               const Divider(color: dividerColor),
               Expanded(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Payment/payment_screen.dart';
+import 'package:pos_res_android/screens/Sandbox/payment_screen.dart';
 
 class PaymentBtn extends StatelessWidget {
   const PaymentBtn({Key? key}) : super(key: key);

@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/payment.dart';
+import 'package:pos_res_android/repos/services/payment_service.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PaymentScreen> createState() => _PaymentScreenState();
+}
+
+class _PaymentScreenState extends State<PaymentScreen> {
+  List<Payment> methods = [];
+  final PaymentService service = Get.put(PaymentService());
+
+  Future getMethodList() async {
+    methods = await service.getPaymentMethodList();
+    return methods;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMethodList();
+    print("methods: +$methods");
+  }
 
   @override
   Widget build(BuildContext context) {

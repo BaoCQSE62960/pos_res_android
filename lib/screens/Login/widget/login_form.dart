@@ -152,7 +152,7 @@ class _LoginFormState extends State<LoginForm> {
                   if (result[1].toString().contains("CASHIER")) {
                     list = await service.getShifts();
                     if (list.isEmpty) {
-                      msg = "Không có dữ liệu!";
+                      msg = "Không có ca làm việc!";
                       _simpleFailDialog();
                     } else {
                       _openingDialog();

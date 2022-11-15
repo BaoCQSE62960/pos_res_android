@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/screens/Table/widget/buttons/payment_btn.dart';
+import 'package:pos_res_android/screens/Sandbox/widget/buttons/payment_btn.dart';
 import 'package:pos_res_android/screens/Bill/widget/refund_btn.dart';
 
 class TransactionActionButton extends StatelessWidget {

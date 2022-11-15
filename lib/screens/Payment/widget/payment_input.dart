@@ -2,13 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pos_res_android/common/widgets/web_view.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/services/momo_service.dart';
 
-class PaymentInput extends StatelessWidget {
-  const PaymentInput({
-    Key? key,
-  }) : super(key: key);
+class PaymentInput extends StatefulWidget {
+  dynamic service;
+  PaymentInput({Key? key, required this.service}) : super(key: key);
 
+  @override
+  State<PaymentInput> createState() => _PaymentInputState();
+}
+
+class _PaymentInputState extends State<PaymentInput> {
+  String amount = '';
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -23,12 +30,17 @@ class PaymentInput extends StatelessWidget {
               bottomLeft: Radius.circular(30),
             ),
           ),
-          child: const Flexible(
+          child: Flexible(
             child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  amount = value;
+                });
+              },
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               cursorColor: primaryColor,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 fillColor: selectedColor,
                 prefixIconColor: primaryColor,
@@ -65,7 +77,18 @@ class PaymentInput extends StatelessWidget {
                 maximumSize: const Size(double.infinity, 56),
                 minimumSize: const Size(double.infinity, 56),
               ),
-              onPressed: () => SystemNavigator.pop(),
+              onPressed: () async {
+                if (widget.service.runtimeType == MomoService) {
+                  MomoService service = widget.service;
+                  String url = await service.getPayment(amount);
+                  var result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DisplayWebView(url: url),
+                      ));
+                  print(result);
+                }
+              },
               // onPressed: () => exit(0),
               child: Text(
                 "Xác nhận".toUpperCase(),

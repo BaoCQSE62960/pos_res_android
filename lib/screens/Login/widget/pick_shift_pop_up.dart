@@ -17,7 +17,7 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
   List<Shift> list = [];
   late Shift selectedShift;
   String openingAmount = "";
-  late int amount;
+  late num amount;
 
   Future<void> _missingAmountDialog() async {
     return showDialog<void>(

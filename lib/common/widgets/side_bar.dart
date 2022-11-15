@@ -15,7 +15,7 @@ class _SideBarState extends State<SideBar> {
   List result = [];
   LoginService service = LoginService();
   String closingAmount = "";
-  late int amount;
+  late num amount;
 
   Future getCurrentUserRole() async {
     LoginService service = LoginService();
@@ -86,7 +86,7 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/search/checklist');
+                    Navigator.of(context).pushNamed('/checklist');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,

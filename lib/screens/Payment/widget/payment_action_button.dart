@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/payment.dart';
+import 'package:pos_res_android/repos/services/payment_service.dart';
 
-class PaymentActionButton extends StatelessWidget {
-  const PaymentActionButton({Key? key}) : super(key: key);
+class PaymentActionButton extends StatefulWidget {
+  List<PaymentProcess> paidList;
+  int checkId;
+  PaymentActionButton({Key? key, required this.checkId, required this.paidList})
+      : super(key: key);
+
+  @override
+  State<PaymentActionButton> createState() => _PaymentActionButtonState();
+}
+
+class _PaymentActionButtonState extends State<PaymentActionButton> {
+  PaymentService service = PaymentService();
+  late List<PaymentProcess> paidList;
+  late int checkId;
+  @override
+  void initState() {
+    super.initState();
+    paidList = widget.paidList;
+    checkId = widget.checkId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +41,9 @@ class PaymentActionButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                service.processCheck(checkId, paidList);
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [

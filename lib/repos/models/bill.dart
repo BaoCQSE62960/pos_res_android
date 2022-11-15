@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
+//# checkId - BillItem
 class Bill {
   int id;
   DateTime date;
@@ -88,6 +89,67 @@ class BillItem {
   }
 }
 
+class BillDetailModel {
+  int id;
+  String itemname;
+  num itemprice;
+  double quantity;
+  num subtotal;
+  num taxamount;
+  num amount;
+
+  BillDetailModel({
+    required this.id,
+    required this.itemname,
+    required this.itemprice,
+    required this.quantity,
+    required this.subtotal,
+    required this.taxamount,
+    required this.amount,
+  });
+
+  factory BillDetailModel.fromJson(Map<String, dynamic> json) {
+    return BillDetailModel(
+      id: json['id'],
+      itemname: json['itemname'],
+      itemprice: num.parse(json['itemprice']),
+      quantity: double.parse(json['quantity'].toString()),
+      subtotal: num.parse(json['subtotal']),
+      taxamount: num.parse(json['taxamount']),
+      amount: num.parse(json['amount']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    return data;
+  }
+}
+
+class BillPayment {
+  String paymentmethodname;
+  num amountreceive;
+
+  BillPayment({
+    required this.paymentmethodname,
+    required this.amountreceive,
+  });
+
+  factory BillPayment.fromJson(Map<String, dynamic> json) {
+    return BillPayment(
+      paymentmethodname: json['paymentmethodname'],
+      amountreceive: num.parse(json['amountreceive']),
+    );
+  }
+
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = <String, dynamic>{};
+  //   data['paymentmethodname'] = paymentmethodname;
+  //   return data;
+  // }
+}
+
 class ListBill {
   final List<Bill> list;
   ListBill({required this.list});
@@ -105,5 +167,27 @@ class ListBillItemDetail {
   factory ListBillItemDetail.fromJson(List<dynamic> parseJson) {
     List<BillItem> list = parseJson.map((e) => BillItem.fromJson(e)).toList();
     return ListBillItemDetail(list: list);
+  }
+}
+
+class ListBillDetailInfo {
+  final List<BillDetailModel> list;
+  ListBillDetailInfo({required this.list});
+
+  factory ListBillDetailInfo.fromJson(List<dynamic> parseJson) {
+    List<BillDetailModel> list =
+        parseJson.map((e) => BillDetailModel.fromJson(e)).toList();
+    return ListBillDetailInfo(list: list);
+  }
+}
+
+class ListBillPayment {
+  final List<BillPayment> list;
+  ListBillPayment({required this.list});
+
+  factory ListBillPayment.fromJson(List<dynamic> parseJson) {
+    List<BillPayment> list =
+        parseJson.map((e) => BillPayment.fromJson(e)).toList();
+    return ListBillPayment(list: list);
   }
 }

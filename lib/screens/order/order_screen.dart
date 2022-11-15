@@ -15,10 +15,7 @@ import 'package:pos_res_android/screens/Order/widget/menu_item_cart.dart';
 import 'package:pos_res_android/screens/Order/widget/order_customer_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_detail_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
+import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -30,6 +27,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   List<Payment> methods = [];
+  List<PaymentProcess> paidList = [];
   // List methods = [1];
   final PaymentService service = Get.put(PaymentService());
 
@@ -208,45 +206,19 @@ class _OrderScreenState extends State<OrderScreen> {
                 offset: const Offset(4.0, 3.0)),
           ],
         ),
-        child: Container(
-          color: textLightColor,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 2,
-                child: FutureBuilder(
-                    future: getMethodList(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        List<Payment> list = snapshot.requireData;
-                        return PaymentMethod(
-                          list: list,
-                        );
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    }),
-              ),
-              const Divider(color: dividerColor),
-              Expanded(
-                flex: 1,
-                //
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: defaultPadding * 35,
-                      height: defaultPadding * 43.5,
-                      decoration: const BoxDecoration(
-                        color: textLightColor,
-                      ),
-                      child: const PaymentPaidItem(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        child: FutureBuilder(
+            future: getMethodList(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                List<Payment> list = snapshot.requireData;
+                return PaymentBody(
+                  list: list,
+                  paidList: paidList,
+                  checkId: 1,
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
       ),
       flex: 16,
     );

@@ -10,4 +10,16 @@ class BillService {
   Future<List<BillItem>> getBillItem(int billId) async {
     return repos.getBillItem(billId);
   }
+
+  Future<List<BillDetailModel>> getBillDetail(int billId) async {
+    return repos.getBillDetail(billId);
+  }
+
+  Future<List<BillPayment>> getBillPayment(int billId) async {
+    return repos.getBillPayment(billId);
+  }
+
+  Future refund(int billId) async {
+    return repos.refund(billId);
+  }
 }

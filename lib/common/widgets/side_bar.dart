@@ -16,6 +16,7 @@ class _SideBarState extends State<SideBar> {
   LoginService service = LoginService();
   String closingAmount = "";
   late num amount;
+  String msg = "";
 
   Future getCurrentUserRole() async {
     LoginService service = LoginService();
@@ -29,12 +30,11 @@ class _SideBarState extends State<SideBar> {
     return result;
   }
 
-  Future<void> _missingAmountDialog() async {
+  Future<void> _messageDialog(String msg) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        String msg = "Xin hãy nhập số tiền!";
         return WarningPopUp(msg: msg);
       },
     );
@@ -258,16 +258,22 @@ class _SideBarState extends State<SideBar> {
                           child: const Text('Xác nhận'),
                           onPressed: () async {
                             if (closingAmount.isEmpty) {
-                              _missingAmountDialog();
+                              msg = "Xin hãy nhập số tiền!";
+                              _messageDialog(msg);
                             } else {
                               amount = int.parse(closingAmount);
-                              service.close(amount);
-                              result = await logoutFromSystem();
-                              if (result[0] == true) {
-                                Navigator.of(context).pushNamed('/login');
+                              if (amount < 0) {
+                                msg = "Xin nhập số tiền hợp lệ!";
+                                _messageDialog(msg);
                               } else {
-                                Navigator.of(context).pushNamed('/login');
-                                _logoutFailDialog();
+                                service.close(amount);
+                                result = await logoutFromSystem();
+                                if (result[0] == true) {
+                                  Navigator.of(context).pushNamed('/login');
+                                } else {
+                                  Navigator.of(context).pushNamed('/login');
+                                  _logoutFailDialog();
+                                }
                               }
                             }
                             closingAmount = "";

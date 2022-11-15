@@ -9,12 +9,18 @@ import 'package:pos_res_android/screens/Bill/widget/bill_info_top.dart';
 import 'package:pos_res_android/screens/Bill/widget/item_detail.dart';
 import 'package:pos_res_android/screens/Bill/widget/payment_detail.dart';
 import 'package:pos_res_android/screens/Bill/widget/refund_btn.dart';
-import 'package:pos_res_android/screens/Check/widget/check_info_top.dart';
-import 'package:pos_res_android/screens/order/widget/order_general_info_widget.dart';
 
 class BillDetailScreen extends StatefulWidget {
   final List<BillItem> listBill;
-  const BillDetailScreen({Key? key, required this.listBill}) : super(key: key);
+  final List<BillDetailModel> listDetail;
+  final List<BillPayment> listPayment;
+
+  const BillDetailScreen({
+    Key? key,
+    required this.listBill,
+    required this.listDetail,
+    required this.listPayment,
+  }) : super(key: key);
 
   @override
   State<BillDetailScreen> createState() => _BillDetailScreenState();
@@ -24,6 +30,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
   bool swap = false;
   Color swapColor = selectColor;
   List<BillItem> billItem = [];
+  List<BillDetailModel> billDetail = [];
+  List<BillPayment> billPayment = [];
   final List<bool> _selectedTab = <bool>[true, false];
   final List<String> selectedTab = <String>["Đơn hàng", "Thanh toán"];
 
@@ -33,19 +41,22 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
     const Text('Đơn hàng'),
     const Text('Thanh toán'),
   ];
+
   @override
   void initState() {
     super.initState();
     billItem = widget.listBill;
+    billDetail = widget.listDetail;
+    billPayment = widget.listPayment;
   }
 
   @override
   Widget build(BuildContext context) {
     Widget swapWidget = Container();
     if (swap) {
-      swapWidget = const BillPaymentItemDetail();
+      swapWidget = BillPaymentItemDetail(listPayment: billPayment);
     } else {
-      swapWidget = const BillItemDetail();
+      swapWidget = BillItemDetail(list: billDetail);
     }
 
     var swapTile = ListTile(
@@ -118,8 +129,8 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                                 defaultPadding * 7,
                             height: defaultPadding * 2.5,
                             child: Padding(
-                              padding:
-                                  EdgeInsets.only(top: defaultPadding * 0.5),
+                              padding: const EdgeInsets.only(
+                                  top: defaultPadding * 0.5),
                               child: BillGeneralInfo(list: billItem),
                             )),
                       ],
@@ -149,7 +160,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                                   child: SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width / 4.5,
-                                    child: const RefundBtn(),
+                                    child: RefundBtn(list: billItem),
                                   ),
                                 ),
                               ],

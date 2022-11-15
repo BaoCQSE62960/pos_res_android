@@ -2,8 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:crypto/crypto.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:http/http.dart';
@@ -26,6 +24,28 @@ class PaymentRepository {
     } else {
       throw Exception('cautch at getPaymentMethodList');
     }
+  }
+
+  Future<bool> processCheck(
+      int checkId, List<PaymentProcess> paymentList) async {
+    Map<String, String> headers = storage.getItem('headers');
+
+    Map<String, dynamic> data = <String, dynamic>{};
+    data['checkid'] = checkId.toString();
+    data['paymentlist'] = paymentList.map((e) => e.toJson()).toList();
+    String body = jsonEncode(data);
+    print(body);
+    return true;
+    // Response res = await post(
+    //     Uri.parse(uriConnect + '/orderprocess/check/process/'),
+    //     headers: headers,
+    //     body: body);
+    // if (res.statusCode == 200) {
+    //   print('process check successful');
+    //   return true;
+    // } else {
+    //   throw Exception('cautch at processCheck');
+    // }
   }
 
   // cookie

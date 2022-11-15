@@ -7,6 +7,7 @@ import 'package:pos_res_android/repos/models/bill.dart';
 import 'package:pos_res_android/repos/services/bill_service.dart';
 import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 class ViewListBills extends StatefulWidget {
   final List<Bill> list;
@@ -24,6 +25,9 @@ class _ViewListBillsState extends State<ViewListBills> {
   List<Bill> bills = [];
   List<Bill> billFilter = [];
   List<BillItem> billItem = [];
+  List<BillDetailModel> billDetail = [];
+  List<BillPayment> billPayment = [];
+
   String statusFilter = "";
   String msg = "";
   final newFormat = DateFormat('yyyy-MM-dd');
@@ -36,6 +40,16 @@ class _ViewListBillsState extends State<ViewListBills> {
   Future getBillItemDetail(int billId) async {
     billItem = await service.getBillItem(billId);
     return billItem;
+  }
+
+  Future getBillDetailInfo(int billId) async {
+    billDetail = await service.getBillDetail(billId);
+    return billDetail;
+  }
+
+  Future getBillPayment(int billId) async {
+    billPayment = await service.getBillPayment(billId);
+    return billPayment;
   }
 
   @override
@@ -230,17 +244,23 @@ class _ViewListBillsState extends State<ViewListBills> {
                       DataCell(Text(billFilter.billno)),
                       DataCell(Text(billFilter.tablename)),
                       DataCell(Text(billFilter.locationname)),
-                      DataCell(Text(billFilter.totaltax.toString())),
-                      DataCell(Text(billFilter.totalamount.toString())),
+                      DataCell(Text(billFilter.totaltax.toVND(unit: ""))),
+                      DataCell(Text(billFilter.totalamount.toVND(unit: ""))),
                       DataCell(Text(statusShow)),
                     ],
                     onLongPress: () async {
                       billItem = await getBillItemDetail(billFilter.id);
+                      billDetail = await getBillDetailInfo(billFilter.id);
+                      billPayment = await getBillPayment(billFilter.id);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return BillDetailScreen(listBill: billItem);
+                            return BillDetailScreen(
+                              listBill: billItem,
+                              listDetail: billDetail,
+                              listPayment: billPayment,
+                            );
                           },
                         ),
                       );

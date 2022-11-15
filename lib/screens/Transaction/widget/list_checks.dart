@@ -7,6 +7,7 @@ import 'package:pos_res_android/repos/models/check.dart';
 import 'package:pos_res_android/repos/services/check_service.dart';
 import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 class ViewListChecks extends StatefulWidget {
   final List<Check> list;
@@ -24,6 +25,8 @@ class _ViewListChecksState extends State<ViewListChecks> {
   List<Check> checks = [];
   List<Check> checkFilter = [];
   List<CheckItem> checkItem = [];
+  List<CheckDetailModel> checkDetail = [];
+
   String statusFilter = "";
   String msg = "";
   // int? sortColumnIndex;
@@ -44,6 +47,11 @@ class _ViewListChecksState extends State<ViewListChecks> {
   Future getCheckItemDetail(int checkId) async {
     checkItem = await service.getCheckItem(checkId);
     return checkItem;
+  }
+
+  Future getCheckDetailInfo(int checkId) async {
+    checkDetail = await service.getCheckDetail(checkId);
+    return checkDetail;
   }
 
   @override
@@ -252,8 +260,8 @@ class _ViewListChecksState extends State<ViewListChecks> {
                     DataCell(Text(checkFilter.checkno)),
                     DataCell(Text(tableNameShow)),
                     DataCell(Text(checkFilter.locationname)),
-                    DataCell(Text(checkFilter.totaltax.toString())),
-                    DataCell(Text(checkFilter.totalamount.toString())),
+                    DataCell(Text(checkFilter.totaltax.toVND(unit: ""))),
+                    DataCell(Text(checkFilter.totalamount.toVND(unit: ""))),
                     DataCell(Text(statusShow)),
                   ],
                   onLongPress: () async {
@@ -261,12 +269,16 @@ class _ViewListChecksState extends State<ViewListChecks> {
                     //   //push checkOrder
                     // } else {
                     checkItem = await getCheckItemDetail(checkFilter.id);
+                    checkDetail = await getCheckDetailInfo(checkFilter.id);
                     // Navigator.of(context).pushNamed('/tableoverview');
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return CheckDetailScreen(listCheck: checkItem);
+                          return CheckDetailScreen(
+                            listCheck: checkItem,
+                            listDetail: checkDetail,
+                          );
                         },
                       ),
                     );

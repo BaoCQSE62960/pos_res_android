@@ -98,6 +98,70 @@ class CheckItem {
   }
 }
 
+class CheckSpecialRequest {
+  String name;
+
+  CheckSpecialRequest({
+    required this.name,
+  });
+
+  factory CheckSpecialRequest.fromJson(Map<String, dynamic> json) {
+    return CheckSpecialRequest(
+      name: json['name'],
+    );
+  }
+}
+
+class CheckDetailModel {
+  int id;
+  String itemname;
+  double quantity;
+  String? note;
+  num subtotal;
+  num taxamount;
+  num amount;
+  String status;
+  DateTime? completiontime;
+  List<CheckSpecialRequest>? specialrequest;
+
+  CheckDetailModel({
+    required this.id,
+    required this.itemname,
+    required this.quantity,
+    this.note,
+    required this.subtotal,
+    required this.taxamount,
+    required this.amount,
+    required this.status,
+    this.completiontime,
+    this.specialrequest,
+  });
+
+  factory CheckDetailModel.fromJson(Map<String, dynamic> json) {
+    return CheckDetailModel(
+      id: json['id'],
+      itemname: json['itemname'],
+      quantity: double.parse(json['quantity'].toString()),
+      note: json['note'],
+      subtotal: num.parse(json['subtotal']),
+      taxamount: num.parse(json['taxamount']),
+      amount: num.parse(json['amount']),
+      status: json["status"],
+      completiontime: json['completiontime'] != null
+          ? DateTime.parse(json['completiontime'])
+          : null,
+      specialrequest:
+          ListCheckSpecialRequest.fromJson(json["specialrequest"]).list,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    return data;
+  }
+}
+
 class ListCheck {
   final List<Check> list;
   ListCheck({required this.list});
@@ -115,5 +179,27 @@ class ListCheckItemDetail {
   factory ListCheckItemDetail.fromJson(List<dynamic> parseJson) {
     List<CheckItem> list = parseJson.map((e) => CheckItem.fromJson(e)).toList();
     return ListCheckItemDetail(list: list);
+  }
+}
+
+class ListCheckDetailInfo {
+  final List<CheckDetailModel> list;
+  ListCheckDetailInfo({required this.list});
+
+  factory ListCheckDetailInfo.fromJson(List<dynamic> parseJson) {
+    List<CheckDetailModel> list =
+        parseJson.map((e) => CheckDetailModel.fromJson(e)).toList();
+    return ListCheckDetailInfo(list: list);
+  }
+}
+
+class ListCheckSpecialRequest {
+  final List<CheckSpecialRequest>? list;
+  ListCheckSpecialRequest({required this.list});
+
+  factory ListCheckSpecialRequest.fromJson(List<dynamic> parseJson) {
+    List<CheckSpecialRequest> list =
+        parseJson.map((e) => CheckSpecialRequest.fromJson(e)).toList();
+    return ListCheckSpecialRequest(list: list);
   }
 }

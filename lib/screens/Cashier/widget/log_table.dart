@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_res_android/repos/models/log.dart';
 import 'package:pos_res_android/repos/services/log_service.dart';
-import 'package:pos_res_android/screens/Transaction/widget/list_logs.dart';
+import 'package:pos_res_android/screens/Cashier/widget/list_logs.dart';
 
 class LogDatatable extends StatefulWidget {
   const LogDatatable({Key? key}) : super(key: key);

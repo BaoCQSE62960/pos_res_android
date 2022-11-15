@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, non_constant_identifier_names
 
 import 'dart:convert';
 
@@ -73,6 +73,7 @@ class MomoRepository {
 
     String json = jsonEncode(data);
     Response res = await post(Uri.parse(uriMomo), headers: headers, body: json);
+    print(res.body);
     if (res.statusCode == 200) {
       result = jsonDecode(res.body);
       if (result['resultCode'] == 0) {

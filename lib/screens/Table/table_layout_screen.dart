@@ -31,9 +31,9 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
                     children: const [
                       FilterSection(),
                       TableSection(),
-                      SizedBox(
-                        child: ActionButton(),
-                      ),
+                      // SizedBox(
+                      //   child: ActionButton(),
+                      // ),
                     ],
                   ),
                 ),

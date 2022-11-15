@@ -42,6 +42,24 @@ class CheckRepository {
     }
   }
 
+  Future<List<CheckDetailModel>> getCheckDetail(int checkId) async {
+    Map<String, String> headers = storage.getItem('headers');
+    Response res = await get(
+        Uri.parse(uriConnect + '/search/check/$checkId/detail'),
+        headers: headers);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      print('Get check detail successful');
+      List<CheckDetailModel> list =
+          ListCheckDetailInfo.fromJson(body['checkdetail']).list;
+      print('Map check detail successful');
+      return list;
+    } else {
+      throw Exception('cautch at getCheckItem');
+    }
+  }
+
   // cookie
   final LocalStorage storage = LocalStorage('cookie');
 }

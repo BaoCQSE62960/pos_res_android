@@ -20,6 +20,17 @@ class _AmountPopupState extends State<AmountPopup> {
   num amount = 0;
   String currentAmount = "";
   List logItem = [];
+  String msg = "";
+
+  Future<void> _messageDialog(String msg) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return WarningPopUp(msg: msg);
+      },
+    );
+  }
 
   Future putCashierLogAmount(logId, amount) async {
     logItem = await service.putCashierLogAmount(logId, amount);
@@ -50,7 +61,7 @@ class _AmountPopupState extends State<AmountPopup> {
     logId = widget.log.id;
     currentAmount = widget.log.amount.toString();
     if (currentAmount.isEmpty) {
-      currentAmount = "Nhập số tiền";
+      currentAmount = "0";
     }
   }
 
@@ -107,15 +118,20 @@ class _AmountPopupState extends State<AmountPopup> {
               child: ElevatedButton(
                 child: const Text('Xác nhận'),
                 onPressed: () async {
-                  logItem = await putCashierLogAmount(
-                      logId, num.parse(currentAmount));
-                  if (logItem[0] == true) {
-                    widget.log.setAmount = num.parse(currentAmount);
-                    Navigator.of(context).pop();
-                  }
-                  if (logItem[0] == false) {
-                    Navigator.of(context).pop();
-                    _msgFailDialog();
+                  if (num.parse(currentAmount) < 0) {
+                    msg = "Xin nhập số tiền hợp lệ!";
+                    _messageDialog(msg);
+                  } else {
+                    logItem = await putCashierLogAmount(
+                        logId, num.parse(currentAmount));
+                    if (logItem[0] == true) {
+                      widget.log.setAmount = num.parse(currentAmount);
+                      Navigator.of(context).pop();
+                    }
+                    if (logItem[0] == false) {
+                      Navigator.of(context).pop();
+                      _msgFailDialog();
+                    }
                   }
                 },
                 style: ElevatedButton.styleFrom(

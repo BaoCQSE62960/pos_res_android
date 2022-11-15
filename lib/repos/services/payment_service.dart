@@ -6,4 +6,8 @@ class PaymentService {
   Future<List<Payment>> getPaymentMethodList() async {
     return repos.getPaymentMethodList();
   }
+
+  Future<bool> processCheck(int checkId, List<PaymentProcess> paymentList) {
+    return repos.processCheck(checkId, paymentList);
+  }
 }

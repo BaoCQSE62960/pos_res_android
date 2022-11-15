@@ -10,4 +10,8 @@ class CheckService {
   Future<List<CheckItem>> getCheckItem(int checkId) async {
     return repos.getCheckItem(checkId);
   }
+
+  Future<List<CheckDetailModel>> getCheckDetail(int checkId) async {
+    return repos.getCheckDetail(checkId);
+  }
 }

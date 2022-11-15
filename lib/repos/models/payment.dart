@@ -20,8 +20,8 @@ class Payment {
   }
 }
 
-class PaymentProcessList {
-  PaymentProcessList({
+class PaymentProcess {
+  PaymentProcess({
     required this.id,
     required this.name,
     required this.amount,
@@ -29,14 +29,26 @@ class PaymentProcessList {
 
   final int id;
   final String name;
-  final num amount;
+  num amount;
 
-  factory PaymentProcessList.fromJson(Map<String, dynamic> json) {
-    return PaymentProcessList(
+  factory PaymentProcess.fromJson(Map<String, dynamic> json) {
+    return PaymentProcess(
       id: json['id'],
       name: json['name'],
       amount: num.parse(json['amount']),
     );
+  }
+
+  set increaseAmount(num newValue) {
+    amount += newValue;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['amount'] = amount.toString();
+    return data;
   }
 }
 
@@ -47,7 +59,7 @@ class PaymentCheck {
   });
 
   final int checkid;
-  final List<PaymentProcessList> list;
+  final List<PaymentProcess> list;
 
   factory PaymentCheck.fromJson(Map<String, dynamic> json) {
     return PaymentCheck(
@@ -68,12 +80,12 @@ class ListPaymentMethod {
 }
 
 class ListPaymentProcess {
-  final List<PaymentProcessList> list;
+  final List<PaymentProcess> list;
   ListPaymentProcess({required this.list});
 
   factory ListPaymentProcess.fromJson(List<dynamic> parseJson) {
-    List<PaymentProcessList> list =
-        parseJson.map((e) => PaymentProcessList.fromJson(e)).toList();
+    List<PaymentProcess> list =
+        parseJson.map((e) => PaymentProcess.fromJson(e)).toList();
     return ListPaymentProcess(list: list);
   }
 }

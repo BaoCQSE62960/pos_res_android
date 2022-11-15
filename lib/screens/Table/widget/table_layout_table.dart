@@ -13,7 +13,7 @@ class TableSection extends StatelessWidget {
       color: textLightColor,
       // height: defaultPadding * 34.38,
       // width: defaultPadding * 58,
-      height: MediaQuery.of(context).size.height - defaultPadding * 8.5,
+      height: MediaQuery.of(context).size.height - defaultPadding * 5,
       width: MediaQuery.of(context).size.width,
       child: const TableLayout(),
     );

@@ -10,12 +10,12 @@ import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:get/get.dart';
-import 'package:pos_res_android/common/widgets/web_view.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/log.dart';
 import 'package:pos_res_android/repos/services/log_service.dart';
 import 'package:pos_res_android/screens/Cashier/widget/update_amount_popup.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 class ViewListCashierLog extends StatefulWidget {
   final List<CashierLog> list;
@@ -170,13 +170,14 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                   ),
                   onSort: onSort,
                 ),
-                const DataColumn(
-                  label: Text(
+                DataColumn(
+                  label: const Text(
                     'Loại',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  onSort: onSort,
                 ),
                 const DataColumn(
                   label: Text(
@@ -185,7 +186,7 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // numeric: true,
+                  numeric: true,
                 ),
                 const DataColumn(
                   label: Text(
@@ -194,6 +195,7 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  numeric: true,
                 ),
               ],
               rows: logFilter.map(
@@ -210,49 +212,31 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                       DataCell(Text(logFilter.shiftname)),
                       DataCell(Text(newFormat.format(logFilter.creationtime))),
                       DataCell(Text(typeShow)),
-                      DataCell(
-                          // TextFormField(
-                          //   initialValue: logs.amount.toString(),
-                          //   keyboardType: TextInputType.number,
-                          //   decoration: const InputDecoration(
-                          //     border: InputBorder.none,
-                          //   ),
-                          //   onFieldSubmitted: (val) {
-                          //     print('onSubmited $val');
-                          //     FocusScope.of(context).unfocus();
-                          //   },
-                          //   onEditingComplete: () {},
-                          //   onSaved: ((newValue) => {}),
-                          // ),
-                          Text(logFilter.amount.toString())
-                          // showEditIcon: true,
-                          ),
+                      DataCell(Text(logFilter.amount.toVND(unit: ""))),
                       DataCell(
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             TextButton(
-                              // onPressed: () async {
-                              //   logItem = await getCashierLogItem(logFilter.id);
-                              //   await _updateAmount(logFilter);
-                              //   setState(() {});
-                              // },
                               onPressed: () async {
-                                // PageView()
-                                String url = await getPayUrl(
-                                    logFilter.amount.toString());
-                                bool result = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return DisplayWebView(
-                                        url: url,
-                                      );
-                                    },
-                                  ),
-                                );
-                                // const DisplayWebView();
+                                logItem = await getCashierLogItem(logFilter.id);
+                                await _updateAmount(logFilter);
+                                setState(() {});
                               },
+                              // onPressed: () async {
+                              //   String url = await getPayUrl(
+                              //       logFilter.amount.toString());
+                              //   bool result = await Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) {
+                              //         return DisplayWebView(
+                              //           url: url,
+                              //         );
+                              //       },
+                              //     ),
+                              //   );
+                              // },
                               style: TextButton.styleFrom(
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
@@ -295,6 +279,9 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
     if (columnIndex == 2) {
       logFilter.sort((log1, log2) => compareString(
           ascending, '${log1.creationtime}', '${log2.creationtime}'));
+    } else if (columnIndex == 3) {
+      logFilter
+          .sort((log1, log2) => compareString(ascending, log1.type, log2.type));
     }
 
     setState(() {

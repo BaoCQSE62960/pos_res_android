@@ -42,6 +42,68 @@ class BillRepository {
     }
   }
 
+  Future<List<BillDetailModel>> getBillDetail(int billId) async {
+    Map<String, String> headers = storage.getItem('headers');
+    Response res = await get(
+        Uri.parse(uriConnect + '/search/bill/$billId/detail'),
+        headers: headers);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      print('Get bill detail successful');
+      List<BillDetailModel> list =
+          ListBillDetailInfo.fromJson(body['billdetail']).list;
+      print('Map bill detail successful');
+      return list;
+    } else {
+      throw Exception('cautch at getBillItem');
+    }
+  }
+
+  Future<List<BillPayment>> getBillPayment(int billId) async {
+    Map<String, String> headers = storage.getItem('headers');
+    Response res = await get(
+        Uri.parse(uriConnect + '/search/bill/$billId/payment'),
+        headers: headers);
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+      print('Get bill payment successful');
+      List<BillPayment> list =
+          ListBillPayment.fromJson(body['paymentdetail']).list;
+      print('Map bill payment successful');
+      return list;
+    } else {
+      throw Exception('cautch at getBillPayment');
+    }
+  }
+
+  Future refund(int billId) async {
+    Map<String, String> headers = storage.getItem('headers');
+    String msg = "";
+    bool result = false;
+    Map data = {"billid": billId};
+    var body = json.encode(data);
+
+    print(body);
+    Response res = await post(
+        Uri.parse(uriConnect + '/orderprocess/bill/refund/'),
+        headers: headers,
+        body: body);
+
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      result = true;
+      print("refund success" + res.body);
+      msg = res.body;
+    } else {
+      msg = res.body;
+      print("msg: " + msg);
+    }
+
+    return [result, msg];
+  }
+
   // cookie
   final LocalStorage storage = LocalStorage('cookie');
 }

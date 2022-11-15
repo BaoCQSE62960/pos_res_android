@@ -4,8 +4,8 @@ import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/bill.dart';
 import 'package:http/http.dart';
+import 'package:pos_res_android/repos/models/cashier/bill.dart';
 
 class BillRepository {
   String uriConnect = uri;

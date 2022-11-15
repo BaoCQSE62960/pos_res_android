@@ -5,12 +5,12 @@ import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/payment.dart';
-import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
-import 'package:pos_res_android/repos/repository/menu_repository.dart';
-import 'package:pos_res_android/repos/services/payment_service.dart';
+import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/menu_repository.dart';
+import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
-import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
 import 'package:pos_res_android/screens/Order/widget/menu_item_cart.dart';
 import 'package:pos_res_android/screens/Order/widget/order_customer_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_detail_info_widget.dart';
@@ -19,9 +19,7 @@ import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key, required this.table}) : super(key: key);
-
-  final TableDetail table;
+  const OrderScreen({Key? key}) : super(key: key);
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
@@ -161,44 +159,38 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-              create: (context) => OrderLayoutBloc(
-                  majorGroupRepository: MajorGroupRepositoryImpl(),
-                  menuRepository: MenuRepositoryImpl(),
-                  checkRepository: CheckRepositoryImpl(),
-                  itemRepository: ItemRepositoryImpl(),
-                  tableInfoRepository: TableInfoRepositoryImpl(),
-                  noteRepository: NoteRepositoryImpl(),
-                  specialRequestsRepository: SpecialRequestsRepositoryImpl())
-                ..add(LoadData(
-                    checkid: widget.table.checkid, tableid: widget.table.id))),
-          BlocProvider(
-            create: (context) => TableLayoutBloc(
-                tableOverviewRepository: TableOverviewRepositoryImpl()),
-          )
-        ],
-        child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
-          builder: (context, state) {
-            return Container(
-              color: Colors.white,
-              child: Row(
-                children: [
-                  const SizedBox(child: SideBar()),
-                  buildOrderDetailWidget(context),
-                  state.currentMode == CurrentMode.order
-                      ? buildOrderMenuWidget(state, context)
-                      : buildOrderPaymentWidget()
-                ],
-              ),
-            );
-          },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                create: (context) => OrderLayoutBloc(
+                    majorGroupRepository: MajorGroupRepositoryImpl(),
+                    menuRepository: MenuRepositoryImpl())
+                  ..add(LoadData())),
+            BlocProvider(
+              create: (context) => TableLayoutBloc(),
+            )
+          ],
+          child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+            builder: (context, state) {
+              return Container(
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    const SizedBox(child: SideBar()),
+                    buildOrderDetailWidget(context),
+                    state.currentMode == CurrentMode.order
+                        ? buildOrderMenuWidget(state)
+                        : buildOrderPaymentWidget()
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
-    ));
+    );
   }
 
   Expanded buildOrderPaymentWidget() {
@@ -232,8 +224,7 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  Expanded buildOrderMenuWidget(OrderLayoutState state, BuildContext context) {
-    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+  Expanded buildOrderMenuWidget(OrderLayoutState state) {
     return Expanded(
         child: Column(children: [
           const Expanded(flex: 1, child: SearchBar()),
@@ -259,26 +250,22 @@ class _OrderScreenState extends State<OrderScreen> {
                             padding: const EdgeInsets.all(5.0),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onLongPress: () => orderBloc.add(ChangeMenu(
-                                    menuid: state.listMenus[index].id)),
-                                child: CustomMajorButton(
-                                    icons: const Icon(
-                                      Icons.flatware,
-                                      color: activeColor,
-                                    ),
-                                    text: state.listMenus[index].name,
-                                    color: state.currentSelectedMenuID ==
-                                            state.listMenus[index].id
-                                        ? activeColor
-                                        : Colors.white,
-                                    textColors: state.currentSelectedMenuID ==
-                                            state.listMenus[index].id
-                                        ? Colors.white
-                                        : activeColor),
-                              );
+                              return CustomMajorButton(
+                                  icons: const Icon(
+                                    Icons.flatware,
+                                    color: activeColor,
+                                  ),
+                                  text: state.listMajorGroups[index].name,
+                                  color: state.currentSelectedMajorID ==
+                                          state.listMajorGroups[index].id
+                                      ? activeColor
+                                      : Colors.white,
+                                  textColors: state.currentSelectedMajorID ==
+                                          state.listMajorGroups[index].id
+                                      ? Colors.white
+                                      : activeColor);
                             },
-                            itemCount: state.listMenus.length,
+                            itemCount: state.listMajorGroups.length,
                           )
                         : const Center(
                             child: CircularProgressIndicator(),
@@ -293,54 +280,39 @@ class _OrderScreenState extends State<OrderScreen> {
                       padding: const EdgeInsets.all(5.0),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onLongPress: () => orderBloc.add(ChangeMajor(
-                              majorid: state.listMajorGroups[index].id)),
-                          child: CustomMajorButton(
-                              icons: const Icon(
-                                Icons.local_pizza,
-                                color: activeColor,
-                              ),
-                              text: state.listMajorGroups[index].name,
-                              color: state.currentSelectedMajorID ==
-                                      state.listMajorGroups[index].id
-                                  ? activeColor
-                                  : Colors.white,
-                              textColors: state.currentSelectedMajorID ==
-                                      state.listMajorGroups[index].id
-                                  ? Colors.white
-                                  : activeColor),
-                        );
+                        return CustomMajorButton(
+                            icons: const Icon(
+                              Icons.local_pizza,
+                              color: activeColor,
+                            ),
+                            text: state.listMenus[index].name,
+                            color: state.currentSelectedMenuID ==
+                                    state.listMenus[index].id
+                                ? activeColor
+                                : Colors.white,
+                            textColors: state.currentSelectedMenuID ==
+                                    state.listMenus[index].id
+                                ? Colors.white
+                                : activeColor);
                       },
-                      itemCount: state.listMajorGroups.length,
+                      itemCount: state.listMenus.length,
                     ),
                     flex: 1,
                   ),
                   Expanded(
                     child: GridView.builder(
                       padding: const EdgeInsets.all(5.0),
-                      itemCount: state.listItems.length,
+                      itemCount: 2,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 5),
                       itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () => orderBloc
-                              .add(AddItem(item: state.listItems[index])),
-                          child: Card(
-                            elevation: 8,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            child: GridTile(
-                                child: MenuItemCard(
-                              item: state.listItems[index],
-                              imageURL: state.listItems[index].image,
-                              name: state.listItems[index].name,
-                              price: state.listItems[index].price.toString(),
-                              isOutOfStock: !state.listItems[index].instock,
-                            )),
-                          ),
+                        return Card(
+                          elevation: 8,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: GridTile(child: listMenuItem[index]),
                         );
                       },
                     ),
@@ -353,31 +325,25 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   Expanded buildOrderDetailWidget(BuildContext context) {
-    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return Expanded(
-        child: orderBloc.state.orderLayoutStatus.isLoading
-            ? Container(
-                color: Colors.transparent,
-                child: const Center(child: CircularProgressIndicator()),
-              )
-            : Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Column(children: [
-                  const Expanded(flex: 1, child: OrderGeneralInfo()),
-                  const Divider(color: dividerColor),
-                  Expanded(
-                      flex: 1,
-                      child: OrderCustomerInfo(
-                        context: context,
-                      )),
-                  const Divider(color: dividerColor),
-                  Expanded(flex: 6, child: OrderDetailInfo()),
-                  const Divider(color: dividerColor),
-                  Expanded(flex: 4, child: calculatePriceWidget(context)),
-                ]),
-              ),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Column(children: [
+            const Expanded(flex: 1, child: OrderGeneralInfo()),
+            const Divider(color: dividerColor),
+            Expanded(
+                flex: 1,
+                child: OrderCustomerInfo(
+                  context: context,
+                )),
+            const Divider(color: dividerColor),
+            Expanded(flex: 6, child: OrderDetailInfo()),
+            const Divider(color: dividerColor),
+            Expanded(flex: 4, child: calculatePriceWidget()),
+          ]),
+        ),
         flex: 8);
   }
 }

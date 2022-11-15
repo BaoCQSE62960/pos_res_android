@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/log.dart';
+import 'package:pos_res_android/repos/models/cashier/log.dart';
 import 'package:http/http.dart';
 
 class CashierLogRepository {

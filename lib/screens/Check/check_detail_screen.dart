@@ -3,7 +3,7 @@ import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/check.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
 import 'package:pos_res_android/screens/Check/widget/check_info.dart';
 import 'package:pos_res_android/screens/Check/widget/check_info_top.dart';
 import 'package:pos_res_android/screens/Check/widget/item_detail.dart';

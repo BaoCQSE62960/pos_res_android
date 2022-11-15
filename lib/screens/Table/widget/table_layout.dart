@@ -8,21 +8,15 @@ import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 import 'package:pos_res_android/screens/Table/widget/table_item.dart';
 
 class TableLayout extends StatelessWidget {
-  // const TableLayout({Key? key, required this.context, required this.socket})
-  //     : super(key: key);
-  const TableLayout({Key? key, required this.context}) : super(key: key);
-
-  final BuildContext context;
-  // final Socket socket;
+  const TableLayout({Key? key}) : super(key: key);
 
   Widget getTextWidgets(int num) {
-    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     List<Widget> list = <Widget>[];
     for (var i = 0; i < num; i++) {
       list.add(
         SizedBox(
           child: TableItem(
-            tableDetail: tableBloc.state.tableOverview.listTable[i],
+            id: i.toString(),
           ),
         ),
       );
@@ -52,7 +46,7 @@ class TableLayout extends StatelessWidget {
               crossAxisSpacing: defaultPadding,
               mainAxisSpacing: defaultPadding * 0.5,
               // childAspectRatio: 1.55,
-              childAspectRatio: 1.55,
+              childAspectRatio: 1.65,
             ),
             children: list),
       ),
@@ -61,13 +55,9 @@ class TableLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
-    // socket.socket.on('update-pos-tableOverview', (data) {
-    //   tableBloc.add(LoadData(locationID: '0'));
-    // });
     return Scaffold(
       backgroundColor: textLightColor,
-      body: getTextWidgets(tableBloc.state.tableOverview.listTable.length),
+      body: getTextWidgets(7),
     );
   }
 

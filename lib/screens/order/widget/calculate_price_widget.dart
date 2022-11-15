@@ -4,7 +4,7 @@ import 'package:pos_res_android/config/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.dart';
-import 'package:pos_res_android/screens/order/widget/buttons/payment_btn.dart';
+import 'package:pos_res_android/screens/Order/widget/buttons/payment_btn.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
 

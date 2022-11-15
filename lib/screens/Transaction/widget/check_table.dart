@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pos_res_android/repos/models/check.dart';
-import 'package:pos_res_android/repos/services/check_service.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
+import 'package:pos_res_android/repos/services/cashier/check_service.dart';
 import 'package:pos_res_android/screens/Transaction/widget/list_checks.dart';
 
 class CheckDatatable extends StatefulWidget {

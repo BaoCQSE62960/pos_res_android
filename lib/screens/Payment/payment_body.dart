@@ -3,11 +3,12 @@ import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/common/widgets/web_view.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/payment.dart';
-import 'package:pos_res_android/repos/services/momo_service.dart';
+import 'package:pos_res_android/repos/services/cashier/momo_service.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method_item.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 
+// ignore: must_be_immutable
 class PaymentBody extends StatefulWidget {
   int checkId;
   List<Payment> list;

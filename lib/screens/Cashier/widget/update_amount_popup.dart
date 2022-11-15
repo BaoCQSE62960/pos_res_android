@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/log.dart';
-import 'package:pos_res_android/repos/services/log_service.dart';
+import 'package:pos_res_android/repos/models/cashier/log.dart';
+import 'package:pos_res_android/repos/services/cashier/log_service.dart';
 
 // ignore: must_be_immutable
 class AmountPopup extends StatefulWidget {

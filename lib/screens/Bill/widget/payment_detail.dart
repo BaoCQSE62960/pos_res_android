@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/bill.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
+import 'package:pos_res_android/repos/models/cashier/bill.dart';
 
 class BillPaymentItemDetail extends StatefulWidget {
   final List<BillPayment> listPayment;

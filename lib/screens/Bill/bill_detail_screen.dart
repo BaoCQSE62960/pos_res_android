@@ -3,12 +3,13 @@ import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/bill.dart';
 import 'package:pos_res_android/screens/Bill/widget/bill_info.dart';
 import 'package:pos_res_android/screens/Bill/widget/bill_info_top.dart';
 import 'package:pos_res_android/screens/Bill/widget/item_detail.dart';
 import 'package:pos_res_android/screens/Bill/widget/payment_detail.dart';
 import 'package:pos_res_android/screens/Bill/widget/refund_btn.dart';
+
+import '../../repos/models/cashier/bill.dart';
 
 class BillDetailScreen extends StatefulWidget {
   final List<BillItem> listBill;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pos_res_android/repos/models/log.dart';
-import 'package:pos_res_android/repos/services/log_service.dart';
+import 'package:pos_res_android/repos/models/cashier/log.dart';
+import 'package:pos_res_android/repos/services/cashier/log_service.dart';
 import 'package:pos_res_android/screens/Cashier/widget/list_logs.dart';
 
 class LogDatatable extends StatefulWidget {

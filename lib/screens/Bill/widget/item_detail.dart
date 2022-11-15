@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:pos_res_android/repos/models/bill.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
+import 'package:pos_res_android/repos/models/cashier/bill.dart';
 
 // ignore: must_be_immutable
 class BillItemDetail extends StatefulWidget {

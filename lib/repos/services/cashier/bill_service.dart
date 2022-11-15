@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/bill.dart';
+import 'package:pos_res_android/repos/models/cashier/bill.dart';
 import 'package:pos_res_android/repos/repository/bill_repository.dart';
 
 class BillService {

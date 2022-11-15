@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/log.dart';
+import 'package:pos_res_android/repos/models/cashier/log.dart';
 import 'package:pos_res_android/repos/repository/cashier_log_repository.dart';
 
 class CashierLogService {

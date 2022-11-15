@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/check.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
 
 class CheckGeneralInfo extends StatefulWidget {
   final List<CheckItem> list;

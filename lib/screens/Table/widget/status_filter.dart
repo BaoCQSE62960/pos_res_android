@@ -127,41 +127,6 @@ class _StatusFilterState extends State<StatusFilter> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      right: defaultPadding / 4,
-                      left: defaultPadding / 2,
-                      top: defaultPadding / 4,
-                      bottom: defaultPadding / 4,
-                    ),
-                    child: SizedBox(
-                      width: defaultPadding * 5,
-                      height: defaultPadding * 2.5,
-                      child: Hero(
-                        tag: "allLocation_btn",
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
-                            backgroundColor: selectColor,
-                            // padding: const EdgeInsets.all(15),
-                          ),
-                          // color: selectColor,
-                          // padding: const EdgeInsets.all(10),
-                          child: const Text(
-                            'Tất cả',
-                            style: TextStyle(
-                              fontSize: defaultSize * 4,
-                              fontWeight: FontWeight.w900,
-                              color: textColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],

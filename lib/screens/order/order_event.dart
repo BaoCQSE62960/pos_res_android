@@ -1,8 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
-import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
+import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart'
+    as AddOrder;
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button_change_order.dart'
+    as ChangeOrder;
 
 class OrderLayoutEvent extends Equatable {
   @override
@@ -65,6 +70,42 @@ class SelectSpecialRequestForItem extends OrderLayoutEvent {
   final SpecialRequests specialRequests;
 }
 
+class SelectCheckDetailForChangeOrder extends OrderLayoutEvent {
+  SelectCheckDetailForChangeOrder({required this.checkDetail});
+
+  final CheckDetail checkDetail;
+}
+
+class SelectVoidReason extends OrderLayoutEvent {
+  SelectVoidReason({required this.voidReason});
+
+  final VoidReason voidReason;
+}
+
+class VoidACheck extends OrderLayoutEvent {
+  VoidACheck({required this.checkid});
+
+  final int checkid;
+}
+
+class VoidACheckDetail extends OrderLayoutEvent {
+  VoidACheckDetail({required this.checkdetailid});
+
+  final int checkdetailid;
+}
+
+class ServedACheckDetail extends OrderLayoutEvent {
+  ServedACheckDetail({required this.checkdetailid});
+
+  final int checkdetailid;
+}
+
+class RemindACheckDetail extends OrderLayoutEvent {
+  RemindACheckDetail({required this.checkdetailid});
+
+  final int checkdetailid;
+}
+
 class UpdateSpecialRequestForItem extends OrderLayoutEvent {
   UpdateSpecialRequestForItem({required this.checkdetailid});
 
@@ -75,7 +116,14 @@ class UpdateQuantity extends OrderLayoutEvent {
   UpdateQuantity({required this.checkDetailIDLocal, required this.mode});
 
   final int checkDetailIDLocal;
-  final QuantityUpdateMode mode;
+  final AddOrder.QuantityUpdateMode mode;
+}
+
+class UpdateQuantityChangeOrder extends OrderLayoutEvent {
+  UpdateQuantityChangeOrder({required this.checkDetailID, required this.mode});
+
+  final int checkDetailID;
+  final ChangeOrder.QuantityUpdateMode mode;
 }
 
 class SendOrder extends OrderLayoutEvent {

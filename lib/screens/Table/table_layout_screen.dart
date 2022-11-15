@@ -4,7 +4,16 @@ import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/utils/socket.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
+import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/menu_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/note_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/specialrequests_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
+import 'package:pos_res_android/screens/Order/order.dart' as OrderBloc;
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/widget/table_action_button.dart';
@@ -19,28 +28,43 @@ class TableLayoutScreen extends StatefulWidget {
 }
 
 class _TableLayoutScreenState extends State<TableLayoutScreen> {
-  // Socket socket = Socket();
-  // @override
-  // void initState() {
-  //   super.initState();
+  Socket socket = Socket();
 
-  //   socket.declareSocket;
-  //   socket.connectServer();
-  // }
+  @override
+  void initState() {
+    super.initState();
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   socket.disconnectServer();
-  //   socket.socket.dispose();
-  // }
+    socket.declareSocket();
+    socket.connectServer();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    socket.disconnectServer();
+    socket.socket.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TableLayoutBloc(
-          tableOverviewRepository: TableOverviewRepositoryImpl())
-        ..add(LoadData(locationID: '0')),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (context) => OrderBloc.OrderLayoutBloc(
+                majorGroupRepository: MajorGroupRepositoryImpl(),
+                menuRepository: MenuRepositoryImpl(),
+                checkRepository: CheckRepositoryImpl(),
+                itemRepository: ItemRepositoryImpl(),
+                tableInfoRepository: TableInfoRepositoryImpl(),
+                noteRepository: NoteRepositoryImpl(),
+                specialRequestsRepository: SpecialRequestsRepositoryImpl(),
+                voidReasonRepository: VoidReasonRepositoryImpl())),
+        BlocProvider(
+          create: (context) => TableLayoutBloc(
+              tableOverviewRepository: TableOverviewRepositoryImpl())
+            ..add(LoadData(locationID: '0')),
+        )
+      ],
       child: Background(
         child: SingleChildScrollView(
           child: SafeArea(
@@ -55,11 +79,7 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const FilterSection(),
-                        // TableSection(socket: socket),
-                        TableSection(),
-                        const SizedBox(
-                          child: ActionButton(),
-                        ),
+                        TableSection(socket: socket),
                       ],
                     ),
                   ),

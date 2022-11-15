@@ -16,38 +16,32 @@ class TableLayoutState extends Equatable {
   TableLayoutState(
       {this.tableLayoutStatus = TableLayoutStatus.initial,
       this.currentSelectedMode = SelectedMode.NONE,
-      this.firstSelectedTableName = "",
-      this.secondSelectedTableName = "",
+      this.currentLocationID = 0,
       TableOverview? tableOverview})
       : tableOverview = tableOverview ?? TableOverview.EMPTY;
   final SelectedMode currentSelectedMode;
-  final String firstSelectedTableName;
-  final String secondSelectedTableName;
   final TableLayoutStatus tableLayoutStatus;
   final TableOverview tableOverview;
+  int currentLocationID;
 
   @override
   List<Object?> get props => [
         currentSelectedMode,
-        firstSelectedTableName,
-        secondSelectedTableName,
         tableOverview,
-        tableLayoutStatus
+        tableLayoutStatus,
+        currentLocationID
       ];
 
   TableLayoutState copywith(
       {SelectedMode? currentSelectedMode,
       TableLayoutStatus? tableLayoutStatus,
       String? firstSelectedTableName,
-      String? secondSelectedTableName,
-      TableOverview? tableOverview}) {
+      TableOverview? tableOverview,
+      int? currentLocationID}) {
     return TableLayoutState(
         tableLayoutStatus: tableLayoutStatus ?? this.tableLayoutStatus,
         tableOverview: tableOverview ?? this.tableOverview,
         currentSelectedMode: currentSelectedMode ?? this.currentSelectedMode,
-        firstSelectedTableName:
-            firstSelectedTableName ?? this.firstSelectedTableName,
-        secondSelectedTableName:
-            secondSelectedTableName ?? this.secondSelectedTableName);
+        currentLocationID: currentLocationID ?? this.currentLocationID);
   }
 }

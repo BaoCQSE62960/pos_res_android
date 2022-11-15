@@ -5,12 +5,14 @@ import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/specialrequestDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/voidreasonDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/repos/models/waiter/majorgroup.dart';
 import 'package:pos_res_android/repos/models/waiter/menu.dart';
 import 'package:pos_res_android/repos/models/waiter/note.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/repos/models/waiter/tableinfo.dart';
+import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
@@ -18,10 +20,14 @@ import 'package:pos_res_android/repos/repository/waiter/menu_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/note_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/specialrequests_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
 import 'package:pos_res_android/screens/Order/order_event.dart';
 import 'package:pos_res_android/screens/Order/order_state.dart';
 import 'package:http/http.dart' as http;
-import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart'
+    as AddOrder;
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button_change_order.dart'
+    as ChangeOrder;
 
 class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   OrderLayoutBloc(
@@ -31,7 +37,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       required this.checkRepository,
       required this.tableInfoRepository,
       required this.noteRepository,
-      required this.specialRequestsRepository})
+      required this.specialRequestsRepository,
+      required this.voidReasonRepository})
       : super(OrderLayoutState()) {
     on<LoadData>(_loadData);
     on<ChangeMode>(_changeMode);
@@ -42,9 +49,16 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     on<UpdateNote>(_updateNote);
     on<LoadSpecialRequestsForItem>(_loadSpecialRequestsForItem);
     on<SelectSpecialRequestForItem>(_selectSpecialRequestsForItem);
+    on<SelectCheckDetailForChangeOrder>(_selectCheckDetailForChangeOrder);
+    on<SelectVoidReason>(_selectVoidReason);
     on<UpdateSpecialRequestForItem>(_updateSpecialRequestsForItem);
     on<UpdateQuantity>(_updateQuantity);
+    on<UpdateQuantityChangeOrder>(_updateQuantityChangeOrder);
     on<SendOrder>(_sendOrder);
+    on<VoidACheck>(_voidACheck);
+    on<VoidACheckDetail>(_voidACheckDetail);
+    on<ServedACheckDetail>(_servedACheckDetail);
+    on<RemindACheckDetail>(_remindACheckDetail);
   }
 
   final MajorGroupRepositoryImpl majorGroupRepository;
@@ -54,6 +68,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   final TableInfoRepositoryImpl tableInfoRepository;
   final NoteRepositoryImpl noteRepository;
   final SpecialRequestsRepositoryImpl specialRequestsRepository;
+  final VoidReasonRepositoryImpl voidReasonRepository;
 
   void _loadData(LoadData event, Emitter<OrderLayoutState> emit) async {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
@@ -63,6 +78,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       final List<Menu> listMenu = await menuRepository.getMenu();
       final List<Item> listItem = await itemRepository
           .getItemByMenuID(state.currentSelectedMenuID.toString());
+      final List<VoidReason> listVoidReason =
+          await voidReasonRepository.getVoidReason();
       final Check check = event.checkid == 0
           ? Check.EMPTY
           : await checkRepository.getCheckByID(event.checkid.toString());
@@ -72,6 +89,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
               .getTableInfoByCheckID(event.checkid.toString());
       emit(
         state.copywith(
+            listVoidReason: listVoidReason,
             tableId: event.tableid,
             checkId: event.checkid,
             listMajorGroups: listMajorGroups,
@@ -128,6 +146,99 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     }
   }
 
+  void _selectCheckDetailForChangeOrder(SelectCheckDetailForChangeOrder event,
+      Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      List<CheckDetail> listCheckDetail = state.listSelectedCheckDetail;
+      listCheckDetail.contains(event.checkDetail)
+          ? listCheckDetail.remove(event.checkDetail)
+          : listCheckDetail = [...listCheckDetail, event.checkDetail];
+      emit(
+        state.copywith(
+            listSelectedCheckDetail: listCheckDetail,
+            orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _selectVoidReason(
+      SelectVoidReason event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      emit(
+        state.copywith(
+            selectedVoidReason: event.voidReason,
+            orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _voidACheck(VoidACheck event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      VoidReasonDTO voidReasonDTO =
+          VoidReasonDTO(voidid: state.selectedVoidReason.id);
+      http.Response response =
+          await checkRepository.voidCheck(event.checkid, voidReasonDTO);
+      emit(
+        state.copywith(orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _voidACheckDetail(
+      VoidACheckDetail event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      VoidReasonDTO voidReasonDTO =
+          VoidReasonDTO(voidid: state.selectedVoidReason.id);
+      http.Response response = await checkRepository.voidCheckDetail(
+          event.checkdetailid, voidReasonDTO);
+      emit(
+        state.copywith(orderLayoutStatus: OrderLayoutStatus.loading),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _servedACheckDetail(
+      ServedACheckDetail event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      http.Response response =
+          await checkRepository.servedCheckDetail(event.checkdetailid);
+      emit(
+        state.copywith(orderLayoutStatus: OrderLayoutStatus.success),
+      );
+      LoadData(tableid: state.tableId, checkid: state.checkId);
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _remindACheckDetail(
+      RemindACheckDetail event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      http.Response response =
+          await checkRepository.remindCheckDetail(event.checkdetailid);
+      emit(
+        state.copywith(orderLayoutStatus: OrderLayoutStatus.success),
+      );
+      LoadData(tableid: state.tableId, checkid: state.checkId);
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
   void _updateQuantity(
       UpdateQuantity event, Emitter<OrderLayoutState> emit) async {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
@@ -135,25 +246,26 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       CheckDetail checkDetail = state.check.checkDetail.firstWhere(
           (element) => element.checkdetailidLocal == event.checkDetailIDLocal);
       int quantity = checkDetail.quantity;
-      quantity = event.mode == QuantityUpdateMode.increase
+      quantity = event.mode == AddOrder.QuantityUpdateMode.increase
           ? quantity = quantity + 1
           : quantity == 1
               ? 1
               : quantity = quantity - 1;
       checkDetail.quantity = quantity;
-      state.check.subtotal = event.mode == QuantityUpdateMode.increase
+      state.check.subtotal = event.mode == AddOrder.QuantityUpdateMode.increase
           ? state.check.subtotal + (checkDetail.amount)
           : state.check.subtotal - (checkDetail.amount);
-      state.check.totaltax = event.mode == QuantityUpdateMode.increase
+      state.check.totaltax = event.mode == AddOrder.QuantityUpdateMode.increase
           ? state.check.totaltax + calculateTaxValueForItem(checkDetail.amount)
           : state.check.totaltax - calculateTaxValueForItem(checkDetail.amount);
-      state.check.totalamount = event.mode == QuantityUpdateMode.increase
-          ? state.check.totalamount +
-              (checkDetail.amount +
-                  calculateTaxValueForItem(checkDetail.amount))
-          : state.check.totalamount -
-              (checkDetail.amount +
-                  calculateTaxValueForItem(checkDetail.amount));
+      state.check.totalamount =
+          event.mode == AddOrder.QuantityUpdateMode.increase
+              ? state.check.totalamount +
+                  (checkDetail.amount +
+                      calculateTaxValueForItem(checkDetail.amount))
+              : state.check.totalamount -
+                  (checkDetail.amount +
+                      calculateTaxValueForItem(checkDetail.amount));
       Check updatedCheck = state.check;
       updatedCheck.checkDetail[updatedCheck.checkDetail.indexOf(
               state.check.checkDetail.firstWhere((element) =>
@@ -162,6 +274,34 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       emit(
         state.copywith(
             check: updatedCheck, orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _updateQuantityChangeOrder(
+      UpdateQuantityChangeOrder event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      CheckDetail checkDetail = state.listSelectedCheckDetail.firstWhere(
+          (element) => element.checkdetailid == event.checkDetailID);
+      int quantity = checkDetail.checkdetailquantityLocal;
+      quantity = event.mode == ChangeOrder.QuantityUpdateMode.increase
+          ? quantity = quantity + 1
+          : quantity == 1
+              ? 1
+              : quantity = quantity - 1;
+      checkDetail.checkdetailquantityLocal = quantity;
+      List<CheckDetail> updatedCheckDetail = state.listSelectedCheckDetail;
+      updatedCheckDetail[updatedCheckDetail.indexOf(
+              updatedCheckDetail.firstWhere(
+                  (element) => element.checkdetailid == event.checkDetailID))] =
+          checkDetail;
+      emit(
+        state.copywith(
+            listSelectedCheckDetail: updatedCheckDetail,
+            orderLayoutStatus: OrderLayoutStatus.success),
       );
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
@@ -209,6 +349,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       }
       CheckDetail detail = CheckDetail(
           checkdetailidLocal: state.currentLocalID++,
+          checkdetailquantityLocal: 1,
           isLocal: true,
           checkdetailid: 0,
           itemid: event.item.id,
@@ -239,8 +380,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     try {
       TableInfo tableInfo =
           TableInfo(guestname: event.guestname, cover: event.cover);
-      http.Response response =
-          await tableInfoRepository.updateTableInfoByCheckID('9', tableInfo);
+      http.Response response = await tableInfoRepository
+          .updateTableInfoByCheckID(state.checkId.toString(), tableInfo);
       emit(state.copywith(
           tableInfo: tableInfo, orderLayoutStatus: OrderLayoutStatus.success));
     } catch (error) {
@@ -252,8 +393,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     try {
       Note note = Note(note: event.note);
-      http.Response response =
-          await noteRepository.updateNoteByCheckID('9', note);
+      http.Response response = await noteRepository.updateNoteByCheckID(
+          state.checkId.toString(), note);
       emit(state.copywith(
           note: note, orderLayoutStatus: OrderLayoutStatus.success));
     } catch (error) {
@@ -343,7 +484,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       CheckDTO checkDTO =
           CheckDTO(checkid: state.check.checkid.toString(), listItemDTO: items);
       http.Response response = await checkRepository.updateCheck(checkDTO);
-      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.success));
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }

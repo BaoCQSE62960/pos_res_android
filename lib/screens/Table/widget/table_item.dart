@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/order_screen.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
@@ -17,18 +18,25 @@ class TableItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TableLayoutBloc counterBloc =
-        BlocProvider.of<TableLayoutBloc>(context);
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     return BlocBuilder<TableLayoutBloc, TableLayoutState>(
         builder: (context, state) {
       return Hero(
         tag: "table_demo_btn",
         child: GestureDetector(
           onLongPress: () {
-            counterBloc.add(counterBloc.state.firstSelectedTableName.isEmpty
-                ? FirstSelectTable(firstTableName: tableDetail.id.toString())
-                : SecondSelectTable(
-                    secondTableName: tableDetail.id.toString()));
+            if (tableBloc.state.currentSelectedMode ==
+                SelectedMode.CHANGE_ORDER) {
+              Navigator.of(context).pop();
+              showChangeOrderDialog(
+                  context, tableDetail.tablename, tableDetail.id);
+            }
+            if (tableBloc.state.currentSelectedMode ==
+                SelectedMode.CHANGE_TABLE) {
+              Navigator.of(context).pop();
+              showChangeTableDialog(
+                  context, tableDetail.tablename, tableDetail.id);
+            }
           },
           onDoubleTap: () {
             Navigator.push(
@@ -46,16 +54,8 @@ class TableItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: deactiveColor,
               borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(
-                  width: defaultSize * 0.5,
-                  color: state.currentSelectedMode == SelectedMode.NONE
-                      ? deactiveColor
-                      : (counterBloc.state.firstSelectedTableName ==
-                                  tableDetail.id.toString() ||
-                              counterBloc.state.secondSelectedTableName ==
-                                  tableDetail.id.toString()
-                          ? Colors.blue
-                          : deactiveColor)),
+              border:
+                  Border.all(width: defaultSize * 0.5, color: deactiveColor),
               boxShadow: const [
                 BoxShadow(
                   color: shadowColor,
@@ -118,8 +118,6 @@ class TableItem extends StatelessWidget {
                           bottomRight: Radius.circular(15.0)),
                       side: BorderSide(color: primaryColor),
                     ),
-                    // maximumSize:
-                    //     const Size(defaultPadding * 8, defaultPadding * 8),
                   ),
                   onPressed: () {},
                   child: Column(
@@ -134,7 +132,8 @@ class TableItem extends StatelessWidget {
                                 ? const SizedBox()
                                 : Text(
                                     currencyFormat
-                                        .format(tableDetail.totalamount)
+                                        .format(
+                                            int.parse(tableDetail.totalamount))
                                         .toUpperCase(),
                                     style: const TextStyle(
                                       fontSize: 20,
@@ -145,78 +144,36 @@ class TableItem extends StatelessWidget {
                         ),
                       ),
                       tableDetail.status == 'NOT_USE'
-                          ? SizedBox()
+                          ? const SizedBox()
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 !tableDetail.isready
-                                    ? SizedBox()
-                                    : SizedBox(
-                                        width: defaultPadding * 2.5,
-                                        height: defaultPadding * 2.5,
-                                        child: TextButton(
-                                          onPressed: () {},
-                                          style: TextButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            backgroundColor: warningColor,
-                                          ),
-                                          child: const Icon(
-                                            Icons.dining,
-                                            size: defaultPadding * 1.5,
-                                            color: textLightColor,
-                                          ),
-                                        ),
+                                    ? const SizedBox()
+                                    : const Icon(
+                                        Icons.dinner_dining_rounded,
+                                        size: defaultPadding * 2.5,
+                                        color: warningColor,
                                       ),
                                 Container(
                                   width: defaultPadding * 0.3,
                                 ),
                                 !tableDetail.isrecall
-                                    ? SizedBox()
-                                    : SizedBox(
-                                        width: defaultPadding * 2.5,
-                                        height: defaultPadding * 2.5,
-                                        child: TextButton(
-                                          onPressed: () {},
-                                          style: TextButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            backgroundColor: voidColor,
-                                          ),
-                                          child: const Icon(
-                                            Icons.cancel,
-                                            size: defaultPadding * 1.5,
-                                            color: textLightColor,
-                                          ),
-                                        ),
+                                    ? const SizedBox()
+                                    : const Icon(
+                                        Icons.cancel_outlined,
+                                        size: defaultPadding * 2.5,
+                                        color: voidColor,
                                       ),
                                 Container(
                                   width: defaultPadding * 0.3,
                                 ),
                                 !tableDetail.iswaiting
-                                    ? SizedBox()
-                                    : SizedBox(
-                                        width: defaultPadding * 2.5,
-                                        height: defaultPadding * 2.5,
-                                        child: TextButton(
-                                          onPressed: () {},
-                                          style: TextButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            backgroundColor: shadowColor,
-                                          ),
-                                          child: const Icon(
-                                            Icons.timelapse_rounded,
-                                            size: defaultPadding * 1.5,
-                                            color: textLightColor,
-                                          ),
-                                        ),
+                                    ? const SizedBox()
+                                    : const Icon(
+                                        Icons.timelapse_rounded,
+                                        size: defaultPadding * 2.5,
+                                        color: deactiveColor,
                                       ),
                               ],
                             ),
@@ -229,5 +186,75 @@ class TableItem extends StatelessWidget {
         ),
       );
     });
+  }
+
+  showChangeOrderDialog(BuildContext context, String tableName, int tableid) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    Widget cancelButton = TextButton(
+      child: Text("dialog.cancel".tr()),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("dialog.agree".tr()),
+      onPressed: () {
+        tableBloc.add(ChangeOrderProcess(
+            listCheckDetail: orderBloc.state.listSelectedCheckDetail,
+            currentCheckID: orderBloc.state.checkId,
+            targatTableID: tableid));
+        Navigator.of(context).pushNamed('/tableoverview');
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text('change_order.change_order_dialog_title'.tr()),
+      content: Text(
+          'change_order.change_order_dialog_message'.tr(args: [tableName])),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showChangeTableDialog(BuildContext context, String tableName, int tableid) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    Widget cancelButton = TextButton(
+      child: Text("dialog.cancel".tr()),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("dialog.agree".tr()),
+      onPressed: () {
+        tableBloc.add(ChangeTableProcess(
+            // Get location ID
+            locationID: 0,
+            currentTableID: orderBloc.state.tableId,
+            targatTableID: tableid));
+
+        Navigator.of(context).pushNamed('/tableoverview');
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text('change_table.change_table_dialog_title'.tr()),
+      content: Text(
+          'change_table.change_table_dialog_message'.tr(args: [tableName])),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

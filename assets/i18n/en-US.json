@@ -5,6 +5,7 @@
         "special_request": "Yêu cầu",
         "done": "Đã giao",
         "remind": "Nhắc nhở",
+        "change": "Chuyển",
         "send": "Gửi đơn",
         "total": "Thành tiền",
         "subtotal": "Tổng",
@@ -22,12 +23,30 @@
         "check_note": "Ghi chú đơn hàng",
         "check_note_hint": "Ghi chú ...",
         "special_request_title": "Yêu cầu đặc biệt",
+        "void_reason_title": "Hủy đơn",
         "change_order": "Chuyển đơn",
-        "all": "Tất cả" 
+        "change_table": "Chuyển bàn",
+        "all": "Tất cả",
+        "close": "Đóng",
+        "error": {
+            "customer_name_error": "Tên không được dài quá 50 ký tự",
+            "customer_cover_error": "Số ghế không được dài quá 2 ký tự",
+            "customer_note_error": "Ghi chú không được dài quá 250 ký tự"
+        }
     },
     "change_shift":
     {
         "appbar_title": "Chuyển ca"
+    },
+    "change_order":
+    {
+        "change_order_dialog_title": "Xác nhận chuyển đơn",
+        "change_order_dialog_message": "Bạn có đồng ý chuyển hóa đơn này sang bàn #{} ?"
+    },
+    "change_table":
+    {
+        "change_table_dialog_title": "Xác nhận chuyển bàn",
+        "change_table_dialog_message": "Bạn có đồng ý chuyển bàn này sang bàn #{} ?"
     },
     "dialog":
     {

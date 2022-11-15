@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button.dart';
+import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_button_change_order.dart';
 
 enum Mode { orderdetail, changeorder }
 
@@ -23,6 +26,7 @@ class ActionItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return Container(
       width: double.infinity,
       height: 100,
@@ -32,9 +36,12 @@ class ActionItemList extends StatelessWidget {
           Expanded(
             child: Container(
                 margin: const EdgeInsets.all(5),
-                child: CustomQuantityButton(
-                  checkDetail: checkDetail,
-                )),
+                child: currentMode == Mode.orderdetail
+                    ? CustomQuantityButton(
+                        checkDetail: checkDetail,
+                      )
+                    : CustomQuantityButtonChangeOrder(
+                        checkDetail: checkDetail)),
             flex: 1,
           ),
           Expanded(
@@ -80,8 +87,16 @@ class ActionItemList extends StatelessWidget {
               ? Expanded(
                   flex: 1,
                   child: Checkbox(
-                    value: false,
-                    onChanged: (newValue) {},
+                    value: orderBloc.state.listSelectedCheckDetail.isEmpty
+                        ? false
+                        : orderBloc.state.listSelectedCheckDetail.any(
+                            (element) =>
+                                element.checkdetailid ==
+                                checkDetail.checkdetailid),
+                    onChanged: (newValue) {
+                      orderBloc.add(SelectCheckDetailForChangeOrder(
+                          checkDetail: checkDetail));
+                    },
                   ),
                 )
               : const SizedBox()
@@ -93,46 +108,22 @@ class ActionItemList extends StatelessWidget {
   Widget buildIconWidget(String status) {
     switch (status) {
       case 'READY':
-        return TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            backgroundColor: warningColor,
-          ),
-          child: const Icon(
-            Icons.dining,
-            color: textLightColor,
-          ),
+        return const Icon(
+          Icons.dinner_dining_rounded,
+          size: defaultPadding * 2.5,
+          color: warningColor,
         );
       case 'WAITING':
-        return TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            backgroundColor: shadowColor,
-          ),
-          child: const Icon(
-            Icons.timelapse_rounded,
-            color: textLightColor,
-          ),
+        return const Icon(
+          Icons.timelapse_rounded,
+          size: defaultPadding * 2.5,
+          color: deactiveColor,
         );
       case 'RECALL':
-        return TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            backgroundColor: voidColor,
-          ),
-          child: const Icon(
-            Icons.cancel,
-            color: textLightColor,
-          ),
+        return const Icon(
+          Icons.cancel_outlined,
+          size: defaultPadding * 2.5,
+          color: voidColor,
         );
       default:
         return SizedBox();

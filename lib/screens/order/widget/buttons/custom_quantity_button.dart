@@ -28,7 +28,7 @@ class CustomQuantityButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-              color: checkDetail.isLocal ? activeColor : deactiveColor,
+              color: (checkDetail.isLocal ? activeColor : deactiveColor),
             ),
             child: const Icon(
               Icons.add,
@@ -64,7 +64,7 @@ class CustomQuantityButton extends StatelessWidget {
                 borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10)),
-                color: checkDetail.isLocal ? activeColor : deactiveColor),
+                color: (checkDetail.isLocal ? activeColor : deactiveColor)),
             child: const Icon(
               Icons.remove,
               color: Colors.white,

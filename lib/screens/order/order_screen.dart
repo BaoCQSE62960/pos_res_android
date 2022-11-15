@@ -13,6 +13,7 @@ import 'package:pos_res_android/repos/repository/waiter/note_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/specialrequests_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
+import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
@@ -51,7 +52,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   itemRepository: ItemRepositoryImpl(),
                   tableInfoRepository: TableInfoRepositoryImpl(),
                   noteRepository: NoteRepositoryImpl(),
-                  specialRequestsRepository: SpecialRequestsRepositoryImpl())
+                  specialRequestsRepository: SpecialRequestsRepositoryImpl(),
+                  voidReasonRepository: VoidReasonRepositoryImpl())
                 ..add(LoadData(
                     checkid: widget.table.checkid, tableid: widget.table.id))),
           BlocProvider(
@@ -169,38 +171,36 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
                 child: Column(children: [
                   Expanded(
-                    child: state.orderLayoutStatus.isSuccess
-                        ? ListView.separated(
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(width: 10);
-                            },
-                            padding: const EdgeInsets.all(5.0),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onLongPress: () => orderBloc.add(ChangeMenu(
-                                    menuid: state.listMenus[index].id)),
-                                child: CustomMajorButton(
-                                    icons: const Icon(
-                                      Icons.flatware,
-                                      color: activeColor,
-                                    ),
-                                    text: state.listMenus[index].name,
-                                    color: state.currentSelectedMenuID ==
-                                            state.listMenus[index].id
-                                        ? activeColor
-                                        : Colors.white,
-                                    textColors: state.currentSelectedMenuID ==
-                                            state.listMenus[index].id
-                                        ? Colors.white
-                                        : activeColor),
-                              );
-                            },
-                            itemCount: state.listMenus.length,
-                          )
-                        : const Center(
-                            child: CircularProgressIndicator(),
-                          ),
+                    child: Center(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 10);
+                        },
+                        padding: const EdgeInsets.all(5.0),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onLongPress: () => orderBloc.add(
+                                ChangeMenu(menuid: state.listMenus[index].id)),
+                            child: CustomMajorButton(
+                                icons: const Icon(
+                                  Icons.flatware,
+                                  color: activeColor,
+                                ),
+                                text: state.listMenus[index].name,
+                                color: state.currentSelectedMenuID ==
+                                        state.listMenus[index].id
+                                    ? activeColor
+                                    : Colors.white,
+                                textColors: state.currentSelectedMenuID ==
+                                        state.listMenus[index].id
+                                    ? Colors.white
+                                    : activeColor),
+                          );
+                        },
+                        itemCount: state.listMenus.length,
+                      ),
+                    ),
                     flex: 2,
                   ),
                   Expanded(

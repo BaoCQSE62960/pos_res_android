@@ -6,6 +6,10 @@ import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_but
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_outlined_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+const int DEFAULT_MAX_LENGTH_NAME = 50;
+const int DEFAULT_MAX_LENGTH_COVER = 2;
+const int DEFAULT_MAX_LENGTH_NOTE = 250;
+
 class OrderCustomerInfo extends StatelessWidget {
   OrderCustomerInfo({Key? key, required this.context}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
@@ -91,6 +95,13 @@ class OrderCustomerInfo extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: guestNameController,
+                          validator: (value) {
+                            if (value != null &&
+                                value.length > DEFAULT_MAX_LENGTH_NAME) {
+                              return 'order.error.customer_name_error';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                               hintText: 'order.customer_name'.tr(),
                               enabledBorder: OutlineInputBorder(
@@ -106,6 +117,13 @@ class OrderCustomerInfo extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: coverController,
+                          validator: (value) {
+                            if (value != null &&
+                                value.length > DEFAULT_MAX_LENGTH_COVER) {
+                              return 'order.error.customer_cover_error';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                               hintText: 'order.number_of_seats'.tr(),
                               enabledBorder: OutlineInputBorder(
@@ -122,10 +140,12 @@ class OrderCustomerInfo extends StatelessWidget {
                         child: CustomElevatedButton(
                           text: 'order.confirm'.tr(),
                           callback: () {
-                            orderBloc.add(UpdateInfo(
-                                guestname: guestNameController.text,
-                                cover: int.parse(coverController.text)));
-                            Navigator.pop(context);
+                            if (_formKey.currentState!.validate()) {
+                              orderBloc.add(UpdateInfo(
+                                  guestname: guestNameController.text,
+                                  cover: int.parse(coverController.text)));
+                              Navigator.pop(context);
+                            }
                           },
                         ),
                       ),
@@ -146,70 +166,75 @@ class OrderCustomerInfo extends StatelessWidget {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
+          return Dialog(
+            insetPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 400.0),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            content: Stack(
-              children: <Widget>[
-                Positioned(
-                  right: -30.0,
-                  top: -30.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Stack(
+                children: <Widget>[
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'order.check_note'.tr().toUpperCase(),
+                            style: const TextStyle(
+                                color: activeColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: noteController,
+                            validator: (value) {
+                              if (value != null &&
+                                  value.length > DEFAULT_MAX_LENGTH_COVER) {
+                                return 'order.error.customer_note_error';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            minLines: 20,
+                            decoration: InputDecoration(
+                                hintText: 'order.check_note_hint'.tr(),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[100]!),
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                fillColor: Colors.grey[100],
+                                filled: true,
+                                prefixIcon: const Icon(Icons.note)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: CustomElevatedButton(
+                              text: 'order.confirm'.tr(),
+                              callback: () {
+                                if (_formKey.currentState!.validate()) {
+                                  orderBloc.add(
+                                      UpdateNote(note: noteController.text));
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'order.check_note'.tr().toUpperCase(),
-                          style: const TextStyle(
-                              color: activeColor, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: noteController,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          minLines: 6,
-                          decoration: InputDecoration(
-                              hintText: 'order.check_note_hint'.tr(),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey[100]!),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              fillColor: Colors.grey[100],
-                              filled: true,
-                              prefixIcon: const Icon(Icons.note)),
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: CustomElevatedButton(
-                          text: 'order.confirm'.tr(),
-                          callback: () {
-                            orderBloc
-                                .add(UpdateNote(note: noteController.text));
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         });

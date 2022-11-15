@@ -51,35 +51,7 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       title: _title,
-      // theme: ThemeData(
-      //     primaryColor: primaryColor,
-      //     scaffoldBackgroundColor: primaryColor,
-      //     elevatedButtonTheme: ElevatedButtonThemeData(
-      //       style: ElevatedButton.styleFrom(
-      //         elevation: 0,
-      //         backgroundColor: primaryColor,
-      //         shape: const StadiumBorder(),
-      //         maximumSize: const Size(double.infinity, 56),
-      //         minimumSize: const Size(double.infinity, 56),
-      //       ),
-      //     ),
-      //     inputDecorationTheme: const InputDecorationTheme(
-      //       filled: true,
-      //       fillColor: primaryLightColor,
-      //       iconColor: primaryColor,
-      //       prefixIconColor: primaryColor,
-      //       contentPadding: EdgeInsets.symmetric(
-      //           horizontal: defaultPadding, vertical: defaultPadding),
-      //       border: OutlineInputBorder(
-      //         borderRadius: BorderRadius.all(Radius.circular(30)),
-      //         borderSide: BorderSide.none,
-      //       ),
-      //     )),
       home: const LoginScreen(),
-      // home: Scaffold(
-      //   appBar: AppBar(title: const Text(_title)),
-      //   body: const MyStatefulWidget(),
-      // ),
     );
   }
 }

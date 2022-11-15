@@ -7,6 +7,7 @@ import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/repos/models/cashier/location.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TableRepository {
   String uriConnect = uri;
@@ -20,6 +21,7 @@ class TableRepository {
       print('Get location successful');
       List<dynamic> body = jsonDecode(res.body);
       List<Location> list = ListLocation.fromJson(body).list;
+      list.insert(0, Location(id: 0, name: 'order.all'.tr()));
       return list;
     } else {
       throw Exception('Failed to load location');

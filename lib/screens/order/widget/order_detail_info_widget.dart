@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
+import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
-import 'package:pos_res_android/screens/Table/table_layout_event.dart';
-import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
-import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
 
@@ -47,18 +43,19 @@ class OrderDetailInfo extends StatelessWidget {
                     : currencyFormat.format(
                         orderBloc.state.check.checkDetail[index].amount),
                 isDone: false),
-            startActionPane: actionPaneBuilder(
+            startActionPane: startActionPaneBuilder(
                 orderBloc.state.check.checkDetail[index].status,
                 orderBloc.state.check.checkDetail[index],
                 orderBloc),
-            endActionPane: ChangeOrderActionPane(context),
+            endActionPane: RemindOrderActionPane(
+                context, orderBloc.state.check.checkDetail[index], orderBloc),
           );
         },
       ),
     );
   }
 
-  ActionPane? actionPaneBuilder(
+  ActionPane? startActionPaneBuilder(
       String status, CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     switch (status) {
       case 'READY':
@@ -66,6 +63,8 @@ class OrderDetailInfo extends StatelessWidget {
       case 'LOCAL':
         return LocalOrderActionPane(checkDetail, orderBloc);
       case 'RECALL':
+        return DoneOrderActionPane(checkDetail, orderBloc);
+      case 'WAITING':
         return DoneOrderActionPane(checkDetail, orderBloc);
       default:
         return null;
@@ -79,13 +78,16 @@ class OrderDetailInfo extends StatelessWidget {
       motion: const ScrollMotion(),
       children: [
         SlidableAction(
-          onPressed: (context) {},
+          onPressed: (context) {
+            orderBloc.add(
+                ServedACheckDetail(checkdetailid: checkDetail.checkdetailid));
+          },
           backgroundColor: activeColor,
           foregroundColor: Colors.white,
           icon: Icons.done,
-          // label: 'order.done'.tr(),
         )
       ],
+      extentRatio: 0.2,
     );
   }
 
@@ -107,6 +109,7 @@ class OrderDetailInfo extends StatelessWidget {
           // label: 'order.special_request'.tr(),
         )
       ],
+      extentRatio: 0.2,
     );
   }
 
@@ -117,31 +120,31 @@ class OrderDetailInfo extends StatelessWidget {
       motion: const ScrollMotion(),
       children: [
         SlidableAction(
-          onPressed: (context) {},
+          onPressed: (context) {
+            voidReasonDialog(context, checkDetail.checkdetailid);
+          },
           backgroundColor: voidColor,
           foregroundColor: Colors.white,
           icon: Icons.delete,
-          // label: 'order.void'.tr(),
         ),
       ],
       extentRatio: 0.2,
     );
   }
 
-  // ignore: non_constant_identifier_names
-  ActionPane ChangeOrderActionPane(BuildContext context) {
-    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
-    tableBloc.add(ChangeOrder());
+  ActionPane RemindOrderActionPane(BuildContext context,
+      CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
       motion: const ScrollMotion(),
       children: [
         SlidableAction(
           onPressed: (context) {
-            changeOrderDialog(context);
+            orderBloc.add(
+                RemindACheckDetail(checkdetailid: checkDetail.checkdetailid));
           },
-          backgroundColor: Colors.blue,
+          backgroundColor: warningColor,
           foregroundColor: Colors.white,
-          icon: Icons.change_circle,
+          icon: Icons.notification_important_sharp,
           // label: 'order.void'.tr(),
         ),
       ],
@@ -291,92 +294,98 @@ class OrderDetailInfo extends StatelessWidget {
         });
   }
 
-  Future<dynamic> changeOrderDialog(BuildContext context) {
+  Future<dynamic> voidReasonDialog(BuildContext context, int checkdetailid) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
-    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Dialog(
-            insetPadding:
-                EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            child: Column(
-              children: <Widget>[
-                Column(
-                  children: [
-                    Container(
-                      height: 80,
-                      child: Center(
-                        child: Text(
-                          'order.change_order'.toUpperCase(),
-                          style: const TextStyle(
-                              color: activeColor, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                        height: 350,
-                        width: double.infinity,
-                        child: Scrollbar(
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) {
-                              return const Divider(
-                                color: dividerColor,
-                              );
-                            },
-                            itemCount: orderBloc.state.check.checkDetail.length,
-                            itemBuilder: (context, index) {
-                              return ActionItemList(
-                                  checkDetail:
-                                      orderBloc.state.check.checkDetail[index],
-                                  currentMode: Mode.changeorder,
-                                  name: orderBloc
-                                      .state.check.checkDetail[index].itemname,
-                                  sepcialRequest: specialRequestProcess(
-                                      orderBloc.state.check.checkDetail[index]
-                                          .specialRequest),
-                                  price: currencyFormat.format(orderBloc
-                                      .state.check.checkDetail[index].amount),
-                                  isDone: false);
-                            },
+          return BlocProvider<OrderLayoutBloc>.value(
+            value: orderBloc,
+            child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+                builder: (context, state) {
+              return Dialog(
+                insetPadding:
+                    EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Column(
+                        children: [
+                          Container(
+                            height: 80,
+                            child: Center(
+                              child: Text(
+                                'order.void_reason_title'.tr().toUpperCase(),
+                                style: const TextStyle(
+                                    color: activeColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5.0),
+                            child: state.orderLayoutStatus.isLoading
+                                ? const CircularProgressIndicator()
+                                : Container(
+                                    height: 350,
+                                    width: double.infinity,
+                                    child: Scrollbar(
+                                      child: ListView.separated(
+                                        separatorBuilder: (context, index) {
+                                          return const Divider(
+                                            color: dividerColor,
+                                          );
+                                        },
+                                        itemCount: orderBloc
+                                            .state.listVoidReason.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Text(orderBloc.state
+                                                .listVoidReason[index].name),
+                                            trailing: Radio<VoidReason>(
+                                              groupValue: orderBloc
+                                                  .state.selectedVoidReason,
+                                              value: orderBloc
+                                                  .state.listVoidReason[index],
+                                              onChanged: (value) {
+                                                orderBloc.add(SelectVoidReason(
+                                                    voidReason: value!));
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: CustomElevatedButton(
+                                text: 'order.confirm'.tr(),
+                                callback: () {
+                                  orderBloc.add(VoidACheckDetail(
+                                      checkdetailid: checkdetailid));
+                                  orderBloc.add(LoadData(
+                                      tableid: orderBloc.state.tableId,
+                                      checkid: orderBloc.state.checkId));
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: CustomElevatedButton(
-                          text: 'order.confirm'.tr(),
-                          callback: () {
-                            showCupertinoModalBottomSheet(
-                              context: context,
-                              builder: (_) {
-                                return BlocProvider.value(
-                                    value: tableBloc,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        FilterSection(),
-                                        Expanded(child: TableSection()),
-                                      ],
-                                    ));
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              );
+            }),
           );
         });
   }

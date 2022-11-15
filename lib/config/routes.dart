@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Cashier/cashier_log_screen.dart';
 import 'package:pos_res_android/screens/Login/login_screen.dart';
-import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
 import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
 
@@ -13,10 +10,7 @@ class PosRestaurantRoute {
   static Map<String, Widget Function(BuildContext)> pageroutes =
       <String, WidgetBuilder>{
     '/login': (BuildContext context) => const LoginScreen(),
-    '/tableoverview': (BuildContext context) => BlocProvider(
-        create: (context) => TableLayoutBloc(
-            tableOverviewRepository: TableOverviewRepositoryImpl()),
-        child: const TableLayoutScreen()),
+    '/tableoverview': (BuildContext context) => const TableLayoutScreen(),
     '/search/checklist': (BuildContext context) => const SearchCheckScreen(),
     '/cashierlog': (BuildContext context) => const CashierLogScreen(),
     // '/cashieropen': (BuildContext context) => const CashierOpenScreen(),

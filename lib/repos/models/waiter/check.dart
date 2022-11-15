@@ -36,9 +36,9 @@ class Check {
   factory Check.fromJson(Map<String, dynamic> json) => Check(
       checkid: json['check']['checkid'],
       checkno: json['check']['checkno'],
-      subtotal: json['check']['subtotal'],
-      totaltax: json['check']['totaltax'],
-      totalamount: json['check']['totalamount'],
+      subtotal: int.parse(json['check']['subtotal']),
+      totaltax: int.parse(json['check']['totaltax']),
+      totalamount: int.parse(json['check']['totalamount']),
       creationtime: json['check']['creationtime'],
       locationid: json['check']['locationid'],
       tableid: json['check']['tableid'],

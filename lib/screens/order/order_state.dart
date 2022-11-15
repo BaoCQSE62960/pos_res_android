@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/repos/models/waiter/majorgroup.dart';
 import 'package:pos_res_android/repos/models/waiter/menu.dart';
 import 'package:pos_res_android/repos/models/waiter/note.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/repos/models/waiter/tableinfo.dart';
+import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
 
 enum OrderLayoutStatus { initial, success, error, loading, selected }
 
@@ -23,7 +25,7 @@ class OrderLayoutState extends Equatable {
   OrderLayoutState(
       {this.orderLayoutStatus = OrderLayoutStatus.initial,
       this.currentSelectedMajorID = 0,
-      this.currentSelectedMenuID = 0,
+      this.currentSelectedMenuID = 1,
       this.currentMode = CurrentMode.order,
       this.specialRequestNote = '',
       this.currentLocalID = 0,
@@ -36,14 +38,20 @@ class OrderLayoutState extends Equatable {
       List<Menu>? listMenus,
       List<Item>? listItems,
       List<SpecialRequests>? listSpecialRequest,
-      List<SpecialRequests>? listSelectedSpecialRequest})
+      List<VoidReason>? listVoidReason,
+      List<SpecialRequests>? listSelectedSpecialRequest,
+      List<CheckDetail>? listSelectedCheckDetail,
+      VoidReason? selectedVoidReason})
       : listMajorGroups = listMajorGroups ?? const [],
         listMenus = listMenus ?? const [],
         listItems = listItems ?? const [],
         listSpecialRequest = listSpecialRequest ?? const [],
         listSelectedSpecialRequest = listSelectedSpecialRequest ?? const [],
+        listSelectedCheckDetail = listSelectedCheckDetail ?? const [],
+        listVoidReason = listVoidReason ?? const [],
         check = check ?? Check.EMPTY,
         note = note ?? Note.EMPTY,
+        selectedVoidReason = selectedVoidReason ?? VoidReason.EMPTY,
         tableInfo = tableInfo ?? TableInfo.EMPTY;
   final OrderLayoutStatus orderLayoutStatus;
   final List<MajorGroup> listMajorGroups;
@@ -55,7 +63,10 @@ class OrderLayoutState extends Equatable {
   final Note note;
   final TableInfo tableInfo;
   final List<SpecialRequests> listSpecialRequest;
+  final List<VoidReason> listVoidReason;
   List<SpecialRequests> listSelectedSpecialRequest;
+  List<CheckDetail> listSelectedCheckDetail;
+  VoidReason selectedVoidReason;
   String specialRequestNote;
   final currentMode;
   int currentLocalID;
@@ -74,7 +85,10 @@ class OrderLayoutState extends Equatable {
         tableInfo,
         note,
         listSpecialRequest,
+        listVoidReason,
         listSelectedSpecialRequest,
+        listSelectedCheckDetail,
+        selectedVoidReason,
         specialRequestNote,
         currentLocalID,
         checkId,
@@ -92,7 +106,10 @@ class OrderLayoutState extends Equatable {
       Note? note,
       TableInfo? tableInfo,
       List<SpecialRequests>? listSpecialRequest,
+      List<VoidReason>? listVoidReason,
       List<SpecialRequests>? listSelectedSpecialRequest,
+      List<CheckDetail>? listSelectedCheckDetail,
+      VoidReason? selectedVoidReason,
       String? specialRequestNote,
       int? currentLocalID,
       int? checkId,
@@ -107,8 +124,12 @@ class OrderLayoutState extends Equatable {
         listMenus: listMenus ?? this.listMenus,
         listItems: listItems ?? this.listItems,
         listSpecialRequest: listSpecialRequest ?? this.listSpecialRequest,
+        listVoidReason: listVoidReason ?? this.listVoidReason,
         listSelectedSpecialRequest:
             listSelectedSpecialRequest ?? this.listSelectedSpecialRequest,
+        listSelectedCheckDetail:
+            listSelectedCheckDetail ?? this.listSelectedCheckDetail,
+        selectedVoidReason: selectedVoidReason ?? this.selectedVoidReason,
         specialRequestNote: specialRequestNote ?? this.specialRequestNote,
         check: check ?? this.check,
         note: note ?? this.note,

@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';
 
 class TableLayoutEvent extends Equatable {
   @override
@@ -19,22 +21,32 @@ class ChangeOrder extends TableLayoutEvent {
   ChangeOrder();
 }
 
+class ChangeOrderProcess extends TableLayoutEvent {
+  ChangeOrderProcess(
+      {required this.listCheckDetail,
+      required this.currentCheckID,
+      required this.targatTableID});
+  final List<CheckDetail> listCheckDetail;
+  final int currentCheckID;
+  final int targatTableID;
+
+  @override
+  List<Object?> get props => [listCheckDetail, currentCheckID, targatTableID];
+}
+
+class ChangeTableProcess extends TableLayoutEvent {
+  ChangeTableProcess(
+      {required this.locationID,
+      required this.currentTableID,
+      required this.targatTableID});
+  final int locationID;
+  final int currentTableID;
+  final int targatTableID;
+
+  @override
+  List<Object?> get props => [locationID, currentTableID, targatTableID];
+}
+
 class ResetAction extends TableLayoutEvent {
   ResetAction();
-}
-
-class FirstSelectTable extends TableLayoutEvent {
-  FirstSelectTable({required this.firstTableName});
-  final String firstTableName;
-
-  @override
-  List<Object?> get props => [firstTableName];
-}
-
-class SecondSelectTable extends TableLayoutEvent {
-  SecondSelectTable({required this.secondTableName});
-  final String secondTableName;
-
-  @override
-  List<Object?> get props => [secondTableName];
 }

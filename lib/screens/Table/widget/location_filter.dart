@@ -1,9 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/location.dart';
 import 'package:pos_res_android/repos/services/cashier/table_service.dart';
+import 'package:pos_res_android/screens/Table/table_layout.dart';
+import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
+import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 
 class LocationFilter extends StatefulWidget {
   const LocationFilter({Key? key}) : super(key: key);
@@ -27,27 +31,28 @@ class _LocationFilterState extends State<LocationFilter> {
     return listLocationTable;
   }
 
-  Widget locationItem(int num) {
+  Widget locationItem(int num, TableLayoutBloc tableBloc) {
     List<Widget> list = <Widget>[];
 
     for (var i = 0; i < num; i++) {
       list.add(
         TextButton(
           onPressed: () {
-            getAllLocationTable(listLocation[i].id);
-            print("locationId: ${listLocation[i].id} "
-                "locationName: ${listLocation[i].name}");
+            tableBloc.add(LoadData(locationID: listLocation[i].id.toString()));
           },
           style: TextButton.styleFrom(
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5))),
-            backgroundColor: selectColor,
+            backgroundColor:
+                tableBloc.state.currentLocationID == listLocation[i].id
+                    ? activeColor
+                    : deactiveColor,
           ),
           child: Text(
             listLocation[i].name,
             style: const TextStyle(
               fontSize: 16,
-              color: textColor,
+              color: textLightColor,
             ),
           ),
         ),
@@ -68,22 +73,29 @@ class _LocationFilterState extends State<LocationFilter> {
 
   @override
   Widget build(BuildContext context) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     return FutureBuilder(
       future: getAllLocation(), // a previously-obtained Future<String> or null
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return Scaffold(
-            backgroundColor: textLightColor,
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                    // width: MediaQuery.of(context).size.width,
-                    height: defaultPadding * 2.5,
-                    child: locationItem(listLocation.length)),
-              ],
-            ),
+          return BlocBuilder<TableLayoutBloc, TableLayoutState>(
+            builder: (context, state) {
+              return Scaffold(
+                backgroundColor: textLightColor,
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(
+                        // width: MediaQuery.of(context).size.width,
+                        height: defaultPadding * 2.5,
+                        child: tableBloc.state.tableLayoutStatus.isSuccess
+                            ? locationItem(listLocation.length, tableBloc)
+                            : SizedBox()),
+                  ],
+                ),
+              );
+            },
           );
         }
         return const Center(child: CircularProgressIndicator());

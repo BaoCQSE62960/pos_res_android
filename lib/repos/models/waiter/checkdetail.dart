@@ -3,6 +3,7 @@ import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 class CheckDetail {
   CheckDetail(
       {required this.checkdetailidLocal,
+      required this.checkdetailquantityLocal,
       required this.checkdetailid,
       required this.itemid,
       required this.itemname,
@@ -15,6 +16,7 @@ class CheckDetail {
       required this.isLocal});
 
   final int checkdetailidLocal;
+  int checkdetailquantityLocal;
   final int checkdetailid;
   final int itemid;
   final String itemname;
@@ -28,14 +30,15 @@ class CheckDetail {
 
   factory CheckDetail.fromJson(Map<String, dynamic> json) => CheckDetail(
       checkdetailidLocal: -1,
+      checkdetailquantityLocal: json['quantity'],
       isLocal: false,
       checkdetailid: json['checkdetailid'],
       itemid: json['itemid'],
       itemname: json['itemname'],
       quantity: json['quantity'],
-      note: json['note'],
+      note: json['note'] ?? '',
       isreminded: json['isreminded'],
-      amount: json['subtotal'],
+      amount: int.parse(json['subtotal']),
       status: json['status'],
       specialRequest: (json['specialrequest'] as List)
           .map((e) => SpecialRequests.fromJson(e))

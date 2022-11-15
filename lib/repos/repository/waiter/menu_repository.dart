@@ -16,7 +16,7 @@ class MenuRepositoryImpl extends MenuService {
     if (response.statusCode == 200) {
       List<Menu> menus =
           (responseJson as List).map((e) => Menu.fromJson(e)).toList();
-      menus.insert(0, Menu(id: 0, name: 'order.all'.tr(), isdefault: true));
+      // menus.insert(0, Menu(id: 0, name: 'order.all'.tr(), isdefault: true));
       return menus;
     } else {
       throw Exception('Failed to load menu');

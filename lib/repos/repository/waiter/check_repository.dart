@@ -6,6 +6,7 @@ import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/voidreasonDTO.dart';
 import 'package:pos_res_android/repos/services/waiter/check_service.dart';
 
 class CheckRepositoryImpl extends CheckService {
@@ -51,7 +52,63 @@ class CheckRepositoryImpl extends CheckService {
     if (response.statusCode == 200) {
       return response;
     } else {
-      throw Exception('Failed to update table info.');
+      throw Exception('Failed to update check info');
+    }
+  }
+
+  @override
+  Future<Response> voidCheck(int id, VoidReasonDTO voidReasonDTO) async {
+    headers = storage.getItem('headers');
+    var body = json.encode(voidReasonDTO.toJson());
+    Response response = await put(
+        Uri.parse(uriConnect + "/order/check/" + id.toString() + "/void"),
+        headers: headers,
+        body: body);
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to void a check.');
+    }
+  }
+
+  @override
+  Future<Response> voidCheckDetail(int id, VoidReasonDTO voidReasonDTO) async {
+    headers = storage.getItem('headers');
+    var body = json.encode(voidReasonDTO.toJson());
+    Response response = await put(
+        Uri.parse(uriConnect + "/order/checkdetail/" + id.toString() + "/void"),
+        headers: headers,
+        body: body);
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to void a checkd detail.');
+    }
+  }
+
+  @override
+  Future<Response> servedCheckDetail(int id) async {
+    headers = storage.getItem('headers');
+    Response response = await put(
+        Uri.parse(uriConnect + "/order/detail/" + id.toString() + "/served"),
+        headers: headers);
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to void a checkd detail.');
+    }
+  }
+
+  @override
+  Future<Response> remindCheckDetail(int id) async {
+    headers = storage.getItem('headers');
+    Response response = await put(
+        Uri.parse(uriConnect + "/order/detail/" + id.toString() + "/remind"),
+        headers: headers);
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to remind a check detail.');
     }
   }
 }

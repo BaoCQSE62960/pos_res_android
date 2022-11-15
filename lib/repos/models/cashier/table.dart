@@ -62,7 +62,7 @@ class TableDetail {
   final String status;
   final String tablename;
   final int checkid;
-  final int totalamount;
+  final String totalamount;
   final int cover;
   final bool iswaiting;
   final bool isready;
@@ -73,7 +73,7 @@ class TableDetail {
       status: json['status'],
       tablename: json['tablename'],
       checkid: json['checkid'] ?? 0,
-      totalamount: json['totalamount'] ?? 0,
+      totalamount: json['totalamount'] ?? '',
       cover: json['cover'] ?? 0,
       iswaiting: json['iswaiting'],
       isready: json['isready'],

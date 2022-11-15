@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/bill.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
-class BillPaymentItemDetail extends StatelessWidget {
-  const BillPaymentItemDetail({Key? key}) : super(key: key);
+class BillPaymentItemDetail extends StatefulWidget {
+  final List<BillPayment> listPayment;
+  const BillPaymentItemDetail({Key? key, required this.listPayment})
+      : super(key: key);
+
+  @override
+  State<BillPaymentItemDetail> createState() => _BillPaymentItemDetailState();
+}
+
+class _BillPaymentItemDetailState extends State<BillPaymentItemDetail> {
+  List<BillPayment> billPayment = [];
+  num amountShow = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    billPayment = widget.listPayment;
+    for (var element in billPayment) {
+      amountShow += element.amountreceive;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +48,7 @@ class BillPaymentItemDetail extends StatelessWidget {
                       ),
                     );
                   },
-                  itemCount: 1,
+                  itemCount: billPayment.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: const EdgeInsets.all(10),
@@ -46,14 +67,17 @@ class BillPaymentItemDetail extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Tiền mặt",
+                                          billPayment[index].paymentmethodname,
                                           style: TextStyle(color: textColor2),
                                         ),
                                       ]),
                                   const Spacer(),
                                   Row(
                                     children: [
-                                      Text("50.000",
+                                      Text(
+                                          billPayment[index]
+                                              .amountreceive
+                                              .toVND(unit: ""),
                                           style: TextStyle(
                                               color: textColor2,
                                               fontWeight: FontWeight.bold)),
@@ -91,7 +115,7 @@ class BillPaymentItemDetail extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "50.000",
+                            amountShow.toVND(unit: ""),
                             style: TextStyle(
                                 color: textColor2,
                                 fontWeight: FontWeight.bold,

@@ -17,14 +17,14 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
   List<Shift> list = [];
   late Shift selectedShift;
   String openingAmount = "";
-  late int amount;
+  late num amount;
+  String msg = "";
 
-  Future<void> _missingAmountDialog() async {
+  Future<void> _messageDialog(String msg) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        String msg = "Xin hãy nhập số tiền!";
         return WarningPopUp(msg: msg);
       },
     );
@@ -193,11 +193,17 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
                       child: const Text('Xác nhận'),
                       onPressed: () {
                         if (openingAmount.isEmpty) {
-                          _missingAmountDialog();
+                          msg = "Xin hãy nhập số tiền!";
+                          _messageDialog(msg);
                         } else {
                           amount = int.parse(openingAmount);
-                          service.open(selectedShift.id, amount);
-                          Navigator.of(context).pushNamed('/tableoverview');
+                          if (amount < 0) {
+                            msg = "Xin nhập số tiền hợp lệ!";
+                            _messageDialog(msg);
+                          } else {
+                            service.open(selectedShift.id, amount);
+                            Navigator.of(context).pushNamed('/tableoverview');
+                          }
                         }
                         openingAmount = "";
                       },

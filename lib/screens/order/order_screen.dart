@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/cashier/table.dart';
-import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
-import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
-import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
-import 'package:pos_res_android/repos/repository/waiter/menu_repository.dart';
-import 'package:pos_res_android/repos/repository/waiter/note_repository.dart';
-import 'package:pos_res_android/repos/repository/waiter/specialrequests_repository.dart';
-import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
-import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
+import 'package:pos_res_android/repos/models/payment.dart';
+import 'package:pos_res_android/repos/repository/majorgroup_repository.dart';
+import 'package:pos_res_android/repos/repository/menu_repository.dart';
+import 'package:pos_res_android/repos/services/payment_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
@@ -19,10 +15,7 @@ import 'package:pos_res_android/screens/Order/widget/menu_item_cart.dart';
 import 'package:pos_res_android/screens/Order/widget/order_customer_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_detail_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
+import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -35,6 +28,136 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  List<Payment> methods = [];
+  List<PaymentProcess> paidList = [];
+  // List methods = [1];
+  final PaymentService service = Get.put(PaymentService());
+
+  Future<List<Payment>> getMethodList() async {
+    List<Payment> met = await service.getPaymentMethodList();
+    return met;
+  }
+
+  // List<CustomMajorButton> listMajor = [
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.flatware,
+  //         color: activeColor,
+  //       ),
+  //       text: "Tất cả",
+  //       color: activeColor,
+  //       textColors: Colors.white),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.lunch_dining,
+  //         color: activeColor,
+  //       ),
+  //       text: "Burger",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Pizza",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.dinner_dining,
+  //         color: activeColor,
+  //       ),
+  //       text: "Mì",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.coffee,
+  //         color: activeColor,
+  //       ),
+  //       text: "Nước uống",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.cake,
+  //         color: activeColor,
+  //       ),
+  //       text: "Tráng miệng",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  // ];
+
+  // Fake major list, delete later
+  // List<CustomMajorButton> listMenu = [
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.flatware,
+  //         color: activeColor,
+  //       ),
+  //       text: "Tất cả",
+  //       color: activeColor,
+  //       textColors: Colors.white),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.lunch_dining,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #1",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #2",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #3",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #4",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  //   const CustomMajorButton(
+  //       icons: Icon(
+  //         Icons.local_pizza,
+  //         color: activeColor,
+  //       ),
+  //       text: "Menu #5",
+  //       color: Colors.white,
+  //       textColors: activeColor),
+  // ];
+
+  List<MenuItemCard> listMenuItem = [
+    const MenuItemCard(
+      imageURL:
+          "https://assets.epicurious.com/photos/5761c748ff66dde1456dfec0/master/pass/crispy-baked-chicken-wings.jpg",
+      name: "Cánh gà chiên",
+      price: "10.500",
+      isOutOfStock: false,
+    ),
+    const MenuItemCard(
+      imageURL:
+          "https://blenderartists.org/uploads/default/original/4X/b/d/e/bde2fc7af5666e783c794abf2d3c097d561de1bb.jpeg",
+      name: "Mì trộn hải sản",
+      price: "12.500",
+      isOutOfStock: true,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -91,59 +214,19 @@ class _OrderScreenState extends State<OrderScreen> {
                 offset: const Offset(4.0, 3.0)),
           ],
         ),
-        child: Container(
-          color: textLightColor,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  width: defaultPadding * 39.6,
-                  height: defaultPadding * 20,
-                  color: textLightColor,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: defaultPadding * 4,
-                        color: textLightColor,
-                        child: const TotalVND(),
-                      ),
-                      Container(
-                        height: defaultPadding * 20,
-                        color: deactiveLightColor,
-                        child: const PaymentMethod(),
-                      ),
-                      Container(
-                        height: defaultPadding * 4,
-                        width: defaultPadding * 43,
-                        child: const PaymentInput(),
-                        color: textLightColor,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Divider(color: dividerColor),
-              Expanded(
-                flex: 1,
-                //
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: defaultPadding * 35,
-                      height: defaultPadding * 43.5,
-                      decoration: const BoxDecoration(
-                        color: textLightColor,
-                      ),
-                      child: const PaymentPaidItem(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        child: FutureBuilder(
+            future: getMethodList(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                List<Payment> list = snapshot.requireData;
+                return PaymentBody(
+                  list: list,
+                  paidList: paidList,
+                  checkId: 1,
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
       ),
       flex: 16,
     );

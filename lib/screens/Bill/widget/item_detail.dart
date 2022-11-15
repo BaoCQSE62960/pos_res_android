@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
+import 'package:pos_res_android/repos/models/cashier/bill.dart';
 
-class BillItemDetail extends StatelessWidget {
-  const BillItemDetail({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class BillItemDetail extends StatefulWidget {
+  List<BillDetailModel> list;
+  BillItemDetail({Key? key, required this.list}) : super(key: key);
+
+  @override
+  State<BillItemDetail> createState() => _BillItemDetailState();
+}
+
+class _BillItemDetailState extends State<BillItemDetail> {
+  List<BillDetailModel> billDetail = [];
+  num subTotalShow = 0;
+  num taxShow = 0;
+  num amountShow = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    billDetail = widget.list;
+    for (var element in billDetail) {
+      subTotalShow += element.subtotal;
+      taxShow += element.taxamount;
+      amountShow += element.amount;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +56,7 @@ class BillItemDetail extends StatelessWidget {
                       ),
                     );
                   },
-                  itemCount: 1,
+                  itemCount: billDetail.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: const EdgeInsets.all(10),
@@ -49,7 +74,7 @@ class BillItemDetail extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "6",
+                                        billDetail[index].quantity.toString(),
                                         style: TextStyle(
                                           color: textColor2,
                                         ),
@@ -68,26 +93,21 @@ class BillItemDetail extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Cánh gà chiên",
-                                          style: TextStyle(color: textColor2),
-                                        ),
-                                        Text(
-                                          "Size vừa",
-                                          style: TextStyle(color: textColor2),
-                                        ),
-                                      ]),
-                                  const Spacer(),
-                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text("63.000",
-                                          style: TextStyle(
-                                              color: textColor2,
-                                              fontWeight: FontWeight.bold)),
+                                      Text(
+                                        billDetail[index].itemname,
+                                        style: TextStyle(color: textColor2),
+                                      ),
                                     ],
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    billDetail[index].subtotal.toVND(unit: ""),
+                                    style: TextStyle(
+                                        color: textColor2,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -117,7 +137,7 @@ class BillItemDetail extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "63.000",
+                            subTotalShow.toVND(unit: ""),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           ),
@@ -132,7 +152,7 @@ class BillItemDetail extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "6.300",
+                            taxShow.toVND(unit: ""),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           )
@@ -152,7 +172,7 @@ class BillItemDetail extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "69.300",
+                            amountShow.toVND(unit: ""),
                             style: TextStyle(
                                 color: textColor2,
                                 fontWeight: FontWeight.bold,

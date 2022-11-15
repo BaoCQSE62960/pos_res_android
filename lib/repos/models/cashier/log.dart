@@ -1,11 +1,13 @@
 class CashierLog {
+  int id;
   String shiftname;
   DateTime creationtime;
   String type;
-  int amount;
+  num amount;
   String fullname;
 
   CashierLog({
+    required this.id,
     required this.shiftname,
     required this.creationtime,
     required this.type,
@@ -13,26 +15,71 @@ class CashierLog {
     required this.fullname,
   });
 
-  // factory CashierLog.fromJson(Map<String, dynamic> json) => CashierLog(
-  //       shiftname: json['shiftname'],
-  //       creationtime: json['creationtime'],
-  //       type: json['type'],
-  //       amount: json['amount'],
-  //       fullname: json['fullname'],
-  //     );
+  set setAmount(num newValue) {
+    amount = newValue;
+  }
+
+  factory CashierLog.fromJson(Map<String, dynamic> json) {
+    return CashierLog(
+      id: json['id'],
+      shiftname: json['shiftname'],
+      // creationtime:
+      //     DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS').parse(json['creationtime']),
+      creationtime: DateTime.parse(json['creationtime']),
+      type: json['type'],
+      amount: num.parse(json['amount']),
+      fullname: json['fullname'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    return data;
+  }
 }
 
-var logs = <CashierLog>[
-  CashierLog(
-      shiftname: "Ca 2",
-      creationtime: DateTime.utc(2020, 12, 29, 13),
-      type: "Mở Ca",
-      amount: 30000000,
-      fullname: "Nguyễn Văn A"),
-  CashierLog(
-      shiftname: "Ca 2",
-      creationtime: DateTime.utc(2020, 12, 29, 15),
-      type: "Đóng ca",
-      amount: 50000000,
-      fullname: "Nguyễn Văn A"),
-];
+class CashierLogItem {
+  int id;
+  num amount;
+
+  CashierLogItem({
+    required this.id,
+    required this.amount,
+  });
+
+  factory CashierLogItem.fromJson(Map<String, dynamic> json) {
+    return CashierLogItem(
+      id: json['id'],
+      amount: num.parse(json['amount']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    return data;
+  }
+}
+
+class ListCashierLog {
+  final List<CashierLog> list;
+  ListCashierLog({required this.list});
+
+  factory ListCashierLog.fromJson(List<dynamic> parseJson) {
+    List<CashierLog> list =
+        parseJson.map((e) => CashierLog.fromJson(e)).toList();
+    return ListCashierLog(list: list);
+  }
+}
+
+class CashierLogAmount {
+  final List<CashierLogItem> list;
+  CashierLogAmount({required this.list});
+
+  factory CashierLogAmount.fromJson(List<dynamic> parseJson) {
+    List<CashierLogItem> list =
+        parseJson.map((e) => CashierLogItem.fromJson(e)).toList();
+    return CashierLogAmount(list: list);
+  }
+}

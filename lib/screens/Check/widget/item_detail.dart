@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
 
-class CheckItemDetail extends StatelessWidget {
-  const CheckItemDetail({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class CheckItemDetail extends StatefulWidget {
+  List<CheckDetailModel> list;
+  CheckItemDetail({Key? key, required this.list}) : super(key: key);
+
+  @override
+  State<CheckItemDetail> createState() => _CheckItemDetailState();
+}
+
+class _CheckItemDetailState extends State<CheckItemDetail> {
+  List<CheckDetailModel> checkDetail = [];
+  num subTotalShow = 0;
+  num taxShow = 0;
+  num amountShow = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    checkDetail = widget.list;
+    for (var element in checkDetail) {
+      subTotalShow += element.subtotal;
+      taxShow += element.taxamount;
+      amountShow += element.amount;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +56,7 @@ class CheckItemDetail extends StatelessWidget {
                       ),
                     );
                   },
-                  itemCount: 6,
+                  itemCount: checkDetail.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: const EdgeInsets.all(10),
@@ -49,7 +74,7 @@ class CheckItemDetail extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "1",
+                                        checkDetail[index].quantity.toString(),
                                         style: TextStyle(
                                           color: textColor2,
                                         ),
@@ -72,18 +97,30 @@ class CheckItemDetail extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Cánh gà chiên",
+                                          checkDetail[index].itemname,
                                           style: TextStyle(color: textColor2),
                                         ),
-                                        Text(
-                                          "Size vừa",
-                                          style: TextStyle(color: textColor2),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: defaultPadding * 0.25),
+                                          child: Text(
+                                            checkDetail[index]
+                                                .specialrequest!
+                                                .map((e) => e.name)
+                                                .join(', '),
+                                            style: TextStyle(
+                                                color: textColor2,
+                                                fontSize: defaultSize * 3),
+                                          ),
                                         ),
                                       ]),
                                   const Spacer(),
                                   Row(
                                     children: [
-                                      Text("10.500",
+                                      Text(
+                                          checkDetail[index]
+                                              .subtotal
+                                              .toVND(unit: ""),
                                           style: TextStyle(
                                               color: textColor2,
                                               fontWeight: FontWeight.bold)),
@@ -117,7 +154,7 @@ class CheckItemDetail extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "63.000",
+                            subTotalShow.toVND(unit: ""),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           ),
@@ -132,7 +169,7 @@ class CheckItemDetail extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "6.300",
+                            taxShow.toVND(unit: ""),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           )
@@ -152,7 +189,7 @@ class CheckItemDetail extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "69.300",
+                            amountShow.toVND(unit: ""),
                             style: TextStyle(
                                 color: textColor2,
                                 fontWeight: FontWeight.bold,

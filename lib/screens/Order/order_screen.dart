@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/repos/models/payment.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
@@ -13,6 +15,7 @@ import 'package:pos_res_android/repos/repository/waiter/specialrequests_reposito
 import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
+import 'package:pos_res_android/repos/services/payment_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
@@ -20,6 +23,7 @@ import 'package:pos_res_android/screens/Order/widget/menu_item_cart.dart';
 import 'package:pos_res_android/screens/Order/widget/order_customer_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_detail_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
+import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
@@ -36,6 +40,16 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  List<Payment> methods = [];
+  List<PaymentProcess> paidList = [];
+  // List methods = [1];
+  final PaymentService service = Get.put(PaymentService());
+
+  Future<List<Payment>> getMethodList() async {
+    List<Payment> met = await service.getPaymentMethodList();
+    return met;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -93,59 +107,19 @@ class _OrderScreenState extends State<OrderScreen> {
                 offset: const Offset(4.0, 3.0)),
           ],
         ),
-        child: Container(
-          color: textLightColor,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  width: defaultPadding * 39.6,
-                  height: defaultPadding * 20,
-                  color: textLightColor,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: defaultPadding * 4,
-                        color: textLightColor,
-                        child: const TotalVND(),
-                      ),
-                      Container(
-                        height: defaultPadding * 20,
-                        color: deactiveLightColor,
-                        child: const PaymentMethod(),
-                      ),
-                      Container(
-                        height: defaultPadding * 4,
-                        width: defaultPadding * 43,
-                        child: const PaymentInput(),
-                        color: textLightColor,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Divider(color: dividerColor),
-              Expanded(
-                flex: 1,
-                //
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: defaultPadding * 35,
-                      height: defaultPadding * 43.5,
-                      decoration: const BoxDecoration(
-                        color: textLightColor,
-                      ),
-                      child: const PaymentPaidItem(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        child: FutureBuilder(
+            future: getMethodList(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                List<Payment> list = snapshot.requireData;
+                return PaymentBody(
+                  list: list,
+                  paidList: paidList,
+                  checkId: 1,
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
       ),
       flex: 16,
     );

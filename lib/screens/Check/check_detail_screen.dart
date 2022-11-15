@@ -3,12 +3,34 @@ import 'package:pos_res_android/common/widgets/background.dart';
 import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
 import 'package:pos_res_android/screens/Check/widget/check_info.dart';
+import 'package:pos_res_android/screens/Check/widget/check_info_top.dart';
 import 'package:pos_res_android/screens/Check/widget/item_detail.dart';
-import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
 
-class CheckDetailScreen extends StatelessWidget {
-  const CheckDetailScreen({Key? key}) : super(key: key);
+class CheckDetailScreen extends StatefulWidget {
+  final List<CheckItem> listCheck;
+  final List<CheckDetailModel> listDetail;
+  const CheckDetailScreen({
+    Key? key,
+    required this.listCheck,
+    required this.listDetail,
+  }) : super(key: key);
+
+  @override
+  State<CheckDetailScreen> createState() => _CheckDetailScreenState();
+}
+
+class _CheckDetailScreenState extends State<CheckDetailScreen> {
+  List<CheckItem> checkItem = [];
+  List<CheckDetailModel> checkDetail = [];
+
+  @override
+  void initState() {
+    super.initState();
+    checkItem = widget.listCheck;
+    checkDetail = widget.listDetail;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +58,16 @@ class CheckDetailScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                            color: textLightColor,
-                            width: MediaQuery.of(context).size.width -
-                                defaultPadding * 7,
-                            height: defaultPadding * 2.5,
-                            child: const Padding(
-                              padding:
-                                  EdgeInsets.only(top: defaultPadding * 0.5),
-                              child: OrderGeneralInfo(),
-                            )),
+                          color: textLightColor,
+                          width: MediaQuery.of(context).size.width -
+                              defaultPadding * 7,
+                          height: defaultPadding * 2.5,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: defaultPadding * 0.5),
+                            child: CheckGeneralInfo(list: checkItem),
+                          ),
+                        ),
                       ],
                     ),
                     Row(
@@ -55,16 +78,17 @@ class CheckDetailScreen extends StatelessWidget {
                               defaultPadding * 4,
                           width: MediaQuery.of(context).size.width * 0.6 -
                               defaultPadding * 4.5,
-                          child: const Padding(
-                            padding: EdgeInsets.all(defaultPadding),
-                            child: CheckInfo(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(defaultPadding),
+                            child: CheckInfo(list: checkItem),
                           ),
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height -
-                                defaultPadding * 4,
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: const CheckItemDetail()),
+                          height: MediaQuery.of(context).size.height -
+                              defaultPadding * 4,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: CheckItemDetail(list: checkDetail),
+                        ),
                       ],
                     ),
                   ],

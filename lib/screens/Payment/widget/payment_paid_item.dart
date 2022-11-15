@@ -1,12 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/payment.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_action_button.dart';
 
-class PaymentPaidItem extends StatelessWidget {
-  const PaymentPaidItem({Key? key}) : super(key: key);
+class PaymentPaidItem extends StatefulWidget {
+  List<PaymentProcess> paidList;
+  int checkId;
+  PaymentPaidItem({Key? key, required this.checkId, required this.paidList})
+      : super(key: key);
+
+  @override
+  State<PaymentPaidItem> createState() => _PaymentPaidItemState();
+}
+
+class _PaymentPaidItemState extends State<PaymentPaidItem> {
+  late List<PaymentProcess> paidList;
+  late int checkId;
+  @override
+  void initState() {
+    super.initState();
+    paidList = widget.paidList;
+    checkId = widget.checkId;
+  }
 
   @override
   Widget build(BuildContext context) {
+    num total = 0;
+    for (var e in paidList) {
+      total += e.amount;
+    }
     return Column(
       children: [
         // const Expanded(flex: 1, child: OrderGeneralInfo()),
@@ -23,8 +45,9 @@ class PaymentPaidItem extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: 1,
+              itemCount: paidList.length,
               itemBuilder: (context, index) {
+                PaymentProcess payment = paidList.elementAt(index);
                 return Container(
                   margin: const EdgeInsets.all(10),
                   width: double.infinity,
@@ -41,7 +64,7 @@ class PaymentPaidItem extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Tiền mặt",
+                                      payment.name,
                                       style: TextStyle(
                                         color: textColor2,
                                         fontSize: defaultSize * 4,
@@ -52,7 +75,7 @@ class PaymentPaidItem extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    "50.000",
+                                    payment.amount.toString(),
                                     style: TextStyle(
                                       color: textColor2,
                                       fontSize: defaultSize * 4,
@@ -95,7 +118,7 @@ class PaymentPaidItem extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        "50.000",
+                        total.toString(),
                         style: TextStyle(
                           color: textColor2,
                           fontSize: defaultSize * 5,
@@ -131,14 +154,14 @@ class PaymentPaidItem extends StatelessWidget {
             ),
           ),
         ),
-        const Expanded(
+        Expanded(
           // flex: 1,
           flex: 4,
           child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               bottom: defaultPadding * 0.75,
             ),
-            child: PaymentActionButton(),
+            child: PaymentActionButton(checkId: checkId, paidList: paidList),
           ),
         ),
       ],

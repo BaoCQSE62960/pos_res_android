@@ -1,8 +1,52 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart';
 
-class CheckInfo extends StatelessWidget {
-  const CheckInfo({Key? key}) : super(key: key);
+class CheckInfo extends StatefulWidget {
+  final List<CheckItem> list;
+  const CheckInfo({Key? key, required this.list}) : super(key: key);
+
+  @override
+  State<CheckInfo> createState() => _CheckInfoState();
+}
+
+class _CheckInfoState extends State<CheckInfo> {
+  List<CheckItem> checkItem = [];
+  String? tableNameShow = "";
+  String? voidReasonShow = "";
+  String? guestNameShow = "";
+  int? coverShow = 0;
+  String? noteShow = "";
+  String statusShow = "";
+  final newFormat = DateFormat('yyyy-MM-dd');
+
+  @override
+  void initState() {
+    super.initState();
+    checkItem = widget.list;
+
+    tableNameShow = checkItem[0].tablename;
+    voidReasonShow = checkItem[0].voidreason;
+    guestNameShow = checkItem[0].guestname;
+    coverShow = checkItem[0].cover;
+    noteShow = checkItem[0].note;
+    statusShow = checkItem[0].status;
+
+    tableNameShow ??= "";
+    voidReasonShow ??= "";
+    guestNameShow ??= "";
+    coverShow ??= 0;
+    noteShow ??= "";
+
+    if (statusShow == 'ACTIVE') {
+      statusShow = 'Hoạt động';
+    } else if (statusShow == 'INACTIVE') {
+      statusShow = 'Hủy';
+    } else if (statusShow == 'CLOSED') {
+      statusShow = 'Đóng';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,32 +60,32 @@ class CheckInfo extends StatelessWidget {
       children: [
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Ngày: "
-                "19/12/2021",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Ngày: ${newFormat.format(checkItem[0].creationtime)}",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Ca: "
-                "Ca 1",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Ca: ${checkItem[0].shiftname}",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         // TextFormField(
@@ -61,92 +105,92 @@ class CheckInfo extends StatelessWidget {
         // ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Nhân viên phục vụ: "
-                "Nguyễn Văn A",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Nhân viên phục vụ: ${checkItem[0].manageby}",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Bàn: "
-                "L2-01",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Bàn: $tableNameShow",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Khu vực: "
-                "Lầu 2",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Khu vực: ${checkItem[0].locationname}",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Lý do hủy: "
-                "",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Lý do hủy: $voidReasonShow",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Tên khách hàng: "
-                "Khách 1",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Tên khách hàng: $guestNameShow",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Số khách: "
-                "3",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Số khách: $coverShow",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         // TextFormField(
@@ -172,17 +216,17 @@ class CheckInfo extends StatelessWidget {
         // ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Ghi chú: "
-                "",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Ghi chú: $noteShow",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
         // TextFormField(
@@ -232,17 +276,17 @@ class CheckInfo extends StatelessWidget {
         // ),
         TextFormField(
           readOnly: true,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: deactiveLightColor,
-            contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-            border: OutlineInputBorder(
+            contentPadding: const EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               borderSide: BorderSide.none,
             ),
-            hintText: "Trạng thái: "
-                "Hoạt động",
-            hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
+            hintText: "Trạng thái: $statusShow",
+            hintStyle:
+                const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
       ],

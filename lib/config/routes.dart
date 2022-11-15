@@ -2,22 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:pos_res_android/screens/Cashier/cashier_log_screen.dart';
 import 'package:pos_res_android/screens/Login/login_screen.dart';
 import 'package:pos_res_android/screens/Table/table_layout_screen.dart';
+import 'package:pos_res_android/screens/Transaction/search_bill_screen.dart';
 import 'package:pos_res_android/screens/Transaction/search_check_screen.dart';
 
 class PosRestaurantRoute {
   static const order = "/";
+  // List<CheckItem> abc;
 
   static Map<String, Widget Function(BuildContext)> pageroutes =
       <String, WidgetBuilder>{
     '/login': (BuildContext context) => const LoginScreen(),
     '/tableoverview': (BuildContext context) => const TableLayoutScreen(),
-    '/search/checklist': (BuildContext context) => const SearchCheckScreen(),
+    '/checklist': (BuildContext context) => const SearchCheckScreen(),
+    '/billlist': (BuildContext context) => const SearchBillScreen(),
+    // '/checkdetail': (BuildContext context, abc) => CheckDetailScreen(listCheck: abc),
     '/cashierlog': (BuildContext context) => const CashierLogScreen(),
-    // '/cashieropen': (BuildContext context) => const CashierOpenScreen(),
-    // '/cashierclose': (BuildContext context) => const CashierCloseScreen(),
-    // '/logout': (BuildContext context) => const LoginScreen(),
   };
 }
+
+String googleLink = 'https://www.google.com/';
+String youtubeLink = 'https://www.youtube.com/';
+
+String uriMomo = "https://test-payment.momo.vn/v2/gateway/api/create";
+String uriLocal = "http://localhost:5000";
 
 // String uriLocal = "http://localhost:5000";
 
@@ -29,7 +36,6 @@ class PosRestaurantRoute {
 // String uri = "http://192.168.41.136:5000";
 
 //Home
-// String uri = "http://192.168.1.5:5000";
 // String uri = "http://192.168.1.6:5000";
 //Q9
 // String uri = "http://192.168.0.6:5000";

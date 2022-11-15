@@ -53,7 +53,7 @@ class LoginRepository {
   }
 
   //cashier open
-  Future open(int shiftId, int amount) async {
+  Future open(int shiftId, num amount) async {
     headers = storage.getItem('headers');
     String msg = "";
     bool result = false;
@@ -81,7 +81,7 @@ class LoginRepository {
   }
 
   //cashier close
-  Future close(int amount) async {
+  Future close(num amount) async {
     headers = storage.getItem('headers');
     String msg = "";
     bool result = false;
@@ -95,7 +95,6 @@ class LoginRepository {
     print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
-      // _updateCookie(res);
       print("close successful" + res.body);
       msg = res.body;
     } else {

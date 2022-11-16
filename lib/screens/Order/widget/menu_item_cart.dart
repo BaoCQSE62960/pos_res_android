@@ -26,6 +26,7 @@ class MenuItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return ClipRRect(
       child: isOutOfStock

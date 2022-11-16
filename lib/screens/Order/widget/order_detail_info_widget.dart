@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -16,6 +18,7 @@ class OrderDetailInfo extends StatelessWidget {
   OrderDetailInfo({
     Key? key,
   }) : super(key: key);
+  // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -136,6 +139,7 @@ class OrderDetailInfo extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   ActionPane RemindOrderActionPane(BuildContext context,
       CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
@@ -308,8 +312,8 @@ class OrderDetailInfo extends StatelessWidget {
             child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
                 builder: (context, state) {
               return Dialog(
-                insetPadding:
-                    EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+                insetPadding: const EdgeInsets.symmetric(
+                    vertical: 50.0, horizontal: 400.0),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: SingleChildScrollView(

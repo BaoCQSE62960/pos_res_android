@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class DetailListItemDTO {
   DetailListItemDTO({required this.id, required this.quantity});
 

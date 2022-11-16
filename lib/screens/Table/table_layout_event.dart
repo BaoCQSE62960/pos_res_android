@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
-import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';
 
 class TableLayoutEvent extends Equatable {
   @override

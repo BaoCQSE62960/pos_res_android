@@ -24,10 +24,6 @@ import 'package:pos_res_android/screens/Order/widget/order_customer_info_widget.
 import 'package:pos_res_android/screens/Order/widget/order_detail_info_widget.dart';
 import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
 import 'package:pos_res_android/screens/Payment/payment_body.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_input.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_method.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
-import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {

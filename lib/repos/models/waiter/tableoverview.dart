@@ -5,6 +5,7 @@ class TableOverview {
 
   final List<TableDetail> listTable;
 
+  // ignore: non_constant_identifier_names
   static TableOverview EMPTY = TableOverview(listTable: const []);
 
   factory TableOverview.fromJson(Map<String, dynamic> json) => TableOverview(

@@ -5,7 +5,6 @@ import 'package:pos_res_android/common/utils/navigation_service.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
-import 'package:pos_res_android/screens/Order/order_screen.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/table_layout_state.dart';

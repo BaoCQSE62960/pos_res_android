@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls, unused_local_variable
+// ignore_for_file: avoid_function_literals_in_foreach_calls, unused_local_variable, library_prefixes
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
@@ -218,7 +218,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       http.Response response =
           await checkRepository.servedCheckDetail(event.checkdetailid);
       emit(
-        state.copywith(orderLayoutStatus: OrderLayoutStatus.success),
+        state.copywith(orderLayoutStatus: OrderLayoutStatus.loading),
       );
       LoadData(tableid: state.tableId, checkid: state.checkId);
     } catch (error) {

@@ -1,3 +1,5 @@
+// ignore_for_file: library_prefixes, sized_box_for_whitespace
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -212,8 +214,8 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
             child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
                 builder: (context, state) {
               return Dialog(
-                insetPadding:
-                    EdgeInsets.symmetric(vertical: 100.0, horizontal: 400.0),
+                insetPadding: const EdgeInsets.symmetric(
+                    vertical: 100.0, horizontal: 400.0),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: Column(
@@ -331,7 +333,7 @@ Future<dynamic> voidReasonDialog(BuildContext context, int checkdetailid) {
               builder: (context, state) {
             return Dialog(
               insetPadding:
-                  EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
               child: SingleChildScrollView(

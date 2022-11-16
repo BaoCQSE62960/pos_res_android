@@ -8,6 +8,7 @@ import 'package:pos_res_android/screens/Payment/widget/payment_method_item.dart'
 import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 
+// ignore: must_be_immutable
 class PaymentBody extends StatefulWidget {
   int checkId;
   List<Payment> list;

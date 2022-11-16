@@ -1,3 +1,5 @@
+// ignore_for_file: library_prefixes
+
 import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/models/waiter/item.dart';

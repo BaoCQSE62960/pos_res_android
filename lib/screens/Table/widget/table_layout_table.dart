@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/utils/socket.dart';
@@ -9,7 +7,9 @@ import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout.dart';
 
+// ignore: must_be_immutable
 class TableSection extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   TableSection({Key? key, this.socket});
 
   Socket? socket;
@@ -28,7 +28,7 @@ class TableSection extends StatelessWidget {
     }
     return Container(
         color: textLightColor,
-        height: MediaQuery.of(context).size.height - defaultPadding * 8.5,
+        height: MediaQuery.of(context).size.height - defaultPadding * 5,
         width: MediaQuery.of(context).size.width,
         child: BlocBuilder<TableLayoutBloc, TableLayoutState>(
           builder: (context, state) {

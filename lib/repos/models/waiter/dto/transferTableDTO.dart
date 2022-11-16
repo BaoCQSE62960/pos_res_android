@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
+// ignore_for_file: file_names
 
 class TransferTableDTO {
   TransferTableDTO({required this.locationID});

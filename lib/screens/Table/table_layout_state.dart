@@ -12,6 +12,7 @@ extension TableLayoutStatusX on TableLayoutStatus {
   bool get isSelected => this == TableLayoutStatus.selected;
 }
 
+// ignore: must_be_immutable
 class TableLayoutState extends Equatable {
   TableLayoutState(
       {this.tableLayoutStatus = TableLayoutStatus.initial,

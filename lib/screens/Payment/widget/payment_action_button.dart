@@ -3,6 +3,7 @@ import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/payment.dart';
 import 'package:pos_res_android/repos/services/payment_service.dart';
 
+// ignore: must_be_immutable
 class PaymentActionButton extends StatefulWidget {
   List<PaymentProcess> paidList;
   int checkId;

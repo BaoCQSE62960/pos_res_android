@@ -9,7 +9,6 @@ import 'package:pos_res_android/screens/Bill/widget/bill_info_top.dart';
 import 'package:pos_res_android/screens/Bill/widget/item_detail.dart';
 import 'package:pos_res_android/screens/Bill/widget/payment_detail.dart';
 import 'package:pos_res_android/screens/Bill/widget/refund_btn.dart';
-import 'package:pos_res_android/screens/Order/widget/order_general_info_widget.dart';
 
 class BillDetailScreen extends StatefulWidget {
   final List<BillItem> listBill;

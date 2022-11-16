@@ -27,7 +27,7 @@ class _FilterSectionState extends State<FilterSection> {
             Container(
                 color: textLightColor,
                 width: MediaQuery.of(context).size.width * 0.5 +
-                    defaultPadding * 5,
+                    defaultPadding * 10.5,
                 child: const LocationFilter()),
           ],
         ),

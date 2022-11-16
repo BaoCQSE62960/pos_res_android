@@ -76,6 +76,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
           currentTableID: event.currentCheckID,
           targetTableID: event.targatTableID,
           detailList: detailListItemDTO);
+      // ignore: unused_local_variable
       http.Response response =
           await tableOverviewRepository.transferCheck(transferCheckDTO);
       emit(
@@ -96,6 +97,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     try {
       TransferTableDTO transferTableDTO =
           TransferTableDTO(locationID: event.locationID);
+      // ignore: unused_local_variable
       http.Response response = await tableOverviewRepository.transferTable(
           transferTableDTO, event.currentTableID, event.targatTableID);
       emit(

@@ -91,7 +91,7 @@ class _LocationFilterState extends State<LocationFilter> {
                         height: defaultPadding * 2.5,
                         child: tableBloc.state.tableLayoutStatus.isSuccess
                             ? locationItem(listLocation.length, tableBloc)
-                            : SizedBox()),
+                            : const SizedBox()),
                   ],
                 ),
               );

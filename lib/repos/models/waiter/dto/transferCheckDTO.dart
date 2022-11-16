@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
 
 class TransferCheckDTO {

@@ -287,6 +287,7 @@ class OrderDetailInfo extends StatelessWidget {
                                 callback: () {
                                   orderBloc.add(UpdateSpecialRequestForItem(
                                       checkdetailid: checkdetailid));
+                                  Navigator.of(context).pop();
                                 },
                               ),
                             ),

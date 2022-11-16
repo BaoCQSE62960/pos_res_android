@@ -51,19 +51,24 @@ class ActionItemList extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: TextStyle(color: textColor2),
-                        ),
-                        const Spacer(),
-                        Text(sepcialRequest,
-                            style: TextStyle(
-                                color: textColor2,
-                                fontStyle: FontStyle.italic)),
-                      ]),
+                  Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: TextStyle(color: textColor2),
+                          ),
+                          const Spacer(),
+                          Text(sepcialRequest,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: textColor2,
+                                  fontStyle: FontStyle.italic)),
+                        ]),
+                  ),
                   const Spacer(),
                   Row(
                     children: [

@@ -248,12 +248,16 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       CheckDetail checkDetail = state.check.checkDetail.firstWhere(
           (element) => element.checkdetailidLocal == event.checkDetailIDLocal);
       int quantity = checkDetail.quantity;
-      quantity = event.mode == AddOrder.QuantityUpdateMode.increase
-          ? quantity = quantity + 1
-          : quantity == 1
-              ? 1
-              : quantity = quantity - 1;
-      checkDetail.quantity = quantity;
+      if (event.mode == AddOrder.QuantityUpdateMode.decrease && quantity == 1) {
+        state.check.checkDetail.remove(checkDetail);
+      } else {
+        quantity = event.mode == AddOrder.QuantityUpdateMode.increase
+            ? quantity = quantity + 1
+            : quantity == 1
+                ? 1
+                : quantity = quantity - 1;
+        checkDetail.quantity = quantity;
+      }
       state.check.subtotal = event.mode == AddOrder.QuantityUpdateMode.increase
           ? state.check.subtotal + (checkDetail.amount)
           : state.check.subtotal - (checkDetail.amount);

@@ -12,7 +12,8 @@ const int DEFAULT_MAX_LENGTH_NOTE = 250;
 
 class OrderCustomerInfo extends StatelessWidget {
   OrderCustomerInfo({Key? key, required this.context}) : super(key: key);
-  final _formKey = GlobalKey<FormState>();
+  final _formKeyCustomer = GlobalKey<FormState>();
+  final _formKeyNote = GlobalKey<FormState>();
   final BuildContext context;
 
   @override
@@ -79,7 +80,7 @@ class OrderCustomerInfo extends StatelessWidget {
                   ),
                 ),
                 Form(
-                  key: _formKey,
+                  key: _formKeyCustomer,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -140,7 +141,7 @@ class OrderCustomerInfo extends StatelessWidget {
                         child: CustomElevatedButton(
                           text: 'order.confirm'.tr(),
                           callback: () {
-                            if (_formKey.currentState!.validate()) {
+                            if (_formKeyCustomer.currentState!.validate()) {
                               orderBloc.add(UpdateInfo(
                                   guestname: guestNameController.text,
                                   cover: int.parse(coverController.text)));
@@ -176,7 +177,7 @@ class OrderCustomerInfo extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Form(
-                    key: _formKey,
+                    key: _formKeyNote,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
@@ -195,7 +196,7 @@ class OrderCustomerInfo extends StatelessWidget {
                             controller: noteController,
                             validator: (value) {
                               if (value != null &&
-                                  value.length > DEFAULT_MAX_LENGTH_COVER) {
+                                  value.length > DEFAULT_MAX_LENGTH_NOTE) {
                                 return 'order.error.customer_note_error';
                               }
                               return null;
@@ -221,7 +222,7 @@ class OrderCustomerInfo extends StatelessWidget {
                             child: CustomElevatedButton(
                               text: 'order.confirm'.tr(),
                               callback: () {
-                                if (_formKey.currentState!.validate()) {
+                                if (_formKeyNote.currentState!.validate()) {
                                   orderBloc.add(
                                       UpdateNote(note: noteController.text));
                                   Navigator.pop(context);

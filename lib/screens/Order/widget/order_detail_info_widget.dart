@@ -81,6 +81,9 @@ class OrderDetailInfo extends StatelessWidget {
           onPressed: (context) {
             orderBloc.add(
                 ServedACheckDetail(checkdetailid: checkDetail.checkdetailid));
+            orderBloc.add(LoadData(
+                tableid: orderBloc.state.tableId,
+                checkid: orderBloc.state.checkId));
           },
           backgroundColor: activeColor,
           foregroundColor: Colors.white,

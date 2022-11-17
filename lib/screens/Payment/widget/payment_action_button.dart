@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/payment.dart';
+import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 
 // ignore: must_be_immutable

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
-import 'package:pos_res_android/repos/models/payment.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
@@ -36,9 +36,8 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  List<Payment> methods = [];
   List<PaymentProcess> paidList = [];
-  // List methods = [1];
+
   final PaymentService service = Get.put(PaymentService());
 
   Future<List<Payment>> getMethodList() async {

@@ -205,7 +205,7 @@ class OrderCustomerInfo extends StatelessWidget {
                             },
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
-                            minLines: 20,
+                            minLines: 5,
                             decoration: InputDecoration(
                                 hintText: 'order.check_note_hint'.tr(),
                                 enabledBorder: OutlineInputBorder(

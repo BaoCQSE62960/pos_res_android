@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/bill.dart';
-import 'package:pos_res_android/repos/services/bill_service.dart';
+import 'package:pos_res_android/repos/services/cashier/bill_service.dart';
 import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';

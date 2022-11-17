@@ -40,7 +40,7 @@ class _StatusFilterState extends State<StatusFilter> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Icon(
-                                Icons.dining,
+                                Icons.dinner_dining,
                                 size: defaultSize * 6,
                                 color: textLightColor,
                               ),

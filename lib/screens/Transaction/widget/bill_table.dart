@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_res_android/repos/models/cashier/bill.dart';
-import 'package:pos_res_android/repos/services/bill_service.dart';
+import 'package:pos_res_android/repos/services/cashier/bill_service.dart';
 import 'package:pos_res_android/screens/Transaction/widget/list_bills.dart';
 
 class BillDatatable extends StatefulWidget {

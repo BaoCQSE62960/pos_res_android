@@ -135,8 +135,12 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     try {
       List<SpecialRequests> listSpecialRequest =
           state.listSelectedSpecialRequest;
-      listSpecialRequest.contains(event.specialRequests)
-          ? listSpecialRequest.remove(event.specialRequests)
+      listSpecialRequest
+              .map((e) => e.id)
+              .toList()
+              .contains(event.specialRequests.id)
+          ? listSpecialRequest.remove(listSpecialRequest
+              .firstWhere((element) => element.id == event.specialRequests.id))
           : listSpecialRequest = [...listSpecialRequest, event.specialRequests];
       emit(
         state.copywith(

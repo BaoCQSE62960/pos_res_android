@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/check.dart';
 import 'package:pos_res_android/repos/services/cashier/check_service.dart';
+import 'package:pos_res_android/repos/services/login_service.dart';
 import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
@@ -22,13 +24,14 @@ class _ViewListChecksState extends State<ViewListChecks> {
   final List<String> selectedStatus = <String>["ACTIVE", "VOID", "CLOSED"];
   final CheckService service = Get.put(CheckService());
 
+  List currentUserRole = [];
   List<Check> checks = [];
   List<Check> checkFilter = [];
   List<CheckItem> checkItem = [];
   List<CheckDetailModel> checkDetail = [];
 
   String statusFilter = "";
-  String msg = "";
+  String loginMsg = "";
   // int? sortColumnIndex;
   // bool isAscending = false;
   final newFormat = DateFormat('yyyy-MM-dd');
@@ -43,6 +46,12 @@ class _ViewListChecksState extends State<ViewListChecks> {
   //     Future getCheckItem, List<CheckItem> checkItem) async {
   //   checkItem = await getCheckItem;
   // }
+
+  Future getCurrentUserRole() async {
+    LoginService service = LoginService();
+    currentUserRole = await service.getRole();
+    return currentUserRole;
+  }
 
   Future getCheckItemDetail(int checkId) async {
     checkItem = await service.getCheckItem(checkId);
@@ -265,12 +274,23 @@ class _ViewListChecksState extends State<ViewListChecks> {
                     DataCell(Text(statusShow)),
                   ],
                   onLongPress: () async {
-                    // if (statusShow == 'Hoạt động') {
-                    //   //push checkOrder
-                    // } else {
                     checkItem = await getCheckItemDetail(checkFilter.id);
                     checkDetail = await getCheckDetailInfo(checkFilter.id);
-                    // Navigator.of(context).pushNamed('/tableoverview');
+                    loginMsg = await getCurrentUserRole();
+
+                    // if (statusShow == 'Hoạt động') {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return OrderScreen(
+                    //         table: tableDetail,
+                    //         loginMsg: loginMsg,
+                    //       );
+                    //     },
+                    //   ),
+                    // );
+                    // } else {
                     Navigator.push(
                       context,
                       MaterialPageRoute(

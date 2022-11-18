@@ -15,13 +15,22 @@ import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart'
     as TableEvent;
+import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/payment_btn.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
 
-Container calculatePriceWidget(BuildContext context) {
+Container calculatePriceWidget(BuildContext context, String loginMsg) {
   final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+
+  bool isCashier = true;
+  if (loginMsg.toString().contains("CASHIER")) {
+    isCashier = true;
+  } else {
+    isCashier = false;
+  }
+
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 20.0),
     child: Column(
@@ -76,9 +85,15 @@ Container calculatePriceWidget(BuildContext context) {
             ],
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.only(top: defaultPadding),
-          child: ChargeBtn(),
+        Padding(
+          padding: const EdgeInsets.only(top: defaultPadding),
+          child: Visibility(
+            visible: isCashier,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: const ChargeBtn(),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8),
@@ -194,7 +209,7 @@ String specialRequestProcess(List<SpecialRequests> specialRequests) {
     if (key == 0) {
       result = value.name;
     } else {
-      result = result + " ," + value.name;
+      result = result + ", " + value.name;
     }
   });
   return result;
@@ -271,18 +286,39 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: CustomElevatedButton(
-                              text: 'order.confirm'.tr(),
-                              callback: () {
-                                Navigator.of(context).pop();
-                                showTableBottomModal(context);
-                              },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: SizedBox(
+                                width: 200,
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                    showTableBottomModal(context);
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: SizedBox(
+                                width: 200,
+                                child: CustomElevatedButton(
+                                  buttonColors: voidColor,
+                                  text: 'order.close'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                    tableBloc.add(TableEvent.ResetAction());
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -310,9 +346,13 @@ Future<dynamic> showTableBottomModal(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: TableSection(),
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const FilterSection(),
+                  TableSection(),
+                ],
+              ),
             )),
           ],
         ),

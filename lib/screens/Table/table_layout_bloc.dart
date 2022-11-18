@@ -1,7 +1,6 @@
-// import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';
@@ -19,6 +18,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     on<ResetAction>(_mapResetActionEventToStage);
     on<ChangeOrderProcess>(_mapChangeOrderProcessEventToStage);
     on<ChangeTableProcess>(_mapChangeTableProcessEventToStage);
+    on<ChangeFilter>(_mapChangeFilterProcessEventToStage);
     on<LoadData>(_loadData);
   }
 
@@ -56,6 +56,56 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     try {
       emit(
         state.copywith(currentSelectedMode: SelectedMode.CHANGE_ORDER),
+      );
+    } catch (error) {
+      emit(state.copywith(tableLayoutStatus: TableLayoutStatus.error));
+    }
+  }
+
+  void _mapChangeFilterProcessEventToStage(
+      ChangeFilter event, Emitter<TableLayoutState> emit) async {
+    emit(
+      state.copywith(tableLayoutStatus: TableLayoutStatus.loading),
+    );
+    try {
+      TableOverview tableOverview = await tableOverviewRepository
+          .getTableOverviewByLocationID(state.currentLocationID.toString());
+      List<TableDetail> list = List<TableDetail>.from(tableOverview.listTable);
+      TableLayoutFilter currentFilter = state.currentFilter;
+      switch (event.targetFilter) {
+        case TableLayoutFilter.ready:
+          if (currentFilter != TableLayoutFilter.ready) {
+            list = list.where((element) => element.isready).toList();
+            currentFilter = event.targetFilter;
+          } else {
+            currentFilter = TableLayoutFilter.all;
+          }
+          break;
+        case TableLayoutFilter.voided:
+          if (currentFilter != TableLayoutFilter.voided) {
+            list = list.where((element) => element.isrecall).toList();
+            currentFilter = event.targetFilter;
+          } else {
+            currentFilter = TableLayoutFilter.all;
+          }
+          break;
+        case TableLayoutFilter.waiting:
+          if (currentFilter != TableLayoutFilter.waiting) {
+            list = list.where((element) => element.iswaiting).toList();
+            currentFilter = event.targetFilter;
+          } else {
+            currentFilter = TableLayoutFilter.all;
+          }
+          break;
+        default:
+          currentFilter = TableLayoutFilter.all;
+      }
+      tableOverview.listTable = list;
+      emit(
+        state.copywith(
+            currentFilter: currentFilter,
+            tableLayoutStatus: TableLayoutStatus.success,
+            tableOverview: tableOverview),
       );
     } catch (error) {
       emit(state.copywith(tableLayoutStatus: TableLayoutStatus.error));
@@ -115,8 +165,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
       ResetAction event, Emitter<TableLayoutState> emit) async {
     try {
       emit(
-        state.copywith(
-            currentSelectedMode: SelectedMode.NONE, firstSelectedTableName: ""),
+        state.copywith(currentSelectedMode: SelectedMode.NONE),
       );
     } catch (error) {
       emit(state.copywith(tableLayoutStatus: TableLayoutStatus.error));

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/utils/navigation_service.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/repos/services/login_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
@@ -12,9 +13,30 @@ import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
 
-class TableItem extends StatelessWidget {
+class TableItem extends StatefulWidget {
   const TableItem({Key? key, required this.tableDetail}) : super(key: key);
   final TableDetail tableDetail;
+
+  @override
+  State<TableItem> createState() => _TableItemState();
+}
+
+class _TableItemState extends State<TableItem> {
+  late TableDetail tableDetail;
+  String loginMsg = "";
+  List currentUserRole = [];
+
+  Future getCurrentUserRole() async {
+    LoginService service = LoginService();
+    currentUserRole = await service.getRole();
+    return currentUserRole;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tableDetail = widget.tableDetail;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +60,16 @@ class TableItem extends StatelessWidget {
                   context, tableDetail.tablename, tableDetail.id);
             }
           },
-          onDoubleTap: () {
+          onDoubleTap: () async {
+            currentUserRole = await getCurrentUserRole();
+            loginMsg = currentUserRole[1];
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) {
                   return OrderScreen(
                     table: tableDetail,
+                    loginMsg: loginMsg,
                   );
                 },
               ),

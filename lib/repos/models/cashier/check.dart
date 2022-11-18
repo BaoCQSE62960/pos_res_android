@@ -45,7 +45,8 @@ class CheckItem {
   String shiftname;
   String checkno;
   String manageby;
-  String? tablename;
+  int tableid;
+  String tablename;
   String locationname;
   String? voidreason;
   String? guestname;
@@ -61,7 +62,8 @@ class CheckItem {
     required this.shiftname,
     required this.checkno,
     required this.manageby,
-    this.tablename,
+    required this.tableid,
+    required this.tablename,
     required this.locationname,
     this.voidreason,
     this.guestname,
@@ -79,6 +81,7 @@ class CheckItem {
       shiftname: json['shiftname'],
       checkno: json['checkno'],
       manageby: json['manageby'],
+      tableid: json['tableid'],
       tablename: json['tablename'],
       locationname: json['locationname'],
       voidreason: json['voidreason'],

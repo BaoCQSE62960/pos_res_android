@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/screens/Table/table_layout.dart';
 
 class TableLayoutEvent extends Equatable {
   @override
@@ -18,6 +19,11 @@ class ChangeTable extends TableLayoutEvent {
 
 class ChangeOrder extends TableLayoutEvent {
   ChangeOrder();
+}
+
+class ChangeFilter extends TableLayoutEvent {
+  ChangeFilter({required this.targetFilter});
+  final TableLayoutFilter targetFilter;
 }
 
 class ChangeOrderProcess extends TableLayoutEvent {

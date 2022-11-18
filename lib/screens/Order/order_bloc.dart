@@ -91,6 +91,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
               .getTableInfoByCheckID(event.checkid.toString());
       emit(
         state.copywith(
+            selectedVoidReason: listVoidReason[0],
             listVoidReason: listVoidReason,
             tableId: event.tableid,
             checkId: event.checkid,
@@ -113,11 +114,11 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       final List<SpecialRequests> listSpecialRequest =
           await specialRequestsRepository
               .getSpecialRequestsByItemId(event.itemid.toString());
-      List<SpecialRequests> listSpecialRequestSeletected = state
-          .check.checkDetail
-          .firstWhere(
-              (element) => element.checkdetailidLocal == event.checkdetailid)
-          .specialRequest;
+      List<SpecialRequests> listSpecialRequestSeletected =
+          List<SpecialRequests>.from(state.check.checkDetail
+              .firstWhere((element) =>
+                  element.checkdetailidLocal == event.checkdetailid)
+              .specialRequest);
       emit(
         state.copywith(
             listSelectedSpecialRequest: listSpecialRequestSeletected,

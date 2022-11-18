@@ -5,9 +5,14 @@ import 'package:pos_res_android/screens/Payment/widget/payment_action_button.dar
 
 // ignore: must_be_immutable
 class PaymentPaidItem extends StatefulWidget {
+  Function() undo;
   List<PaymentProcess> paidList;
   int checkId;
-  PaymentPaidItem({Key? key, required this.checkId, required this.paidList})
+  PaymentPaidItem(
+      {Key? key,
+      required this.checkId,
+      required this.paidList,
+      required this.undo})
       : super(key: key);
 
   @override
@@ -162,7 +167,11 @@ class _PaymentPaidItemState extends State<PaymentPaidItem> {
             padding: const EdgeInsets.only(
               bottom: defaultPadding * 0.75,
             ),
-            child: PaymentActionButton(checkId: checkId, paidList: paidList),
+            child: PaymentActionButton(
+              checkId: checkId,
+              paidList: paidList,
+              undo: widget.undo,
+            ),
           ),
         ),
       ],

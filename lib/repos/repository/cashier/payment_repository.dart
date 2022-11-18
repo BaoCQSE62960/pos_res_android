@@ -2,10 +2,15 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:http/http.dart';
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 
 class PaymentRepository {
   String uriConnect = uri;
@@ -26,26 +31,49 @@ class PaymentRepository {
     }
   }
 
-  Future<bool> processCheck(
-      int checkId, List<PaymentProcess> paymentList) async {
-    Map<String, String> headers = storage.getItem('headers');
+  Future<bool> processCheck(int checkId, List<PaymentProcess> paymentList,
+      BuildContext context) async {
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    List<CheckDetail> list = orderBloc.state.check.checkDetail;
+    bool confirm = true;
+    for (var checkDetail in list) {
+      if (checkDetail.status != "SERVED") {
+        confirm = false;
+      }
+    }
+    if (confirm) {
+      Map<String, String> headers = storage.getItem('headers');
+      Map<String, dynamic> data = <String, dynamic>{};
+      data['checkid'] = checkId.toString();
+      data['paymentlist'] = paymentList.map((e) => e.toJson()).toList();
+      String body = jsonEncode(data);
+      print(body);
+      Response res = await post(
+          Uri.parse(uriConnect + '/orderprocess/check/process/'),
+          headers: headers,
+          body: body);
+      if (res.statusCode == 200) {
+        print('process check successful');
+        return true;
+      } else {
+        Map<String, dynamic> body = jsonDecode(res.body);
+        _simpleFailDialog(context, body['msg']);
+        return false;
+      }
+    } else {
+      _simpleFailDialog(context, 'Đơn vẫn còn món chưa xử lý!');
+      return false;
+    }
+  }
 
-    Map<String, dynamic> data = <String, dynamic>{};
-    data['checkid'] = checkId.toString();
-    data['paymentlist'] = paymentList.map((e) => e.toJson()).toList();
-    String body = jsonEncode(data);
-    print(body);
-    return true;
-    // Response res = await post(
-    //     Uri.parse(uriConnect + '/orderprocess/check/process/'),
-    //     headers: headers,
-    //     body: body);
-    // if (res.statusCode == 200) {
-    //   print('process check successful');
-    //   return true;
-    // } else {
-    //   throw Exception('cautch at processCheck');
-    // }
+  Future<void> _simpleFailDialog(BuildContext context, String msg) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return WarningPopUp(msg: msg);
+      },
+    );
   }
 
   // cookie

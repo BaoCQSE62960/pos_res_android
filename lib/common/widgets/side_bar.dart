@@ -57,7 +57,8 @@ class _SideBarState extends State<SideBar> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/tableoverview');
+                    Navigator.of(context)
+                        .pushReplacementNamed('/tableoverview');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -86,7 +87,7 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/checklist');
+                    Navigator.of(context).pushReplacementNamed('/checklist');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -116,7 +117,7 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    Navigator.of(context).pushNamed('/cashierlog');
+                    Navigator.of(context).pushReplacementNamed('/cashierlog');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -147,9 +148,9 @@ class _SideBarState extends State<SideBar> {
                     } else {
                       result = await logoutFromSystem();
                       if (result[0] == true) {
-                        Navigator.of(context).pushNamed('/login');
+                        Navigator.of(context).pop('/login');
                       } else {
-                        Navigator.of(context).pushNamed('/login');
+                        Navigator.of(context).pop('/login');
                         _logoutFailDialog();
                       }
                     }

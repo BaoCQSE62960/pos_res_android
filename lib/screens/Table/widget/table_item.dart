@@ -49,7 +49,9 @@ class _TableItemState extends State<TableItem> {
               child: CircularProgressIndicator(),
             )
           : GestureDetector(
-              onTap: () {
+              onTap: () async {
+                currentUserRole = await getCurrentUserRole();
+                loginMsg = currentUserRole[1];
                 if (tableBloc.state.currentSelectedMode ==
                     SelectedMode.CHANGE_ORDER) {
                   Navigator.of(context).pop();
@@ -74,6 +76,7 @@ class _TableItemState extends State<TableItem> {
                             checkid: tableDetail.checkid == 0
                                 ? tableBloc.state.currentTableOpenID
                                 : tableDetail.checkid,
+                            loginMsg: loginMsg,
                           );
                         },
                       ),

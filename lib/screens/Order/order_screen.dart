@@ -5,7 +5,6 @@ import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
-import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
@@ -16,6 +15,7 @@ import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dar
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
 import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
+import 'package:pos_res_android/repos/services/login_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
@@ -27,8 +27,9 @@ import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key, required this.checkid}) : super(key: key);
-
+  const OrderScreen({Key? key, required this.checkid, required this.loginMsg})
+      : super(key: key);
+  final String loginMsg;
   final int checkid;
 
   @override
@@ -37,6 +38,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   List<PaymentProcess> paidList = [];
+  List currentUserRole = [];
   String loginMsg = "";
 
   final PaymentService service = Get.put(PaymentService());
@@ -44,6 +46,12 @@ class _OrderScreenState extends State<OrderScreen> {
   Future<List<Payment>> getMethodList() async {
     List<Payment> met = await service.getPaymentMethodList();
     return met;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loginMsg = widget.loginMsg;
   }
 
   @override
@@ -81,7 +89,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   buildOrderDetailWidget(context),
                   state.currentMode == CurrentMode.order
                       ? buildOrderMenuWidget(state, context)
-                      : buildOrderPaymentWidget()
+                      : buildOrderPaymentWidget(context)
                 ],
               ),
             );
@@ -91,8 +99,9 @@ class _OrderScreenState extends State<OrderScreen> {
     ));
   }
 
-  Expanded buildOrderPaymentWidget() {
+  Expanded buildOrderPaymentWidget(BuildContext context) {
     // Implement layout for payment here.
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -112,7 +121,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 return PaymentBody(
                   list: list,
                   paidList: paidList,
-                  checkId: 1,
+                  check: orderBloc.state.check,
                 );
               }
               return const Center(child: CircularProgressIndicator());

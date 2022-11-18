@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/common/widgets/web_view.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
+import 'package:pos_res_android/repos/models/waiter/check.dart';
 import 'package:pos_res_android/repos/services/cashier/momo_service.dart';
+import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method_item.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_paid_item.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_top.dart';
 
 // ignore: must_be_immutable
 class PaymentBody extends StatefulWidget {
-  int checkId;
+  Check check;
   List<Payment> list;
   List<PaymentProcess> paidList;
   PaymentBody(
       {Key? key,
       required this.list,
       required this.paidList,
-      required this.checkId})
+      required this.check})
       : super(key: key);
 
   @override
@@ -28,8 +31,18 @@ class _PaymentBodyState extends State<PaymentBody> {
   List<Payment> methods = [];
   String amount = '';
   String msg = '';
-  late int checkId;
+  late Check check;
   late List<PaymentProcess> paidList;
+
+  String getAmount() {
+    String result = '';
+    num total = check.totalamount;
+    for (var e in paidList) {
+      total -= e.amount;
+    }
+    result = total.toString();
+    return result;
+  }
 
   bool checkDuplicatePaid(Payment payment) {
     for (var e in paidList) {
@@ -104,7 +117,8 @@ class _PaymentBodyState extends State<PaymentBody> {
     methods = widget.list;
     methods[0].setIsSelected = true;
     paidList = widget.paidList;
-    checkId = widget.checkId;
+    check = widget.check;
+    amount = getAmount();
   }
 
   @override
@@ -124,7 +138,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                     Container(
                       height: defaultPadding * 4,
                       color: textLightColor,
-                      child: const TotalVND(),
+                      child: TotalVND(amount: getAmount()),
                     ),
                     Container(
                         height: defaultPadding * 20,
@@ -156,9 +170,13 @@ class _PaymentBodyState extends State<PaymentBody> {
                     color: textLightColor,
                   ),
                   child: PaymentPaidItem(
-                    paidList: paidList,
-                    checkId: checkId,
-                  ),
+                      paidList: paidList,
+                      checkId: check.checkid,
+                      undo: () {
+                        setState(() {
+                          paidList.clear();
+                        });
+                      }),
                 ),
               ],
             ),
@@ -182,12 +200,13 @@ class _PaymentBodyState extends State<PaymentBody> {
             ),
           ),
           child: Flexible(
-            child: TextField(
-              onChanged: (value) {
+            child: TextFormField(
+              onChanged: (text) {
                 setState(() {
-                  amount = value;
+                  amount = text;
                 });
               },
+              initialValue: amount,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               cursorColor: primaryColor,
@@ -255,6 +274,15 @@ class _PaymentBodyState extends State<PaymentBody> {
                         id: payment.id,
                         name: payment.name,
                         amount: num.parse(amount)));
+                  }
+                  num current = num.parse(getAmount());
+                  if (current == 0) {
+                    PaymentService service = PaymentService();
+                    bool result = await service.processCheck(
+                        check.checkid, paidList, context);
+                    if (result) {
+                      Navigator.of(context).pop();
+                    }
                   }
                   setState(() {});
                 } else {

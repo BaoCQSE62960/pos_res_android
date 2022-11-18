@@ -5,9 +5,14 @@ import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 
 // ignore: must_be_immutable
 class PaymentActionButton extends StatefulWidget {
+  final Function() undo;
   List<PaymentProcess> paidList;
   int checkId;
-  PaymentActionButton({Key? key, required this.checkId, required this.paidList})
+  PaymentActionButton(
+      {Key? key,
+      required this.checkId,
+      required this.paidList,
+      required this.undo})
       : super(key: key);
 
   @override
@@ -42,8 +47,13 @@ class _PaymentActionButtonState extends State<PaymentActionButton> {
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              onPressed: () {
-                service.processCheck(checkId, paidList);
+              onPressed: () async {
+                PaymentService service = PaymentService();
+                bool result =
+                    await service.processCheck(checkId, paidList, context);
+                if (result) {
+                  Navigator.of(context).pop();
+                }
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -79,7 +89,7 @@ class _PaymentActionButtonState extends State<PaymentActionButton> {
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              onPressed: () {},
+              onPressed: widget.undo,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [

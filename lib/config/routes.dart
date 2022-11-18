@@ -38,6 +38,7 @@ String uriRailway = "https://pos-server-group.up.railway.app";
 
 //Home
 String uri = "http://192.168.1.7:5000";
+// String uri = "http://192.168.1.6:5000";
 //Q9
 // String uri = "http://192.168.0.6:5000";
 

@@ -31,7 +31,7 @@ class OrderLayoutState extends Equatable {
       this.specialRequestNote = '',
       this.currentLocalID = 0,
       this.checkId = 0,
-      this.tableId = 0,
+      // this.tableId = 0,
       List<MajorGroup>? listMajorGroups,
       Check? check,
       TableInfo? tableInfo,
@@ -69,11 +69,10 @@ class OrderLayoutState extends Equatable {
   List<CheckDetail> listSelectedCheckDetail;
   VoidReason selectedVoidReason;
   String specialRequestNote;
-  // ignore: prefer_typing_uninitialized_variables
   final currentMode;
   int currentLocalID;
   int checkId;
-  int tableId;
+  // int tableId;
 
   @override
   List<Object?> get props => [
@@ -94,7 +93,7 @@ class OrderLayoutState extends Equatable {
         specialRequestNote,
         currentLocalID,
         checkId,
-        tableId
+        // tableId
       ];
 
   OrderLayoutState copywith(
@@ -115,7 +114,7 @@ class OrderLayoutState extends Equatable {
       String? specialRequestNote,
       int? currentLocalID,
       int? checkId,
-      int? tableId,
+      // int? tableId,
       required OrderLayoutStatus orderLayoutStatus}) {
     return OrderLayoutState(
         currentSelectedMajorID:
@@ -139,7 +138,7 @@ class OrderLayoutState extends Equatable {
         currentMode: currentMode ?? this.currentMode,
         currentLocalID: currentLocalID ?? this.currentLocalID,
         checkId: checkId ?? this.checkId,
-        tableId: tableId ?? this.tableId,
+        // tableId: tableId ?? this.tableId,
         orderLayoutStatus: orderLayoutStatus);
   }
 }

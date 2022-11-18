@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
 
@@ -24,6 +25,11 @@ class ChangeOrder extends TableLayoutEvent {
 class ChangeFilter extends TableLayoutEvent {
   ChangeFilter({required this.targetFilter});
   final TableLayoutFilter targetFilter;
+}
+
+class OpenTable extends TableLayoutEvent {
+  OpenTable({required this.tableID});
+  final int tableID;
 }
 
 class ChangeOrderProcess extends TableLayoutEvent {

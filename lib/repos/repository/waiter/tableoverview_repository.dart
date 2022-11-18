@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/tableoverview.dart';
@@ -57,6 +58,21 @@ class TableOverviewRepositoryImpl extends TableOverviewService {
       return response;
     } else {
       throw Exception('Failed to transfer table');
+    }
+  }
+
+  @override
+  Future<OpenTableDTO> openTable(int tableId) async {
+    headers = storage.getItem('headers');
+    http.Response response = await http.put(
+        Uri.parse(
+            uriConnect + "/tableoverview/open/table/" + tableId.toString()),
+        headers: headers);
+    var responseJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      return OpenTableDTO.fromJson(responseJson);
+    } else {
+      throw Exception('Failed to open table.');
     }
   }
 }

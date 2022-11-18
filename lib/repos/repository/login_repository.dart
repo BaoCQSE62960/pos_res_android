@@ -18,7 +18,7 @@ class LoginRepository {
     var body = json.encode(data);
 
     print(body);
-    Response res = await post(Uri.parse(uriConnect + '/login/pos/'),
+    Response res = await post(Uri.parse(uriConnect + '/login/'),
         headers: {"Content-Type": "application/json"}, body: body);
 
     print(res.statusCode);

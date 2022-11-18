@@ -27,11 +27,9 @@ import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key, required this.table, required this.loginMsg})
-      : super(key: key);
+  const OrderScreen({Key? key, required this.checkid}) : super(key: key);
 
-  final TableDetail table;
-  final String loginMsg;
+  final int checkid;
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
@@ -46,12 +44,6 @@ class _OrderScreenState extends State<OrderScreen> {
   Future<List<Payment>> getMethodList() async {
     List<Payment> met = await service.getPaymentMethodList();
     return met;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loginMsg = widget.loginMsg;
   }
 
   @override
@@ -72,7 +64,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   specialRequestsRepository: SpecialRequestsRepositoryImpl(),
                   voidReasonRepository: VoidReasonRepositoryImpl())
                 ..add(LoadData(
-                    checkid: widget.table.checkid, tableid: widget.table.id))),
+                    // checkid: widget.table.checkid, tableid: widget.table.id))),
+                    checkid: widget.checkid))),
           BlocProvider(
             create: (context) => TableLayoutBloc(
                 tableOverviewRepository: TableOverviewRepositoryImpl()),

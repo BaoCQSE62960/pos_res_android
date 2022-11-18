@@ -16,10 +16,11 @@ class OrderLayoutEvent extends Equatable {
 }
 
 class LoadData extends OrderLayoutEvent {
-  LoadData({required this.tableid, required this.checkid});
+  // LoadData({required this.tableid, required this.checkid});
+  LoadData({required this.checkid});
 
   final int checkid;
-  final int tableid;
+  // final int tableid;
 }
 
 class ChangeMenu extends OrderLayoutEvent {

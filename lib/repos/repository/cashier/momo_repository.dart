@@ -6,7 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/momo.dart';
+import 'package:pos_res_android/repos/models/cashier/momo.dart';
 import 'package:http/http.dart';
 
 class MomoRepository {

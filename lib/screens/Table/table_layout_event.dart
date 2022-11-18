@@ -27,6 +27,11 @@ class ChangeFilter extends TableLayoutEvent {
   final TableLayoutFilter targetFilter;
 }
 
+class OpenTable extends TableLayoutEvent {
+  OpenTable({required this.tableID});
+  final int tableID;
+}
+
 class ChangeOrderProcess extends TableLayoutEvent {
   ChangeOrderProcess(
       {required this.listCheckDetail,

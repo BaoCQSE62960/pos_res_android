@@ -93,7 +93,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
         state.copywith(
             selectedVoidReason: listVoidReason[0],
             listVoidReason: listVoidReason,
-            tableId: event.tableid,
+            // tableId: event.tableid,
             checkId: event.checkid,
             listMajorGroups: listMajorGroups,
             listMenus: listMenu,
@@ -225,7 +225,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       emit(
         state.copywith(orderLayoutStatus: OrderLayoutStatus.loading),
       );
-      LoadData(tableid: state.tableId, checkid: state.checkId);
+      // LoadData(tableid: state.tableId, checkid: state.checkId);
+      LoadData(checkid: state.checkId);
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }
@@ -240,7 +241,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       emit(
         state.copywith(orderLayoutStatus: OrderLayoutStatus.success),
       );
-      LoadData(tableid: state.tableId, checkid: state.checkId);
+      // LoadData(tableid: state.tableId, checkid: state.checkId);
+      LoadData(checkid: state.checkId);
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }
@@ -345,19 +347,6 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   void _addItem(AddItem event, Emitter<OrderLayoutState> emit) async {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     try {
-      if (state.checkId == 0) {
-        OpenTableDTO openTableDTO =
-            await checkRepository.openTable(state.tableId);
-        final Check check =
-            await checkRepository.getCheckByID(openTableDTO.checkid.toString());
-        final TableInfo tableInfo = await tableInfoRepository
-            .getTableInfoByCheckID(openTableDTO.checkid.toString());
-        emit(state.copywith(
-            checkId: openTableDTO.checkid,
-            check: check,
-            tableInfo: tableInfo,
-            orderLayoutStatus: OrderLayoutStatus.loading));
-      }
       CheckDetail detail = CheckDetail(
           checkdetailidLocal: state.currentLocalID++,
           checkdetailquantityLocal: 1,

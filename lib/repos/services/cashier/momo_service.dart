@@ -1,5 +1,5 @@
-import 'package:pos_res_android/repos/models/momo.dart';
-import 'package:pos_res_android/repos/repository/momo_repository.dart';
+import 'package:pos_res_android/repos/models/cashier/momo.dart';
+import 'package:pos_res_android/repos/repository/cashier/momo_repository.dart';
 
 class MomoService {
   MomoRepository repos = MomoRepository();

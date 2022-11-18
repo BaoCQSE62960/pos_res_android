@@ -19,7 +19,7 @@ class ViewListChecks extends StatefulWidget {
 
 class _ViewListChecksState extends State<ViewListChecks> {
   final List<bool> _selectedStatus = <bool>[false, false, false];
-  final List<String> selectedStatus = <String>["ACTIVE", "INACTIVE", "CLOSED"];
+  final List<String> selectedStatus = <String>["ACTIVE", "VOID", "CLOSED"];
   final CheckService service = Get.put(CheckService());
 
   List<Check> checks = [];
@@ -247,7 +247,7 @@ class _ViewListChecksState extends State<ViewListChecks> {
                 String? tableNameShow = checkFilter.tablename;
                 if (statusShow == 'ACTIVE') {
                   statusShow = 'Hoạt động';
-                } else if (statusShow == 'INACTIVE') {
+                } else if (statusShow == 'VOID') {
                   statusShow = 'Hủy';
                 } else if (statusShow == 'CLOSED') {
                   statusShow = 'Đóng';

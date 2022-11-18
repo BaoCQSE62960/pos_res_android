@@ -21,170 +21,173 @@ class TableItem extends StatelessWidget {
     final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     return BlocBuilder<TableLayoutBloc, TableLayoutState>(
         builder: (context, state) {
-      return Hero(
-        tag: "table_demo_btn",
-        child: GestureDetector(
-          onLongPress: () {
-            if (tableBloc.state.currentSelectedMode ==
-                SelectedMode.CHANGE_ORDER) {
-              Navigator.of(context).pop();
-              showChangeOrderDialog(
-                  context, tableDetail.tablename, tableDetail.id);
-            }
-            if (tableBloc.state.currentSelectedMode ==
-                SelectedMode.CHANGE_TABLE) {
-              Navigator.of(context).pop();
-              showChangeTableDialog(
-                  context, tableDetail.tablename, tableDetail.id);
-            }
-          },
-          onDoubleTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return OrderScreen(
-                    table: tableDetail,
-                  );
-                },
-              ),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: deactiveColor,
-              borderRadius: BorderRadius.circular(15.0),
-              border:
-                  Border.all(width: defaultSize * 0.5, color: deactiveColor),
-              boxShadow: const [
-                BoxShadow(
-                  color: shadowColor,
-                  blurRadius: 3,
-                  offset: Offset(0, 3), // Shadow position
-                ),
-              ],
-            ),
-            child: Column(children: [
-              Container(
+      return tableBloc.state.tableItemStatus.isLoading &&
+              tableDetail.id == tableBloc.state.currentProcessTableID
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : GestureDetector(
+              onTap: () {
+                if (tableBloc.state.currentSelectedMode ==
+                    SelectedMode.CHANGE_ORDER) {
+                  Navigator.of(context).pop();
+                  showChangeOrderDialog(
+                      context, tableDetail.tablename, tableDetail.id);
+                }
+                if (tableBloc.state.currentSelectedMode ==
+                    SelectedMode.CHANGE_TABLE) {
+                  Navigator.of(context).pop();
+                  showChangeTableDialog(
+                      context, tableDetail.tablename, tableDetail.id);
+                }
+                if (tableBloc.state.currentSelectedMode == SelectedMode.NONE) {
+                  if (tableDetail.checkid == 0) {
+                    tableBloc.add(OpenTable(tableID: tableDetail.id));
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return OrderScreen(
+                            checkid: tableDetail.checkid == 0
+                                ? tableBloc.state.currentTableOpenID
+                                : tableDetail.checkid,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                }
+              },
+              child: Container(
                 decoration: BoxDecoration(
-                  color: tableDetail.status == 'NOT_USE'
-                      ? deactiveColor
-                      : activeColor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
-                  ),
-                ),
-                height: defaultPadding * 2,
-                width: defaultPadding * 11,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: defaultPadding * 2,
-                    ),
-                    Text(
-                      tableDetail.tablename,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: textLightColor),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "(" + tableDetail.cover.toString() + ")",
-                          style: const TextStyle(
-                              fontSize: 12, color: textLightColor),
-                        ),
-                        Container(
-                          width: defaultPadding * 0.5,
-                        ),
-                      ],
+                  color: deactiveColor,
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(
+                      width: defaultSize * 0.5, color: deactiveColor),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: shadowColor,
+                      blurRadius: 3,
+                      offset: Offset(0, 3), // Shadow position
                     ),
                   ],
                 ),
-              ),
-              SizedBox(
-                width: defaultPadding * 11,
-                height: defaultPadding * 5,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: textLightColor,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15.0),
-                          bottomRight: Radius.circular(15.0)),
-                      side: BorderSide(color: primaryColor),
+                child: Column(children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: tableDetail.status == 'NOT_USE'
+                          ? deactiveColor
+                          : activeColor,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0),
+                      ),
                     ),
-                  ),
-                  onPressed: () {},
-                  child: Column(
-                    children: [
-                      Container(
-                        color: textLightColor,
-                        height: defaultPadding * 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    height: defaultPadding * 2,
+                    width: defaultPadding * 11,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: defaultPadding * 2,
+                        ),
+                        Text(
+                          tableDetail.tablename,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: textLightColor),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            tableDetail.status == 'NOT_USE'
-                                ? const SizedBox()
-                                : Text(
-                                    currencyFormat
-                                        .format(
-                                            int.parse(tableDetail.totalamount))
-                                        .toUpperCase(),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: textColor,
-                                    ),
-                                  ),
+                            Text(
+                              "(" + tableDetail.cover.toString() + ")",
+                              style: const TextStyle(
+                                  fontSize: 12, color: textLightColor),
+                            ),
+                            Container(
+                              width: defaultPadding * 0.5,
+                            ),
                           ],
                         ),
-                      ),
-                      tableDetail.status == 'NOT_USE'
-                          ? const SizedBox()
-                          : Row(
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: defaultPadding * 11,
+                    height: defaultPadding * 5,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15.0),
+                              bottomRight: Radius.circular(15.0)),
+                          color: textLightColor),
+                      child: Column(
+                        children: [
+                          Container(
+                            color: textLightColor,
+                            height: defaultPadding * 2,
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                !tableDetail.isready
+                                tableDetail.status == 'NOT_USE'
                                     ? const SizedBox()
-                                    : const Icon(
-                                        Icons.dinner_dining_rounded,
-                                        size: defaultPadding * 2.5,
-                                        color: warningColor,
-                                      ),
-                                Container(
-                                  width: defaultPadding * 0.3,
-                                ),
-                                !tableDetail.isrecall
-                                    ? const SizedBox()
-                                    : const Icon(
-                                        Icons.cancel_outlined,
-                                        size: defaultPadding * 2.5,
-                                        color: voidColor,
-                                      ),
-                                Container(
-                                  width: defaultPadding * 0.3,
-                                ),
-                                !tableDetail.iswaiting
-                                    ? const SizedBox()
-                                    : const Icon(
-                                        Icons.timelapse_rounded,
-                                        size: defaultPadding * 2.5,
-                                        color: deactiveColor,
+                                    : Text(
+                                        currencyFormat
+                                            .format(int.parse(
+                                                tableDetail.totalamount))
+                                            .toUpperCase(),
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: textColor,
+                                        ),
                                       ),
                               ],
                             ),
-                    ],
+                          ),
+                          tableDetail.status == 'NOT_USE'
+                              ? const SizedBox()
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    !tableDetail.isready
+                                        ? const SizedBox()
+                                        : const Icon(
+                                            Icons.dinner_dining_rounded,
+                                            size: defaultPadding * 2.5,
+                                            color: warningColor,
+                                          ),
+                                    Container(
+                                      width: defaultPadding * 0.3,
+                                    ),
+                                    !tableDetail.isrecall
+                                        ? const SizedBox()
+                                        : const Icon(
+                                            Icons.cancel_outlined,
+                                            size: defaultPadding * 2.5,
+                                            color: voidColor,
+                                          ),
+                                    Container(
+                                      width: defaultPadding * 0.3,
+                                    ),
+                                    !tableDetail.iswaiting
+                                        ? const SizedBox()
+                                        : const Icon(
+                                            Icons.timelapse_rounded,
+                                            size: defaultPadding * 2.5,
+                                            color: deactiveColor,
+                                          ),
+                                  ],
+                                ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ]),
               ),
-            ]),
-          ),
-        ),
-      );
+            );
     });
   }
 
@@ -233,13 +236,14 @@ class TableItem extends StatelessWidget {
     Widget continueButton = TextButton(
       child: Text("dialog.agree".tr()),
       onPressed: () {
-        tableBloc.add(ChangeTableProcess(
-            // Get location ID
-            locationID: 0,
-            currentTableID: orderBloc.state.tableId,
-            targatTableID: tableid));
-        Navigator.of(NavigationService.navigatorKey.currentContext!)
-            .pushNamed('/tableoverview');
+        // Waiting for fix API
+        // tableBloc.add(ChangeTableProcess(
+        //     // Get location ID
+        //     locationID: 0,
+        //     currentTableID: orderBloc.state.tableId,
+        //     targatTableID: tableid));
+        // Navigator.of(NavigationService.navigatorKey.currentContext!)
+        //     .pushNamed('/tableoverview');
       },
     );
     AlertDialog alert = AlertDialog(

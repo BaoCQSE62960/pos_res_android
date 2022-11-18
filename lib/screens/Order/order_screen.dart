@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
-import 'package:pos_res_android/repos/models/payment.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
@@ -15,7 +15,7 @@ import 'package:pos_res_android/repos/repository/waiter/specialrequests_reposito
 import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
-import 'package:pos_res_android/repos/services/payment_service.dart';
+import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
 import 'package:pos_res_android/screens/Order/widget/calculate_price_widget.dart';
@@ -27,18 +27,17 @@ import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key, required this.table}) : super(key: key);
+  const OrderScreen({Key? key, required this.checkid}) : super(key: key);
 
-  final TableDetail table;
+  final int checkid;
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  List<Payment> methods = [];
   List<PaymentProcess> paidList = [];
-  // List methods = [1];
+
   final PaymentService service = Get.put(PaymentService());
 
   Future<List<Payment>> getMethodList() async {
@@ -64,7 +63,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   specialRequestsRepository: SpecialRequestsRepositoryImpl(),
                   voidReasonRepository: VoidReasonRepositoryImpl())
                 ..add(LoadData(
-                    checkid: widget.table.checkid, tableid: widget.table.id))),
+                    // checkid: widget.table.checkid, tableid: widget.table.id))),
+                    checkid: widget.checkid))),
           BlocProvider(
             create: (context) => TableLayoutBloc(
                 tableOverviewRepository: TableOverviewRepositoryImpl()),

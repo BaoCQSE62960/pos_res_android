@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/tableoverview.dart';
@@ -23,6 +24,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     on<ChangeOrderProcess>(_mapChangeOrderProcessEventToStage);
     on<ChangeTableProcess>(_mapChangeTableProcessEventToStage);
     on<ChangeFilter>(_mapChangeFilterProcessEventToStage);
+    on<OpenTable>(_mapOpenTableProcessEventToStage);
     on<LoadData>(_loadData);
   }
 
@@ -164,7 +166,6 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     }
   }
 
-  // Delete later
   void _mapResetActionEventToStage(
       ResetAction event, Emitter<TableLayoutState> emit) async {
     try {
@@ -173,6 +174,23 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
       );
     } catch (error) {
       emit(state.copywith(tableLayoutStatus: TableLayoutStatus.error));
+    }
+  }
+
+  Future<void> _mapOpenTableProcessEventToStage(
+      OpenTable event, Emitter<TableLayoutState> emit) async {
+    emit(state.copywith(
+        tableItemStatus: TableItemStatus.loading,
+        currentProcessTableID: event.tableID));
+    try {
+      OpenTableDTO openTableDTO =
+          await tableOverviewRepository.openTable(event.tableID);
+      emit(state.copywith(
+          currentTableOpenID: openTableDTO.checkid,
+          tableItemStatus: TableItemStatus.success,
+          currentProcessTableID: 0));
+    } catch (error) {
+      emit(state.copywith(tableItemStatus: TableItemStatus.error));
     }
   }
 }

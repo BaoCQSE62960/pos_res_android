@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/bill.dart';
-import 'package:pos_res_android/repos/services/bill_service.dart';
+import 'package:pos_res_android/repos/services/cashier/bill_service.dart';
 
 class RefundBtn extends StatefulWidget {
   final List<BillItem> list;
@@ -15,6 +15,7 @@ class RefundBtn extends StatefulWidget {
 class _RefundBtnState extends State<RefundBtn> {
   List<BillItem> billItem = [];
   List result = [];
+  bool refundable = true;
 
   Future refundPayment(int billId) async {
     BillService service = BillService();
@@ -44,12 +45,15 @@ class _RefundBtnState extends State<RefundBtn> {
   void initState() {
     super.initState();
     billItem = widget.list;
+    if (billItem[0].status == "REFUND") {
+      refundable = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "refund_btn",
+    return Visibility(
+      visible: refundable,
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(

@@ -15,6 +15,7 @@ import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart'
     as TableEvent;
+import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/payment_btn.dart';
 
@@ -271,18 +272,39 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: CustomElevatedButton(
-                              text: 'order.confirm'.tr(),
-                              callback: () {
-                                Navigator.of(context).pop();
-                                showTableBottomModal(context);
-                              },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: SizedBox(
+                                width: 200,
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                    showTableBottomModal(context);
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: SizedBox(
+                                width: 200,
+                                child: CustomElevatedButton(
+                                  buttonColors: voidColor,
+                                  text: 'order.close'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                    tableBloc.add(TableEvent.ResetAction());
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -310,9 +332,13 @@ Future<dynamic> showTableBottomModal(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: TableSection(),
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const FilterSection(),
+                  TableSection(),
+                ],
+              ),
             )),
           ],
         ),

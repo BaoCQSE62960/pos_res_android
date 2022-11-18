@@ -112,7 +112,7 @@ class OrderDetailInfo extends StatelessWidget {
           },
           backgroundColor: warningColor,
           foregroundColor: Colors.white,
-          icon: Icons.share,
+          icon: Icons.note_alt,
           // label: 'order.special_request'.tr(),
         )
       ],

@@ -3,11 +3,15 @@ import 'package:pos_res_android/config/theme.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton(
-      {Key? key, required this.text, required this.callback})
+      {Key? key,
+      required this.text,
+      required this.callback,
+      this.buttonColors = activeColor})
       : super(key: key);
 
   final String text;
   final VoidCallback callback;
+  final Color? buttonColors;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class CustomElevatedButton extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           shadowColor: shadowColor,
           elevation: 3,
-          backgroundColor: activeColor,
+          backgroundColor: buttonColors,
         ),
         onPressed: callback,
         child: Text(

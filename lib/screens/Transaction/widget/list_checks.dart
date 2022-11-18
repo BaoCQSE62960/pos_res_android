@@ -6,7 +6,6 @@ import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/check.dart';
 import 'package:pos_res_android/repos/services/cashier/check_service.dart';
 import 'package:pos_res_android/repos/services/login_service.dart';
-import 'package:pos_res_android/screens/Check/check_detail_screen.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
@@ -27,8 +26,8 @@ class _ViewListChecksState extends State<ViewListChecks> {
   List currentUserRole = [];
   List<Check> checks = [];
   List<Check> checkFilter = [];
-  List<CheckItem> checkItem = [];
-  List<CheckDetailModel> checkDetail = [];
+  // List<CheckItem> checkItem = [];
+  // List<CheckDetailModel> checkDetail = [];
 
   String statusFilter = "";
   String loginMsg = "";
@@ -53,15 +52,15 @@ class _ViewListChecksState extends State<ViewListChecks> {
     return currentUserRole;
   }
 
-  Future getCheckItemDetail(int checkId) async {
-    checkItem = await service.getCheckItem(checkId);
-    return checkItem;
-  }
+  // Future getCheckItemDetail(int checkId) async {
+  //   checkItem = await service.getCheckItem(checkId);
+  //   return checkItem;
+  // }
 
-  Future getCheckDetailInfo(int checkId) async {
-    checkDetail = await service.getCheckDetail(checkId);
-    return checkDetail;
-  }
+  // Future getCheckDetailInfo(int checkId) async {
+  //   checkDetail = await service.getCheckDetail(checkId);
+  //   return checkDetail;
+  // }
 
   @override
   void initState() {
@@ -274,34 +273,35 @@ class _ViewListChecksState extends State<ViewListChecks> {
                     DataCell(Text(statusShow)),
                   ],
                   onLongPress: () async {
-                    checkItem = await getCheckItemDetail(checkFilter.id);
-                    checkDetail = await getCheckDetailInfo(checkFilter.id);
-                    loginMsg = await getCurrentUserRole();
+                    // checkItem = await getCheckItemDetail(checkFilter.id);
+                    // checkDetail = await getCheckDetailInfo(checkFilter.id);
+                    currentUserRole = await getCurrentUserRole();
+                    loginMsg = currentUserRole[1];
 
                     // if (statusShow == 'Hoạt động') {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return OrderScreen(
-                    //         table: tableDetail,
-                    //         loginMsg: loginMsg,
-                    //       );
-                    //     },
-                    //   ),
-                    // );
-                    // } else {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return CheckDetailScreen(
-                            listCheck: checkItem,
-                            listDetail: checkDetail,
+                          return OrderScreen(
+                            checkid: checkFilter.id,
+                            loginMsg: loginMsg,
                           );
                         },
                       ),
                     );
+                    // } else {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return CheckDetailScreen(
+                    //         listCheck: checkItem,
+                    //         listDetail: checkDetail,
+                    //       );
+                    //     },
+                    //   ),
+                    // );
                     // }
                   },
                 );

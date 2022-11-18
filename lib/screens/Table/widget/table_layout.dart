@@ -34,7 +34,7 @@ class TableLayout extends StatelessWidget {
               crossAxisCount: 6,
               crossAxisSpacing: defaultPadding,
               mainAxisSpacing: defaultPadding * 0.5,
-              childAspectRatio: 1.55,
+              childAspectRatio: 1.62,
             ),
             children: list),
       ),

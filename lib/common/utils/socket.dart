@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_print
+
+import 'package:pos_res_android/config/routes.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class Socket {
   late io.Socket socket;
-  String uriConnect = 'http://10.0.2.2:5000';
+  String uriConnect = uri;
   //
   Socket();
   // declare

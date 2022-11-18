@@ -86,8 +86,14 @@ class _SideBarState extends State<SideBar> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed('/checklist');
+                  onPressed: () async {
+                    currentUserRole = await getCurrentUserRole();
+                    if (currentUserRole[1].toString().contains("CASHIER")) {
+                      Navigator.of(context).pushReplacementNamed('/checklist');
+                    } else {
+                      msg = "Vai trò của người dùng không phù hợp";
+                      _messageDialog(msg);
+                    }
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
@@ -117,7 +123,13 @@ class _SideBarState extends State<SideBar> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    Navigator.of(context).pushReplacementNamed('/cashierlog');
+                    currentUserRole = await getCurrentUserRole();
+                    if (currentUserRole[1].toString().contains("CASHIER")) {
+                      Navigator.of(context).pushReplacementNamed('/cashierlog');
+                    } else {
+                      msg = "Vai trò của người dùng không phù hợp";
+                      _messageDialog(msg);
+                    }
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,

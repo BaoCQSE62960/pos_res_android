@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/common/widgets/web_view.dart';
 import 'package:pos_res_android/config/theme.dart';
@@ -259,6 +258,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                         MaterialPageRoute(
                           builder: (context) => DisplayWebView(url: url),
                         ));
+                    // ignore: avoid_print
                     print(result);
                     if (result != null && result) {
                       paidList.add(PaymentProcess(
@@ -268,6 +268,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                     }
                     // else in lỗi
                   } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
+                    // ignore: avoid_print
                     print(amount);
 
                     paidList.add(PaymentProcess(

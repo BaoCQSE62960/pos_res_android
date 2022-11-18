@@ -89,7 +89,7 @@ class _TableItemState extends State<TableItem> {
                   color: deactiveColor,
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                      width: defaultSize * 0.5, color: deactiveColor),
+                      width: defaultSize * 0.25, color: deactiveColor),
                   boxShadow: const [
                     BoxShadow(
                       color: shadowColor,
@@ -110,7 +110,7 @@ class _TableItemState extends State<TableItem> {
                       ),
                     ),
                     height: defaultPadding * 2,
-                    width: defaultPadding * 11,
+                    width: defaultPadding * 12,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -141,7 +141,7 @@ class _TableItemState extends State<TableItem> {
                     ),
                   ),
                   SizedBox(
-                    width: defaultPadding * 11,
+                    width: defaultPadding * 12,
                     height: defaultPadding * 5,
                     child: Container(
                       decoration: const BoxDecoration(
@@ -252,8 +252,8 @@ class _TableItemState extends State<TableItem> {
   }
 
   showChangeTableDialog(BuildContext context, String tableName, int tableid) {
-    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
-    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    // final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    // final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     Widget cancelButton = TextButton(
       child: Text("dialog.cancel".tr()),
       onPressed: () {},

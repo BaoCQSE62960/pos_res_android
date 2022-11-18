@@ -69,6 +69,7 @@ class OrderLayoutState extends Equatable {
   List<CheckDetail> listSelectedCheckDetail;
   VoidReason selectedVoidReason;
   String specialRequestNote;
+  // ignore: prefer_typing_uninitialized_variables
   final currentMode;
   int currentLocalID;
   int checkId;

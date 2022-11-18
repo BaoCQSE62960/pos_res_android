@@ -3,7 +3,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/itemDTO.dart';
-import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/specialrequestDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';

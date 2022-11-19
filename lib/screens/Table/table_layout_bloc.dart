@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/splitCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/tabledetail.dart';
 import 'package:pos_res_android/repos/models/waiter/tableoverview.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/screens/Table/table_layout.dart';
@@ -16,9 +20,11 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
       : super(TableLayoutState()) {
     on<ChangeTable>(_mapChangeTableEventToStage);
     on<ChangeOrder>(_mapChangeOrderEventToStage);
+    on<SplitOrder>(_mapSplitOrderEventToStage);
     on<ResetAction>(_mapResetActionEventToStage);
     on<ChangeOrderProcess>(_mapChangeOrderProcessEventToStage);
     on<ChangeTableProcess>(_mapChangeTableProcessEventToStage);
+    on<SplitOrderProcess>(_mapSplitOrderProcessEventToStage);
     on<ChangeFilter>(_mapChangeFilterProcessEventToStage);
     on<OpenTable>(_mapOpenTableProcessEventToStage);
     on<LoadData>(_loadData);
@@ -58,6 +64,17 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     try {
       emit(
         state.copywith(currentSelectedMode: SelectedMode.CHANGE_ORDER),
+      );
+    } catch (error) {
+      emit(state.copywith(tableLayoutStatus: TableLayoutStatus.error));
+    }
+  }
+
+  void _mapSplitOrderEventToStage(
+      SplitOrder event, Emitter<TableLayoutState> emit) async {
+    try {
+      emit(
+        state.copywith(currentSelectedMode: SelectedMode.SPLIT_ORDER),
       );
     } catch (error) {
       emit(state.copywith(tableLayoutStatus: TableLayoutStatus.error));
@@ -141,17 +158,41 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     }
   }
 
+  void _mapSplitOrderProcessEventToStage(
+      SplitOrderProcess event, Emitter<TableLayoutState> emit) async {
+    emit(
+      state.copywith(tableLayoutStatus: TableLayoutStatus.loading),
+    );
+    try {
+      SplitCheckDTO splitCheckDTO = SplitCheckDTO(
+          currentCheckID: event.currentCheckID,
+          targetTableID: event.targetTableID,
+          percent: event.percent);
+      // ignore: unused_local_variable
+      http.Response response =
+          await tableOverviewRepository.splitCheck(splitCheckDTO);
+      emit(
+        state.copywith(
+            currentSelectedMode: SelectedMode.NONE,
+            tableLayoutStatus: TableLayoutStatus.success),
+      );
+    } catch (error) {
+      state.copywith(tableLayoutStatus: TableLayoutStatus.error);
+    }
+  }
+
   void _mapChangeTableProcessEventToStage(
       ChangeTableProcess event, Emitter<TableLayoutState> emit) async {
     emit(
       state.copywith(tableLayoutStatus: TableLayoutStatus.loading),
     );
     try {
-      TransferTableDTO transferTableDTO =
-          TransferTableDTO(locationID: event.locationID);
+      TransferTableDTO transferTableDTO = TransferTableDTO(
+          currentCheckID: event.currentCheckID,
+          targetCheckID: event.targetTableID);
       // ignore: unused_local_variable
-      http.Response response = await tableOverviewRepository.transferTable(
-          transferTableDTO, event.currentTableID, event.targatTableID);
+      http.Response response =
+          await tableOverviewRepository.transferTable(transferTableDTO);
       emit(
         state.copywith(
             currentSelectedMode: SelectedMode.NONE,

@@ -16,11 +16,10 @@ class OrderLayoutEvent extends Equatable {
 }
 
 class LoadData extends OrderLayoutEvent {
-  // LoadData({required this.tableid, required this.checkid});
-  LoadData({required this.checkid});
+  LoadData({required this.checkid, this.searchQuery});
 
   final int checkid;
-  // final int tableid;
+  final String? searchQuery;
 }
 
 class ChangeMenu extends OrderLayoutEvent {
@@ -78,6 +77,12 @@ class SelectCheckDetailForChangeOrder extends OrderLayoutEvent {
   final CheckDetail checkDetail;
 }
 
+class SelectPercentForSplitOrder extends OrderLayoutEvent {
+  SelectPercentForSplitOrder({required this.percent});
+
+  final int percent;
+}
+
 class SelectVoidReason extends OrderLayoutEvent {
   SelectVoidReason({required this.voidReason});
 
@@ -109,9 +114,11 @@ class RemindACheckDetail extends OrderLayoutEvent {
 }
 
 class UpdateSpecialRequestForItem extends OrderLayoutEvent {
-  UpdateSpecialRequestForItem({required this.checkdetailid});
+  UpdateSpecialRequestForItem(
+      {required this.checkdetailid, required this.note});
 
   final int checkdetailid;
+  final String note;
 }
 
 class UpdateQuantity extends OrderLayoutEvent {

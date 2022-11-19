@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/utils/navigation_service.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/repos/models/waiter/tabledetail.dart';
 import 'package:pos_res_android/repos/services/login_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
@@ -62,6 +63,12 @@ class _TableItemState extends State<TableItem> {
                     SelectedMode.CHANGE_TABLE) {
                   Navigator.of(context).pop();
                   showChangeTableDialog(
+                      context, tableDetail.tablename, tableDetail.id);
+                }
+                if (tableBloc.state.currentSelectedMode ==
+                    SelectedMode.SPLIT_ORDER) {
+                  Navigator.of(context).pop();
+                  showSplitOrderDialog(
                       context, tableDetail.tablename, tableDetail.id);
                 }
                 if (tableBloc.state.currentSelectedMode == SelectedMode.NONE) {
@@ -220,11 +227,13 @@ class _TableItemState extends State<TableItem> {
     final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     Widget cancelButton = TextButton(
-      child: Text("dialog.cancel".tr()),
-      onPressed: () {},
+      child: Text("dialog.cancel".tr(), style: TextStyle(color: activeColor)),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
     );
     Widget continueButton = TextButton(
-      child: Text("dialog.agree".tr()),
+      child: Text("dialog.agree".tr(), style: TextStyle(color: activeColor)),
       onPressed: () {
         tableBloc.add(ChangeOrderProcess(
             listCheckDetail: orderBloc.state.listSelectedCheckDetail,
@@ -251,24 +260,59 @@ class _TableItemState extends State<TableItem> {
     );
   }
 
-  showChangeTableDialog(BuildContext context, String tableName, int tableid) {
-    // final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
-    // final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+  showSplitOrderDialog(BuildContext context, String tableName, int tableid) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     Widget cancelButton = TextButton(
-      child: Text("dialog.cancel".tr()),
-      onPressed: () {},
+      child: Text("dialog.cancel".tr(), style: TextStyle(color: activeColor)),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
     );
     Widget continueButton = TextButton(
-      child: Text("dialog.agree".tr()),
+      child: Text("dialog.agree".tr(), style: TextStyle(color: activeColor)),
       onPressed: () {
-        // Waiting for fix API
-        // tableBloc.add(ChangeTableProcess(
-        //     // Get location ID
-        //     locationID: 0,
-        //     currentTableID: orderBloc.state.tableId,
-        //     targatTableID: tableid));
-        // Navigator.of(NavigationService.navigatorKey.currentContext!)
-        //     .pushNamed('/tableoverview');
+        tableBloc.add(SplitOrderProcess(
+            percent: orderBloc.state.percent,
+            currentCheckID: orderBloc.state.checkId,
+            targetTableID: tableid));
+        Navigator.of(NavigationService.navigatorKey.currentContext!)
+            .pushNamed('/tableoverview');
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text('change_order.change_order_dialog_title'.tr()),
+      content: Text(
+          'change_order.change_order_dialog_message'.tr(args: [tableName])),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showChangeTableDialog(BuildContext context, String tableName, int tableid) {
+    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    Widget cancelButton = TextButton(
+      child: Text("dialog.cancel".tr(), style: TextStyle(color: activeColor)),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("dialog.agree".tr(), style: TextStyle(color: activeColor)),
+      onPressed: () {
+        tableBloc.add(ChangeTableProcess(
+            currentCheckID: orderBloc.state.checkId, targetTableID: tableid));
+        Navigator.of(NavigationService.navigatorKey.currentContext!)
+            .pushNamed('/tableoverview');
       },
     );
     AlertDialog alert = AlertDialog(

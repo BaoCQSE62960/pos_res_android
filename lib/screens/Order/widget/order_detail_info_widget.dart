@@ -13,6 +13,7 @@ import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
+const int DEFAULT_MAX_LENGTH_NOTE = 250;
 
 class OrderDetailInfo extends StatelessWidget {
   OrderDetailInfo({
@@ -50,8 +51,8 @@ class OrderDetailInfo extends StatelessWidget {
                 orderBloc.state.check.checkDetail[index].status,
                 orderBloc.state.check.checkDetail[index],
                 orderBloc),
-            endActionPane: RemindOrderActionPane(
-                context, orderBloc.state.check.checkDetail[index], orderBloc),
+            // endActionPane: RemindOrderActionPane(
+            //     context, orderBloc.state.check.checkDetail[index], orderBloc),
           );
         },
       ),
@@ -113,7 +114,6 @@ class OrderDetailInfo extends StatelessWidget {
           backgroundColor: warningColor,
           foregroundColor: Colors.white,
           icon: Icons.note_alt,
-          // label: 'order.special_request'.tr(),
         )
       ],
       extentRatio: 0.2,
@@ -134,17 +134,6 @@ class OrderDetailInfo extends StatelessWidget {
           foregroundColor: Colors.white,
           icon: Icons.delete,
         ),
-      ],
-      extentRatio: 0.2,
-    );
-  }
-
-  // ignore: non_constant_identifier_names
-  ActionPane RemindOrderActionPane(BuildContext context,
-      CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
-    return ActionPane(
-      motion: const ScrollMotion(),
-      children: [
         SlidableAction(
           onPressed: (context) {
             orderBloc.add(
@@ -156,9 +145,29 @@ class OrderDetailInfo extends StatelessWidget {
           // label: 'order.void'.tr(),
         ),
       ],
-      extentRatio: 0.2,
     );
   }
+
+  // // ignore: non_constant_identifier_names
+  // ActionPane RemindOrderActionPane(BuildContext context,
+  //     CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
+  //   return ActionPane(
+  //     motion: const ScrollMotion(),
+  //     children: [
+  //       SlidableAction(
+  //         onPressed: (context) {
+  //           orderBloc.add(
+  //               RemindACheckDetail(checkdetailid: checkDetail.checkdetailid));
+  //         },
+  //         backgroundColor: warningColor,
+  //         foregroundColor: Colors.white,
+  //         icon: Icons.notification_important_sharp,
+  //         // label: 'order.void'.tr(),
+  //       ),
+  //     ],
+  //     extentRatio: 0.2,
+  //   );
+  // }
 
   String specialRequestProcess(List<SpecialRequests> specialRequests) {
     String result = '';
@@ -175,6 +184,10 @@ class OrderDetailInfo extends StatelessWidget {
   Future<dynamic> specialRequestDialog(
       BuildContext context, int checkdetailid) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    TextEditingController noteController = TextEditingController();
+    noteController.text = orderBloc.state.check.checkDetail
+        .firstWhere((element) => element.checkdetailidLocal == checkdetailid)
+        .note;
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -211,10 +224,15 @@ class OrderDetailInfo extends StatelessWidget {
                             child: SizedBox(
                               height: 100,
                               width: double.infinity,
-                              child: TextField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                minLines: 4,
+                              child: TextFormField(
+                                controller: noteController,
+                                validator: (value) {
+                                  if (value != null &&
+                                      value.length > DEFAULT_MAX_LENGTH_NOTE) {
+                                    return 'order.error.customer_cover_error';
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
                                     hintText: 'order.check_note_hint'.tr(),
                                     enabledBorder: OutlineInputBorder(
@@ -286,7 +304,8 @@ class OrderDetailInfo extends StatelessWidget {
                                 text: 'order.confirm'.tr(),
                                 callback: () {
                                   orderBloc.add(UpdateSpecialRequestForItem(
-                                      checkdetailid: checkdetailid));
+                                      checkdetailid: checkdetailid,
+                                      note: noteController.text));
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -381,7 +400,6 @@ class OrderDetailInfo extends StatelessWidget {
                                   orderBloc.add(VoidACheckDetail(
                                       checkdetailid: checkdetailid));
                                   orderBloc.add(LoadData(
-                                      // tableid: orderBloc.state.tableId,
                                       checkid: orderBloc.state.checkId));
                                   Navigator.pop(context);
                                 },

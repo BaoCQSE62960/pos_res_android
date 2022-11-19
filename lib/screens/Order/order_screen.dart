@@ -157,24 +157,22 @@ class _OrderScreenState extends State<OrderScreen> {
                         padding: const EdgeInsets.all(5.0),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onLongPress: () => orderBloc.add(
-                                ChangeMenu(menuid: state.listMenus[index].id)),
-                            child: CustomMajorButton(
-                                icons: const Icon(
-                                  Icons.flatware,
-                                  color: activeColor,
-                                ),
-                                text: state.listMenus[index].name,
-                                color: state.currentSelectedMenuID ==
-                                        state.listMenus[index].id
-                                    ? activeColor
-                                    : Colors.white,
-                                textColors: state.currentSelectedMenuID ==
-                                        state.listMenus[index].id
-                                    ? Colors.white
-                                    : activeColor),
-                          );
+                          return CustomMajorButton(
+                              function: () => orderBloc.add(ChangeMenu(
+                                  menuid: state.listMenus[index].id)),
+                              icons: const Icon(
+                                Icons.flatware,
+                                color: activeColor,
+                              ),
+                              text: state.listMenus[index].name,
+                              color: state.currentSelectedMenuID ==
+                                      state.listMenus[index].id
+                                  ? activeColor
+                                  : Colors.white,
+                              textColors: state.currentSelectedMenuID ==
+                                      state.listMenus[index].id
+                                  ? Colors.white
+                                  : activeColor);
                         },
                         itemCount: state.listMenus.length,
                       ),
@@ -189,24 +187,22 @@ class _OrderScreenState extends State<OrderScreen> {
                       padding: const EdgeInsets.all(5.0),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onLongPress: () => orderBloc.add(ChangeMajor(
-                              majorid: state.listMajorGroups[index].id)),
-                          child: CustomMajorButton(
-                              icons: const Icon(
-                                Icons.local_pizza,
-                                color: activeColor,
-                              ),
-                              text: state.listMajorGroups[index].name,
-                              color: state.currentSelectedMajorID ==
-                                      state.listMajorGroups[index].id
-                                  ? activeColor
-                                  : Colors.white,
-                              textColors: state.currentSelectedMajorID ==
-                                      state.listMajorGroups[index].id
-                                  ? Colors.white
-                                  : activeColor),
-                        );
+                        return CustomMajorButton(
+                            function: () => orderBloc.add(ChangeMajor(
+                                majorid: state.listMajorGroups[index].id)),
+                            icons: const Icon(
+                              Icons.local_pizza,
+                              color: activeColor,
+                            ),
+                            text: state.listMajorGroups[index].name,
+                            color: state.currentSelectedMajorID ==
+                                    state.listMajorGroups[index].id
+                                ? activeColor
+                                : Colors.white,
+                            textColors: state.currentSelectedMajorID ==
+                                    state.listMajorGroups[index].id
+                                ? Colors.white
+                                : activeColor);
                       },
                       itemCount: state.listMajorGroups.length,
                     ),

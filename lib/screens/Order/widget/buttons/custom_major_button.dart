@@ -6,13 +6,15 @@ class CustomMajorButton extends StatelessWidget {
       required this.icons,
       required this.text,
       required this.color,
-      required this.textColors})
+      required this.textColors,
+      required this.function})
       : super(key: key);
 
   final Icon icons;
   final String text;
   final Color color;
   final Color textColors;
+  final VoidCallback function;
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +30,10 @@ class CustomMajorButton extends StatelessWidget {
             shadowColor: color,
             elevation: 3,
           ),
-          onPressed: () {},
+          onPressed: function,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SizedBox.fromSize(
-              //   size: const Size.fromRadius(25),
-              //   child: FittedBox(
-              //     child: icons,
-              //   ),
-              // ),
               Text(
                 text,
                 style: TextStyle(

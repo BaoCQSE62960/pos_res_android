@@ -31,7 +31,7 @@ class OrderLayoutState extends Equatable {
       this.specialRequestNote = '',
       this.currentLocalID = 0,
       this.checkId = 0,
-      // this.tableId = 0,
+      this.percent = 10,
       List<MajorGroup>? listMajorGroups,
       Check? check,
       TableInfo? tableInfo,
@@ -73,7 +73,7 @@ class OrderLayoutState extends Equatable {
   final currentMode;
   int currentLocalID;
   int checkId;
-  // int tableId;
+  int percent;
 
   @override
   List<Object?> get props => [
@@ -94,7 +94,7 @@ class OrderLayoutState extends Equatable {
         specialRequestNote,
         currentLocalID,
         checkId,
-        // tableId
+        percent
       ];
 
   OrderLayoutState copywith(
@@ -115,7 +115,7 @@ class OrderLayoutState extends Equatable {
       String? specialRequestNote,
       int? currentLocalID,
       int? checkId,
-      // int? tableId,
+      int? percent,
       required OrderLayoutStatus orderLayoutStatus}) {
     return OrderLayoutState(
         currentSelectedMajorID:
@@ -139,7 +139,7 @@ class OrderLayoutState extends Equatable {
         currentMode: currentMode ?? this.currentMode,
         currentLocalID: currentLocalID ?? this.currentLocalID,
         checkId: checkId ?? this.checkId,
-        // tableId: tableId ?? this.tableId,
+        percent: percent ?? this.percent,
         orderLayoutStatus: orderLayoutStatus);
   }
 }

@@ -21,7 +21,7 @@ class CheckDetail {
   final int itemid;
   final String itemname;
   int quantity;
-  final String note;
+  String note;
   final bool isreminded;
   int amount;
   final String status;

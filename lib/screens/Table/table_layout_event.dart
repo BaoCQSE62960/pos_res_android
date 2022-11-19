@@ -21,6 +21,10 @@ class ChangeOrder extends TableLayoutEvent {
   ChangeOrder();
 }
 
+class SplitOrder extends TableLayoutEvent {
+  SplitOrder();
+}
+
 class ChangeFilter extends TableLayoutEvent {
   ChangeFilter({required this.targetFilter});
   final TableLayoutFilter targetFilter;
@@ -46,15 +50,25 @@ class ChangeOrderProcess extends TableLayoutEvent {
 
 class ChangeTableProcess extends TableLayoutEvent {
   ChangeTableProcess(
-      {required this.locationID,
-      required this.currentTableID,
-      required this.targatTableID});
-  final int locationID;
-  final int currentTableID;
-  final int targatTableID;
+      {required this.currentCheckID, required this.targetTableID});
+  final int currentCheckID;
+  final int targetTableID;
 
   @override
-  List<Object?> get props => [locationID, currentTableID, targatTableID];
+  List<Object?> get props => [currentCheckID, targetTableID];
+}
+
+class SplitOrderProcess extends TableLayoutEvent {
+  SplitOrderProcess(
+      {required this.percent,
+      required this.currentCheckID,
+      required this.targetTableID});
+  final int percent;
+  final int currentCheckID;
+  final int targetTableID;
+
+  @override
+  List<Object?> get props => [percent, currentCheckID, targetTableID];
 }
 
 class ResetAction extends TableLayoutEvent {

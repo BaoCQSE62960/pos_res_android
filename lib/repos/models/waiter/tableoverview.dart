@@ -1,4 +1,4 @@
-import 'package:pos_res_android/repos/models/cashier/table.dart';
+import 'package:pos_res_android/repos/models/waiter/tabledetail.dart';
 
 class TableOverview {
   TableOverview({required this.listTable});

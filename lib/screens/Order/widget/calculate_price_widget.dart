@@ -4,7 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
@@ -12,6 +14,7 @@ import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_but
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_outlined_button.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.dart';
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
+import 'package:pos_res_android/screens/Order/widget/number_picker.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart'
     as TableEvent;
@@ -154,48 +157,95 @@ Future<dynamic> showChangeBottomSheet(BuildContext context) {
             topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0))),
     builder: (context2) {
       return Container(
-        height: 200,
+        height: 250,
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CustomOutlinedButton(
-                textColors: textColor2!,
-                isOutlined: false,
-                icons: Icon(Icons.pivot_table_chart, color: textColor2!),
-                text: 'order.change_table'.tr(),
-                function: () {
+            GestureDetector(
+                onTap: () {
                   tableBloc.add(TableEvent.ChangeTable());
                   showTableBottomModal(context);
-                }),
-            const Divider(color: deactiveColor),
-            CustomOutlinedButton(
-              textColors: textColor2!,
-              isOutlined: false,
-              icons: Icon(
-                Icons.low_priority,
-                color: textColor2!,
-              ),
-              text: 'order.change_order'.tr(),
-              function: () {
-                tableBloc.add(TableEvent.ChangeOrder());
-                changeOrderDialog(context);
-              },
-            ),
-            const Divider(color: deactiveColor),
-            CustomOutlinedButton(
-              textColors: textColor2!,
-              isOutlined: false,
-              icons: Icon(
-                Icons.close,
-                color: textColor2!,
-              ),
-              text: 'order.close'.tr(),
-              function: () {
-                Navigator.of(context).pop();
-              },
-            )
+                },
+                child: ListTile(
+                    title: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(
+                        Icons.pivot_table_chart,
+                        color: textColor2!,
+                      ),
+                    ),
+                    Text(
+                      'order.change_table'.tr(),
+                      style: TextStyle(color: textColor2!),
+                    )
+                  ],
+                ))),
+            GestureDetector(
+                onTap: () {
+                  tableBloc.add(TableEvent.ChangeOrder());
+                  changeOrderDialog(context);
+                },
+                child: ListTile(
+                    title: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(
+                        Icons.low_priority,
+                        color: textColor2!,
+                      ),
+                    ),
+                    Text(
+                      'order.change_order'.tr(),
+                      style: TextStyle(color: textColor2!),
+                    )
+                  ],
+                ))),
+            GestureDetector(
+                onTap: () {
+                  tableBloc.add(TableEvent.SplitOrder());
+                  splitOrderDialog(context);
+                },
+                child: ListTile(
+                    title: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(
+                        Icons.splitscreen,
+                        color: textColor2!,
+                      ),
+                    ),
+                    Text(
+                      'order.split_order'.tr(),
+                      style: TextStyle(color: textColor2!),
+                    )
+                  ],
+                ))),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: ListTile(
+                    title: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Icon(
+                        Icons.close,
+                        color: textColor2!,
+                      ),
+                    ),
+                    Text(
+                      'order.close'.tr(),
+                      style: TextStyle(color: textColor2!),
+                    )
+                  ],
+                ))),
           ],
         ),
       );
@@ -218,6 +268,9 @@ String specialRequestProcess(List<SpecialRequests> specialRequests) {
 Future<dynamic> changeOrderDialog(BuildContext context) {
   final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
   final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+  List<CheckDetail> list =
+      List<CheckDetail>.from(orderBloc.state.check.checkDetail);
+  list.retainWhere((element) => !element.isLocal);
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -260,26 +313,16 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
                                     color: dividerColor,
                                   );
                                 },
-                                itemCount:
-                                    orderBloc.state.check.checkDetail.length,
+                                itemCount: list.length,
                                 itemBuilder: (context, index) {
                                   return ActionItemList(
-                                      checkDetail: orderBloc
-                                          .state.check.checkDetail[index],
+                                      checkDetail: list[index],
                                       currentMode: Mode.changeorder,
-                                      name: orderBloc.state.check
-                                          .checkDetail[index].itemname,
+                                      name: list[index].itemname,
                                       sepcialRequest: specialRequestProcess(
-                                          orderBloc
-                                              .state
-                                              .check
-                                              .checkDetail[index]
-                                              .specialRequest),
-                                      price: currencyFormat.format(orderBloc
-                                          .state
-                                          .check
-                                          .checkDetail[index]
-                                          .amount),
+                                          list[index].specialRequest),
+                                      price: currencyFormat
+                                          .format(list[index].amount),
                                       isDone: false);
                                 },
                               ),
@@ -316,6 +359,82 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
                                     tableBloc.add(TableEvent.ResetAction());
                                   },
                                 ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }));
+      });
+}
+
+Future<dynamic> splitOrderDialog(BuildContext context) {
+  final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+  final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+  List<CheckDetail> list =
+      List<CheckDetail>.from(orderBloc.state.check.checkDetail);
+  list.retainWhere((element) => !element.isLocal);
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: tableBloc),
+              BlocProvider.value(value: orderBloc)
+            ],
+            child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+                builder: (context, state) {
+              return Dialog(
+                insetPadding: const EdgeInsets.symmetric(
+                    vertical: 200.0, horizontal: 400.0),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: Column(
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            'order.split_order'.tr(),
+                            style:
+                                const TextStyle(color: textColor, fontSize: 20),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: NumberPickerDialog(orderBloc: orderBloc),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 20),
+                              child: TextButton(
+                                child: Text('order.confirm'.tr(),
+                                    style: TextStyle(color: activeColor)),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  showTableBottomModal(context);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 20),
+                              child: TextButton(
+                                child: Text('order.close'.tr(),
+                                    style: TextStyle(color: activeColor)),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  tableBloc.add(TableEvent.ResetAction());
+                                },
                               ),
                             ),
                           ],

@@ -50,6 +50,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     on<UpdateNote>(_updateNote);
     on<LoadSpecialRequestsForItem>(_loadSpecialRequestsForItem);
     on<SelectSpecialRequestForItem>(_selectSpecialRequestsForItem);
+    on<SelectPercentForSplitOrder>(_selectPercentForSplitOrder);
     on<SelectCheckDetailForChangeOrder>(_selectCheckDetailForChangeOrder);
     on<SelectVoidReason>(_selectVoidReason);
     on<UpdateSpecialRequestForItem>(_updateSpecialRequestsForItem);
@@ -72,7 +73,10 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   final VoidReasonRepositoryImpl voidReasonRepository;
 
   void _loadData(LoadData event, Emitter<OrderLayoutState> emit) async {
-    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    if (event.searchQuery == null) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    }
+
     try {
       final List<MajorGroup> listMajorGroups =
           await majorGroupRepository.getMajorGroups();
@@ -88,6 +92,10 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
           ? TableInfo.EMPTY
           : await tableInfoRepository
               .getTableInfoByCheckID(event.checkid.toString());
+      if (event.searchQuery != null) {
+        listItem.retainWhere(
+            (element) => element.name.contains(event.searchQuery!));
+      }
       emit(
         state.copywith(
             selectedVoidReason: listVoidReason[0],
@@ -163,6 +171,19 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       emit(
         state.copywith(
             listSelectedCheckDetail: listCheckDetail,
+            orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _selectPercentForSplitOrder(
+      SelectPercentForSplitOrder event, Emitter<OrderLayoutState> emit) async {
+    try {
+      emit(
+        state.copywith(
+            percent: event.percent,
             orderLayoutStatus: OrderLayoutStatus.success),
       );
     } catch (error) {
@@ -329,6 +350,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       CheckDetail checkDetail = state.check.checkDetail.firstWhere(
           (element) => element.checkdetailidLocal == event.checkdetailid);
       checkDetail.specialRequest = listSpecialRequest;
+      checkDetail.note = event.note;
       Check updatedCheck = state.check;
       updatedCheck.checkDetail[updatedCheck.checkDetail.indexOf(
               state.check.checkDetail.firstWhere((element) =>

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
@@ -24,14 +25,33 @@ import 'package:pos_res_android/screens/Order/widget/buttons/payment_btn.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
 
-Container calculatePriceWidget(BuildContext context, String loginMsg) {
+bool isVisible = true;
+String msg = "";
+
+Future<void> _simpleFailDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return WarningPopUp(msg: msg);
+    },
+  );
+}
+
+Container calculatePriceWidget(
+    BuildContext context, String loginMsg, String status) {
   final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
 
-  bool isCashier = true;
   if (loginMsg.toString().contains("CASHIER")) {
-    isCashier = true;
+    isVisible = true;
   } else {
-    isCashier = false;
+    isVisible = false;
+  }
+
+  if (status != "ACTIVE") {
+    isVisible = false;
+  } else {
+    isVisible = true;
   }
 
   return Container(
@@ -91,56 +111,81 @@ Container calculatePriceWidget(BuildContext context, String loginMsg) {
         Padding(
           padding: const EdgeInsets.only(top: defaultPadding),
           child: Visibility(
-            visible: isCashier,
+            visible: isVisible,
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
-            child: const ChargeBtn(),
+            child: ChargeBtn(status: status),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CustomToolButton(
-              onPressed: () {
-                voidReasonDialog(context, orderBloc.state.checkId);
-              },
-              icons: const Icon(
-                Icons.delete,
-                color: voidColor,
+            //
+            Visibility(
+              visible: isVisible,
+              child: CustomToolButton(
+                onPressed: () {
+                  if (status == "ACTIVE") {
+                    voidReasonDialog(context, orderBloc.state.checkId);
+                  } else {
+                    msg = "Không thể cập nhật đơn!";
+                    _simpleFailDialog(context);
+                  }
+                },
+                icons: const Icon(
+                  Icons.delete,
+                  color: voidColor,
+                ),
+                text: 'order.void'.tr(),
+                textColors: voidColor,
+                color: voidColorBackground,
               ),
-              text: 'order.void'.tr(),
-              textColors: voidColor,
-              color: voidColorBackground,
             ),
-            CustomToolButton(
-              onPressed: () {
-                showChangeBottomSheet(context);
-              },
-              icons: const Icon(
-                Icons.notifications,
-                color: warningColor,
+            Visibility(
+              visible: isVisible,
+              child: CustomToolButton(
+                onPressed: () {
+                  if (status == "ACTIVE") {
+                    showChangeBottomSheet(context);
+                  } else {
+                    msg = "Không thể cập nhật đơn!";
+                    _simpleFailDialog(context);
+                  }
+                },
+                icons: const Icon(
+                  Icons.notifications,
+                  color: warningColor,
+                ),
+                text: 'order.change'.tr(),
+                textColors: warningColor,
+                color: warningColorBackground,
               ),
-              text: 'order.change'.tr(),
-              textColors: warningColor,
-              color: warningColorBackground,
             ),
-            CustomToolButton(
-              onPressed: () {
-                orderBloc.add(SendOrder());
-                orderBloc.add(LoadData(
-                    // tableid: orderBloc.state.tableId,
-                    checkid: orderBloc.state.checkId));
-              },
-              icons: const Icon(
-                Icons.send,
-                color: activeColor,
+            Visibility(
+              visible: isVisible,
+              child: CustomToolButton(
+                onPressed: () {
+                  if (status == "ACTIVE") {
+                    orderBloc.add(SendOrder());
+                    orderBloc.add(LoadData(
+                        // tableid: orderBloc.state.tableId,
+                        checkid: orderBloc.state.checkId));
+                  } else {
+                    msg = "Không thể cập nhật đơn!";
+                    _simpleFailDialog(context);
+                  }
+                },
+                icons: const Icon(
+                  Icons.send,
+                  color: activeColor,
+                ),
+                text: 'order.send'.tr(),
+                textColors: activeColor,
+                color: activeColorBackground,
               ),
-              text: 'order.send'.tr(),
-              textColors: activeColor,
-              color: activeColorBackground,
-            )
+            ),
           ]),
         )
       ],
@@ -150,6 +195,7 @@ Container calculatePriceWidget(BuildContext context, String loginMsg) {
 
 Future<dynamic> showChangeBottomSheet(BuildContext context) {
   final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+  final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
   return showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -207,8 +253,14 @@ Future<dynamic> showChangeBottomSheet(BuildContext context) {
                 ))),
             GestureDetector(
                 onTap: () {
-                  tableBloc.add(TableEvent.SplitOrder());
-                  splitOrderDialog(context);
+                  if (orderBloc.state.check.checkDetail
+                      .any((element) => element.status != 'SERVED')) {
+                    msg = "Có lỗi trong quá trình chia đơn.";
+                    _simpleFailDialog(context);
+                  } else {
+                    tableBloc.add(TableEvent.SplitOrder());
+                    splitOrderDialog(context);
+                  }
                 },
                 child: ListTile(
                     title: Row(

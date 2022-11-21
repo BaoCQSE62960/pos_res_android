@@ -234,7 +234,7 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5))),
-                                backgroundColor: primaryColor,
+                                backgroundColor: activeColor,
                               ),
                               child: Row(
                                 children: const [
@@ -244,13 +244,13 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                                     child: Icon(
                                       Icons.edit,
                                       size: defaultSize * 5,
-                                      color: textColor,
+                                      color: textLightColor,
                                     ),
                                   ),
                                   Text(
                                     'Cập nhật',
                                     style: TextStyle(
-                                      color: textColor,
+                                      color: textLightColor,
                                     ),
                                   ),
                                 ],

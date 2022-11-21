@@ -118,7 +118,16 @@ class _AmountPopupState extends State<AmountPopup> {
               child: ElevatedButton(
                 child: const Text('Xác nhận'),
                 onPressed: () async {
-                  if (num.parse(currentAmount) < 0) {
+                  if (num.parse(currentAmount) < 0 ||
+                      currentAmount.substring(currentAmount.length - 2) !=
+                          "00") {
+                    msg = "Xin nhập số tiền hợp lệ!";
+                    _messageDialog(msg);
+                  } else if (currentAmount
+                              .substring(currentAmount.length - 3) !=
+                          "500" &&
+                      currentAmount.substring(currentAmount.length - 3) !=
+                          "000") {
                     msg = "Xin nhập số tiền hợp lệ!";
                     _messageDialog(msg);
                   } else {

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/common/widgets/search_bar.dart';
 import 'package:pos_res_android/common/widgets/side_bar.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/cashier/check.dart'
+    as cashierCheck;
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
+import 'package:pos_res_android/repos/models/waiter/check.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
@@ -14,6 +19,7 @@ import 'package:pos_res_android/repos/repository/waiter/specialrequests_reposito
 import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
+import 'package:pos_res_android/repos/services/cashier/check_service.dart';
 import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_major_button.dart';
@@ -36,21 +42,62 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  List<PaymentProcess> paidList = [];
+  late List<PaymentProcess> paidList;
+  final LocalStorage storage = LocalStorage('paid');
   List currentUserRole = [];
+  List<cashierCheck.CheckItem> checkItem = [];
+  String employee = "";
+  String checkStatus = "";
   String loginMsg = "";
+  String msg = "";
+  bool isActive = true;
+  bool isPayment = true;
+  bool isvoid = true;
 
-  final PaymentService service = Get.put(PaymentService());
+  final PaymentService paymentService = Get.put(PaymentService());
+  final CheckService checkService = Get.put(CheckService());
 
   Future<List<Payment>> getMethodList() async {
-    List<Payment> met = await service.getPaymentMethodList();
+    List<Payment> met = await paymentService.getPaymentMethodList();
     return met;
+  }
+
+  getCheckItemStatus(int checkId) async {
+    checkItem = await checkService.getCheckItem(checkId);
+    setState(() {
+      checkStatus = checkItem[0].status;
+      employee = checkItem[0].manageby;
+      if (checkStatus == "ACTIVE") {
+        isActive = true;
+        isPayment = false;
+        isvoid = false;
+      } else if (checkStatus == "CLOSED") {
+        isActive = false;
+        isPayment = true;
+        isvoid = false;
+      } else if (checkStatus == "VOID") {
+        isActive = false;
+        isPayment = false;
+        isvoid = true;
+      }
+    });
+  }
+
+  Future<void> _simpleFailDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return WarningPopUp(msg: msg);
+      },
+    );
   }
 
   @override
   void initState() {
     super.initState();
     loginMsg = widget.loginMsg;
+    getCheckItemStatus(widget.checkid);
   }
 
   @override
@@ -101,6 +148,12 @@ class _OrderScreenState extends State<OrderScreen> {
   Expanded buildOrderPaymentWidget(BuildContext context) {
     // Implement layout for payment here.
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    Check check = orderBloc.state.check;
+    if (null == storage.getItem(check.checkid.toString())) {
+      paidList = [];
+    } else {
+      paidList = storage.getItem(check.checkid.toString());
+    }
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -120,7 +173,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 return PaymentBody(
                   list: list,
                   paidList: paidList,
-                  check: orderBloc.state.check,
+                  check: check,
                 );
               }
               return const Center(child: CircularProgressIndicator());
@@ -217,8 +270,15 @@ class _OrderScreenState extends State<OrderScreen> {
                               crossAxisCount: 5),
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
-                          onTap: () => orderBloc
-                              .add(AddItem(item: state.listItems[index])),
+                          onTap: () {
+                            if (checkStatus == "ACTIVE") {
+                              orderBloc
+                                  .add(AddItem(item: state.listItems[index]));
+                            } else {
+                              msg = "Không thể cập nhật đơn!";
+                              _simpleFailDialog();
+                            }
+                          },
                           child: Card(
                             elevation: 8,
                             shape: const RoundedRectangleBorder(
@@ -236,7 +296,64 @@ class _OrderScreenState extends State<OrderScreen> {
                         );
                       },
                     ),
-                    flex: 8,
+                    flex: 7,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(defaultPadding * 0.5),
+                      child: Container(
+                        color: textLightColor,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: defaultPadding),
+                                child: Text(
+                                  employee.toUpperCase(),
+                                  style: const TextStyle(
+                                      color: activeColor,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              flex: 18,
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Visibility(
+                                    visible: isActive,
+                                    child: const Icon(
+                                      Icons.lock_open,
+                                      size: defaultPadding * 2,
+                                      color: activeColor,
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: isPayment,
+                                    child: const Icon(
+                                      Icons.lock_outline,
+                                      size: defaultPadding * 2,
+                                      color: activeColor,
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: isvoid,
+                                    child: const Icon(
+                                      Icons.cancel_outlined,
+                                      size: defaultPadding * 2,
+                                      color: activeColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              flex: 1,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    flex: 1,
                   )
                 ]),
               ))
@@ -263,12 +380,15 @@ class _OrderScreenState extends State<OrderScreen> {
                       flex: 1,
                       child: OrderCustomerInfo(
                         context: context,
+                        status: checkStatus,
                       )),
                   const Divider(color: dividerColor),
                   Expanded(flex: 6, child: OrderDetailInfo()),
                   const Divider(color: dividerColor),
                   Expanded(
-                      flex: 4, child: calculatePriceWidget(context, loginMsg)),
+                      flex: 4,
+                      child:
+                          calculatePriceWidget(context, loginMsg, checkStatus)),
                 ]),
               ),
         flex: 8);

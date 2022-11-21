@@ -20,9 +20,6 @@ class PosRestaurantRoute {
   };
 }
 
-String googleLink = 'https://www.google.com/';
-String youtubeLink = 'https://www.youtube.com/';
-
 String uriMomo = "https://test-payment.momo.vn/v2/gateway/api/create";
 String uriLocal = "http://localhost:5000";
 String uriRailway = "https://pos-server-group.up.railway.app";
@@ -40,10 +37,10 @@ String uriRailway = "https://pos-server-group.up.railway.app";
 // String uri = "http://192.168.1.5:5000";
 // String uri = "http://192.168.1.6:5000";
 //Q9
-// String uri = "http://192.168.0.6:5000";
+String uri = "http://192.168.0.6:5000";
 
 //Duc's uri
-String uri = "http://10.0.2.2:5000";
+// String uri = "http://10.0.2.2:5000";
 
 String logoURL =
     "https://firebasestorage.googleapis.com/v0/b/pos-restaurant-30dcc.appspot.com/o/logo.png?alt=media&token=3abf9469-7d3c-49e7-a2dd-d47dbdb03f37";

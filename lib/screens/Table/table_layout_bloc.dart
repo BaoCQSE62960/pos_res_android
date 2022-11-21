@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/splitCheckDTO.dart';
@@ -161,6 +158,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
 
   void _mapSplitOrderProcessEventToStage(
       SplitOrderProcess event, Emitter<TableLayoutState> emit) async {
+    // ignore: unused_local_variable
     String? message;
     emit(
       state.copywith(tableLayoutStatus: TableLayoutStatus.loading),

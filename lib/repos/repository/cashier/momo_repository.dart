@@ -42,8 +42,8 @@ class MomoRepository {
     String requestId = DateFormat('yyyyMMddHHmmss').format(DateTime.now());
     String orderId = requestId;
     String orderInfo = 'Thanh toán MoMo';
-    String redirectUrl = googleLink;
-    String ipnUrl = youtubeLink;
+    String redirectUrl = 'https://www.google.com/';
+    String ipnUrl = 'https://www.youtube.com/';
     String requestType = 'captureWallet';
     String extraData = '';
     String lang = 'vi';

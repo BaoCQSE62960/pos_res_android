@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
@@ -27,16 +26,6 @@ class OrderCustomerInfo extends StatefulWidget {
 
 class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
   String msg = "";
-
-  Future<void> _simpleFailDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return WarningPopUp(msg: msg);
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

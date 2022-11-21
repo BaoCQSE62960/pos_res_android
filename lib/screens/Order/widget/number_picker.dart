@@ -7,7 +7,7 @@ class NumberPickerDialog extends StatefulWidget {
   const NumberPickerDialog({
     Key? key,
     required this.orderBloc,
-  }) : super();
+  }) : super(key: key);
 
   final OrderLayoutBloc orderBloc;
 
@@ -16,9 +16,9 @@ class NumberPickerDialog extends StatefulWidget {
 }
 
 class _NumberPickerDialogState extends State<NumberPickerDialog> {
-  int _currentValue = 10;
   @override
   Widget build(BuildContext context) {
+    // ignore: sized_box_for_whitespace
     return Container(
       width: double.infinity,
       child: Column(

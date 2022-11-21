@@ -268,8 +268,10 @@ class _ViewListChecksState extends State<ViewListChecks> {
                     DataCell(Text(checkFilter.checkno)),
                     DataCell(Text(tableNameShow)),
                     DataCell(Text(checkFilter.locationname)),
-                    DataCell(Text(checkFilter.totaltax.toVND(unit: ""))),
-                    DataCell(Text(checkFilter.totalamount.toVND(unit: ""))),
+                    DataCell(
+                        Text(checkFilter.totaltax.round().toVND(unit: ""))),
+                    DataCell(
+                        Text(checkFilter.totalamount.round().toVND(unit: ""))),
                     DataCell(Text(statusShow)),
                   ],
                   onLongPress: () async {

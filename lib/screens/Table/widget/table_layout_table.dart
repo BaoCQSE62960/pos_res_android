@@ -47,7 +47,8 @@ class TableSection extends StatelessWidget {
   showErrorDialog(BuildContext context) {
     final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     Widget continueButton = TextButton(
-      child: Text("dialog.agree".tr(), style: TextStyle(color: activeColor)),
+      child:
+          Text("dialog.agree".tr(), style: const TextStyle(color: activeColor)),
       onPressed: () {
         Navigator.of(context).pop();
       },

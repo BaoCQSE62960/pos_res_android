@@ -38,7 +38,7 @@ class _PaymentBodyState extends State<PaymentBody> {
 
   String getAmount() {
     String result = '';
-    num total = check.totalamount;
+    num total = check.totalamount.round();
     for (var e in paidList) {
       total -= e.amount;
     }
@@ -288,7 +288,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                           paidList.add(PaymentProcess(
                               id: payment.id,
                               name: payment.name,
-                              amount: num.parse(amount)));
+                              amount: num.parse(amount).round()));
                           storage.setItem(check.checkid.toString(), paidList);
                         }
                         num current = num.parse(getAmount());

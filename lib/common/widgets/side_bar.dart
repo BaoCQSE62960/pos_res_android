@@ -17,11 +17,18 @@ class _SideBarState extends State<SideBar> {
   String closingAmount = "";
   late num amount;
   String msg = "";
+  String role = "";
+  bool isCashier = true;
 
-  Future getCurrentUserRole() async {
-    LoginService service = LoginService();
+  getCurrentUserRole() async {
     currentUserRole = await service.getRole();
-    return currentUserRole;
+    if (currentUserRole[1].toString().contains("CASHIER")) {
+      role = "CASHIER";
+      isCashier = true;
+    } else {
+      role = "";
+      isCashier = false;
+    }
   }
 
   Future logoutFromSystem() async {
@@ -38,6 +45,12 @@ class _SideBarState extends State<SideBar> {
         return WarningPopUp(msg: msg);
       },
     );
+  }
+
+  @override
+  void initState() {
+    getCurrentUserRole();
+    super.initState();
   }
 
   @override
@@ -85,35 +98,38 @@ class _SideBarState extends State<SideBar> {
                     ],
                   ),
                 ),
-                TextButton(
-                  onPressed: () async {
-                    currentUserRole = await getCurrentUserRole();
-                    if (currentUserRole[1].toString().contains("CASHIER")) {
-                      Navigator.of(context).pushReplacementNamed('/checklist');
-                    } else {
-                      msg = "Vai trò của người dùng không phù hợp";
-                      _messageDialog(msg);
-                    }
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: sideBarColor,
-                  ),
-                  child: Column(
-                    children: const <Widget>[
-                      Icon(
-                        Icons.search,
-                        size: defaultSize * 12.5,
-                        color: textLightColor,
-                      ),
-                      Text(
-                        "TÌM HÓA ĐƠN",
-                        style: TextStyle(
-                          fontSize: defaultSize * 2.125,
-                          fontWeight: FontWeight.w700,
+                Visibility(
+                  visible: isCashier,
+                  child: TextButton(
+                    onPressed: () {
+                      if (role == "CASHIER") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('/checklist');
+                      } else {
+                        msg = "Vai trò của người dùng không phù hợp";
+                        _messageDialog(msg);
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: sideBarColor,
+                    ),
+                    child: Column(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.search,
+                          size: defaultSize * 12.5,
                           color: textLightColor,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "TÌM HÓA ĐƠN",
+                          style: TextStyle(
+                            fontSize: defaultSize * 2.125,
+                            fontWeight: FontWeight.w700,
+                            color: textLightColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -121,41 +137,43 @@ class _SideBarState extends State<SideBar> {
                   // height: defaultPadding * 28.5,
                   height: defaultPadding * 26,
                 ),
-                TextButton(
-                  onPressed: () async {
-                    currentUserRole = await getCurrentUserRole();
-                    if (currentUserRole[1].toString().contains("CASHIER")) {
-                      Navigator.of(context).pushReplacementNamed('/cashierlog');
-                    } else {
-                      msg = "Vai trò của người dùng không phù hợp";
-                      _messageDialog(msg);
-                    }
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: sideBarColor,
-                  ),
-                  child: Column(
-                    children: const <Widget>[
-                      Icon(
-                        Icons.text_snippet,
-                        size: defaultSize * 12,
-                        color: textLightColor,
-                      ),
-                      Text(
-                        'NHẬT KÝ',
-                        style: TextStyle(
-                          fontSize: defaultSize * 2.5,
-                          fontWeight: FontWeight.w700,
+                Visibility(
+                  visible: isCashier,
+                  child: TextButton(
+                    onPressed: () {
+                      if (role == "CASHIER") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('/cashierlog');
+                      } else {
+                        msg = "Vai trò của người dùng không phù hợp";
+                        _messageDialog(msg);
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: sideBarColor,
+                    ),
+                    child: Column(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.text_snippet,
+                          size: defaultSize * 12,
                           color: textLightColor,
                         ),
-                      ),
-                    ],
+                        Text(
+                          'NHẬT KÝ',
+                          style: TextStyle(
+                            fontSize: defaultSize * 2.5,
+                            fontWeight: FontWeight.w700,
+                            color: textLightColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 TextButton(
                   onPressed: () async {
-                    currentUserRole = await getCurrentUserRole();
-                    if (currentUserRole[1].toString().contains("CASHIER")) {
+                    if (role == "CASHIER") {
                       _closingDialog();
                     } else {
                       result = await logoutFromSystem();
@@ -275,7 +293,18 @@ class _SideBarState extends State<SideBar> {
                               _messageDialog(msg);
                             } else {
                               amount = int.parse(closingAmount);
-                              if (amount < 0) {
+                              if (amount < 0 ||
+                                  closingAmount.substring(
+                                          closingAmount.length - 2) !=
+                                      "00") {
+                                msg = "Xin nhập số tiền hợp lệ!";
+                                _messageDialog(msg);
+                              } else if (closingAmount.substring(
+                                          closingAmount.length - 3) !=
+                                      "500" &&
+                                  closingAmount.substring(
+                                          closingAmount.length - 3) !=
+                                      "000") {
                                 msg = "Xin nhập số tiền hợp lệ!";
                                 _messageDialog(msg);
                               } else {

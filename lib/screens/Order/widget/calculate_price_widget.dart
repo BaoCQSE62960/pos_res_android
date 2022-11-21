@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
@@ -12,7 +11,6 @@ import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
-import 'package:pos_res_android/screens/Order/widget/buttons/custom_outlined_button.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.dart';
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:pos_res_android/screens/Order/widget/number_picker.dart';
@@ -25,7 +23,6 @@ import 'package:pos_res_android/screens/Order/widget/buttons/payment_btn.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
 
-bool isVisible = true;
 String msg = "";
 
 Future<void> _simpleFailDialog(BuildContext context) async {
@@ -41,17 +38,19 @@ Future<void> _simpleFailDialog(BuildContext context) async {
 Container calculatePriceWidget(
     BuildContext context, String loginMsg, String status) {
   final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
-
-  if (loginMsg.toString().contains("CASHIER")) {
-    isVisible = true;
-  } else {
-    isVisible = false;
-  }
+  bool btnVisible = true;
+  bool paymentVisible = true;
 
   if (status != "ACTIVE") {
-    isVisible = false;
+    btnVisible = false;
+    paymentVisible = false;
   } else {
-    isVisible = true;
+    btnVisible = true;
+    if (loginMsg.toString().contains("CASHIER")) {
+      paymentVisible = true;
+    } else {
+      paymentVisible = false;
+    }
   }
 
   return Container(
@@ -111,7 +110,7 @@ Container calculatePriceWidget(
         Padding(
           padding: const EdgeInsets.only(top: defaultPadding),
           child: Visibility(
-            visible: isVisible,
+            visible: paymentVisible,
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
@@ -124,7 +123,7 @@ Container calculatePriceWidget(
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             //
             Visibility(
-              visible: isVisible,
+              visible: btnVisible,
               child: CustomToolButton(
                 onPressed: () {
                   if (status == "ACTIVE") {
@@ -144,7 +143,7 @@ Container calculatePriceWidget(
               ),
             ),
             Visibility(
-              visible: isVisible,
+              visible: btnVisible,
               child: CustomToolButton(
                 onPressed: () {
                   if (status == "ACTIVE") {
@@ -164,7 +163,7 @@ Container calculatePriceWidget(
               ),
             ),
             Visibility(
-              visible: isVisible,
+              visible: btnVisible,
               child: CustomToolButton(
                 onPressed: () {
                   if (status == "ACTIVE") {
@@ -470,7 +469,7 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                                   horizontal: 10, vertical: 20),
                               child: TextButton(
                                 child: Text('order.confirm'.tr(),
-                                    style: TextStyle(color: activeColor)),
+                                    style: const TextStyle(color: activeColor)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                   showTableBottomModal(context);
@@ -482,7 +481,7 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                                   horizontal: 10, vertical: 20),
                               child: TextButton(
                                 child: Text('order.close'.tr(),
-                                    style: TextStyle(color: activeColor)),
+                                    style: const TextStyle(color: activeColor)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                   tableBloc.add(TableEvent.ResetAction());

@@ -7,6 +7,7 @@ import 'package:pos_res_android/common/widgets/side_bar.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/check.dart'
+    // ignore: library_prefixes
     as cashierCheck;
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
@@ -44,7 +45,6 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   late List<PaymentProcess> paidList;
   final LocalStorage storage = LocalStorage('paid');
-  List currentUserRole = [];
   List<cashierCheck.CheckItem> checkItem = [];
   String employee = "";
   String checkStatus = "";

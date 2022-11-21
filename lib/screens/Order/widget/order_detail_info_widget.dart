@@ -13,6 +13,7 @@ import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 final currencyFormat = NumberFormat("#,##0", "en_US");
+// ignore: constant_identifier_names
 const int DEFAULT_MAX_LENGTH_NOTE = 250;
 
 class OrderDetailInfo extends StatelessWidget {

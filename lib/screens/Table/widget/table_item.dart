@@ -167,7 +167,7 @@ class _TableItemState extends State<TableItem> {
                                     ? const SizedBox()
                                     : Text(
                                         currencyFormat
-                                            .format(double.parse(
+                                            .format(num.parse(
                                                 tableDetail.totalamount))
                                             .toUpperCase(),
                                         style: const TextStyle(
@@ -226,13 +226,15 @@ class _TableItemState extends State<TableItem> {
     final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     Widget cancelButton = TextButton(
-      child: Text("dialog.cancel".tr(), style: TextStyle(color: activeColor)),
+      child: Text("dialog.cancel".tr(),
+          style: const TextStyle(color: activeColor)),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("dialog.agree".tr(), style: TextStyle(color: activeColor)),
+      child:
+          Text("dialog.agree".tr(), style: const TextStyle(color: activeColor)),
       onPressed: () {
         tableBloc.add(ChangeOrderProcess(
             listCheckDetail: orderBloc.state.listSelectedCheckDetail,
@@ -263,13 +265,15 @@ class _TableItemState extends State<TableItem> {
     final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     Widget cancelButton = TextButton(
-      child: Text("dialog.cancel".tr(), style: TextStyle(color: activeColor)),
+      child: Text("dialog.cancel".tr(),
+          style: const TextStyle(color: activeColor)),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("dialog.agree".tr(), style: TextStyle(color: activeColor)),
+      child:
+          Text("dialog.agree".tr(), style: const TextStyle(color: activeColor)),
       onPressed: () {
         tableBloc.add(SplitOrderProcess(
             percent: orderBloc.state.percent,
@@ -300,13 +304,15 @@ class _TableItemState extends State<TableItem> {
     final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     Widget cancelButton = TextButton(
-      child: Text("dialog.cancel".tr(), style: TextStyle(color: activeColor)),
+      child: Text("dialog.cancel".tr(),
+          style: const TextStyle(color: activeColor)),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("dialog.agree".tr(), style: TextStyle(color: activeColor)),
+      child:
+          Text("dialog.agree".tr(), style: const TextStyle(color: activeColor)),
       onPressed: () {
         tableBloc.add(ChangeTableProcess(
             currentCheckID: orderBloc.state.checkId, targetTableID: tableid));

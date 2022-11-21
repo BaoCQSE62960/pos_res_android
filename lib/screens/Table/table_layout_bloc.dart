@@ -139,7 +139,8 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     try {
       List<DetailListItemDTO> detailListItemDTO = event.listCheckDetail
           .map((e) => DetailListItemDTO(
-              id: e.checkdetailid, quantity: e.checkdetailquantityLocal))
+              id: e.checkdetailid,
+              quantity: e.checkdetailquantityLocal.round()))
           .toList();
       TransferCheckDTO transferCheckDTO = TransferCheckDTO(
           currentTableID: event.currentCheckID,
@@ -160,6 +161,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
 
   void _mapSplitOrderProcessEventToStage(
       SplitOrderProcess event, Emitter<TableLayoutState> emit) async {
+    String? message;
     emit(
       state.copywith(tableLayoutStatus: TableLayoutStatus.loading),
     );
@@ -171,6 +173,9 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
       // ignore: unused_local_variable
       http.Response response =
           await tableOverviewRepository.splitCheck(splitCheckDTO);
+      if (response.body.isEmpty) {
+        message = response.body;
+      }
       emit(
         state.copywith(
             currentSelectedMode: SelectedMode.NONE,

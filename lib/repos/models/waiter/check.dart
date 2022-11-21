@@ -14,9 +14,9 @@ class Check {
 
   final int checkid;
   final String checkno;
-  int subtotal;
-  int totaltax;
-  int totalamount;
+  double subtotal;
+  double totaltax;
+  double totalamount;
   final String creationtime;
   final int locationid;
   final int tableid;
@@ -37,9 +37,9 @@ class Check {
   factory Check.fromJson(Map<String, dynamic> json) => Check(
       checkid: json['check']['checkid'],
       checkno: json['check']['checkno'],
-      subtotal: int.parse(json['check']['subtotal']),
-      totaltax: int.parse(json['check']['totaltax']),
-      totalamount: int.parse(json['check']['totalamount']),
+      subtotal: double.parse(json['check']['subtotal']),
+      totaltax: double.parse(json['check']['totaltax']),
+      totalamount: double.parse(json['check']['totalamount']),
       creationtime: json['check']['creationtime'],
       locationid: json['check']['locationid'],
       tableid: json['check']['tableid'],

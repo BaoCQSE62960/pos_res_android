@@ -274,7 +274,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     try {
       CheckDetail checkDetail = state.check.checkDetail.firstWhere(
           (element) => element.checkdetailidLocal == event.checkDetailIDLocal);
-      int quantity = checkDetail.quantity;
+      double quantity = checkDetail.quantity;
       if (event.mode == AddOrder.QuantityUpdateMode.decrease && quantity == 1) {
         state.check.checkDetail.remove(checkDetail);
       } else {
@@ -289,16 +289,22 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
           ? state.check.subtotal + (checkDetail.amount)
           : state.check.subtotal - (checkDetail.amount);
       state.check.totaltax = event.mode == AddOrder.QuantityUpdateMode.increase
-          ? state.check.totaltax + calculateTaxValueForItem(checkDetail.amount)
-          : state.check.totaltax - calculateTaxValueForItem(checkDetail.amount);
+          ? state.check.totaltax +
+              calculateTaxValueForItem(
+                  double.parse(checkDetail.amount.toString()))
+          : state.check.totaltax -
+              calculateTaxValueForItem(
+                  double.parse(checkDetail.amount.toString()));
       state.check.totalamount =
           event.mode == AddOrder.QuantityUpdateMode.increase
               ? state.check.totalamount +
                   (checkDetail.amount +
-                      calculateTaxValueForItem(checkDetail.amount))
+                      calculateTaxValueForItem(
+                          double.parse(checkDetail.amount.toString())))
               : state.check.totalamount -
                   (checkDetail.amount +
-                      calculateTaxValueForItem(checkDetail.amount));
+                      calculateTaxValueForItem(
+                          double.parse(checkDetail.amount.toString())));
       Check updatedCheck = state.check;
       updatedCheck.checkDetail[updatedCheck.checkDetail.indexOf(
               state.check.checkDetail.firstWhere((element) =>
@@ -319,7 +325,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     try {
       CheckDetail checkDetail = state.listSelectedCheckDetail.firstWhere(
           (element) => element.checkdetailid == event.checkDetailID);
-      int quantity = checkDetail.checkdetailquantityLocal;
+      double quantity = checkDetail.checkdetailquantityLocal;
       quantity = event.mode == ChangeOrder.QuantityUpdateMode.increase
           ? quantity = quantity + 1
           : quantity == 1
@@ -378,16 +384,16 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
           quantity: 1,
           note: '',
           isreminded: false,
-          amount: event.item.price,
+          amount: double.parse(event.item.price.toString()),
           status: 'LOCAL',
           specialRequest: []);
       state.check.checkDetail.insert(0, detail);
       state.check.subtotal = state.check.subtotal + event.item.price;
-      state.check.totaltax =
-          state.check.totaltax + calculateTaxValueForItem(event.item.price);
+      state.check.totaltax = state.check.totaltax +
+          calculateTaxValueForItem(double.parse(event.item.price.toString()));
       state.check.totalamount = state.check.totalamount +
           event.item.price +
-          calculateTaxValueForItem(event.item.price);
+          calculateTaxValueForItem(double.parse(event.item.price.toString()));
       emit(state.copywith(
           currentLocalID: state.currentLocalID++,
           orderLayoutStatus: OrderLayoutStatus.success));
@@ -511,8 +517,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     }
   }
 
-  int calculateTaxValueForItem(int price) {
+  double calculateTaxValueForItem(double price) {
     // Get tax value from BE
-    return (price * 10 / 100).round();
+    return (price * 10 / 100);
   }
 }

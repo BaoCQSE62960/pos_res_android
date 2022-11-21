@@ -45,7 +45,9 @@ class CustomQuantityButton extends StatelessWidget {
           height: double.infinity,
           width: double.infinity,
           child: Text(
-            checkDetail.quantity.toString(),
+            isInteger(checkDetail.quantity)
+                ? checkDetail.quantity.round().toString()
+                : checkDetail.quantity.toString(),
             style: const TextStyle(color: Colors.grey),
           ),
         ),
@@ -77,3 +79,5 @@ class CustomQuantityButton extends StatelessWidget {
     ]);
   }
 }
+
+bool isInteger(num value) => value is int || value == value.roundToDouble();

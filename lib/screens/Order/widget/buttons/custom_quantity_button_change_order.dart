@@ -65,8 +65,14 @@ class CustomQuantityButtonChangeOrder extends StatelessWidget {
           width: double.infinity,
           child: Text(
             orderBloc.state.listSelectedCheckDetail.contains(checkDetailLocal)
-                ? checkDetailLocal.checkdetailquantityLocal.toString()
-                : checkDetail.quantity.toString(),
+                ? (isInteger(checkDetailLocal.checkdetailquantityLocal)
+                    ? checkDetailLocal.checkdetailquantityLocal
+                        .round()
+                        .toString()
+                    : checkDetailLocal.checkdetailquantityLocal.toString())
+                : (isInteger(checkDetail.quantity)
+                    ? checkDetail.quantity.round().toString()
+                    : checkDetail.quantity.toString()),
             style: const TextStyle(color: Colors.grey),
           ),
         ),
@@ -112,21 +118,27 @@ class CustomQuantityButtonChangeOrder extends StatelessWidget {
     ]);
   }
 
-  bool isAllowToUpdateQuantity(int currentQuantity, int availableQuantity,
+  bool isAllowToUpdateQuantity(double currentQuantity, double availableQuantity,
       QuantityUpdateMode updateMode) {
-    if (updateMode == QuantityUpdateMode.increase) {
-      if (currentQuantity == availableQuantity) {
-        return false;
-      } else {
-        return true;
-      }
-    } else if (updateMode == QuantityUpdateMode.decrease) {
-      if (currentQuantity == 1) {
-        return false;
-      } else {
-        return true;
+    if (!isInteger(currentQuantity) || !isInteger(availableQuantity)) {
+      return false;
+    } else {
+      if (updateMode == QuantityUpdateMode.increase) {
+        if (currentQuantity == availableQuantity) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (updateMode == QuantityUpdateMode.decrease) {
+        if (currentQuantity == 1) {
+          return false;
+        } else {
+          return true;
+        }
       }
     }
     return false;
   }
 }
+
+bool isInteger(num value) => value is int || value == value.roundToDouble();

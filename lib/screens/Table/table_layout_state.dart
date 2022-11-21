@@ -34,6 +34,7 @@ class TableLayoutState extends Equatable {
       this.currentTableOpenID = 0,
       this.currentProcessTableID = 0,
       this.currentFilter = TableLayoutFilter.all,
+      this.message = '',
       TableOverview? tableOverview})
       : tableOverview = tableOverview ?? TableOverview.EMPTY;
   final SelectedMode currentSelectedMode;
@@ -44,6 +45,7 @@ class TableLayoutState extends Equatable {
   int currentLocationID;
   final int currentTableOpenID;
   final int currentProcessTableID;
+  String message;
 
   @override
   List<Object?> get props => [
@@ -54,7 +56,8 @@ class TableLayoutState extends Equatable {
         currentLocationID,
         currentFilter,
         currentTableOpenID,
-        currentProcessTableID
+        currentProcessTableID,
+        message
       ];
 
   TableLayoutState copywith(
@@ -66,6 +69,7 @@ class TableLayoutState extends Equatable {
       int? currentTableOpenID,
       int? currentProcessTableID,
       TableLayoutFilter? tableLayoutFilter,
+      String? message,
       TableLayoutFilter? currentFilter}) {
     return TableLayoutState(
         tableLayoutStatus: tableLayoutStatus ?? this.tableLayoutStatus,
@@ -76,6 +80,7 @@ class TableLayoutState extends Equatable {
         currentTableOpenID: currentTableOpenID ?? this.currentTableOpenID,
         currentProcessTableID:
             currentProcessTableID ?? this.currentProcessTableID,
-        currentFilter: currentFilter ?? this.currentFilter);
+        currentFilter: currentFilter ?? this.currentFilter,
+        message: message ?? this.message);
   }
 }

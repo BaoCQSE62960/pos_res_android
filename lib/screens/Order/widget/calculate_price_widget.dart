@@ -270,7 +270,7 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
   final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
   List<CheckDetail> list =
       List<CheckDetail>.from(orderBloc.state.check.checkDetail);
-  list.retainWhere((element) => !element.isLocal);
+  list.retainWhere((element) => !element.isLocal || element.status != 'RECALL');
   return showDialog(
       context: context,
       builder: (BuildContext context) {

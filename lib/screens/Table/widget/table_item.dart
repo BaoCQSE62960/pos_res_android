@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/utils/navigation_service.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:pos_res_android/repos/models/cashier/table.dart';
 import 'package:pos_res_android/repos/models/waiter/tabledetail.dart';
 import 'package:pos_res_android/repos/services/login_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
@@ -168,7 +167,7 @@ class _TableItemState extends State<TableItem> {
                                     ? const SizedBox()
                                     : Text(
                                         currencyFormat
-                                            .format(int.parse(
+                                            .format(double.parse(
                                                 tableDetail.totalamount))
                                             .toUpperCase(),
                                         style: const TextStyle(

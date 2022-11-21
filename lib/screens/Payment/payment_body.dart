@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/common/widgets/web_view.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
+import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/services/cashier/momo_service.dart';
 import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_method_item.dart';
@@ -27,6 +29,7 @@ class PaymentBody extends StatefulWidget {
 }
 
 class _PaymentBodyState extends State<PaymentBody> {
+  final LocalStorage storage = LocalStorage('paid');
   List<Payment> methods = [];
   String amount = '';
   String msg = '';
@@ -158,7 +161,6 @@ class _PaymentBodyState extends State<PaymentBody> {
           const Divider(color: dividerColor),
           Expanded(
             flex: 1,
-            //
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -174,6 +176,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                       undo: () {
                         setState(() {
                           paidList.clear();
+                          storage.deleteItem(check.checkid.toString());
                         });
                       }),
                 ),
@@ -186,137 +189,158 @@ class _PaymentBodyState extends State<PaymentBody> {
   }
 
   Widget paymentInput(BuildContext context, Payment payment) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: defaultPadding * 24,
-          decoration: const BoxDecoration(
-            color: selectedColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              bottomLeft: Radius.circular(30),
-            ),
-          ),
-          child: Flexible(
-            child: TextFormField(
-              onChanged: (text) {
-                setState(() {
-                  amount = text;
-                });
-              },
-              initialValue: amount,
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.done,
-              cursorColor: primaryColor,
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: selectedColor,
-                prefixIconColor: primaryColor,
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: defaultPadding, vertical: defaultPadding),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  borderSide: BorderSide.none,
-                ),
-                hintText: "Nhập số tiền",
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.attach_money),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Flexible(
-          child: Container(
-            width: defaultPadding * 8,
+    return Scaffold(
+      backgroundColor: textLightColor,
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: defaultPadding * 24,
             decoration: const BoxDecoration(
-              color: activeColor,
+              color: selectedColor,
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30),
-                bottomRight: Radius.circular(30),
+                topLeft: Radius.circular(30),
+                bottomLeft: Radius.circular(30),
               ),
             ),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: activeColor,
-                elevation: 0,
-                shape: const StadiumBorder(),
-                maximumSize: const Size(double.infinity, 56),
-                minimumSize: const Size(double.infinity, 56),
-              ),
-              onPressed: () async {
-                //
-                if (checkDuplicatePaid(payment)) {
-                  //
-                  if (payment.name.toUpperCase() == "MOMO") {
-                    MomoService service = MomoService();
-                    String url = await service.getPayment(amount);
-                    var result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DisplayWebView(url: url),
-                        ));
-                    // ignore: avoid_print
-                    print(result);
-                    if (result != null && result) {
-                      paidList.add(PaymentProcess(
-                          id: payment.id,
-                          name: payment.name,
-                          amount: num.parse(amount)));
-                    }
-                    // else in lỗi
-                  } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
-                    // ignore: avoid_print
-                    print(amount);
-
-                    paidList.add(PaymentProcess(
-                        id: payment.id,
-                        name: payment.name,
-                        amount: num.parse(amount)));
-                  }
-                  num current = num.parse(getAmount());
-                  if (current == 0) {
-                    PaymentService service = PaymentService();
-                    bool result = await service.processCheck(
-                        check.checkid, paidList, context);
-                    if (result) {
-                      Navigator.of(context).pop();
-                    }
-                  }
-                  setState(() {});
-                } else {
-                  msg = "Phương thức thanh toán này đã sử dụng";
-                  _simpleFailDialog();
-                }
-              },
-              //
-
-              //
-              // onPressed: () => exit(0),
-              child: Text(
-                "Xác nhận".toUpperCase(),
+            child: Flexible(
+              child: TextFormField(
+                onChanged: (text) {
+                  setState(() {
+                    amount = text;
+                  });
+                },
+                initialValue: amount,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.done,
+                cursorColor: primaryColor,
+                decoration: const InputDecoration(
+                  filled: true,
+                  fillColor: selectedColor,
+                  prefixIconColor: primaryColor,
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: defaultPadding, vertical: defaultPadding),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: "Nhập số tiền",
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.all(defaultPadding),
+                    child: Icon(Icons.attach_money),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-        // const SizedBox(height: defaultPadding),
-        // Hero(
-        //   tag: "close_btn",
-        //   child: ElevatedButton(
-        //     style: ElevatedButton.styleFrom(
-        //       primary: voidColor,
-        //     ),
-        //     onPressed: () => SystemNavigator.pop(),
-        //     // onPressed: () => exit(0),
-        //     child: Text(
-        //       "Thoát".toUpperCase(),
-        //     ),
-        //   ),
-        // ),
-        // const SizedBox(height: defaultPadding),
-      ],
+          Flexible(
+            child: Container(
+              width: defaultPadding * 8,
+              decoration: const BoxDecoration(
+                color: activeColor,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: activeColor,
+                  elevation: 0,
+                  shape: const StadiumBorder(),
+                  maximumSize: const Size(double.infinity, 56),
+                  minimumSize: const Size(double.infinity, 56),
+                ),
+                onPressed: () async {
+                  if (num.parse(amount) > 0 &&
+                      num.parse(amount) <= num.parse(getAmount())) {
+                    List<CheckDetail> list = check.checkDetail;
+                    bool confirm = true;
+                    for (var checkDetail in list) {
+                      if (checkDetail.status != "SERVED") {
+                        confirm = false;
+                      }
+                    }
+                    if (confirm) {
+                      if (checkDuplicatePaid(payment)) {
+                        if (payment.name.toUpperCase() == "MOMO") {
+                          MomoService service = MomoService();
+                          String url = await service.getPayment(amount);
+                          var result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DisplayWebView(url: url),
+                              ));
+                          // ignore: avoid_print
+                          print(result);
+                          if (result != null && result) {
+                            paidList.add(PaymentProcess(
+                                id: payment.id,
+                                name: payment.name,
+                                amount: num.parse(amount)));
+                            storage.setItem(check.checkid.toString(), paidList);
+                          }
+                          // else in lỗi
+                        } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
+                          // ignore: avoid_print
+                          print(amount);
+
+                          paidList.add(PaymentProcess(
+                              id: payment.id,
+                              name: payment.name,
+                              amount: num.parse(amount)));
+                          storage.setItem(check.checkid.toString(), paidList);
+                        }
+                        num current = num.parse(getAmount());
+                        if (current == 0) {
+                          PaymentService service = PaymentService();
+                          bool result = await service.processCheck(
+                              check.checkid, paidList, context);
+                          if (result) {
+                            Navigator.of(context).pop();
+                          }
+                        }
+                        setState(() {});
+                      } else {
+                        msg = "Phương thức thanh toán này đã sử dụng";
+                        _simpleFailDialog();
+                      }
+                    } else {
+                      msg = "Đơn vẫn còn món chưa xử lý!";
+                      _simpleFailDialog();
+                    }
+                  } else {
+                    msg = "Số tiền nhập không hợp lệ";
+                    _simpleFailDialog();
+                  }
+                },
+                //
+
+                //
+                // onPressed: () => exit(0),
+                child: Text(
+                  "Xác nhận".toUpperCase(),
+                ),
+              ),
+            ),
+          ),
+          // const SizedBox(height: defaultPadding),
+          // Hero(
+          //   tag: "close_btn",
+          //   child: ElevatedButton(
+          //     style: ElevatedButton.styleFrom(
+          //       primary: voidColor,
+          //     ),
+          //     onPressed: () => SystemNavigator.pop(),
+          //     // onPressed: () => exit(0),
+          //     child: Text(
+          //       "Thoát".toUpperCase(),
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: defaultPadding),
+        ],
+      ),
     );
   }
 }

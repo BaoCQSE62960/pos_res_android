@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_action_button.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 // ignore: must_be_immutable
 class PaymentPaidItem extends StatefulWidget {
   Function() undo;
   List<PaymentProcess> paidList;
   int checkId;
-  PaymentPaidItem(
-      {Key? key,
-      required this.checkId,
-      required this.paidList,
-      required this.undo})
-      : super(key: key);
+  PaymentPaidItem({
+    Key? key,
+    required this.checkId,
+    required this.paidList,
+    required this.undo,
+  }) : super(key: key);
 
   @override
   State<PaymentPaidItem> createState() => _PaymentPaidItemState();
@@ -81,7 +82,7 @@ class _PaymentPaidItemState extends State<PaymentPaidItem> {
                               Row(
                                 children: [
                                   Text(
-                                    payment.amount.toString(),
+                                    payment.amount.toVND(unit: ""),
                                     style: TextStyle(
                                       color: textColor2,
                                       fontSize: defaultSize * 4,
@@ -124,7 +125,7 @@ class _PaymentPaidItemState extends State<PaymentPaidItem> {
                       ),
                       const Spacer(),
                       Text(
-                        total.toString(),
+                        total.toVND(unit: ""),
                         style: TextStyle(
                           color: textColor2,
                           fontSize: defaultSize * 5,

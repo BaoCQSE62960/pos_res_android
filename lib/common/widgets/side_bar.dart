@@ -160,9 +160,9 @@ class _SideBarState extends State<SideBar> {
                     } else {
                       result = await logoutFromSystem();
                       if (result[0] == true) {
-                        Navigator.of(context).pop('/login');
+                        Navigator.of(context).pushReplacementNamed('/login');
                       } else {
-                        Navigator.of(context).pop('/login');
+                        Navigator.of(context).pushReplacementNamed('/login');
                         _logoutFailDialog();
                       }
                     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/common/widgets/success_popup.dart';
 import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/bill.dart';
@@ -16,6 +17,7 @@ class _RefundBtnState extends State<RefundBtn> {
   List<BillItem> billItem = [];
   List result = [];
   bool refundable = true;
+  String msg = "";
 
   Future refundPayment(int billId) async {
     BillService service = BillService();
@@ -23,7 +25,17 @@ class _RefundBtnState extends State<RefundBtn> {
     return result;
   }
 
-  Future<void> _messageDialog() async {
+  Future<void> _successDialog(String msg) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return SuccessPopUp(msg: msg);
+      },
+    );
+  }
+
+  Future<void> _warningDialog() async {
     List split1, split2;
     return showDialog<void>(
       context: context,
@@ -107,9 +119,11 @@ class _RefundBtnState extends State<RefundBtn> {
                           print(billItem[0].status);
                           // Navigator.of(context).pop();
                           Navigator.of(context).pushNamed('/billlist');
+                          msg = "Hoàn tiền thành công!";
+                          _successDialog(msg);
                         }
                         if (result[0] == false) {
-                          _messageDialog();
+                          _warningDialog();
                         }
                       },
                       style: ElevatedButton.styleFrom(

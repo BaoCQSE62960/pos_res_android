@@ -196,8 +196,19 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
                           msg = "Xin hãy nhập số tiền!";
                           _messageDialog(msg);
                         } else {
-                          amount = int.parse(openingAmount);
-                          if (amount < 0) {
+                          amount = num.parse(openingAmount);
+                          if (amount < 0 ||
+                              openingAmount
+                                      .substring(openingAmount.length - 2) !=
+                                  "00") {
+                            msg = "Xin nhập số tiền hợp lệ!";
+                            _messageDialog(msg);
+                          } else if (openingAmount
+                                      .substring(openingAmount.length - 3) !=
+                                  "500" &&
+                              openingAmount
+                                      .substring(openingAmount.length - 3) !=
+                                  "000") {
                             msg = "Xin nhập số tiền hợp lệ!";
                             _messageDialog(msg);
                           } else {

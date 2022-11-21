@@ -129,7 +129,7 @@ Container calculatePriceWidget(
                   if (status == "ACTIVE") {
                     voidReasonDialog(context, orderBloc.state.checkId);
                   } else {
-                    msg = "Không thể cập nhật đơn!";
+                    msg = "Không thể cập nhật";
                     _simpleFailDialog(context);
                   }
                 },
@@ -149,7 +149,7 @@ Container calculatePriceWidget(
                   if (status == "ACTIVE") {
                     showChangeBottomSheet(context);
                   } else {
-                    msg = "Không thể cập nhật đơn!";
+                    msg = "Không thể cập nhật";
                     _simpleFailDialog(context);
                   }
                 },
@@ -172,7 +172,7 @@ Container calculatePriceWidget(
                         // tableid: orderBloc.state.tableId,
                         checkid: orderBloc.state.checkId));
                   } else {
-                    msg = "Không thể cập nhật đơn!";
+                    msg = "Không thể cập nhật";
                     _simpleFailDialog(context);
                   }
                 },

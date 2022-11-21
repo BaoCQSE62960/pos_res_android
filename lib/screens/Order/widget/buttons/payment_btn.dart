@@ -40,7 +40,7 @@ class _ChargeBtnState extends State<ChargeBtn> {
         if (widget.status == "ACTIVE") {
           orderBloc.add(ChangeMode());
         } else {
-          msg = "Không thể cập nhật đơn!";
+          msg = "Không thể cập nhật";
           _simpleFailDialog();
         }
       },

@@ -275,7 +275,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               orderBloc
                                   .add(AddItem(item: state.listItems[index]));
                             } else {
-                              msg = "Không thể cập nhật đơn!";
+                              msg = "Không thể cập nhật";
                               _simpleFailDialog();
                             }
                           },

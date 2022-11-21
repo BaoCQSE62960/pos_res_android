@@ -289,7 +289,7 @@ class _SideBarState extends State<SideBar> {
                           child: const Text('Xác nhận'),
                           onPressed: () async {
                             if (closingAmount.isEmpty) {
-                              msg = "Xin hãy nhập số tiền!";
+                              msg = "Xin hãy nhập số tiền";
                               _messageDialog(msg);
                             } else {
                               amount = int.parse(closingAmount);
@@ -297,7 +297,7 @@ class _SideBarState extends State<SideBar> {
                                   closingAmount.substring(
                                           closingAmount.length - 2) !=
                                       "00") {
-                                msg = "Xin nhập số tiền hợp lệ!";
+                                msg = "Xin nhập số tiền hợp lệ";
                                 _messageDialog(msg);
                               } else if (closingAmount.substring(
                                           closingAmount.length - 3) !=
@@ -305,7 +305,7 @@ class _SideBarState extends State<SideBar> {
                                   closingAmount.substring(
                                           closingAmount.length - 3) !=
                                       "000") {
-                                msg = "Xin nhập số tiền hợp lệ!";
+                                msg = "Xin nhập số tiền hợp lệ";
                                 _messageDialog(msg);
                               } else {
                                 service.close(amount);

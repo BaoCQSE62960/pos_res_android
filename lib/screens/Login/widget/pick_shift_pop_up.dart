@@ -193,7 +193,7 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
                       child: const Text('Xác nhận'),
                       onPressed: () {
                         if (openingAmount.isEmpty) {
-                          msg = "Xin hãy nhập số tiền!";
+                          msg = "Xin hãy nhập số tiền";
                           _messageDialog(msg);
                         } else {
                           amount = num.parse(openingAmount);
@@ -201,7 +201,7 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
                               openingAmount
                                       .substring(openingAmount.length - 2) !=
                                   "00") {
-                            msg = "Xin nhập số tiền hợp lệ!";
+                            msg = "Xin nhập số tiền hợp lệ";
                             _messageDialog(msg);
                           } else if (openingAmount
                                       .substring(openingAmount.length - 3) !=
@@ -209,7 +209,7 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
                               openingAmount
                                       .substring(openingAmount.length - 3) !=
                                   "000") {
-                            msg = "Xin nhập số tiền hợp lệ!";
+                            msg = "Xin nhập số tiền hợp lệ";
                             _messageDialog(msg);
                           } else {
                             service.open(selectedShift.id, amount);

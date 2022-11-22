@@ -19,6 +19,7 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
   String openingAmount = "";
   late num amount;
   String msg = "";
+  List result = [];
 
   Future<void> _messageDialog(String msg) async {
     return showDialog<void>(
@@ -26,6 +27,24 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return WarningPopUp(msg: msg);
+      },
+    );
+  }
+
+  Future<void> _msgFailDialog() async {
+    List split1, split2;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        String finalMsg = result[1];
+        if (finalMsg.contains("msg")) {
+          split1 = finalMsg.split(':');
+          finalMsg = split1[1];
+        }
+        split2 = finalMsg.split('"');
+        finalMsg = split2[1];
+        return WarningPopUp(msg: finalMsg);
       },
     );
   }
@@ -191,7 +210,7 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
                     width: defaultPadding * 6,
                     child: ElevatedButton(
                       child: const Text('Xác nhận'),
-                      onPressed: () {
+                      onPressed: () async {
                         if (openingAmount.isEmpty) {
                           msg = "Xin hãy nhập số tiền";
                           _messageDialog(msg);
@@ -212,8 +231,14 @@ class _PickShiftPopUpState extends State<PickShiftPopUp> {
                             msg = "Xin nhập số tiền hợp lệ";
                             _messageDialog(msg);
                           } else {
-                            service.open(selectedShift.id, amount);
-                            Navigator.of(context).pushNamed('/tableoverview');
+                            result =
+                                await service.open(selectedShift.id, amount);
+
+                            if (result[0] == true) {
+                              Navigator.of(context).pushNamed('/tableoverview');
+                            } else {
+                              _msgFailDialog();
+                            }
                           }
                         }
                         openingAmount = "";

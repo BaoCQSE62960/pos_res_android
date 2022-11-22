@@ -70,7 +70,7 @@ class MenuItemCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
-                currencyFormat.format(int.parse(price)),
+                currencyFormat.format(num.parse(price)),
                 style: TextStyle(
                     color: textColor2,
                     fontWeight: FontWeight.bold,

@@ -135,7 +135,7 @@ class _SideBarState extends State<SideBar> {
                 Container(
                   color: sideBarColor,
                   // height: defaultPadding * 28.5,
-                  height: defaultPadding * 26,
+                  height: defaultPadding * 26.25,
                 ),
                 Visibility(
                   visible: isCashier,

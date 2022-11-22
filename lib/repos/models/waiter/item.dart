@@ -13,7 +13,7 @@ class Item {
   final int menuitemid;
   final int majorgroupid;
   final String image;
-  final int price;
+  final num price;
   final bool instock;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -23,5 +23,5 @@ class Item {
       image: json['image'],
       majorgroupid: json['majorgroupid'],
       menuitemid: json['menuitemid'],
-      price: json['price']);
+      price: num.parse(json['price']));
 }

@@ -18,7 +18,7 @@
         "out_of_stock": "Hết hàng",
         "confirm": "Xác nhận",
         "customer_name": "Tên khách hàng",
-        "number_of_seats": "Số bàn",
+        "number_of_seats": "Số khách",
         "customer_info": "Thông tin khách hàng",
         "check_note": "Ghi chú đơn hàng",
         "check_note_hint": "Ghi chú ...",
@@ -31,7 +31,7 @@
         "close": "Đóng",
         "error": {
             "customer_name_error": "Tên không được dài quá 50 ký tự",
-            "customer_cover_error": "Số người không được dài quá 2 ký tự",
+            "customer_cover_error": "Số khách không được dài quá 2 ký tự",
             "customer_note_error": "Ghi chú không được dài quá 250 ký tự"
         }
     },

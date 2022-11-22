@@ -244,8 +244,10 @@ class _ViewListBillsState extends State<ViewListBills> {
                       DataCell(Text(billFilter.billno)),
                       DataCell(Text(billFilter.tablename)),
                       DataCell(Text(billFilter.locationname)),
-                      DataCell(Text(billFilter.totaltax.toVND(unit: ""))),
-                      DataCell(Text(billFilter.totalamount.toVND(unit: ""))),
+                      DataCell(
+                          Text(billFilter.totaltax.round().toVND(unit: ""))),
+                      DataCell(
+                          Text(billFilter.totalamount.round().toVND(unit: ""))),
                       DataCell(Text(statusShow)),
                     ],
                     onLongPress: () async {

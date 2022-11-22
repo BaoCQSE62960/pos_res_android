@@ -281,7 +281,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                             storage.setItem(check.checkid.toString(), paidList);
                           }
                           // else in lỗi
-                        } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
+                        } else {
                           // ignore: avoid_print
                           print(amount);
 

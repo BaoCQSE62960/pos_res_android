@@ -17,12 +17,8 @@ class _LoginFormState extends State<LoginForm> {
   List<Shift> list = [];
   LoginService service = LoginService();
   String dropdownValue = "";
-
-// class LoginForm extends StatelessWidget {
-  // Socket socket;
-  // LoginForm({Key? key, required this.socket}) : super(key: key);
-
   List result = [];
+
   Future loginToSystem(String username, String password) async {
     LoginService service = LoginService();
     result = await service.login(username, password);

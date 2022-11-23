@@ -8,6 +8,10 @@ class LoginService {
     return repos.login(username, password);
   }
 
+  Future getLogo() async {
+    return repos.getLogo();
+  }
+
   Future logout() async {
     return repos.logout();
   }

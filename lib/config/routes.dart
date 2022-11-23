@@ -42,5 +42,5 @@ String uri = "http://192.168.0.6:5000";
 //Duc's uri
 // String uri = "http://10.0.2.2:5000";
 
-String logoURL =
-    "https://firebasestorage.googleapis.com/v0/b/pos-restaurant-30dcc.appspot.com/o/logo.png?alt=media&token=3abf9469-7d3c-49e7-a2dd-d47dbdb03f37";
+// String logoURL =
+//     "https://firebasestorage.googleapis.com/v0/b/pos-restaurant-30dcc.appspot.com/o/logo.png?alt=media&token=3abf9469-7d3c-49e7-a2dd-d47dbdb03f37";

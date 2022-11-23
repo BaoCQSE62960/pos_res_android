@@ -15,39 +15,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // late IO.Socket socket;
-  // String uriConnect = uri;
-  // Socket socket = Socket();
-
-  // @override
-  // void initState() {
-  //   socket.declareSocket();
-  //   socket.connectServer();
-  //   super.initState();
-  // }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   connectAndListen();
-  // }
-
-  // void connectAndListen() {
-  //   // ignore: avoid_print
-  //   print("call func");
-  //   socket =
-  //       IO.io(uri, IO.OptionBuilder().setTransports(['websocket']).build());
-
-  //   // socket.emit('join-pos-location', '1');
-  //   socket.onConnect((_) {
-  //     // ignore: avoid_print
-  //     print("connect");
-  //     socket.emit('msg', 'test connect from client');
-  //   });
-
-  //   // ignore: avoid_print
-  //   socket.onDisconnect((_) => print('disconnect'));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Background(

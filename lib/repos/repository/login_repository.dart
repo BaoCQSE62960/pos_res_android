@@ -17,7 +17,6 @@ class LoginRepository {
     Map data = {"username": username, "password": password};
     var body = json.encode(data);
 
-    print(body);
     Response res = await post(Uri.parse(uriConnect + '/login/pos'),
         headers: {"Content-Type": "application/json"}, body: body);
 
@@ -33,6 +32,30 @@ class LoginRepository {
     }
 
     return [result, msg];
+  }
+
+  //get image
+  Future getLogo() async {
+    String url = "";
+    List split = [];
+
+    Response res = await get(Uri.parse(uriConnect + '/login'),
+        headers: {"Content-Type": "application/json"});
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      url = res.body;
+      if (url.contains("restaurantimage")) {
+        split = url.split(':');
+        url = split[1] + ":" + split[2];
+      }
+      split = url.split('"');
+      url = split[1];
+      _updateCookie(res);
+      print("get logo" + res.body);
+    } else {
+      print("msg: " + res.body);
+    }
+    return url;
   }
 
   //get shift

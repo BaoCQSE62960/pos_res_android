@@ -113,40 +113,69 @@ class _AmountPopupState extends State<AmountPopup> {
                 ),
               ),
             ),
-            SizedBox(
-              width: defaultPadding * 6,
-              child: ElevatedButton(
-                child: const Text('Xác nhận'),
-                onPressed: () async {
-                  if (num.parse(currentAmount) < 0 ||
-                      currentAmount.substring(currentAmount.length - 2) !=
-                          "00") {
-                    msg = "Xin nhập số tiền hợp lệ";
-                    _messageDialog(msg);
-                  } else if (currentAmount
-                              .substring(currentAmount.length - 3) !=
-                          "500" &&
-                      currentAmount.substring(currentAmount.length - 3) !=
-                          "000") {
-                    msg = "Xin nhập số tiền hợp lệ";
-                    _messageDialog(msg);
-                  } else {
-                    logItem = await putCashierLogAmount(
-                        logId, num.parse(currentAmount));
-                    if (logItem[0] == true) {
-                      widget.log.setAmount = num.parse(currentAmount);
-                      Navigator.of(context).pop();
-                    }
-                    if (logItem[0] == false) {
-                      Navigator.of(context).pop();
-                      _msgFailDialog();
-                    }
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: activeColor,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    right: defaultPadding * 0.5,
+                    bottom: defaultPadding * 0.5,
+                  ),
+                  child: SizedBox(
+                    width: defaultPadding * 6,
+                    child: ElevatedButton(
+                      child: const Text('Xác nhận'),
+                      onPressed: () async {
+                        if (num.parse(currentAmount) < 0 ||
+                            currentAmount.substring(currentAmount.length - 2) !=
+                                "00") {
+                          msg = "Xin nhập số tiền hợp lệ";
+                          _messageDialog(msg);
+                        } else if (currentAmount
+                                    .substring(currentAmount.length - 3) !=
+                                "500" &&
+                            currentAmount.substring(currentAmount.length - 3) !=
+                                "000") {
+                          msg = "Xin nhập số tiền hợp lệ";
+                          _messageDialog(msg);
+                        } else {
+                          logItem = await putCashierLogAmount(
+                              logId, num.parse(currentAmount));
+                          if (logItem[0] == true) {
+                            widget.log.setAmount = num.parse(currentAmount);
+                            Navigator.of(context).pop();
+                          }
+                          if (logItem[0] == false) {
+                            Navigator.of(context).pop();
+                            _msgFailDialog();
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: activeColor,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: defaultPadding * 0.5,
+                    bottom: defaultPadding * 0.5,
+                  ),
+                  child: SizedBox(
+                    width: defaultPadding * 6,
+                    child: ElevatedButton(
+                      child: const Text('Đóng'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: voidColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

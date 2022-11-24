@@ -52,8 +52,6 @@ class OrderDetailInfo extends StatelessWidget {
                 orderBloc.state.check.checkDetail[index].status,
                 orderBloc.state.check.checkDetail[index],
                 orderBloc),
-            // endActionPane: RemindOrderActionPane(
-            //     context, orderBloc.state.check.checkDetail[index], orderBloc),
           );
         },
       ),
@@ -69,6 +67,8 @@ class OrderDetailInfo extends StatelessWidget {
         return LocalOrderActionPane(checkDetail, orderBloc);
       case 'RECALL':
         return DoneOrderActionPane(checkDetail, orderBloc);
+      case 'SERVED':
+        return DoneOrderActionPane(checkDetail, orderBloc);
       case 'WAITING':
         return RemindOrderActionPane(checkDetail, orderBloc);
       default:
@@ -82,6 +82,14 @@ class OrderDetailInfo extends StatelessWidget {
     return ActionPane(
       motion: const ScrollMotion(),
       children: [
+        SlidableAction(
+          onPressed: (context) {
+            voidReasonDialog(context, checkDetail.checkdetailid);
+          },
+          backgroundColor: voidColor,
+          foregroundColor: Colors.white,
+          icon: Icons.delete,
+        ),
         SlidableAction(
           onPressed: (context) {
             orderBloc.add(

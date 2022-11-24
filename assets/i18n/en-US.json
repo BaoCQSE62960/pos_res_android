@@ -32,7 +32,8 @@
         "error": {
             "customer_name_error": "Tên không được dài quá 50 ký tự",
             "customer_cover_error": "Số khách không được dài quá 2 ký tự",
-            "customer_note_error": "Ghi chú không được dài quá 250 ký tự"
+            "customer_note_error": "Ghi chú không được dài quá 250 ký tự",
+            "split_order_error": "Phần trăm không hợp lệ"
         }
     },
     "change_shift":

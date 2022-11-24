@@ -13,8 +13,10 @@ class NoteRepositoryImpl extends NoteService {
 
   @override
   Future<Note> getNoteByCheckID(String checkID) async {
-    http.Response response = await http
-        .get(Uri.parse(uriConnect + "/order/check/" + checkID + "/note/"));
+    headers = storage.getItem('headers');
+    http.Response response = await http.get(
+        Uri.parse(uriConnect + "/order/check/" + checkID + "/note/"),
+        headers: headers);
     var responseJson = json.decode(response.body);
     if (response.statusCode == 200) {
       return Note.fromJson(responseJson);

@@ -17,8 +17,11 @@ class TableOverviewRepositoryImpl extends TableOverviewService {
 
   @override
   Future<TableOverview> getTableOverviewByLocationID(String locationID) async {
-    http.Response response = await http
-        .get(Uri.parse(uriConnect + "/tableoverview/location/" + locationID));
+    headers = storage.getItem('headers');
+    http.Response response = await http.get(
+      Uri.parse(uriConnect + "/tableoverview/location/" + locationID),
+      headers: headers,
+    );
     var responseJson = json.decode(response.body);
     if (response.statusCode == 200) {
       return TableOverview.fromJson(responseJson);

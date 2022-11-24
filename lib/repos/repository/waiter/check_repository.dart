@@ -15,7 +15,9 @@ class CheckRepositoryImpl extends CheckService {
 
   @override
   Future<Check> getCheckByID(String id) async {
-    Response response = await get(Uri.parse(uriConnect + "/order/check/" + id));
+    headers = storage.getItem('headers');
+    Response response = await get(Uri.parse(uriConnect + "/order/check/" + id),
+        headers: headers);
     var responseJson = json.decode(response.body);
     if (response.statusCode == 200) {
       return Check.fromJson(responseJson);

@@ -70,7 +70,7 @@ class OrderDetailInfo extends StatelessWidget {
       case 'RECALL':
         return DoneOrderActionPane(checkDetail, orderBloc);
       case 'WAITING':
-        return DoneOrderActionPane(checkDetail, orderBloc);
+        return RemindOrderActionPane(checkDetail, orderBloc);
       default:
         return null;
     }
@@ -134,6 +134,23 @@ class OrderDetailInfo extends StatelessWidget {
           backgroundColor: voidColor,
           foregroundColor: Colors.white,
           icon: Icons.delete,
+        )
+      ],
+    );
+  }
+
+  ActionPane RemindOrderActionPane(
+      CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
+    return ActionPane(
+      motion: const ScrollMotion(),
+      children: [
+        SlidableAction(
+          onPressed: (context) {
+            voidReasonDialog(context, checkDetail.checkdetailid);
+          },
+          backgroundColor: voidColor,
+          foregroundColor: Color.fromARGB(255, 97, 83, 83),
+          icon: Icons.delete,
         ),
         SlidableAction(
           onPressed: (context) {
@@ -146,29 +163,9 @@ class OrderDetailInfo extends StatelessWidget {
           // label: 'order.void'.tr(),
         ),
       ],
+      extentRatio: 0.2,
     );
   }
-
-  // // ignore: non_constant_identifier_names
-  // ActionPane RemindOrderActionPane(BuildContext context,
-  //     CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
-  //   return ActionPane(
-  //     motion: const ScrollMotion(),
-  //     children: [
-  //       SlidableAction(
-  //         onPressed: (context) {
-  //           orderBloc.add(
-  //               RemindACheckDetail(checkdetailid: checkDetail.checkdetailid));
-  //         },
-  //         backgroundColor: warningColor,
-  //         foregroundColor: Colors.white,
-  //         icon: Icons.notification_important_sharp,
-  //         // label: 'order.void'.tr(),
-  //       ),
-  //     ],
-  //     extentRatio: 0.2,
-  //   );
-  // }
 
   String specialRequestProcess(List<SpecialRequests> specialRequests) {
     String result = '';

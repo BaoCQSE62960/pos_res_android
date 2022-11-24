@@ -34,6 +34,22 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     try {
       TableOverview tableOverview = await tableOverviewRepository
           .getTableOverviewByLocationID(event.locationID);
+      List<TableDetail> list = List<TableDetail>.from(tableOverview.listTable);
+      TableLayoutFilter currentFilter = state.currentFilter;
+      switch (currentFilter) {
+        case TableLayoutFilter.ready:
+          list = list.where((element) => element.isready).toList();
+          break;
+        case TableLayoutFilter.voided:
+          list = list.where((element) => element.isrecall).toList();
+          break;
+        case TableLayoutFilter.waiting:
+          list = list.where((element) => element.iswaiting).toList();
+          break;
+        default:
+          currentFilter = TableLayoutFilter.all;
+      }
+      tableOverview.listTable = list;
       emit(
         state.copywith(
             currentLocationID: int.parse(event.locationID),

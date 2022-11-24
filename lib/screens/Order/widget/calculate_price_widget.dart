@@ -426,9 +426,11 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
 Future<dynamic> splitOrderDialog(BuildContext context) {
   final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
   final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
-  List<CheckDetail> list =
-      List<CheckDetail>.from(orderBloc.state.check.checkDetail);
-  list.retainWhere((element) => !element.isLocal);
+  TextEditingController percentController = TextEditingController();
+  final _formKeyNote = GlobalKey<FormState>();
+  // List<CheckDetail> list =
+  //     List<CheckDetail>.from(orderBloc.state.check.checkDetail);
+  // list.retainWhere((element) => !element.isLocal);
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -441,60 +443,132 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                 builder: (context, state) {
               return Dialog(
                 insetPadding: const EdgeInsets.symmetric(
-                    vertical: 200.0, horizontal: 400.0),
+                    vertical: 100.0, horizontal: 400.0),
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Column(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text(
-                            'order.split_order'.tr(),
-                            style:
-                                const TextStyle(color: textColor, fontSize: 20),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: NumberPickerDialog(orderBloc: orderBloc),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
+                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Stack(
+                    children: <Widget>[
+                      Form(
+                        key: _formKeyNote,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 20),
-                              child: TextButton(
-                                child: Text('order.confirm'.tr(),
-                                    style: const TextStyle(color: activeColor)),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  showTableBottomModal(context);
-                                },
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'order.split_order'.tr().toUpperCase(),
+                                style: const TextStyle(
+                                    color: activeColor,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 20),
-                              child: TextButton(
-                                child: Text('order.close'.tr(),
-                                    style: const TextStyle(color: activeColor)),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  tableBloc.add(TableEvent.ResetAction());
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                controller: percentController,
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value != null ||
+                                      int.parse(value!) < 1 ||
+                                      int.parse(value) > 100) {
+                                    return 'order.error.split_order_error';
+                                  }
+                                  return null;
                                 },
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.grey[100]!),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    fillColor: Colors.grey[100],
+                                    filled: true,
+                                    prefixIcon: const Icon(Icons.percent)),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    if (_formKeyNote.currentState!.validate()) {
+                                      orderBloc.add(SelectPercentForSplitOrder(
+                                          percent: int.parse(
+                                              percentController.text)));
+                                      Navigator.of(context).pop();
+                                      showTableBottomModal(context);
+                                    }
+                                  },
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               );
+              // return Dialog(
+              //   insetPadding: const EdgeInsets.symmetric(
+              //       vertical: 200.0, horizontal: 400.0),
+              //   shape: const RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              //   child: Column(
+              //     children: <Widget>[
+              //       Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Padding(
+              //             padding: const EdgeInsets.all(20.0),
+              //             child: Text(
+              //               'order.split_order'.tr(),
+              //               style:
+              //                   const TextStyle(color: textColor, fontSize: 20),
+              //             ),
+              //           ),
+              //           Padding(
+              //             padding: const EdgeInsets.symmetric(horizontal: 10),
+              //             child: NumberPickerDialog(orderBloc: orderBloc),
+              //           ),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.end,
+              //             children: [
+              //               Padding(
+              //                 padding: const EdgeInsets.symmetric(
+              //                     horizontal: 10, vertical: 20),
+              //                 child: TextButton(
+              //                   child: Text('order.confirm'.tr(),
+              //                       style: const TextStyle(color: activeColor)),
+              //                   onPressed: () {
+              //                     Navigator.of(context).pop();
+              //                     showTableBottomModal(context);
+              //                   },
+              //                 ),
+              //               ),
+              //               Padding(
+              //                 padding: const EdgeInsets.symmetric(
+              //                     horizontal: 10, vertical: 20),
+              //                 child: TextButton(
+              //                   child: Text('order.close'.tr(),
+              //                       style: const TextStyle(color: activeColor)),
+              //                   onPressed: () {
+              //                     Navigator.of(context).pop();
+              //                     tableBloc.add(TableEvent.ResetAction());
+              //                   },
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // );
             }));
       });
 }

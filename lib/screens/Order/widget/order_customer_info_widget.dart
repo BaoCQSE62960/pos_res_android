@@ -73,100 +73,105 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            contentPadding: EdgeInsets.all(0),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             content: Stack(
               children: <Widget>[
                 Positioned(
-                  right: -30.0,
-                  top: -30.0,
+                  right: 5.0,
+                  top: 5.0,
                   child: InkResponse(
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: const CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.red,
                     ),
                   ),
                 ),
                 Form(
                   key: widget._formKeyCustomer,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'order.customer_info'.tr().toUpperCase(),
-                          style: const TextStyle(
-                              color: activeColor, fontWeight: FontWeight.bold),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'order.customer_info'.tr().toUpperCase(),
+                            style: const TextStyle(
+                                color: activeColor,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: guestNameController,
-                          validator: (value) {
-                            if (value != null &&
-                                value.length > DEFAULT_MAX_LENGTH_NAME) {
-                              return 'order.error.customer_name_error';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              hintText: 'order.customer_name'.tr(),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey[100]!),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              fillColor: Colors.grey[100],
-                              filled: true,
-                              prefixIcon: const Icon(Icons.person)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: coverController,
-                          validator: (value) {
-                            if (value != null &&
-                                value.length > DEFAULT_MAX_LENGTH_COVER) {
-                              return 'order.error.customer_cover_error';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              hintText: 'order.number_of_seats'.tr(),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey[100]!),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              fillColor: Colors.grey[100],
-                              filled: true,
-                              prefixIcon: const Icon(Icons.event_seat)),
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: CustomElevatedButton(
-                          text: 'order.confirm'.tr(),
-                          callback: () {
-                            if (widget.status == "ACTIVE") {
-                              if (widget._formKeyCustomer.currentState!
-                                  .validate()) {
-                                orderBloc.add(UpdateInfo(
-                                    guestname: guestNameController.text,
-                                    cover: int.parse(coverController.text)));
-                                Navigator.pop(context);
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: guestNameController,
+                            validator: (value) {
+                              if (value != null &&
+                                  value.length > DEFAULT_MAX_LENGTH_NAME) {
+                                return 'order.error.customer_name_error';
                               }
-                            } else {
-                              Navigator.of(context).pop();
-                            }
-                          },
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'order.customer_name'.tr(),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[100]!),
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                fillColor: Colors.grey[100],
+                                filled: true,
+                                prefixIcon: const Icon(Icons.person)),
+                          ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: coverController,
+                            validator: (value) {
+                              if (value != null &&
+                                  value.length > DEFAULT_MAX_LENGTH_COVER) {
+                                return 'order.error.customer_cover_error';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'order.number_of_seats'.tr(),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[100]!),
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                fillColor: Colors.grey[100],
+                                filled: true,
+                                prefixIcon: const Icon(Icons.event_seat)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: CustomElevatedButton(
+                            text: 'order.confirm'.tr(),
+                            callback: () {
+                              if (widget.status == "ACTIVE") {
+                                if (widget._formKeyCustomer.currentState!
+                                    .validate()) {
+                                  orderBloc.add(UpdateInfo(
+                                      guestname: guestNameController.text,
+                                      cover: int.parse(coverController.text)));
+                                  Navigator.pop(context);
+                                }
+                              } else {
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

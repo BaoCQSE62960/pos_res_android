@@ -443,7 +443,7 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                 builder: (context, state) {
               return Dialog(
                 insetPadding: const EdgeInsets.symmetric(
-                    vertical: 100.0, horizontal: 400.0),
+                    vertical: 80.0, horizontal: 400.0),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20.0))),
                 child: Padding(
@@ -456,7 +456,7 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(0.0),
                               child: Text(
                                 'order.split_order'.tr().toUpperCase(),
                                 style: const TextStyle(
@@ -470,10 +470,10 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                                 controller: percentController,
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
-                                  if (value != null ||
-                                      int.parse(value!) < 1 ||
+                                  if (value == null ||
+                                      int.parse(value) < 1 ||
                                       int.parse(value) > 100) {
-                                    return 'order.error.split_order_error';
+                                    return 'order.error.split_order_error'.tr();
                                   }
                                   return null;
                                 },
@@ -489,7 +489,7 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(5.0),
+                              padding: const EdgeInsets.all(0.0),
                               child: SizedBox(
                                 width: double.infinity,
                                 child: CustomElevatedButton(
@@ -513,62 +513,6 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                   ),
                 ),
               );
-              // return Dialog(
-              //   insetPadding: const EdgeInsets.symmetric(
-              //       vertical: 200.0, horizontal: 400.0),
-              //   shape: const RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              //   child: Column(
-              //     children: <Widget>[
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Padding(
-              //             padding: const EdgeInsets.all(20.0),
-              //             child: Text(
-              //               'order.split_order'.tr(),
-              //               style:
-              //                   const TextStyle(color: textColor, fontSize: 20),
-              //             ),
-              //           ),
-              //           Padding(
-              //             padding: const EdgeInsets.symmetric(horizontal: 10),
-              //             child: NumberPickerDialog(orderBloc: orderBloc),
-              //           ),
-              //           Row(
-              //             mainAxisAlignment: MainAxisAlignment.end,
-              //             children: [
-              //               Padding(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 10, vertical: 20),
-              //                 child: TextButton(
-              //                   child: Text('order.confirm'.tr(),
-              //                       style: const TextStyle(color: activeColor)),
-              //                   onPressed: () {
-              //                     Navigator.of(context).pop();
-              //                     showTableBottomModal(context);
-              //                   },
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.symmetric(
-              //                     horizontal: 10, vertical: 20),
-              //                 child: TextButton(
-              //                   child: Text('order.close'.tr(),
-              //                       style: const TextStyle(color: activeColor)),
-              //                   onPressed: () {
-              //                     Navigator.of(context).pop();
-              //                     tableBloc.add(TableEvent.ResetAction());
-              //                   },
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // );
             }));
       });
 }

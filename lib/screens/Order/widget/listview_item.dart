@@ -67,6 +67,13 @@ class ActionItemList extends StatelessWidget {
                               style: TextStyle(
                                   color: textColor2,
                                   fontStyle: FontStyle.italic)),
+                          Text(checkDetail.note,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: textColor2,
+                                  fontStyle: FontStyle.italic))
                         ]),
                   ),
                   const Spacer(),

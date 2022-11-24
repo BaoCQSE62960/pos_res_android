@@ -86,9 +86,7 @@ class OrderDetailInfo extends StatelessWidget {
           onPressed: (context) {
             orderBloc.add(
                 ServedACheckDetail(checkdetailid: checkDetail.checkdetailid));
-            orderBloc.add(LoadData(
-                // tableid: orderBloc.state.tableId,
-                checkid: orderBloc.state.checkId));
+            orderBloc.add(LoadData(checkid: orderBloc.state.checkId));
           },
           backgroundColor: activeColor,
           foregroundColor: Colors.white,
@@ -149,7 +147,7 @@ class OrderDetailInfo extends StatelessWidget {
             voidReasonDialog(context, checkDetail.checkdetailid);
           },
           backgroundColor: voidColor,
-          foregroundColor: Color.fromARGB(255, 97, 83, 83),
+          foregroundColor: Colors.white,
           icon: Icons.delete,
         ),
         SlidableAction(
@@ -163,7 +161,6 @@ class OrderDetailInfo extends StatelessWidget {
           // label: 'order.void'.tr(),
         ),
       ],
-      extentRatio: 0.2,
     );
   }
 

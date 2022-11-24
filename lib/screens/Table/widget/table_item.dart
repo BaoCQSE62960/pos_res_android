@@ -41,6 +41,7 @@ class _TableItemState extends State<TableItem> {
   @override
   Widget build(BuildContext context) {
     final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return BlocBuilder<TableLayoutBloc, TableLayoutState>(
         builder: (context, state) {
       return tableBloc.state.tableItemStatus.isLoading &&
@@ -54,21 +55,27 @@ class _TableItemState extends State<TableItem> {
                 loginMsg = currentUserRole[1];
                 if (tableBloc.state.currentSelectedMode ==
                     SelectedMode.CHANGE_ORDER) {
-                  Navigator.of(context).pop();
-                  showChangeOrderDialog(
-                      context, tableDetail.tablename, tableDetail.id);
+                  if (tableDetail.checkid != orderBloc.state.checkId) {
+                    Navigator.of(context).pop();
+                    showChangeOrderDialog(
+                        context, tableDetail.tablename, tableDetail.id);
+                  }
                 }
                 if (tableBloc.state.currentSelectedMode ==
                     SelectedMode.CHANGE_TABLE) {
-                  Navigator.of(context).pop();
-                  showChangeTableDialog(
-                      context, tableDetail.tablename, tableDetail.id);
+                  if (tableDetail.checkid != orderBloc.state.checkId) {
+                    Navigator.of(context).pop();
+                    showChangeTableDialog(
+                        context, tableDetail.tablename, tableDetail.id);
+                  }
                 }
                 if (tableBloc.state.currentSelectedMode ==
                     SelectedMode.SPLIT_ORDER) {
-                  Navigator.of(context).pop();
-                  showSplitOrderDialog(
-                      context, tableDetail.tablename, tableDetail.id);
+                  if (tableDetail.checkid != orderBloc.state.checkId) {
+                    Navigator.of(context).pop();
+                    showSplitOrderDialog(
+                        context, tableDetail.tablename, tableDetail.id);
+                  }
                 }
                 if (tableBloc.state.currentSelectedMode == SelectedMode.NONE) {
                   if (tableDetail.checkid == 0) {
@@ -109,7 +116,11 @@ class _TableItemState extends State<TableItem> {
                     decoration: BoxDecoration(
                       color: tableDetail.status == 'NOT_USE'
                           ? deactiveColor
-                          : activeColor,
+                          : (tableBloc.state.currentSelectedMode !=
+                                      SelectedMode.NONE &&
+                                  tableDetail.checkid == orderBloc.state.checkId
+                              ? warningColor
+                              : activeColor),
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15.0),
                         topRight: Radius.circular(15.0),

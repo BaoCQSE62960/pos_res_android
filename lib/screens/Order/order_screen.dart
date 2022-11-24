@@ -43,7 +43,7 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  late List<PaymentProcess> paidList;
+  List<PaymentProcess> paidList = [];
   final LocalStorage storage = LocalStorage('paid');
   List<cashierCheck.CheckItem> checkItem = [];
   String employee = "";
@@ -152,7 +152,15 @@ class _OrderScreenState extends State<OrderScreen> {
     if (null == storage.getItem(check.checkid.toString())) {
       paidList = [];
     } else {
-      paidList = storage.getItem(check.checkid.toString());
+      List<PaymentProcess> tempList = [];
+      if (storage.getItem(check.checkid.toString()) is List<PaymentProcess>) {
+        tempList = (storage.getItem(check.checkid.toString()));
+      } else {
+        tempList = (storage.getItem(check.checkid.toString()) as List)
+            .map((e) => PaymentProcess.fromJson(e))
+            .toList();
+      }
+      paidList = tempList;
     }
     return Expanded(
       child: Container(

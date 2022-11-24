@@ -101,7 +101,6 @@ class OrderDetailInfo extends StatelessWidget {
           icon: Icons.done,
         )
       ],
-      extentRatio: 0.2,
     );
   }
 
@@ -142,6 +141,7 @@ class OrderDetailInfo extends StatelessWidget {
           icon: Icons.delete,
         )
       ],
+      extentRatio: 0.2,
     );
   }
 

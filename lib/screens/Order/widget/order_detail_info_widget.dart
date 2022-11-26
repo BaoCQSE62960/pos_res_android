@@ -12,7 +12,8 @@ import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_but
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-final currencyFormat = NumberFormat("#,##0", "en_US");
+final currencyFormat = NumberFormat.decimalPattern('vi_VN');
+
 // ignore: constant_identifier_names
 const int DEFAULT_MAX_LENGTH_NOTE = 250;
 
@@ -92,6 +93,17 @@ class OrderDetailInfo extends StatelessWidget {
         ),
         SlidableAction(
           onPressed: (context) {
+            orderBloc.add(LoadSpecialRequestsForItem(
+                itemid: checkDetail.itemid,
+                checkdetailid: checkDetail.checkdetailidLocal));
+            specialRequestDialog(context, checkDetail.checkdetailid, false);
+          },
+          backgroundColor: deactiveColor,
+          foregroundColor: Colors.white,
+          icon: Icons.note_alt,
+        ),
+        SlidableAction(
+          onPressed: (context) {
             orderBloc.add(
                 ServedACheckDetail(checkdetailid: checkDetail.checkdetailid));
             orderBloc.add(LoadData(checkid: orderBloc.state.checkId));
@@ -112,17 +124,26 @@ class OrderDetailInfo extends StatelessWidget {
       children: [
         SlidableAction(
           onPressed: (context) {
+            orderBloc.add(RemoveLocalCheckDetail(
+                checkDetailID: checkDetail.checkdetailidLocal));
+          },
+          backgroundColor: voidColor,
+          foregroundColor: Colors.white,
+          icon: Icons.remove,
+        ),
+        SlidableAction(
+          onPressed: (context) {
             orderBloc.add(LoadSpecialRequestsForItem(
                 itemid: checkDetail.itemid,
                 checkdetailid: checkDetail.checkdetailidLocal));
-            specialRequestDialog(context, checkDetail.checkdetailidLocal);
+            specialRequestDialog(context, checkDetail.checkdetailidLocal, true);
           },
           backgroundColor: warningColor,
           foregroundColor: Colors.white,
           icon: Icons.note_alt,
         )
       ],
-      extentRatio: 0.2,
+      extentRatio: 1 / 3,
     );
   }
 
@@ -139,9 +160,20 @@ class OrderDetailInfo extends StatelessWidget {
           backgroundColor: voidColor,
           foregroundColor: Colors.white,
           icon: Icons.delete,
-        )
+        ),
+        SlidableAction(
+          onPressed: (context) {
+            orderBloc.add(LoadSpecialRequestsForItem(
+                itemid: checkDetail.itemid,
+                checkdetailid: checkDetail.checkdetailidLocal));
+            specialRequestDialog(context, checkDetail.checkdetailid, false);
+          },
+          backgroundColor: deactiveColor,
+          foregroundColor: Colors.white,
+          icon: Icons.note_alt,
+        ),
       ],
-      extentRatio: 0.2,
+      extentRatio: 1 / 3,
     );
   }
 
@@ -157,6 +189,17 @@ class OrderDetailInfo extends StatelessWidget {
           backgroundColor: voidColor,
           foregroundColor: Colors.white,
           icon: Icons.delete,
+        ),
+        SlidableAction(
+          onPressed: (context) {
+            orderBloc.add(LoadSpecialRequestsForItem(
+                itemid: checkDetail.itemid,
+                checkdetailid: checkDetail.checkdetailidLocal));
+            specialRequestDialog(context, checkDetail.checkdetailid, false);
+          },
+          backgroundColor: deactiveColor,
+          foregroundColor: Colors.white,
+          icon: Icons.note_alt,
         ),
         SlidableAction(
           onPressed: (context) {
@@ -185,12 +228,18 @@ class OrderDetailInfo extends StatelessWidget {
   }
 
   Future<dynamic> specialRequestDialog(
-      BuildContext context, int checkdetailid) {
+      BuildContext context, int checkdetailid, bool isLocal) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     TextEditingController noteController = TextEditingController();
-    noteController.text = orderBloc.state.check.checkDetail
-        .firstWhere((element) => element.checkdetailidLocal == checkdetailid)
-        .note;
+    CheckDetail currentCheck;
+    if (isLocal) {
+      currentCheck = orderBloc.state.check.checkDetail
+          .firstWhere((element) => element.checkdetailidLocal == checkdetailid);
+    } else {
+      currentCheck = orderBloc.state.check.checkDetail
+          .firstWhere((element) => element.checkdetailid == checkdetailid);
+    }
+    noteController.text = currentCheck.note;
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -267,30 +316,45 @@ class OrderDetailInfo extends StatelessWidget {
                                             .state.listSpecialRequest.length,
                                         itemBuilder: (context, index) {
                                           return CheckboxListTile(
+                                            activeColor: isLocal
+                                                ? activeColor
+                                                : deactiveColor,
                                             title: Text(orderBloc
                                                 .state
                                                 .listSpecialRequest[index]
                                                 .name),
-                                            value: state
-                                                    .listSelectedSpecialRequest
-                                                    .isEmpty
-                                                ? false
-                                                : state
-                                                    .listSelectedSpecialRequest
-                                                    .any((element) =>
-                                                        element.id ==
-                                                        orderBloc
-                                                            .state
-                                                            .listSpecialRequest[
-                                                                index]
-                                                            .id),
+                                            value:
+                                                !isLocal //TODO Server not return ID of special request, currently check by name.
+                                                    ? (currentCheck
+                                                        .specialRequest
+                                                        .any((element) =>
+                                                            element.name ==
+                                                            orderBloc
+                                                                .state
+                                                                .listSpecialRequest[
+                                                                    index]
+                                                                .name))
+                                                    : (state.listSelectedSpecialRequest
+                                                            .isEmpty
+                                                        ? false
+                                                        : state
+                                                            .listSelectedSpecialRequest
+                                                            .any((element) =>
+                                                                element.id ==
+                                                                orderBloc
+                                                                    .state
+                                                                    .listSpecialRequest[
+                                                                        index]
+                                                                    .id)),
                                             onChanged: (value) {
-                                              orderBloc.add(
-                                                  SelectSpecialRequestForItem(
-                                                      specialRequests: orderBloc
-                                                              .state
-                                                              .listSpecialRequest[
-                                                          index]));
+                                              if (isLocal) {
+                                                orderBloc.add(
+                                                    SelectSpecialRequestForItem(
+                                                        specialRequests: orderBloc
+                                                                .state
+                                                                .listSpecialRequest[
+                                                            index]));
+                                              }
                                             },
                                           );
                                         },
@@ -304,12 +368,16 @@ class OrderDetailInfo extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               child: CustomElevatedButton(
+                                buttonColors:
+                                    isLocal ? activeColor : deactiveColor,
                                 text: 'order.confirm'.tr(),
                                 callback: () {
-                                  orderBloc.add(UpdateSpecialRequestForItem(
-                                      checkdetailid: checkdetailid,
-                                      note: noteController.text));
-                                  Navigator.of(context).pop();
+                                  if (isLocal) {
+                                    orderBloc.add(UpdateSpecialRequestForItem(
+                                        checkdetailid: checkdetailid,
+                                        note: noteController.text));
+                                    Navigator.of(context).pop();
+                                  }
                                 },
                               ),
                             ),

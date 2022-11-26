@@ -114,7 +114,7 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
                             validator: (value) {
                               if (value != null &&
                                   value.length > DEFAULT_MAX_LENGTH_NAME) {
-                                return 'order.error.customer_name_error';
+                                return 'order.error.customer_name_error'.tr();
                               }
                               return null;
                             },
@@ -161,7 +161,9 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
                                     .validate()) {
                                   orderBloc.add(UpdateInfo(
                                       guestname: guestNameController.text,
-                                      cover: int.parse(coverController.text)));
+                                      cover: coverController.text.isEmpty
+                                          ? 0
+                                          : int.parse(coverController.text)));
                                   Navigator.pop(context);
                                 }
                               } else {

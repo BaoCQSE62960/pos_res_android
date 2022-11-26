@@ -21,7 +21,7 @@ import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/payment_btn.dart';
 
-final currencyFormat = NumberFormat("#,##0", "en_US");
+final currencyFormat = NumberFormat.decimalPattern('vi_VN');
 
 String msg = "";
 

@@ -138,3 +138,9 @@ class UpdateQuantityChangeOrder extends OrderLayoutEvent {
 class SendOrder extends OrderLayoutEvent {
   SendOrder();
 }
+
+class RemoveLocalCheckDetail extends OrderLayoutEvent {
+  RemoveLocalCheckDetail({required this.checkDetailID});
+
+  final int checkDetailID;
+}

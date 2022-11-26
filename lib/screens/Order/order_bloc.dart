@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls, unused_local_variable, library_prefixes
 
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/itemDTO.dart';
@@ -61,6 +63,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     on<VoidACheckDetail>(_voidACheckDetail);
     on<ServedACheckDetail>(_servedACheckDetail);
     on<RemindACheckDetail>(_remindACheckDetail);
+    on<RemoveLocalCheckDetail>(_removeLocalCheckDetail);
   }
 
   final MajorGroupRepositoryImpl majorGroupRepository;
@@ -100,7 +103,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
         state.copywith(
             selectedVoidReason: listVoidReason[0],
             listVoidReason: listVoidReason,
-            // tableId: event.tableid,
+            currentSelectedMenuID: listMenu[0].id,
             checkId: event.checkid,
             listMajorGroups: listMajorGroups,
             listMenus: listMenu,
@@ -374,29 +377,31 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   void _addItem(AddItem event, Emitter<OrderLayoutState> emit) async {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     try {
-      CheckDetail detail = CheckDetail(
-          checkdetailidLocal: state.currentLocalID++,
-          checkdetailquantityLocal: 1,
-          isLocal: true,
-          checkdetailid: 0,
-          itemid: event.item.id,
-          itemname: event.item.name,
-          quantity: 1,
-          note: '',
-          isreminded: false,
-          amount: double.parse(event.item.price.toString()),
-          status: 'LOCAL',
-          specialRequest: []);
-      state.check.checkDetail.insert(0, detail);
-      state.check.subtotal = state.check.subtotal + event.item.price;
-      state.check.totaltax = state.check.totaltax +
-          calculateTaxValueForItem(double.parse(event.item.price.toString()));
-      state.check.totalamount = state.check.totalamount +
-          event.item.price +
-          calculateTaxValueForItem(double.parse(event.item.price.toString()));
-      emit(state.copywith(
-          currentLocalID: state.currentLocalID++,
-          orderLayoutStatus: OrderLayoutStatus.success));
+      if (event.item.instock) {
+        CheckDetail detail = CheckDetail(
+            checkdetailidLocal: state.currentLocalID++,
+            checkdetailquantityLocal: 1,
+            isLocal: true,
+            checkdetailid: 0,
+            itemid: event.item.id,
+            itemname: event.item.name,
+            quantity: 1,
+            note: '',
+            isreminded: false,
+            amount: double.parse(event.item.price.toString()),
+            status: 'LOCAL',
+            specialRequest: []);
+        state.check.checkDetail.insert(0, detail);
+        state.check.subtotal = state.check.subtotal + event.item.price;
+        state.check.totaltax = state.check.totaltax +
+            calculateTaxValueForItem(double.parse(event.item.price.toString()));
+        state.check.totalamount = state.check.totalamount +
+            event.item.price +
+            calculateTaxValueForItem(double.parse(event.item.price.toString()));
+        emit(state.copywith(
+            currentLocalID: state.currentLocalID++,
+            orderLayoutStatus: OrderLayoutStatus.success));
+      }
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }
@@ -520,5 +525,20 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   double calculateTaxValueForItem(double price) {
     // Get tax value from BE
     return (price * 10 / 100);
+  }
+
+  FutureOr<void> _removeLocalCheckDetail(
+      RemoveLocalCheckDetail event, Emitter<OrderLayoutState> emit) {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      state.check.checkDetail.removeWhere(
+          (element) => element.checkdetailidLocal == event.checkDetailID);
+      emit(
+        state.copywith(
+            check: state.check, orderLayoutStatus: OrderLayoutStatus.success),
+      );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
   }
 }

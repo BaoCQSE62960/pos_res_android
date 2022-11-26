@@ -26,7 +26,7 @@ class OrderLayoutState extends Equatable {
   OrderLayoutState(
       {this.orderLayoutStatus = OrderLayoutStatus.initial,
       this.currentSelectedMajorID = 0,
-      this.currentSelectedMenuID = 1,
+      this.currentSelectedMenuID = 0,
       this.currentMode = CurrentMode.order,
       this.specialRequestNote = '',
       this.currentLocalID = 0,

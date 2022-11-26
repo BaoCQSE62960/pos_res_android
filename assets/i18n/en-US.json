@@ -45,6 +45,11 @@
         "change_order_dialog_title": "Xác nhận chuyển đơn",
         "change_order_dialog_message": "Bạn có đồng ý chuyển hóa đơn này sang bàn #{} ?"
     },
+    "split_order":
+    {
+        "split_order_dialog_title": "Xác nhận chia đơn",
+        "split_order_dialog_message": "Bạn có đồng ý chia hóa đơn này sang bàn #{} ?"
+    },
     "change_table":
     {
         "change_table_dialog_title": "Xác nhận chuyển bàn",

@@ -11,7 +11,7 @@ import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/table_layout_state.dart';
 import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 
-final currencyFormat = NumberFormat("#,##0", "en_US");
+final currencyFormat = NumberFormat.decimalPattern('vi_VN');
 
 class TableItem extends StatefulWidget {
   const TableItem({Key? key, required this.tableDetail}) : super(key: key);
@@ -56,7 +56,6 @@ class _TableItemState extends State<TableItem> {
                 if (tableBloc.state.currentSelectedMode ==
                     SelectedMode.CHANGE_ORDER) {
                   if (tableDetail.checkid != orderBloc.state.checkId) {
-                    Navigator.of(context).pop();
                     showChangeOrderDialog(
                         context, tableDetail.tablename, tableDetail.id);
                   }
@@ -64,7 +63,6 @@ class _TableItemState extends State<TableItem> {
                 if (tableBloc.state.currentSelectedMode ==
                     SelectedMode.CHANGE_TABLE) {
                   if (tableDetail.checkid != orderBloc.state.checkId) {
-                    Navigator.of(context).pop();
                     showChangeTableDialog(
                         context, tableDetail.tablename, tableDetail.id);
                   }
@@ -72,7 +70,6 @@ class _TableItemState extends State<TableItem> {
                 if (tableBloc.state.currentSelectedMode ==
                     SelectedMode.SPLIT_ORDER) {
                   if (tableDetail.checkid != orderBloc.state.checkId) {
-                    Navigator.of(context).pop();
                     showSplitOrderDialog(
                         context, tableDetail.tablename, tableDetail.id);
                   }
@@ -198,7 +195,7 @@ class _TableItemState extends State<TableItem> {
                                         ? const SizedBox()
                                         : const Icon(
                                             Icons.dinner_dining_rounded,
-                                            size: defaultPadding * 2.5,
+                                            size: defaultPadding * 2,
                                             color: warningColor,
                                           ),
                                     Container(
@@ -208,7 +205,7 @@ class _TableItemState extends State<TableItem> {
                                         ? const SizedBox()
                                         : const Icon(
                                             Icons.cancel_outlined,
-                                            size: defaultPadding * 2.5,
+                                            size: defaultPadding * 2,
                                             color: voidColor,
                                           ),
                                     Container(
@@ -218,7 +215,7 @@ class _TableItemState extends State<TableItem> {
                                         ? const SizedBox()
                                         : const Icon(
                                             Icons.timelapse_rounded,
-                                            size: defaultPadding * 2.5,
+                                            size: defaultPadding * 2,
                                             color: deactiveColor,
                                           ),
                                   ],
@@ -240,6 +237,7 @@ class _TableItemState extends State<TableItem> {
       child: Text("dialog.cancel".tr(),
           style: const TextStyle(color: activeColor)),
       onPressed: () {
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
     );
@@ -280,6 +278,7 @@ class _TableItemState extends State<TableItem> {
           style: const TextStyle(color: activeColor)),
       onPressed: () {
         Navigator.of(context).pop();
+        Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
@@ -295,9 +294,9 @@ class _TableItemState extends State<TableItem> {
       },
     );
     AlertDialog alert = AlertDialog(
-      title: Text('change_order.change_order_dialog_title'.tr()),
-      content: Text(
-          'change_order.change_order_dialog_message'.tr(args: [tableName])),
+      title: Text('split_order.split_order_dialog_title'.tr()),
+      content:
+          Text('split_order.split_order_dialog_message'.tr(args: [tableName])),
       actions: [
         cancelButton,
         continueButton,
@@ -318,6 +317,7 @@ class _TableItemState extends State<TableItem> {
       child: Text("dialog.cancel".tr(),
           style: const TextStyle(color: activeColor)),
       onPressed: () {
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
     );

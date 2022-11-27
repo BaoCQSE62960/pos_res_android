@@ -106,7 +106,9 @@ class OrderDetailInfo extends StatelessWidget {
           onPressed: (context) {
             orderBloc.add(
                 ServedACheckDetail(checkdetailid: checkDetail.checkdetailid));
-            orderBloc.add(LoadData(checkid: orderBloc.state.checkId));
+            orderBloc.add(LoadData(
+                checkid: orderBloc.state.checkId,
+                tableid: orderBloc.state.tableId));
           },
           backgroundColor: activeColor,
           foregroundColor: Colors.white,
@@ -473,7 +475,8 @@ class OrderDetailInfo extends StatelessWidget {
                                   orderBloc.add(VoidACheckDetail(
                                       checkdetailid: checkdetailid));
                                   orderBloc.add(LoadData(
-                                      checkid: orderBloc.state.checkId));
+                                      checkid: orderBloc.state.checkId,
+                                      tableid: orderBloc.state.tableId));
                                   Navigator.pop(context);
                                 },
                               ),

@@ -78,19 +78,6 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             content: Stack(
               children: <Widget>[
-                Positioned(
-                  right: 5.0,
-                  top: 5.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
                 Form(
                   key: widget._formKeyCustomer,
                   child: Padding(
@@ -151,26 +138,58 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
                                 prefixIcon: const Icon(Icons.event_seat)),
                           ),
                         ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: CustomElevatedButton(
-                            text: 'order.confirm'.tr(),
-                            callback: () {
-                              if (widget.status == "ACTIVE") {
-                                if (widget._formKeyCustomer.currentState!
-                                    .validate()) {
-                                  orderBloc.add(UpdateInfo(
-                                      guestname: guestNameController.text,
-                                      cover: coverController.text.isEmpty
-                                          ? 0
-                                          : int.parse(coverController.text)));
-                                  Navigator.pop(context);
-                                }
-                              } else {
-                                Navigator.of(context).pop();
-                              }
-                            },
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: CustomElevatedButton(
+                                    text: 'order.confirm'.tr(),
+                                    callback: () {
+                                      if (widget.status == "ACTIVE") {
+                                        if (widget
+                                            ._formKeyCustomer.currentState!
+                                            .validate()) {
+                                          orderBloc.add(UpdateInfo(
+                                              guestname:
+                                                  guestNameController.text,
+                                              cover: coverController
+                                                      .text.isEmpty
+                                                  ? 0
+                                                  : int.parse(
+                                                      coverController.text)));
+                                          Navigator.pop(context);
+                                        }
+                                      } else {
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  // width: double.infinity,
+                                  child: CustomElevatedButton(
+                                    buttonColors: voidColor,
+                                    text: 'order.close'.tr(),
+                                    callback: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
@@ -234,26 +253,50 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
                               prefixIcon: const Icon(Icons.note)),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: CustomElevatedButton(
-                            text: 'order.confirm'.tr(),
-                            callback: () {
-                              if (widget.status == "ACTIVE") {
-                                if (widget._formKeyNote.currentState!
-                                    .validate()) {
-                                  orderBloc.add(
-                                      UpdateNote(note: noteController.text));
-                                  Navigator.pop(context);
-                                }
-                              } else {
-                                Navigator.of(context).pop();
-                              }
-                            },
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    if (widget.status == "ACTIVE") {
+                                      if (widget._formKeyNote.currentState!
+                                          .validate()) {
+                                        orderBloc.add(UpdateNote(
+                                            note: noteController.text));
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                // width: double.infinity,
+                                child: CustomElevatedButton(
+                                  buttonColors: voidColor,
+                                  text: 'order.close'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),

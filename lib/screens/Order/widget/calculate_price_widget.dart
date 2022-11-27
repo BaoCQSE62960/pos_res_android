@@ -168,7 +168,7 @@ Container calculatePriceWidget(
                   if (status == "ACTIVE") {
                     orderBloc.add(SendOrder());
                     orderBloc.add(LoadData(
-                        // tableid: orderBloc.state.tableId,
+                        tableid: orderBloc.state.tableId,
                         checkid: orderBloc.state.checkId));
                   } else {
                     msg = "Không thể cập nhật";
@@ -616,21 +616,43 @@ Future<dynamic> voidReasonDialog(BuildContext context, int checkdetailid) {
                                   ),
                                 ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: CustomElevatedButton(
-                              text: 'order.confirm'.tr(),
-                              callback: () {
-                                orderBloc.add(VoidACheck(
-                                    checkid: orderBloc.state.checkId));
-                                Navigator.of(context)
-                                    .pushNamed('/tableoverview');
-                              },
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  child: CustomElevatedButton(
+                                    text: 'order.confirm'.tr(),
+                                    callback: () {
+                                      orderBloc.add(VoidACheck(
+                                          checkid: orderBloc.state.checkId));
+                                      Navigator.of(context)
+                                          .pushNamed('/tableoverview');
+                                    },
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  child: CustomElevatedButton(
+                                    buttonColors: voidColor,
+                                    text: 'order.close'.tr(),
+                                    callback: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),

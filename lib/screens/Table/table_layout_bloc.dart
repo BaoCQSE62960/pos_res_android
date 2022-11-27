@@ -23,7 +23,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     on<ChangeTableProcess>(_mapChangeTableProcessEventToStage);
     on<SplitOrderProcess>(_mapSplitOrderProcessEventToStage);
     on<ChangeFilter>(_mapChangeFilterProcessEventToStage);
-    on<OpenTable>(_mapOpenTableProcessEventToStage);
+    // on<OpenTable>(_mapOpenTableProcessEventToStage);
     on<LoadData>(_loadData);
   }
 
@@ -233,20 +233,20 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     }
   }
 
-  Future<void> _mapOpenTableProcessEventToStage(
-      OpenTable event, Emitter<TableLayoutState> emit) async {
-    emit(state.copywith(
-        tableItemStatus: TableItemStatus.loading,
-        currentProcessTableID: event.tableID));
-    try {
-      OpenTableDTO openTableDTO =
-          await tableOverviewRepository.openTable(event.tableID);
-      emit(state.copywith(
-          currentTableOpenID: openTableDTO.checkid,
-          tableItemStatus: TableItemStatus.success,
-          currentProcessTableID: 0));
-    } catch (error) {
-      emit(state.copywith(tableItemStatus: TableItemStatus.error));
-    }
-  }
+  // Future<void> _mapOpenTableProcessEventToStage(
+  //     OpenTable event, Emitter<TableLayoutState> emit) async {
+  //   emit(state.copywith(
+  //       tableItemStatus: TableItemStatus.loading,
+  //       currentProcessTableID: event.tableID));
+  //   try {
+  //     OpenTableDTO openTableDTO =
+  //         await tableOverviewRepository.openTable(event.tableID);
+  //     emit(state.copywith(
+  //         currentTableOpenID: openTableDTO.checkid,
+  //         tableItemStatus: TableItemStatus.success,
+  //         currentProcessTableID: 0));
+  //   } catch (error) {
+  //     emit(state.copywith(tableItemStatus: TableItemStatus.error));
+  //   }
+  // }
 }

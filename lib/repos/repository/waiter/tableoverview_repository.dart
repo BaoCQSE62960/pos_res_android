@@ -61,21 +61,6 @@ class TableOverviewRepositoryImpl extends TableOverviewService {
   }
 
   @override
-  Future<OpenTableDTO> openTable(int tableId) async {
-    headers = storage.getItem('headers');
-    http.Response response = await http.put(
-        Uri.parse(
-            uriConnect + "/tableoverview/open/table/" + tableId.toString()),
-        headers: headers);
-    var responseJson = json.decode(response.body);
-    if (response.statusCode == 200) {
-      return OpenTableDTO.fromJson(responseJson);
-    } else {
-      throw Exception('Failed to open table.');
-    }
-  }
-
-  @override
   Future<http.Response> splitCheck(SplitCheckDTO splitCheckDTO) async {
     headers = storage.getItem('headers');
     var body = json.encode(splitCheckDTO.toJson());

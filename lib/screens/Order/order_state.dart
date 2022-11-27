@@ -31,6 +31,7 @@ class OrderLayoutState extends Equatable {
       this.specialRequestNote = '',
       this.currentLocalID = 0,
       this.checkId = 0,
+      this.tableId = 0,
       this.percent = 10,
       List<MajorGroup>? listMajorGroups,
       Check? check,
@@ -69,10 +70,10 @@ class OrderLayoutState extends Equatable {
   List<CheckDetail> listSelectedCheckDetail;
   VoidReason selectedVoidReason;
   String specialRequestNote;
-  // ignore: prefer_typing_uninitialized_variables
-  final currentMode;
+  final CurrentMode currentMode;
   int currentLocalID;
   int checkId;
+  int tableId;
   int percent;
 
   @override
@@ -94,6 +95,7 @@ class OrderLayoutState extends Equatable {
         specialRequestNote,
         currentLocalID,
         checkId,
+        tableId,
         percent
       ];
 
@@ -115,6 +117,7 @@ class OrderLayoutState extends Equatable {
       String? specialRequestNote,
       int? currentLocalID,
       int? checkId,
+      int? tableId,
       int? percent,
       required OrderLayoutStatus orderLayoutStatus}) {
     return OrderLayoutState(
@@ -139,6 +142,7 @@ class OrderLayoutState extends Equatable {
         currentMode: currentMode ?? this.currentMode,
         currentLocalID: currentLocalID ?? this.currentLocalID,
         checkId: checkId ?? this.checkId,
+        tableId: tableId ?? this.tableId,
         percent: percent ?? this.percent,
         orderLayoutStatus: orderLayoutStatus);
   }

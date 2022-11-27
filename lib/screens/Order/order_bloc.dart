@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/itemDTO.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/specialrequestDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
@@ -105,6 +106,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             listVoidReason: listVoidReason,
             currentSelectedMenuID: listMenu[0].id,
             checkId: event.checkid,
+            tableId: event.tableid,
             listMajorGroups: listMajorGroups,
             listMenus: listMenu,
             listItems: listItem,
@@ -249,7 +251,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
         state.copywith(orderLayoutStatus: OrderLayoutStatus.loading),
       );
       // LoadData(tableid: state.tableId, checkid: state.checkId);
-      LoadData(checkid: state.checkId);
+      LoadData(checkid: state.checkId, tableid: state.tableId);
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }
@@ -264,8 +266,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       emit(
         state.copywith(orderLayoutStatus: OrderLayoutStatus.success),
       );
-      // LoadData(tableid: state.tableId, checkid: state.checkId);
-      LoadData(checkid: state.checkId);
+      LoadData(checkid: state.checkId, tableid: state.tableId);
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }
@@ -377,6 +378,19 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   void _addItem(AddItem event, Emitter<OrderLayoutState> emit) async {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     try {
+      if (state.checkId == 0) {
+        OpenTableDTO openTableDTO =
+            await checkRepository.openTable(state.tableId);
+        final Check check =
+            await checkRepository.getCheckByID(openTableDTO.checkid.toString());
+        final TableInfo tableInfo = await tableInfoRepository
+            .getTableInfoByCheckID(openTableDTO.checkid.toString());
+        emit(state.copywith(
+            checkId: openTableDTO.checkid,
+            check: check,
+            tableInfo: tableInfo,
+            orderLayoutStatus: OrderLayoutStatus.loading));
+      }
       if (event.item.instock) {
         CheckDetail detail = CheckDetail(
             checkdetailidLocal: state.currentLocalID++,

@@ -4,8 +4,6 @@ import 'package:pos_res_android/screens/Table/utils/selected_mode_enum.dart';
 
 enum TableLayoutStatus { initial, success, error, loading, selected }
 
-enum TableItemStatus { initial, success, error, loading, selected }
-
 enum TableLayoutFilter { all, ready, waiting, voided }
 
 extension TableLayoutStatusX on TableLayoutStatus {
@@ -16,19 +14,10 @@ extension TableLayoutStatusX on TableLayoutStatus {
   bool get isSelected => this == TableLayoutStatus.selected;
 }
 
-extension TableItemStatusX on TableItemStatus {
-  bool get isInitial => this == TableItemStatus.initial;
-  bool get isSuccess => this == TableItemStatus.success;
-  bool get isError => this == TableItemStatus.error;
-  bool get isLoading => this == TableItemStatus.loading;
-  bool get isSelected => this == TableItemStatus.selected;
-}
-
 // ignore: must_be_immutable
 class TableLayoutState extends Equatable {
   TableLayoutState(
       {this.tableLayoutStatus = TableLayoutStatus.initial,
-      this.tableItemStatus = TableItemStatus.initial,
       this.currentSelectedMode = SelectedMode.NONE,
       this.currentLocationID = 0,
       this.currentTableOpenID = 0,
@@ -39,7 +28,6 @@ class TableLayoutState extends Equatable {
       : tableOverview = tableOverview ?? TableOverview.EMPTY;
   final SelectedMode currentSelectedMode;
   final TableLayoutStatus tableLayoutStatus;
-  final TableItemStatus tableItemStatus;
   final TableOverview tableOverview;
   final TableLayoutFilter currentFilter;
   int currentLocationID;
@@ -52,7 +40,6 @@ class TableLayoutState extends Equatable {
         currentSelectedMode,
         tableOverview,
         tableLayoutStatus,
-        tableItemStatus,
         currentLocationID,
         currentFilter,
         currentTableOpenID,
@@ -63,7 +50,6 @@ class TableLayoutState extends Equatable {
   TableLayoutState copywith(
       {SelectedMode? currentSelectedMode,
       TableLayoutStatus? tableLayoutStatus,
-      TableItemStatus? tableItemStatus,
       TableOverview? tableOverview,
       int? currentLocationID,
       int? currentTableOpenID,
@@ -73,7 +59,6 @@ class TableLayoutState extends Equatable {
       TableLayoutFilter? currentFilter}) {
     return TableLayoutState(
         tableLayoutStatus: tableLayoutStatus ?? this.tableLayoutStatus,
-        tableItemStatus: tableItemStatus ?? this.tableItemStatus,
         tableOverview: tableOverview ?? this.tableOverview,
         currentSelectedMode: currentSelectedMode ?? this.currentSelectedMode,
         currentLocationID: currentLocationID ?? this.currentLocationID,

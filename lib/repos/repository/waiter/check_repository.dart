@@ -5,8 +5,10 @@ import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/checkDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/voidreasonDTO.dart';
 import 'package:pos_res_android/repos/services/waiter/check_service.dart';
+import 'package:http/http.dart' as http;
 
 class CheckRepositoryImpl extends CheckService {
   String uriConnect = uri;
@@ -26,6 +28,21 @@ class CheckRepositoryImpl extends CheckService {
       return Check.EMPTY;
     } else {
       throw Exception('Failed to get check.');
+    }
+  }
+
+  @override
+  Future<OpenTableDTO> openTable(int tableId) async {
+    headers = storage.getItem('headers');
+    http.Response response = await http.put(
+        Uri.parse(
+            uriConnect + "/tableoverview/open/table/" + tableId.toString()),
+        headers: headers);
+    var responseJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      return OpenTableDTO.fromJson(responseJson);
+    } else {
+      throw Exception('Failed to open table.');
     }
   }
 

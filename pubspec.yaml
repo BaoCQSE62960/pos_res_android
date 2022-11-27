@@ -48,9 +48,7 @@ dependencies:
   data_table_2: ^2.3.8
   webview_flutter: ^2.0.13
   crypto: ^3.0.2
-  # flutter_format_money_vietnam: ^0.0.2
-  numberpicker: ^2.1.1
-  # flutter_webview_plugin: ^0.4.0
+
 
 dev_dependencies:
   flutter_test:

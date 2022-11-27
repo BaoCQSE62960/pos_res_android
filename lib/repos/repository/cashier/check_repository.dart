@@ -32,11 +32,16 @@ class CheckRepository {
         headers: headers);
 
     if (res.statusCode == 200) {
-      Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get check item successful');
-      List<CheckItem> list = ListCheckItemDetail.fromJson([body]).list;
-      print('Map check item successful');
-      return list;
+      if (!res.body.isEmpty) {
+        Map<String, dynamic> body = jsonDecode(res.body);
+        print('Get check item successful');
+        List<CheckItem> list = ListCheckItemDetail.fromJson([body]).list;
+        print('Map check item successful');
+        return list;
+      } else {
+        List<CheckItem> list = [];
+        return list;
+      }
     } else {
       throw Exception('cautch at getCheckItem');
     }

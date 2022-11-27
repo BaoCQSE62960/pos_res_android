@@ -32,8 +32,10 @@ class _OrderGeneralInfoState extends State<OrderGeneralInfo> {
           Text(
             'order.open_time'.tr() +
                 ' ' +
-                newFormat
-                    .format(DateTime.parse(orderBloc.state.check.creationtime)),
+                (orderBloc.state.check.creationtime.isNotEmpty
+                    ? newFormat.format(
+                        DateTime.parse(orderBloc.state.check.creationtime))
+                    : ''),
             style: const TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 15,

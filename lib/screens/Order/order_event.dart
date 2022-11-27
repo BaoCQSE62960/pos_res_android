@@ -16,9 +16,10 @@ class OrderLayoutEvent extends Equatable {
 }
 
 class LoadData extends OrderLayoutEvent {
-  LoadData({required this.checkid, this.searchQuery});
+  LoadData({required this.checkid, this.tableid, this.searchQuery});
 
   final int checkid;
+  final int? tableid;
   final String? searchQuery;
 }
 

@@ -11,6 +11,7 @@ import 'package:pos_res_android/repos/models/cashier/check.dart'
     as cashierCheck;
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
+import 'package:pos_res_android/repos/models/waiter/tabledetail.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';
@@ -33,9 +34,11 @@ import 'package:pos_res_android/screens/Payment/payment_body.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key, required this.checkid, required this.loginMsg})
+  const OrderScreen(
+      {Key? key, this.tableid, required this.checkid, required this.loginMsg})
       : super(key: key);
   final String loginMsg;
+  final int? tableid;
   final int checkid;
 
   @override
@@ -65,20 +68,25 @@ class _OrderScreenState extends State<OrderScreen> {
   getCheckItemStatus(int checkId) async {
     checkItem = await checkService.getCheckItem(checkId);
     setState(() {
-      checkStatus = checkItem[0].status;
-      employee = checkItem[0].manageby;
-      if (checkStatus == "ACTIVE") {
-        isActive = true;
-        isPayment = false;
-        isvoid = false;
-      } else if (checkStatus == "CLOSED") {
-        isActive = false;
-        isPayment = true;
-        isvoid = false;
-      } else if (checkStatus == "VOID") {
-        isActive = false;
-        isPayment = false;
-        isvoid = true;
+      if (checkItem.isNotEmpty) {
+        checkStatus = checkItem[0].status;
+        employee = checkItem[0].manageby;
+        if (checkStatus == "ACTIVE") {
+          isActive = true;
+          isPayment = false;
+          isvoid = false;
+        } else if (checkStatus == "CLOSED") {
+          isActive = false;
+          isPayment = true;
+          isvoid = false;
+        } else if (checkStatus == "VOID") {
+          isActive = false;
+          isPayment = false;
+          isvoid = true;
+        }
+      } else {
+        checkStatus = 'INACTIVE';
+        employee = '';
       }
     });
   }
@@ -118,8 +126,7 @@ class _OrderScreenState extends State<OrderScreen> {
                   specialRequestsRepository: SpecialRequestsRepositoryImpl(),
                   voidReasonRepository: VoidReasonRepositoryImpl())
                 ..add(LoadData(
-                    // checkid: widget.table.checkid, tableid: widget.table.id))),
-                    checkid: widget.checkid))),
+                    checkid: widget.checkid, tableid: widget.tableid))),
           BlocProvider(
             create: (context) => TableLayoutBloc(
                 tableOverviewRepository: TableOverviewRepositoryImpl()),
@@ -146,7 +153,6 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   Expanded buildOrderPaymentWidget(BuildContext context) {
-    // Implement layout for payment here.
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     Check check = orderBloc.state.check;
     if (null == storage.getItem(check.checkid.toString())) {
@@ -279,7 +285,11 @@ class _OrderScreenState extends State<OrderScreen> {
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
-                            if (checkStatus == "ACTIVE") {
+                            if (checkStatus == "ACTIVE" ||
+                                checkStatus == 'INACTIVE') {
+                              setState(() {
+                                checkStatus = 'ACTIVE';
+                              });
                               orderBloc
                                   .add(AddItem(item: state.listItems[index]));
                             } else {
@@ -306,63 +316,65 @@ class _OrderScreenState extends State<OrderScreen> {
                     ),
                     flex: 7,
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(defaultPadding * 0.5),
-                      child: Container(
-                        color: textLightColor,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: defaultPadding),
-                                child: Text(
-                                  employee.toUpperCase(),
-                                  style: const TextStyle(
-                                      color: activeColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              flex: 18,
-                            ),
-                            Expanded(
+                  employee.isEmpty
+                      ? const SizedBox()
+                      : Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(defaultPadding * 0.5),
+                            child: Container(
+                              color: textLightColor,
                               child: Row(
                                 children: [
-                                  Visibility(
-                                    visible: isActive,
-                                    child: const Icon(
-                                      Icons.lock_open,
-                                      size: defaultPadding * 2,
-                                      color: activeColor,
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: defaultPadding),
+                                      child: Text(
+                                        employee.toUpperCase(),
+                                        style: const TextStyle(
+                                            color: activeColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
+                                    flex: 18,
                                   ),
-                                  Visibility(
-                                    visible: isPayment,
-                                    child: const Icon(
-                                      Icons.lock_outline,
-                                      size: defaultPadding * 2,
-                                      color: activeColor,
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Visibility(
+                                          visible: isActive,
+                                          child: const Icon(
+                                            Icons.lock_open,
+                                            size: defaultPadding * 2,
+                                            color: activeColor,
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: isPayment,
+                                          child: const Icon(
+                                            Icons.lock_outline,
+                                            size: defaultPadding * 2,
+                                            color: activeColor,
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: isvoid,
+                                          child: const Icon(
+                                            Icons.cancel_outlined,
+                                            size: defaultPadding * 2,
+                                            color: activeColor,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Visibility(
-                                    visible: isvoid,
-                                    child: const Icon(
-                                      Icons.cancel_outlined,
-                                      size: defaultPadding * 2,
-                                      color: activeColor,
-                                    ),
-                                  ),
+                                    flex: 1,
+                                  )
                                 ],
                               ),
-                              flex: 1,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    flex: 1,
-                  )
+                            ),
+                          ),
+                          flex: 1,
+                        )
                 ]),
               ))
         ]),

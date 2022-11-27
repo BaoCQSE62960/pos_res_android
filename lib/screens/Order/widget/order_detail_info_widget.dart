@@ -177,6 +177,7 @@ class OrderDetailInfo extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   ActionPane RemindOrderActionPane(
       CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
@@ -324,6 +325,7 @@ class OrderDetailInfo extends StatelessWidget {
                                                 .listSpecialRequest[index]
                                                 .name),
                                             value:
+                                                // ignore: todo
                                                 !isLocal //TODO Server not return ID of special request, currently check by name.
                                                     ? (currentCheck
                                                         .specialRequest

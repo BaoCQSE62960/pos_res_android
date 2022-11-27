@@ -22,13 +22,15 @@ class _SideBarState extends State<SideBar> {
 
   getCurrentUserRole() async {
     currentUserRole = await service.getRole();
-    if (currentUserRole[1].toString().contains("CASHIER")) {
-      role = "CASHIER";
-      isCashier = true;
-    } else {
-      role = "";
-      isCashier = false;
-    }
+    setState(() {
+      if (currentUserRole[1].toString().contains("CASHIER")) {
+        role = "CASHIER";
+        isCashier = true;
+      } else {
+        role = "";
+        isCashier = false;
+      }
+    });
   }
 
   Future logoutFromSystem() async {

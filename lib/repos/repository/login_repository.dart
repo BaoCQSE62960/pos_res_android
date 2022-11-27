@@ -35,28 +35,40 @@ class LoginRepository {
   }
 
   //get image
-  Future getLogo() async {
-    String url = "";
-    List split = [];
-
-    Response res = await get(Uri.parse(uriConnect + '/login'),
+  Future<String> getLogo() async {
+    String result = "";
+    Response res = await get(Uri.parse(uriConnect + '/login/'),
         headers: {"Content-Type": "application/json"});
-    print(res.statusCode);
     if (res.statusCode == 200) {
-      url = res.body;
-      if (url.contains("restaurantimage")) {
-        split = url.split(':');
-        url = split[1] + ":" + split[2];
-      }
-      split = url.split('"');
-      url = split[1];
-      _updateCookie(res);
-      print("get logo" + res.body);
+      result = jsonDecode(res.body)['restaurantimage'] as String;
+      print(res.body);
     } else {
-      print("msg: " + res.body);
+      return "";
     }
-    return url;
+    return result;
   }
+  // Future getLogo() async {
+  //   String url = "";
+  //   List split = [];
+
+  //   Response res = await get(Uri.parse(uriConnect + '/login'),
+  //       headers: {"Content-Type": "application/json"});
+  //   print(res.statusCode);
+  //   if (res.statusCode == 200) {
+  //     url = res.body;
+  //     if (url.contains("restaurantimage")) {
+  //       split = url.split(':');
+  //       url = split[1] + ":" + split[2];
+  //     }
+  //     split = url.split('"');
+  //     url = split[1];
+  //     _updateCookie(res);
+  //     print("get logo" + res.body);
+  //   } else {
+  //     print("msg: " + res.body);
+  //   }
+  //   return url;
+  // }
 
   //get shift
   Future<List<Shift>> getShifts() async {

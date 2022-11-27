@@ -8,7 +8,6 @@ import 'package:pos_res_android/repos/services/cashier/check_service.dart';
 import 'package:pos_res_android/repos/services/login_service.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Transaction/widget/transaction_tab.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 class ViewListChecks extends StatefulWidget {
   final List<Check> list;
@@ -34,6 +33,7 @@ class _ViewListChecksState extends State<ViewListChecks> {
   // int? sortColumnIndex;
   // bool isAscending = false;
   final newFormat = DateFormat('yyyy-MM-dd');
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
   List<Widget> status = <Widget>[
     const Text('Hoạt động'),
@@ -269,9 +269,9 @@ class _ViewListChecksState extends State<ViewListChecks> {
                     DataCell(Text(tableNameShow)),
                     DataCell(Text(checkFilter.locationname)),
                     DataCell(
-                        Text(checkFilter.totaltax.round().toVND(unit: ""))),
-                    DataCell(
-                        Text(checkFilter.totalamount.round().toVND(unit: ""))),
+                        Text(moneyFormat.format(checkFilter.totaltax.round()))),
+                    DataCell(Text(
+                        moneyFormat.format(checkFilter.totalamount.round()))),
                     DataCell(Text(statusShow)),
                   ],
                   onLongPress: () async {

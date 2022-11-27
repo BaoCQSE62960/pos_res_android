@@ -73,7 +73,7 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            contentPadding: EdgeInsets.all(0),
+            contentPadding: const EdgeInsets.all(0),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             content: Stack(

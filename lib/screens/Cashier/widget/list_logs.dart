@@ -8,7 +8,6 @@ import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/log.dart';
 import 'package:pos_res_android/repos/services/cashier/log_service.dart';
 import 'package:pos_res_android/screens/Cashier/widget/update_amount_popup.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 class ViewListCashierLog extends StatefulWidget {
   final List<CashierLog> list;
@@ -37,6 +36,7 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
   int? sortColumnIndex;
   bool isAscending = false;
   final newFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
   Future<void> _updateAmount(CashierLog log) async {
     return showDialog<void>(
@@ -205,7 +205,7 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                       DataCell(Text(logFilter.shiftname)),
                       DataCell(Text(newFormat.format(logFilter.creationtime))),
                       DataCell(Text(typeShow)),
-                      DataCell(Text(logFilter.amount.toVND(unit: ""))),
+                      DataCell(Text(moneyFormat.format(logFilter.amount))),
                       DataCell(
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,

@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:pos_res_android/repos/models/cashier/bill.dart';
 
 class BillPaymentItemDetail extends StatefulWidget {
@@ -15,6 +15,7 @@ class BillPaymentItemDetail extends StatefulWidget {
 class _BillPaymentItemDetailState extends State<BillPaymentItemDetail> {
   List<BillPayment> billPayment = [];
   num amountShow = 0;
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
   @override
   void initState() {
@@ -75,9 +76,8 @@ class _BillPaymentItemDetailState extends State<BillPaymentItemDetail> {
                                   Row(
                                     children: [
                                       Text(
-                                          billPayment[index]
-                                              .amountreceive
-                                              .toVND(unit: ""),
+                                          moneyFormat.format(
+                                              billPayment[index].amountreceive),
                                           style: TextStyle(
                                               color: textColor2,
                                               fontWeight: FontWeight.bold)),
@@ -115,7 +115,7 @@ class _BillPaymentItemDetailState extends State<BillPaymentItemDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            amountShow.toVND(unit: ""),
+                            moneyFormat.format(amountShow),
                             style: TextStyle(
                                 color: textColor2,
                                 fontWeight: FontWeight.bold,

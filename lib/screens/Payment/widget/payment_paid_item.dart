@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_action_button.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 // ignore: must_be_immutable
 class PaymentPaidItem extends StatefulWidget {
@@ -23,6 +23,8 @@ class PaymentPaidItem extends StatefulWidget {
 class _PaymentPaidItemState extends State<PaymentPaidItem> {
   late List<PaymentProcess> paidList;
   late int checkId;
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
+
   @override
   void initState() {
     super.initState();
@@ -82,7 +84,7 @@ class _PaymentPaidItemState extends State<PaymentPaidItem> {
                               Row(
                                 children: [
                                   Text(
-                                    payment.amount.toVND(unit: ""),
+                                    moneyFormat.format(payment.amount),
                                     style: TextStyle(
                                       color: textColor2,
                                       fontSize: defaultSize * 4,
@@ -125,7 +127,7 @@ class _PaymentPaidItemState extends State<PaymentPaidItem> {
                       ),
                       const Spacer(),
                       Text(
-                        total.toVND(unit: ""),
+                        moneyFormat.format(total),
                         style: TextStyle(
                           color: textColor2,
                           fontSize: defaultSize * 5,

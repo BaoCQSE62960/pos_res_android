@@ -7,7 +7,6 @@ import 'package:pos_res_android/repos/models/cashier/bill.dart';
 import 'package:pos_res_android/repos/services/cashier/bill_service.dart';
 import 'package:pos_res_android/screens/Bill/bill_detail_screen.dart';
 import 'package:pos_res_android/screens/Transaction/widget/bill_tab.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 
 class ViewListBills extends StatefulWidget {
   final List<Bill> list;
@@ -31,6 +30,7 @@ class _ViewListBillsState extends State<ViewListBills> {
   String statusFilter = "";
   String msg = "";
   final newFormat = DateFormat('yyyy-MM-dd');
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
   List<Widget> status = <Widget>[
     const Text('Đóng'),
@@ -244,10 +244,10 @@ class _ViewListBillsState extends State<ViewListBills> {
                       DataCell(Text(billFilter.billno)),
                       DataCell(Text(billFilter.tablename)),
                       DataCell(Text(billFilter.locationname)),
-                      DataCell(
-                          Text(billFilter.totaltax.round().toVND(unit: ""))),
-                      DataCell(
-                          Text(billFilter.totalamount.round().toVND(unit: ""))),
+                      DataCell(Text(
+                          moneyFormat.format(billFilter.totaltax.round()))),
+                      DataCell(Text(
+                          moneyFormat.format(billFilter.totalamount.round()))),
                       DataCell(Text(statusShow)),
                     ],
                     onLongPress: () async {

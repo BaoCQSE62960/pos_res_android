@@ -13,7 +13,6 @@ import 'package:pos_res_android/screens/Order/order.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_button.dart';
 import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.dart';
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
-import 'package:pos_res_android/screens/Order/widget/number_picker.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart'
     as TableEvent;

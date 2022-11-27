@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:pos_res_android/repos/models/cashier/bill.dart';
 
 // ignore: must_be_immutable
@@ -18,6 +17,7 @@ class _BillItemDetailState extends State<BillItemDetail> {
   num subTotalShow = 0;
   num taxShow = 0;
   num amountShow = 0;
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
   @override
   void initState() {
@@ -104,7 +104,8 @@ class _BillItemDetailState extends State<BillItemDetail> {
                                   ),
                                   const Spacer(),
                                   Text(
-                                    billDetail[index].subtotal.toVND(unit: ""),
+                                    moneyFormat
+                                        .format(billDetail[index].subtotal),
                                     style: TextStyle(
                                         color: textColor2,
                                         fontWeight: FontWeight.bold),
@@ -137,7 +138,7 @@ class _BillItemDetailState extends State<BillItemDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            subTotalShow.toVND(unit: ""),
+                            moneyFormat.format(subTotalShow),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           ),
@@ -152,7 +153,7 @@ class _BillItemDetailState extends State<BillItemDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            taxShow.toVND(unit: ""),
+                            moneyFormat.format(taxShow),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           )
@@ -172,7 +173,7 @@ class _BillItemDetailState extends State<BillItemDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            amountShow.toVND(unit: ""),
+                            moneyFormat.format(amountShow),
                             style: TextStyle(
                                 color: textColor2,
                                 fontWeight: FontWeight.bold,

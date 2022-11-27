@@ -29,10 +29,11 @@ class _PaymentMethodItemState extends State<PaymentMethodItem> {
   @override
   Widget build(BuildContext context) {
     if (payment.isSelected) {
-      currentColor = selectedColor;
-    } else {
       currentColor = selectColor;
+    } else {
+      currentColor = selectedColor;
     }
+
     return Container(
       // margin: const EdgeInsets.all(defaultPadding * 0.25),
       decoration: BoxDecoration(

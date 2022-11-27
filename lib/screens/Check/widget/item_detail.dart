@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:pos_res_android/repos/models/cashier/check.dart';
 
 // ignore: must_be_immutable
@@ -14,6 +13,7 @@ class CheckItemDetail extends StatefulWidget {
 }
 
 class _CheckItemDetailState extends State<CheckItemDetail> {
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
   List<CheckDetailModel> checkDetail = [];
   num subTotalShow = 0;
   num taxShow = 0;
@@ -118,9 +118,8 @@ class _CheckItemDetailState extends State<CheckItemDetail> {
                                   Row(
                                     children: [
                                       Text(
-                                          checkDetail[index]
-                                              .subtotal
-                                              .toVND(unit: ""),
+                                          moneyFormat.format(
+                                              checkDetail[index].subtotal),
                                           style: TextStyle(
                                               color: textColor2,
                                               fontWeight: FontWeight.bold)),
@@ -154,7 +153,7 @@ class _CheckItemDetailState extends State<CheckItemDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            subTotalShow.toVND(unit: ""),
+                            moneyFormat.format(subTotalShow),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           ),
@@ -169,7 +168,7 @@ class _CheckItemDetailState extends State<CheckItemDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            taxShow.toVND(unit: ""),
+                            moneyFormat.format(taxShow),
                             style: TextStyle(
                                 color: textColor2, fontWeight: FontWeight.bold),
                           )
@@ -189,7 +188,7 @@ class _CheckItemDetailState extends State<CheckItemDetail> {
                           ),
                           const Spacer(),
                           Text(
-                            amountShow.toVND(unit: ""),
+                            moneyFormat.format(amountShow),
                             style: TextStyle(
                                 color: textColor2,
                                 fontWeight: FontWeight.bold,

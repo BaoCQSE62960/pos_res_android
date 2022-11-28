@@ -120,22 +120,22 @@ class CustomQuantityButtonChangeOrder extends StatelessWidget {
 
   bool isAllowToUpdateQuantity(double currentQuantity, double availableQuantity,
       QuantityUpdateMode updateMode) {
-    if (currentQuantity < 1 || availableQuantity < 1) {
-      return false;
-    } else {
-      if (updateMode == QuantityUpdateMode.increase) {
-        if (currentQuantity == availableQuantity) {
-          return false;
-        } else {
-          return true;
-        }
-      } else if (updateMode == QuantityUpdateMode.decrease) {
-        if (currentQuantity == 1) {
-          return false;
-        } else {
-          return true;
-        }
+    // if (currentQuantity < 1 || availableQuantity < 1) {
+    //   return true;
+    // } else {
+    if (updateMode == QuantityUpdateMode.increase) {
+      if (currentQuantity == availableQuantity) {
+        return false;
+      } else {
+        return true;
       }
+    } else if (updateMode == QuantityUpdateMode.decrease) {
+      if (currentQuantity <= 1) {
+        return false;
+      } else {
+        return true;
+      }
+      // }
     }
     return false;
   }

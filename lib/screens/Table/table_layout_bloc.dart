@@ -152,8 +152,7 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     try {
       List<DetailListItemDTO> detailListItemDTO = event.listCheckDetail
           .map((e) => DetailListItemDTO(
-              id: e.checkdetailid,
-              quantity: e.checkdetailquantityLocal.round()))
+              id: e.checkdetailid, quantity: e.checkdetailquantityLocal))
           .toList();
       TransferCheckDTO transferCheckDTO = TransferCheckDTO(
           currentTableID: event.currentCheckID,

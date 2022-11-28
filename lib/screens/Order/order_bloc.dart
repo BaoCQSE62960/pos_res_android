@@ -85,8 +85,10 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       final List<MajorGroup> listMajorGroups =
           await majorGroupRepository.getMajorGroups();
       final List<Menu> listMenu = await menuRepository.getMenu();
-      final List<Item> listItem = await itemRepository
-          .getItemByMenuID(state.currentSelectedMenuID.toString());
+      final List<Item> listItem = await itemRepository.getItemByMenuID(
+          state.currentSelectedMenuID == 0
+              ? listMenu[0].id.toString()
+              : state.currentSelectedMenuID.toString());
       final List<VoidReason> listVoidReason =
           await voidReasonRepository.getVoidReason();
       final Check check = event.checkid == 0
@@ -331,11 +333,12 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
           (element) => element.checkdetailid == event.checkDetailID);
       double quantity = checkDetail.checkdetailquantityLocal;
       quantity = event.mode == ChangeOrder.QuantityUpdateMode.increase
-          ? quantity = quantity + 1
-          : quantity == 1
-              ? 1
-              : quantity = quantity - 1;
-      checkDetail.checkdetailquantityLocal = quantity;
+          ? quantity = quantity + 1.0
+          : quantity == 1.0
+              ? 1.0
+              : quantity = quantity - 1.0;
+      checkDetail.checkdetailquantityLocal =
+          double.parse(quantity.toStringAsFixed(2));
       List<CheckDetail> updatedCheckDetail = state.listSelectedCheckDetail;
       updatedCheckDetail[updatedCheckDetail.indexOf(
               updatedCheckDetail.firstWhere(

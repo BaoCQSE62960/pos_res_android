@@ -253,7 +253,7 @@ Future<dynamic> showChangeBottomSheet(BuildContext context) {
                 onTap: () {
                   if (orderBloc.state.check.checkDetail
                       .any((element) => element.status != 'SERVED')) {
-                    msg = "Có lỗi trong quá trình chia đơn.";
+                    msg = "Vẫn còn món chưa xử lý";
                     _simpleFailDialog(context);
                   } else {
                     tableBloc.add(TableEvent.SplitOrder());

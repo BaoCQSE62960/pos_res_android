@@ -281,24 +281,24 @@ class _PaymentBodyState extends State<PaymentBody> {
                             storage.setItem(check.checkid.toString(), paidList);
                           }
                           // else in lỗi
-                        } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
-                          // ignore: avoid_print
-                          print(amount);
-                          if (amount.substring(amount.length - 2) != "00") {
-                            msg = "Xin nhập số tiền hợp lệ";
-                            _simpleFailDialog();
-                          } else if (amount.substring(amount.length - 3) !=
-                                  "500" &&
-                              amount.substring(amount.length - 3) != "000") {
-                            msg = "Xin nhập số tiền hợp lệ";
-                            _simpleFailDialog();
-                          } else {
-                            paidList.add(PaymentProcess(
-                                id: payment.id,
-                                name: payment.name,
-                                amount: num.parse(amount).round()));
-                            storage.setItem(check.checkid.toString(), paidList);
-                          }
+                          // } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
+                          //   // ignore: avoid_print
+                          //   print(amount);
+                          //   if (amount.substring(amount.length - 2) != "00") {
+                          //     msg = "Xin nhập số tiền hợp lệ";
+                          //     _simpleFailDialog();
+                          //   } else if (amount.substring(amount.length - 3) !=
+                          //           "500" &&
+                          //       amount.substring(amount.length - 3) != "000") {
+                          //     msg = "Xin nhập số tiền hợp lệ";
+                          //     _simpleFailDialog();
+                          //   } else {
+                          //     paidList.add(PaymentProcess(
+                          //         id: payment.id,
+                          //         name: payment.name,
+                          //         amount: num.parse(amount).round()));
+                          //     storage.setItem(check.checkid.toString(), paidList);
+                          //   }
                         } else {
                           // ignore: avoid_print
                           print(amount);

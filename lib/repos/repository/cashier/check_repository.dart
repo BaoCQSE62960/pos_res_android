@@ -32,7 +32,7 @@ class CheckRepository {
         headers: headers);
 
     if (res.statusCode == 200) {
-      if (!res.body.isEmpty) {
+      if (res.body.isNotEmpty) {
         Map<String, dynamic> body = jsonDecode(res.body);
         print('Get check item successful');
         List<CheckItem> list = ListCheckItemDetail.fromJson([body]).list;

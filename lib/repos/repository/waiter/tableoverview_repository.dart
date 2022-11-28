@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
-import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/splitCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';

@@ -6,7 +6,6 @@ import 'package:pos_res_android/screens/Table/table_layout.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 // ignore: must_be_immutable
 class TableSection extends StatelessWidget {
@@ -35,36 +34,10 @@ class TableSection extends StatelessWidget {
           builder: (context, state) {
             return tableBloc.state.tableLayoutStatus.isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : (tableBloc.state.tableLayoutStatus.isError
-                    ? showErrorDialog(context)
-                    : TableLayout(
-                        context: context,
-                      ));
+                : (TableLayout(
+                    context: context,
+                  ));
           },
         ));
-  }
-
-  showErrorDialog(BuildContext context) {
-    final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
-    Widget continueButton = TextButton(
-      child:
-          Text("dialog.agree".tr(), style: const TextStyle(color: activeColor)),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    AlertDialog alert = AlertDialog(
-      title: Text('change_order.change_order_dialog_title'.tr()),
-      content: Text(tableBloc.state.message),
-      actions: [
-        continueButton,
-      ],
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 }

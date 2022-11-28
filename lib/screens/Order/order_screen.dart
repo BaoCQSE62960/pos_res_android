@@ -11,7 +11,6 @@ import 'package:pos_res_android/repos/models/cashier/check.dart'
     as cashierCheck;
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/repos/models/waiter/check.dart';
-import 'package:pos_res_android/repos/models/waiter/tabledetail.dart';
 import 'package:pos_res_android/repos/repository/waiter/check_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/item_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/majorgroup_repository.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
-import 'package:pos_res_android/repos/models/waiter/dto/openTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/splitCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';

@@ -388,10 +388,17 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
                               child: SizedBox(
                                 width: 200,
                                 child: CustomElevatedButton(
+                                  buttonColors: orderBloc.state
+                                          .listSelectedCheckDetail.isNotEmpty
+                                      ? activeColor
+                                      : deactiveColor,
                                   text: 'order.confirm'.tr(),
                                   callback: () {
-                                    Navigator.of(context).pop();
-                                    showTableBottomModal(context);
+                                    if (orderBloc.state.listSelectedCheckDetail
+                                        .isNotEmpty) {
+                                      Navigator.of(context).pop();
+                                      showTableBottomModal(context);
+                                    }
                                   },
                                 ),
                               ),
@@ -427,9 +434,6 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
   final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
   TextEditingController percentController = TextEditingController();
   final _formKeyNote = GlobalKey<FormState>();
-  // List<CheckDetail> list =
-  //     List<CheckDetail>.from(orderBloc.state.check.checkDetail);
-  // list.retainWhere((element) => !element.isLocal);
   return showDialog(
       context: context,
       builder: (BuildContext context) {

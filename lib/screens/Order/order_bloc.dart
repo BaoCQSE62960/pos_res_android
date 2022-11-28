@@ -394,27 +394,62 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             tableInfo: tableInfo,
             orderLayoutStatus: OrderLayoutStatus.loading));
       }
-      if (event.item.instock) {
+      if (event.item != null) {
+        if (event.item!.instock) {
+          CheckDetail detail = CheckDetail(
+              checkdetailidLocal: state.currentLocalID++,
+              checkdetailquantityLocal: 1,
+              isLocal: true,
+              checkdetailid: 0,
+              itemid: event.item!.id,
+              itemname: event.item!.name,
+              quantity: 1,
+              note: '',
+              isreminded: false,
+              amount: double.parse(event.item!.price.toString()),
+              status: 'LOCAL',
+              specialRequest: []);
+          state.check.checkDetail.insert(0, detail);
+          state.check.subtotal = state.check.subtotal + event.item!.price;
+          state.check.totaltax = state.check.totaltax +
+              calculateTaxValueForItem(
+                  double.parse(event.item!.price.toString()));
+          state.check.totalamount = state.check.totalamount +
+              event.item!.price +
+              calculateTaxValueForItem(
+                  double.parse(event.item!.price.toString()));
+          emit(state.copywith(
+              currentLocalID: state.currentLocalID++,
+              orderLayoutStatus: OrderLayoutStatus.success));
+        } else {
+          emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.success));
+        }
+      } else {
         CheckDetail detail = CheckDetail(
             checkdetailidLocal: state.currentLocalID++,
-            checkdetailquantityLocal: 1,
+            checkdetailquantityLocal:
+                event.checkDetail!.checkdetailquantityLocal,
             isLocal: true,
             checkdetailid: 0,
-            itemid: event.item.id,
-            itemname: event.item.name,
-            quantity: 1,
-            note: '',
+            itemid: event.checkDetail!.itemid,
+            itemname: event.checkDetail!.itemname,
+            quantity: event.checkDetail!.quantity,
+            note: event.checkDetail!.note,
             isreminded: false,
-            amount: double.parse(event.item.price.toString()),
+            amount: double.parse(
+                (event.checkDetail!.amount / event.checkDetail!.quantity)
+                    .toString()),
             status: 'LOCAL',
-            specialRequest: []);
+            specialRequest: event.checkDetail!.specialRequest);
         state.check.checkDetail.insert(0, detail);
-        state.check.subtotal = state.check.subtotal + event.item.price;
+        state.check.subtotal = state.check.subtotal + event.checkDetail!.amount;
         state.check.totaltax = state.check.totaltax +
-            calculateTaxValueForItem(double.parse(event.item.price.toString()));
+            calculateTaxValueForItem(
+                double.parse(event.checkDetail!.amount.toString()));
         state.check.totalamount = state.check.totalamount +
-            event.item.price +
-            calculateTaxValueForItem(double.parse(event.item.price.toString()));
+            event.checkDetail!.amount +
+            calculateTaxValueForItem(
+                double.parse(event.checkDetail!.amount.toString()));
         emit(state.copywith(
             currentLocalID: state.currentLocalID++,
             orderLayoutStatus: OrderLayoutStatus.success));
@@ -548,6 +583,17 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       RemoveLocalCheckDetail event, Emitter<OrderLayoutState> emit) {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     try {
+      CheckDetail checkDetail = state.check.checkDetail.firstWhere(
+          (element) => element.checkdetailidLocal == event.checkDetailID);
+      state.check.subtotal =
+          state.check.subtotal - (checkDetail.amount * checkDetail.quantity);
+      state.check.totaltax = state.check.totaltax -
+          calculateTaxValueForItem(double.parse(
+              (checkDetail.amount * checkDetail.quantity).toString()));
+      state.check.totalamount = state.check.totalamount -
+          (checkDetail.amount * checkDetail.quantity +
+              calculateTaxValueForItem(double.parse(
+                  (checkDetail.amount * checkDetail.quantity).toString())));
       state.check.checkDetail.removeWhere(
           (element) => element.checkdetailidLocal == event.checkDetailID);
       emit(

@@ -40,9 +40,10 @@ class ChangeMode extends OrderLayoutEvent {
 }
 
 class AddItem extends OrderLayoutEvent {
-  AddItem({required this.item});
+  AddItem({this.item, this.checkDetail});
 
-  final Item item;
+  Item? item;
+  CheckDetail? checkDetail;
 }
 
 class UpdateInfo extends OrderLayoutEvent {

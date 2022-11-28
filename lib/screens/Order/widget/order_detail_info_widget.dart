@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
@@ -24,6 +26,18 @@ class OrderDetailInfo extends StatelessWidget {
   // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
 
+  String msg = "";
+
+  Future<void> _simpleFailDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return WarningPopUp(msg: msg);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
@@ -36,23 +50,37 @@ class OrderDetailInfo extends StatelessWidget {
         },
         itemCount: orderBloc.state.check.checkDetail.length,
         itemBuilder: (context, index) {
-          return Slidable(
-            child: ActionItemList(
-                checkDetail: orderBloc.state.check.checkDetail[index],
-                name: orderBloc.state.check.checkDetail[index].itemname,
-                sepcialRequest: specialRequestProcess(
-                    orderBloc.state.check.checkDetail[index].specialRequest),
-                price: orderBloc.state.check.checkDetail[index].isLocal
-                    ? currencyFormat.format(
-                        orderBloc.state.check.checkDetail[index].amount *
-                            orderBloc.state.check.checkDetail[index].quantity)
-                    : currencyFormat.format(
-                        orderBloc.state.check.checkDetail[index].amount),
-                isDone: false),
-            startActionPane: startActionPaneBuilder(
-                orderBloc.state.check.checkDetail[index].status,
-                orderBloc.state.check.checkDetail[index],
-                orderBloc),
+          return GestureDetector(
+            onDoubleTap: () {
+              Item item = orderBloc.state.listItems.firstWhere((element) =>
+                  (orderBloc.state.check.checkDetail[index].itemid ==
+                      element.id));
+              if (item != null && item.instock) {
+                orderBloc.add(AddItem(
+                    checkDetail: orderBloc.state.check.checkDetail[index]));
+              } else {
+                msg = "Món hiện đang hết hàng";
+                _simpleFailDialog(context);
+              }
+            },
+            child: Slidable(
+              child: ActionItemList(
+                  checkDetail: orderBloc.state.check.checkDetail[index],
+                  name: orderBloc.state.check.checkDetail[index].itemname,
+                  sepcialRequest: specialRequestProcess(
+                      orderBloc.state.check.checkDetail[index].specialRequest),
+                  price: orderBloc.state.check.checkDetail[index].isLocal
+                      ? currencyFormat.format(
+                          orderBloc.state.check.checkDetail[index].amount *
+                              orderBloc.state.check.checkDetail[index].quantity)
+                      : currencyFormat.format(
+                          orderBloc.state.check.checkDetail[index].amount),
+                  isDone: false),
+              startActionPane: startActionPaneBuilder(
+                  orderBloc.state.check.checkDetail[index].status,
+                  orderBloc.state.check.checkDetail[index],
+                  orderBloc),
+            ),
           );
         },
       ),
@@ -344,12 +372,12 @@ class OrderDetailInfo extends StatelessWidget {
                                                         : state
                                                             .listSelectedSpecialRequest
                                                             .any((element) =>
-                                                                element.id ==
+                                                                element.name ==
                                                                 orderBloc
                                                                     .state
                                                                     .listSpecialRequest[
                                                                         index]
-                                                                    .id)),
+                                                                    .name)),
                                             onChanged: (value) {
                                               if (isLocal) {
                                                 orderBloc.add(
@@ -366,25 +394,50 @@ class OrderDetailInfo extends StatelessWidget {
                                     ),
                                   ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: CustomElevatedButton(
-                                buttonColors:
-                                    isLocal ? activeColor : deactiveColor,
-                                text: 'order.confirm'.tr(),
-                                callback: () {
-                                  if (isLocal) {
-                                    orderBloc.add(UpdateSpecialRequestForItem(
-                                        checkdetailid: checkdetailid,
-                                        note: noteController.text));
-                                    Navigator.of(context).pop();
-                                  }
-                                },
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5.0),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: CustomElevatedButton(
+                                      buttonColors:
+                                          isLocal ? activeColor : deactiveColor,
+                                      text: 'order.confirm'.tr(),
+                                      callback: () {
+                                        if (isLocal) {
+                                          orderBloc.add(
+                                              UpdateSpecialRequestForItem(
+                                                  checkdetailid: checkdetailid,
+                                                  note: noteController.text));
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5.0),
+                                  child: SizedBox(
+                                    // width: double.infinity,
+                                    child: CustomElevatedButton(
+                                      buttonColors: voidColor,
+                                      text: 'order.close'.tr(),
+                                      callback: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),

@@ -518,23 +518,46 @@ class OrderDetailInfo extends StatelessWidget {
                                     ),
                                   ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: CustomElevatedButton(
-                                text: 'order.confirm'.tr(),
-                                callback: () {
-                                  orderBloc.add(VoidACheckDetail(
-                                      checkdetailid: checkdetailid));
-                                  orderBloc.add(LoadData(
-                                      checkid: orderBloc.state.checkId,
-                                      tableid: orderBloc.state.tableId));
-                                  Navigator.pop(context);
-                                },
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5.0),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: CustomElevatedButton(
+                                      text: 'order.confirm'.tr(),
+                                      callback: () {
+                                        orderBloc.add(VoidACheckDetail(
+                                            checkdetailid: checkdetailid));
+                                        orderBloc.add(LoadData(
+                                            checkid: orderBloc.state.checkId,
+                                            tableid: orderBloc.state.tableId));
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5.0),
+                                  child: SizedBox(
+                                    // width: double.infinity,
+                                    child: CustomElevatedButton(
+                                      buttonColors: voidColor,
+                                      text: 'order.close'.tr(),
+                                      callback: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),

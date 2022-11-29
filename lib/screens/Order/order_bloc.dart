@@ -89,6 +89,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
           state.currentSelectedMenuID == 0
               ? listMenu[0].id.toString()
               : state.currentSelectedMenuID.toString());
+      final List<Item> listFullItem =
+          await itemRepository.getItemByMenuID(0.toString());
       final List<VoidReason> listVoidReason =
           await voidReasonRepository.getVoidReason();
       final Check check = event.checkid == 0
@@ -112,6 +114,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             listMajorGroups: listMajorGroups,
             listMenus: listMenu,
             listItems: listItem,
+            listFullItems: listFullItem,
             check: check,
             tableInfo: tableInfo,
             orderLayoutStatus: OrderLayoutStatus.success),

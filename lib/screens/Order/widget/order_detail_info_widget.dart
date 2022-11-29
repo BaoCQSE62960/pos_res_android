@@ -52,14 +52,15 @@ class OrderDetailInfo extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onDoubleTap: () {
-              Item item = orderBloc.state.listItems.firstWhere((element) =>
-                  (orderBloc.state.check.checkDetail[index].itemid ==
-                      element.id));
+              final Item? item = orderBloc.state.listFullItems.firstWhere(
+                  (element) =>
+                      (orderBloc.state.check.checkDetail[index].itemid ==
+                          element.id));
               if (item != null && item.instock) {
                 orderBloc.add(AddItem(
                     checkDetail: orderBloc.state.check.checkDetail[index]));
               } else {
-                msg = "Món hiện đang hết hàng";
+                msg = "Món hiện đang không khả dụng";
                 _simpleFailDialog(context);
               }
             },

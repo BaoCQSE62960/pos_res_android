@@ -39,6 +39,7 @@ class OrderLayoutState extends Equatable {
       Note? note,
       List<Menu>? listMenus,
       List<Item>? listItems,
+      List<Item>? listFullItems,
       List<SpecialRequests>? listSpecialRequest,
       List<VoidReason>? listVoidReason,
       List<SpecialRequests>? listSelectedSpecialRequest,
@@ -47,6 +48,7 @@ class OrderLayoutState extends Equatable {
       : listMajorGroups = listMajorGroups ?? const [],
         listMenus = listMenus ?? const [],
         listItems = listItems ?? const [],
+        listFullItems = listFullItems ?? const [],
         listSpecialRequest = listSpecialRequest ?? const [],
         listSelectedSpecialRequest = listSelectedSpecialRequest ?? const [],
         listSelectedCheckDetail = listSelectedCheckDetail ?? const [],
@@ -59,6 +61,7 @@ class OrderLayoutState extends Equatable {
   final List<MajorGroup> listMajorGroups;
   final List<Menu> listMenus;
   final List<Item> listItems;
+  final List<Item> listFullItems;
   final int currentSelectedMajorID;
   final int currentSelectedMenuID;
   final Check check;
@@ -82,6 +85,7 @@ class OrderLayoutState extends Equatable {
         listMenus,
         listMajorGroups,
         listItems,
+        listFullItems,
         check,
         currentSelectedMajorID,
         currentSelectedMenuID,
@@ -103,6 +107,7 @@ class OrderLayoutState extends Equatable {
       {List<MajorGroup>? listMajorGroups,
       List<Menu>? listMenus,
       List<Item>? listItems,
+      List<Item>? listFullItems,
       int? currentSelectedMajorID,
       int? currentSelectedMenuID,
       CurrentMode? currentMode,
@@ -128,6 +133,7 @@ class OrderLayoutState extends Equatable {
         listMajorGroups: listMajorGroups ?? this.listMajorGroups,
         listMenus: listMenus ?? this.listMenus,
         listItems: listItems ?? this.listItems,
+        listFullItems: listFullItems ?? this.listFullItems,
         listSpecialRequest: listSpecialRequest ?? this.listSpecialRequest,
         listVoidReason: listVoidReason ?? this.listVoidReason,
         listSelectedSpecialRequest:

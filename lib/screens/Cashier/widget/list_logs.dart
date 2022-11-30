@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names, avoid_print
-
 import 'package:data_table_2/data_table_2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/log.dart';
 import 'package:pos_res_android/repos/services/cashier/log_service.dart';
-import 'package:pos_res_android/screens/Cashier/widget/update_amount_popup.dart';
 
 class ViewListCashierLog extends StatefulWidget {
   final List<CashierLog> list;
@@ -18,14 +15,6 @@ class ViewListCashierLog extends StatefulWidget {
 }
 
 class _ViewListCashierLogState extends State<ViewListCashierLog> {
-  // List<Momo> momo = [];
-  // final MomoService momoService = Get.put(MomoService());
-
-  // Future momoList() async {
-  //   momo = await momoService.getMomoItem();
-  //   return momo;
-  // }
-
   final CashierLogService service = Get.put(CashierLogService());
 
   List<CashierLog> logs = [];
@@ -38,15 +27,15 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
   final newFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
-  Future<void> _updateAmount(CashierLog log) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AmountPopup(log: log);
-      },
-    );
-  }
+  // Future<void> _updateAmount(CashierLog log) async {
+  //   return showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: true,
+  //     builder: (BuildContext context) {
+  //       return AmountPopup(log: log);
+  //     },
+  //   );
+  // }
 
   Future getCashierLogItem(logId) async {
     logItem = await service.getCashierLogAmount(logId);
@@ -109,24 +98,6 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                 ),
               ),
             ),
-            // Container(
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: activeColor,
-            //       elevation: 0,
-            //       shape: const StadiumBorder(),
-            //       maximumSize: const Size(double.infinity, 56),
-            //       minimumSize: const Size(double.infinity, 56),
-            //     ),
-            //     onPressed: () async {
-            //       momo = await momoList();
-            //       print(momo);
-            //     },
-            //     child: Text(
-            //       "momo".toUpperCase(),
-            //     ),
-            //   ),
-            // )
           ],
         ),
         SizedBox(
@@ -181,15 +152,15 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                   ),
                   numeric: true,
                 ),
-                const DataColumn(
-                  label: Text(
-                    'Hành động',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  numeric: true,
-                ),
+                // const DataColumn(
+                //   label: Text(
+                //     'Hành động',
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                //   numeric: true,
+                // ),
               ],
               rows: logFilter.map(
                 (logFilter) {
@@ -206,59 +177,45 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                       DataCell(Text(newFormat.format(logFilter.creationtime))),
                       DataCell(Text(typeShow)),
                       DataCell(Text(moneyFormat.format(logFilter.amount))),
-                      DataCell(
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () async {
-                                logItem = await getCashierLogItem(logFilter.id);
-                                await _updateAmount(logFilter);
-                                setState(() {});
-                              },
-                              // onPressed: () async {
-                              //   String url = await getPayUrl(
-                              //       logFilter.amount.toString());
-                              //   bool result = await Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) {
-                              //         return DisplayWebView(
-                              //           url: url,
-                              //         );
-                              //       },
-                              //     ),
-                              //   );
-                              // },
-                              style: TextButton.styleFrom(
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                                backgroundColor: activeColor,
-                              ),
-                              child: Row(
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        right: defaultPadding * 0.25),
-                                    child: Icon(
-                                      Icons.edit,
-                                      size: defaultSize * 5,
-                                      color: textLightColor,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Cập nhật',
-                                    style: TextStyle(
-                                      color: textLightColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // DataCell(
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       TextButton(
+                      //         onPressed: () async {
+                      //           logItem = await getCashierLogItem(logFilter.id);
+                      //           await _updateAmount(logFilter);
+                      //           setState(() {});
+                      //         },
+                      //         style: TextButton.styleFrom(
+                      //           shape: const RoundedRectangleBorder(
+                      //               borderRadius:
+                      //                   BorderRadius.all(Radius.circular(5))),
+                      //           backgroundColor: activeColor,
+                      //         ),
+                      //         child: Row(
+                      //           children: const [
+                      //             Padding(
+                      //               padding: EdgeInsets.only(
+                      //                   right: defaultPadding * 0.25),
+                      //               child: Icon(
+                      //                 Icons.edit,
+                      //                 size: defaultSize * 5,
+                      //                 color: textLightColor,
+                      //               ),
+                      //             ),
+                      //             Text(
+                      //               'Cập nhật',
+                      //               style: TextStyle(
+                      //                 color: textLightColor,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   );
                 },
@@ -286,61 +243,3 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
   int compareString(bool ascending, String value1, String value2) =>
       ascending ? value1.compareTo(value2) : value2.compareTo(value1);
 }
-
-// Future<String> getPayUrl(String amount) async {
-//   String url = '';
-//   Map<String, String> headers = {"content-type": "application/json"};
-//   Map<String, dynamic> data = <String, dynamic>{};
-//   Map<String, dynamic> result = <String, dynamic>{};
-//   String ACCESS_KEY = "WehkypIRwPP14mHb";
-//   String SECRET_KEY = "3fq8h4CqAAPZcTTb3nCDpFKwEkQDsZzz";
-
-//   String partnerCode = 'MOMODJMX20220717';
-//   String requestId = DateFormat('yyyyMMddHHmmss').format(DateTime.now());
-//   String orderId = requestId;
-//   String orderInfo = 'Thanh toán MoMo';
-//   String redirectUrl = googleLink;
-//   String ipnUrl = youtubeLink;
-//   String requestType = 'captureWallet';
-//   String extraData = '';
-//   String lang = 'vi';
-
-//   String convert =
-//       'accessKey=$ACCESS_KEY&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType';
-//   var key = utf8.encode(SECRET_KEY);
-//   var byte = utf8.encode(convert);
-//   var hmac256 = Hmac(sha256, key);
-//   String signature = hmac256.convert(byte).toString();
-//   print(requestId);
-//   print('signature: $signature');
-
-//   data = {
-//     "partnerCode": partnerCode,
-//     "requestId": requestId,
-//     "amount": amount,
-//     "orderId": orderId,
-//     "orderInfo": orderInfo,
-//     "redirectUrl": redirectUrl,
-//     "ipnUrl": ipnUrl,
-//     "requestType": requestType,
-//     "extraData": extraData,
-//     "lang": lang,
-//     "signature": signature
-//   };
-
-//   String json = jsonEncode(data);
-//   http.Response res =
-//       await post(Uri.parse(uriMomo), headers: headers, body: json);
-//   if (res.statusCode == 200) {
-//     result = jsonDecode(res.body);
-//     if (result['resultCode'] == 0) {
-//       url = result['payUrl'];
-//       print(url);
-//     } else {
-//       print('result khác 0');
-//     }
-//   } else {
-//     print('Status code khác 200');
-//   }
-//   return url;
-// }

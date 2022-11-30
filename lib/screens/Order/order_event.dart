@@ -39,6 +39,7 @@ class ChangeMode extends OrderLayoutEvent {
   ChangeMode();
 }
 
+// ignore: must_be_immutable
 class AddItem extends OrderLayoutEvent {
   AddItem({this.item, this.checkDetail});
 

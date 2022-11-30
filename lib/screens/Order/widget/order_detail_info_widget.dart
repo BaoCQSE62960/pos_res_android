@@ -19,6 +19,7 @@ final currencyFormat = NumberFormat.decimalPattern('vi_VN');
 // ignore: constant_identifier_names
 const int DEFAULT_MAX_LENGTH_NOTE = 250;
 
+// ignore: must_be_immutable
 class OrderDetailInfo extends StatelessWidget {
   OrderDetailInfo({
     Key? key,

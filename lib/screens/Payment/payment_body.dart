@@ -65,7 +65,7 @@ class _PaymentBodyState extends State<PaymentBody> {
     );
   }
 
-  Widget getTextWidgets() {
+  Widget getMethodWidgets() {
     List<Widget> list = <Widget>[];
     for (var payment in methods) {
       list.add(
@@ -147,7 +147,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                         color: deactiveLightColor,
                         child: Scaffold(
                           backgroundColor: textLightColor,
-                          body: getTextWidgets(),
+                          body: getMethodWidgets(),
                         )),
                     Container(
                       height: defaultPadding * 4,
@@ -194,16 +194,16 @@ class _PaymentBodyState extends State<PaymentBody> {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: defaultPadding * 24,
-            decoration: const BoxDecoration(
-              color: selectedColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
+          Flexible(
+            child: Container(
+              width: defaultPadding * 24,
+              decoration: const BoxDecoration(
+                color: selectedColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  bottomLeft: Radius.circular(30),
+                ),
               ),
-            ),
-            child: Flexible(
               child: TextFormField(
                 onChanged: (text) {
                   setState(() {
@@ -281,6 +281,7 @@ class _PaymentBodyState extends State<PaymentBody> {
                             storage.setItem(check.checkid.toString(), paidList);
                           }
                           // else in lỗi
+
                           // } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
                           //   // ignore: avoid_print
                           //   print(amount);
@@ -332,31 +333,12 @@ class _PaymentBodyState extends State<PaymentBody> {
                     _simpleFailDialog();
                   }
                 },
-                //
-
-                //
-                // onPressed: () => exit(0),
                 child: Text(
                   "Xác nhận".toUpperCase(),
                 ),
               ),
             ),
           ),
-          // const SizedBox(height: defaultPadding),
-          // Hero(
-          //   tag: "close_btn",
-          //   child: ElevatedButton(
-          //     style: ElevatedButton.styleFrom(
-          //       primary: voidColor,
-          //     ),
-          //     onPressed: () => SystemNavigator.pop(),
-          //     // onPressed: () => exit(0),
-          //     child: Text(
-          //       "Thoát".toUpperCase(),
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: defaultPadding),
         ],
       ),
     );

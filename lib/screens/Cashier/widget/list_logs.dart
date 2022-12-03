@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/log.dart';
 import 'package:pos_res_android/repos/services/cashier/log_service.dart';
+import 'package:pos_res_android/screens/Cashier/widget/update_amount_popup.dart';
 
 class ViewListCashierLog extends StatefulWidget {
   final List<CashierLog> list;
@@ -27,20 +28,31 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
   final newFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
   final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
-  // Future<void> _updateAmount(CashierLog log) async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: true,
-  //     builder: (BuildContext context) {
-  //       return AmountPopup(log: log);
-  //     },
-  //   );
-  // }
+  Future<void> _updateAmount(CashierLog log) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AmountPopup(log: log);
+      },
+    );
+  }
 
   Future getCashierLogItem(logId) async {
     logItem = await service.getCashierLogAmount(logId);
     return logItem;
   }
+
+  //check isVerify
+  // checkVerify(bool verify) {
+  //   setState(() {
+  //     if (verify == true) {
+  //       isVisible = false;
+  //     } else {
+  //       isVisible = true;
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
@@ -152,15 +164,15 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                   ),
                   numeric: true,
                 ),
-                // const DataColumn(
-                //   label: Text(
-                //     'Hành động',
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                //   numeric: true,
-                // ),
+                const DataColumn(
+                  label: Text(
+                    'Hành động',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  numeric: true,
+                ),
               ],
               rows: logFilter.map(
                 (logFilter) {
@@ -177,45 +189,49 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                       DataCell(Text(newFormat.format(logFilter.creationtime))),
                       DataCell(Text(typeShow)),
                       DataCell(Text(moneyFormat.format(logFilter.amount))),
-                      // DataCell(
-                      //   Row(
-                      //     mainAxisAlignment: MainAxisAlignment.end,
-                      //     children: [
-                      //       TextButton(
-                      //         onPressed: () async {
-                      //           logItem = await getCashierLogItem(logFilter.id);
-                      //           await _updateAmount(logFilter);
-                      //           setState(() {});
-                      //         },
-                      //         style: TextButton.styleFrom(
-                      //           shape: const RoundedRectangleBorder(
-                      //               borderRadius:
-                      //                   BorderRadius.all(Radius.circular(5))),
-                      //           backgroundColor: activeColor,
-                      //         ),
-                      //         child: Row(
-                      //           children: const [
-                      //             Padding(
-                      //               padding: EdgeInsets.only(
-                      //                   right: defaultPadding * 0.25),
-                      //               child: Icon(
-                      //                 Icons.edit,
-                      //                 size: defaultSize * 5,
-                      //                 color: textLightColor,
-                      //               ),
-                      //             ),
-                      //             Text(
-                      //               'Cập nhật',
-                      //               style: TextStyle(
-                      //                 color: textLightColor,
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+                      DataCell(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Visibility(
+                              visible: !logFilter.isverify,
+                              child: TextButton(
+                                onPressed: () async {
+                                  logItem =
+                                      await getCashierLogItem(logFilter.id);
+                                  await _updateAmount(logFilter);
+                                  setState(() {});
+                                },
+                                style: TextButton.styleFrom(
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5))),
+                                  backgroundColor: activeColor,
+                                ),
+                                child: Row(
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          right: defaultPadding * 0.25),
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: defaultSize * 5,
+                                        color: textLightColor,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Cập nhật',
+                                      style: TextStyle(
+                                        color: textLightColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   );
                 },

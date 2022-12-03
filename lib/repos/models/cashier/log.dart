@@ -5,6 +5,7 @@ class CashierLog {
   String type;
   num amount;
   String fullname;
+  bool isverify;
 
   CashierLog({
     required this.id,
@@ -13,6 +14,7 @@ class CashierLog {
     required this.type,
     required this.amount,
     required this.fullname,
+    required this.isverify,
   });
 
   set setAmount(num newValue) {
@@ -29,6 +31,7 @@ class CashierLog {
       type: json['type'],
       amount: num.parse(json['amount']),
       fullname: json['fullname'],
+      isverify: json['isverify'],
     );
   }
 

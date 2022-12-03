@@ -57,7 +57,7 @@ class OrderDetailInfo extends StatelessWidget {
                   (element) =>
                       (orderBloc.state.check.checkDetail[index].itemid ==
                           element.id));
-              if (item != null && item.instock) {
+              if (item != null && !item.status.isOutofStock) {
                 orderBloc.add(AddItem(
                     checkDetail: orderBloc.state.check.checkDetail[index]));
               } else {

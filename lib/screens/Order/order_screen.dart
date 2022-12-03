@@ -307,7 +307,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               imageURL: state.listItems[index].image,
                               name: state.listItems[index].name,
                               price: state.listItems[index].price.toString(),
-                              isOutOfStock: !state.listItems[index].instock,
+                              status: state.listItems[index].status,
                             )),
                           ),
                         );

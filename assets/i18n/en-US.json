@@ -16,6 +16,7 @@
         "order_id": "Đơn hàng",
         "open_time": "Mở vào",
         "out_of_stock": "Hết hàng",
+        "warning_out_of_stock": "Sắp hết hàng",
         "confirm": "Xác nhận",
         "customer_name": "Tên khách hàng",
         "number_of_seats": "Số khách",

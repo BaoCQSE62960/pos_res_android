@@ -398,7 +398,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             orderLayoutStatus: OrderLayoutStatus.loading));
       }
       if (event.item != null) {
-        if (event.item!.instock) {
+        if (!event.item!.status.isOutofStock) {
           CheckDetail detail = CheckDetail(
               checkdetailidLocal: state.currentLocalID++,
               checkdetailquantityLocal: 1,

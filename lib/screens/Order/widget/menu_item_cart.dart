@@ -14,14 +14,14 @@ class MenuItemCard extends StatelessWidget {
       required this.imageURL,
       required this.name,
       required this.price,
-      required this.isOutOfStock,
+      required this.status,
       required this.item})
       : super(key: key);
 
   final String imageURL;
   final String name;
   final String price;
-  final bool isOutOfStock;
+  final String status;
   final Item item;
 
   @override
@@ -29,10 +29,12 @@ class MenuItemCard extends StatelessWidget {
     // ignore: unused_local_variable
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return ClipRRect(
-      child: isOutOfStock
+      child: !status.isInofStock
           ? Banner(
               location: BannerLocation.topEnd,
-              message: 'order.out_of_stock'.tr(),
+              message: status.isOutofStock
+                  ? 'order.out_of_stock'.tr()
+                  : 'order.warning_out_of_stock'.tr(),
               child: MenuItemDetail(),
             )
           : MenuItemDetail(),

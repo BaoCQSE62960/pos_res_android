@@ -439,20 +439,21 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             quantity: event.checkDetail!.quantity,
             note: event.checkDetail!.note,
             isreminded: false,
-            amount: double.parse(
-                (event.checkDetail!.amount / event.checkDetail!.quantity)
-                    .toString()),
+            amount: double.parse((event.checkDetail!.amount).toString()),
             status: 'LOCAL',
             specialRequest: event.checkDetail!.specialRequest);
         state.check.checkDetail.insert(0, detail);
-        state.check.subtotal = state.check.subtotal + event.checkDetail!.amount;
+        state.check.subtotal = state.check.subtotal +
+            (event.checkDetail!.amount * event.checkDetail!.quantity);
         state.check.totaltax = state.check.totaltax +
-            calculateTaxValueForItem(
-                double.parse(event.checkDetail!.amount.toString()));
+            calculateTaxValueForItem(double.parse(
+                (event.checkDetail!.amount * event.checkDetail!.quantity)
+                    .toString()));
         state.check.totalamount = state.check.totalamount +
-            event.checkDetail!.amount +
-            calculateTaxValueForItem(
-                double.parse(event.checkDetail!.amount.toString()));
+            (event.checkDetail!.amount * event.checkDetail!.quantity) +
+            calculateTaxValueForItem(double.parse(
+                (event.checkDetail!.amount * event.checkDetail!.quantity)
+                    .toString()));
         emit(state.copywith(
             currentLocalID: state.currentLocalID++,
             orderLayoutStatus: OrderLayoutStatus.success));
@@ -512,6 +513,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
         state.copywith(
             listItems: listItem,
             currentSelectedMenuID: event.menuid,
+            currentSelectedMajorID: state.listMajorGroups[0].id,
             orderLayoutStatus: OrderLayoutStatus.success),
       );
     } catch (error) {

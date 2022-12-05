@@ -491,23 +491,45 @@ Future<dynamic> splitOrderDialog(BuildContext context) {
                                     prefixIcon: const Icon(Icons.percent)),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: CustomElevatedButton(
-                                  text: 'order.confirm'.tr(),
-                                  callback: () {
-                                    if (_formKeyNote.currentState!.validate()) {
-                                      orderBloc.add(SelectPercentForSplitOrder(
-                                          percent: int.parse(
-                                              percentController.text)));
-                                      Navigator.of(context).pop();
-                                      showTableBottomModal(context);
-                                    }
-                                  },
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: CustomElevatedButton(
+                                      text: 'order.confirm'.tr(),
+                                      callback: () {
+                                        if (_formKeyNote.currentState!
+                                            .validate()) {
+                                          orderBloc.add(
+                                              SelectPercentForSplitOrder(
+                                                  percent: int.parse(
+                                                      percentController.text)));
+                                          Navigator.of(context).pop();
+                                          showTableBottomModal(context);
+                                        }
+                                      },
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: CustomElevatedButton(
+                                      buttonColors: voidColor,
+                                      text: 'order.close'.tr(),
+                                      callback: () {
+                                        Navigator.of(context).pop();
+                                        tableBloc.add(TableEvent.ResetAction());
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

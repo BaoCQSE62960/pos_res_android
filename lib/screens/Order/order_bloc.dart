@@ -439,7 +439,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             itemid: event.checkDetail!.itemid,
             itemname: event.checkDetail!.itemname,
             quantity: !isInteger(event.checkDetail!.quantity)
-                ? event.checkDetail!.quantity.round().toDouble()
+                ? event.checkDetail!.quantity.ceil().toDouble()
                 : event.checkDetail!.quantity,
             note: event.checkDetail!.note,
             isreminded: false,

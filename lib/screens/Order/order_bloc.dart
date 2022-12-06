@@ -436,7 +436,9 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             checkdetailid: 0,
             itemid: event.checkDetail!.itemid,
             itemname: event.checkDetail!.itemname,
-            quantity: event.checkDetail!.quantity,
+            quantity: event.checkDetail!.quantity < 1
+                ? 1
+                : event.checkDetail!.quantity,
             note: event.checkDetail!.note,
             isreminded: false,
             amount: !event.checkDetail!.isLocal
@@ -449,20 +451,20 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
         state.check.checkDetail.insert(0, detail);
         state.check.subtotal = state.check.subtotal +
             (event.checkDetail!.isLocal
-                ? event.checkDetail!.amount * event.checkDetail!.quantity
-                : event.checkDetail!.amount);
+                ? detail.amount * detail.quantity
+                : detail.amount);
         state.check.totaltax = state.check.totaltax +
             calculateTaxValueForItem(double.parse((event.checkDetail!.isLocal
-                    ? event.checkDetail!.amount * event.checkDetail!.quantity
-                    : event.checkDetail!.amount)
+                    ? detail.amount * detail.quantity
+                    : detail.amount)
                 .toString()));
         state.check.totalamount = state.check.totalamount +
             (event.checkDetail!.isLocal
-                ? event.checkDetail!.amount * event.checkDetail!.quantity
-                : event.checkDetail!.amount) +
-            calculateTaxValueForItem(double.parse((event.checkDetail!.isLocal
-                    ? event.checkDetail!.amount * event.checkDetail!.quantity
-                    : event.checkDetail!.amount)
+                ? detail.amount * detail.quantity
+                : detail.amount) +
+            calculateTaxValueForItem(double.parse((detail.isLocal
+                    ? detail.amount * detail.quantity
+                    : detail.amount)
                 .toString()));
         emit(state.copywith(
             currentLocalID: state.currentLocalID++,

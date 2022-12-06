@@ -284,7 +284,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       CheckDetail checkDetail = state.check.checkDetail.firstWhere(
           (element) => element.checkdetailidLocal == event.checkDetailIDLocal);
       double quantity = checkDetail.quantity;
-      if (event.mode == AddOrder.QuantityUpdateMode.decrease && quantity == 1) {
+      if (event.mode == AddOrder.QuantityUpdateMode.decrease && quantity <= 1) {
         state.check.checkDetail.remove(checkDetail);
       } else {
         quantity = event.mode == AddOrder.QuantityUpdateMode.increase

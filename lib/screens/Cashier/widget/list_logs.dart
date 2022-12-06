@@ -21,8 +21,6 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
   List<CashierLog> logs = [];
   List<CashierLog> logFilter = [];
   List<CashierLogItem> logItem = [];
-  late int logId;
-  String msg = "";
   int? sortColumnIndex;
   bool isAscending = false;
   final newFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
@@ -42,17 +40,6 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
     logItem = await service.getCashierLogAmount(logId);
     return logItem;
   }
-
-  //check isVerify
-  // checkVerify(bool verify) {
-  //   setState(() {
-  //     if (verify == true) {
-  //       isVisible = false;
-  //     } else {
-  //       isVisible = true;
-  //     }
-  //   });
-  // }
 
   @override
   void initState() {

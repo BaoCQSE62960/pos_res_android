@@ -254,7 +254,7 @@ class OrderDetailInfo extends StatelessWidget {
       if (key == 0) {
         result = value.name;
       } else {
-        result = result + " ," + value.name;
+        result = result + ", " + value.name;
       }
     });
     return result;

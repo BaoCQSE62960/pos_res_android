@@ -20,21 +20,16 @@ class _BillDatatableState extends State<BillDatatable> {
     return bills;
   }
 
-  // @override
-  // void initState() {
-  //   setState(() {});
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: checkList(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ViewListBills(list: bills);
-          }
-          return const Center(child: CircularProgressIndicator());
-        });
+      future: checkList(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return ViewListBills(list: bills);
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }

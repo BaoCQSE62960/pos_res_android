@@ -28,14 +28,12 @@ class BillDetailScreen extends StatefulWidget {
 
 class _BillDetailScreenState extends State<BillDetailScreen> {
   bool swap = false;
-  Color swapColor = selectColor;
   List<BillItem> billItem = [];
   List<BillDetailModel> billDetail = [];
   List<BillPayment> billPayment = [];
   final List<bool> _selectedTab = <bool>[true, false];
   final List<String> selectedTab = <String>["Đơn hàng", "Thanh toán"];
 
-  // List billFilter = [];
   String tabFilter = "";
   List<Widget> tab = <Widget>[
     const Text('Đơn hàng'),
@@ -68,7 +66,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         onPressed: (int index) {
           setState(
             () {
-              // swap = !swap;
               for (int i = 0; i < _selectedTab.length; i++) {
                 _selectedTab[i] = i == index;
                 tabFilter = selectedTab[index];

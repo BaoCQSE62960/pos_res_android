@@ -17,7 +17,6 @@ class AmountPopup extends StatefulWidget {
 class _AmountPopupState extends State<AmountPopup> {
   final CashierLogService service = Get.put(CashierLogService());
   int logId = 0;
-  num amount = 0;
   String currentAmount = "";
   List logItem = [];
   String msg = "";

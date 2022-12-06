@@ -381,6 +381,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     }
   }
 
+  bool isInteger(num value) => value is int || value == value.roundToDouble();
+
   void _addItem(AddItem event, Emitter<OrderLayoutState> emit) async {
     emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
     try {
@@ -436,8 +438,8 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             checkdetailid: 0,
             itemid: event.checkDetail!.itemid,
             itemname: event.checkDetail!.itemname,
-            quantity: event.checkDetail!.quantity < 1
-                ? 1
+            quantity: !isInteger(event.checkDetail!.quantity)
+                ? event.checkDetail!.quantity.round().toDouble()
                 : event.checkDetail!.quantity,
             note: event.checkDetail!.note,
             isreminded: false,
@@ -449,23 +451,15 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             status: 'LOCAL',
             specialRequest: event.checkDetail!.specialRequest);
         state.check.checkDetail.insert(0, detail);
-        state.check.subtotal = state.check.subtotal +
-            (event.checkDetail!.isLocal
-                ? detail.amount * detail.quantity
-                : detail.amount);
+        state.check.subtotal =
+            state.check.subtotal + detail.amount * detail.quantity;
         state.check.totaltax = state.check.totaltax +
-            calculateTaxValueForItem(double.parse((event.checkDetail!.isLocal
-                    ? detail.amount * detail.quantity
-                    : detail.amount)
-                .toString()));
+            calculateTaxValueForItem(
+                double.parse((detail.amount * detail.quantity).toString()));
         state.check.totalamount = state.check.totalamount +
-            (event.checkDetail!.isLocal
-                ? detail.amount * detail.quantity
-                : detail.amount) +
-            calculateTaxValueForItem(double.parse((detail.isLocal
-                    ? detail.amount * detail.quantity
-                    : detail.amount)
-                .toString()));
+            (detail.amount * detail.quantity) +
+            calculateTaxValueForItem(
+                double.parse((detail.amount * detail.quantity).toString()));
         emit(state.copywith(
             currentLocalID: state.currentLocalID++,
             orderLayoutStatus: OrderLayoutStatus.success));

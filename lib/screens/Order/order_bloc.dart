@@ -439,21 +439,31 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             quantity: event.checkDetail!.quantity,
             note: event.checkDetail!.note,
             isreminded: false,
-            amount: double.parse((event.checkDetail!.amount).toString()),
+            amount: !event.checkDetail!.isLocal
+                ? double.parse(
+                    (event.checkDetail!.amount / event.checkDetail!.quantity)
+                        .toString())
+                : double.parse((event.checkDetail!.amount).toString()),
             status: 'LOCAL',
             specialRequest: event.checkDetail!.specialRequest);
         state.check.checkDetail.insert(0, detail);
         state.check.subtotal = state.check.subtotal +
-            (event.checkDetail!.amount * event.checkDetail!.quantity);
+            (event.checkDetail!.isLocal
+                ? event.checkDetail!.amount * event.checkDetail!.quantity
+                : event.checkDetail!.amount);
         state.check.totaltax = state.check.totaltax +
-            calculateTaxValueForItem(double.parse(
-                (event.checkDetail!.amount * event.checkDetail!.quantity)
-                    .toString()));
+            calculateTaxValueForItem(double.parse((event.checkDetail!.isLocal
+                    ? event.checkDetail!.amount * event.checkDetail!.quantity
+                    : event.checkDetail!.amount)
+                .toString()));
         state.check.totalamount = state.check.totalamount +
-            (event.checkDetail!.amount * event.checkDetail!.quantity) +
-            calculateTaxValueForItem(double.parse(
-                (event.checkDetail!.amount * event.checkDetail!.quantity)
-                    .toString()));
+            (event.checkDetail!.isLocal
+                ? event.checkDetail!.amount * event.checkDetail!.quantity
+                : event.checkDetail!.amount) +
+            calculateTaxValueForItem(double.parse((event.checkDetail!.isLocal
+                    ? event.checkDetail!.amount * event.checkDetail!.quantity
+                    : event.checkDetail!.amount)
+                .toString()));
         emit(state.copywith(
             currentLocalID: state.currentLocalID++,
             orderLayoutStatus: OrderLayoutStatus.success));

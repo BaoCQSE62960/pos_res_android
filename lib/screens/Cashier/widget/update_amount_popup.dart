@@ -101,7 +101,6 @@ class _AmountPopupState extends State<AmountPopup> {
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     borderSide: BorderSide.none,
                   ),
-                  // hintText: "Nhập số tiền",
                   prefixIcon: Padding(
                     padding: EdgeInsets.all(defaultPadding),
                     child: Icon(

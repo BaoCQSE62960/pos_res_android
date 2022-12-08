@@ -21,26 +21,24 @@ class Payment {
 }
 
 class PaymentProcess {
-  PaymentProcess({
-    required this.id,
-    required this.name,
-    required this.amount,
-  });
+  PaymentProcess(
+      {required this.id,
+      required this.name,
+      required this.amount,
+      required this.transactionid});
 
   final int id;
   final String name;
+  final String? transactionid;
   num amount;
 
   factory PaymentProcess.fromJson(Map<String, dynamic> json) {
     return PaymentProcess(
+      transactionid: json['transactionid'],
       id: json['id'],
       name: json['name'],
       amount: num.parse(json['amount']),
     );
-  }
-
-  set increaseAmount(num newValue) {
-    amount += newValue;
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +46,7 @@ class PaymentProcess {
     data['id'] = id;
     data['name'] = name;
     data['amount'] = amount.toString();
+    data['transactionid'] = transactionid == '' ? null : transactionid;
     return data;
   }
 }

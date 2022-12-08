@@ -88,21 +88,6 @@ class _CheckInfoState extends State<CheckInfo> {
                 const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
-        // TextFormField(
-        //   readOnly: true,
-        //   decoration: const InputDecoration(
-        //     filled: true,
-        //     fillColor: deactiveLightColor,
-        //     contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(30)),
-        //       borderSide: BorderSide.none,
-        //     ),
-        //     hintText: "Mã hóa đơn: "
-        //         "19122131",
-        //     hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
-        //   ),
-        // ),
         TextFormField(
           readOnly: true,
           decoration: InputDecoration(
@@ -193,27 +178,6 @@ class _CheckInfoState extends State<CheckInfo> {
                 const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
-        // TextFormField(
-        //   keyboardType: TextInputType.multiline,
-        //   minLines: 5,
-        //   maxLines: null,
-        //   readOnly: true,
-        //   decoration: const InputDecoration(
-        //     filled: true,
-        //     fillColor: deactiveLightColor,
-        //     contentPadding:
-        //         EdgeInsets.fromLTRB(defaultSize * 4, 27, 0, 6),
-        //     border: OutlineInputBorder(
-        //       borderRadius:
-        //           BorderRadius.all(Radius.circular(30)),
-        //       borderSide: BorderSide.none,
-        //     ),
-        //     hintText: "Ghi chú: "
-        //         "",
-        //     hintStyle: TextStyle(
-        //         fontSize: defaultSize * 4.5, color: textColor),
-        //   ),
-        // ),
         TextFormField(
           readOnly: true,
           decoration: InputDecoration(
@@ -229,51 +193,6 @@ class _CheckInfoState extends State<CheckInfo> {
                 const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
-        // TextFormField(
-        //   readOnly: true,
-        //   decoration: const InputDecoration(
-        //     filled: true,
-        //     fillColor: deactiveLightColor,
-        //     contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(30)),
-        //       borderSide: BorderSide.none,
-        //     ),
-        //     hintText: "Tổng: "
-        //         "500.000",
-        //     hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
-        //   ),
-        // ),
-        // TextFormField(
-        //   readOnly: true,
-        //   decoration: const InputDecoration(
-        //     filled: true,
-        //     fillColor: deactiveLightColor,
-        //     contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(30)),
-        //       borderSide: BorderSide.none,
-        //     ),
-        //     hintText: "Thuế: "
-        //         "50.000",
-        //     hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
-        //   ),
-        // ),
-        // TextFormField(
-        //   readOnly: true,
-        //   decoration: const InputDecoration(
-        //     filled: true,
-        //     fillColor: deactiveLightColor,
-        //     contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(30)),
-        //       borderSide: BorderSide.none,
-        //     ),
-        //     hintText: "Thành tiền: "
-        //         "550.000",
-        //     hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
-        //   ),
-        // ),
         TextFormField(
           readOnly: true,
           decoration: InputDecoration(

@@ -18,7 +18,6 @@ class _FilterSectionState extends State<FilterSection> {
       child: SizedBox(
         height: MediaQuery.of(context).size.height / 13,
         child: Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Padding(
               padding: EdgeInsets.all(defaultPadding / 3.5),

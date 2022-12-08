@@ -25,9 +25,6 @@ class _ActionButtonState extends State<ActionButton> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      // Container(
-                      //   width: defaultPadding,
-                      // ),
                       Padding(
                         padding: const EdgeInsets.all(defaultPadding * 0.25),
                         child: SizedBox(
@@ -42,20 +39,6 @@ class _ActionButtonState extends State<ActionButton> {
                           child: const TransferCheckBtn(),
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(defaultPadding * 0.25),
-                      //   child: SizedBox(
-                      //     width: MediaQuery.of(context).size.width / 4.5,
-                      //     child: const PaymentBtn(),
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(defaultPadding * 0.25),
-                      //   child: SizedBox(
-                      //     width: MediaQuery.of(context).size.width / 4.5,
-                      //     child: const TransactionBtn(),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),

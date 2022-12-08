@@ -1,5 +1,3 @@
-// ignore_for_file: library_prefixes, sized_box_for_whitespace
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +13,7 @@ import 'package:pos_res_android/screens/Order/widget/buttons/custom_tool_button.
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart'
+    // ignore: library_prefixes
     as TableEvent;
 import 'package:pos_res_android/screens/Table/widget/table_layout_filter.dart';
 import 'package:pos_res_android/screens/Table/widget/table_layout_table.dart';
@@ -200,7 +199,7 @@ Future<dynamic> showChangeBottomSheet(BuildContext context) {
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0))),
     builder: (context2) {
-      return Container(
+      return SizedBox(
         height: 250,
         width: double.infinity,
         child: Column(
@@ -277,25 +276,26 @@ Future<dynamic> showChangeBottomSheet(BuildContext context) {
                   ],
                 ))),
             GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: ListTile(
-                    title: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5.0),
-                      child: Icon(
-                        Icons.close,
-                        color: textColor2!,
-                      ),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: ListTile(
+                  title: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      Icons.close,
+                      color: textColor2!,
                     ),
-                    Text(
-                      'order.close'.tr(),
-                      style: TextStyle(color: textColor2!),
-                    )
-                  ],
-                ))),
+                  ),
+                  Text(
+                    'order.close'.tr(),
+                    style: TextStyle(color: textColor2!),
+                  )
+                ],
+              )),
+            ),
           ],
         ),
       );
@@ -322,65 +322,174 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
       List<CheckDetail>.from(orderBloc.state.check.checkDetail);
   list.retainWhere((element) => !element.isLocal || element.status != 'RECALL');
   return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: tableBloc),
-              BlocProvider.value(value: orderBloc)
-            ],
-            child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
-                builder: (context, state) {
-              return Dialog(
-                insetPadding: const EdgeInsets.symmetric(
-                    vertical: 100.0, horizontal: 400.0),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Column(
-                  children: <Widget>[
-                    Column(
+    context: context,
+    builder: (BuildContext context) {
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: tableBloc),
+          BlocProvider.value(value: orderBloc)
+        ],
+        child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+            builder: (context, state) {
+          return Dialog(
+            insetPadding:
+                const EdgeInsets.symmetric(vertical: 100.0, horizontal: 400.0),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: Column(
+              children: <Widget>[
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 80,
+                      child: Center(
+                        child: Text(
+                          'order.change_order'.tr().toUpperCase(),
+                          style: const TextStyle(
+                              color: activeColor, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: SizedBox(
+                        height: 350,
+                        width: double.infinity,
+                        child: Scrollbar(
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return const Divider(
+                                color: dividerColor,
+                              );
+                            },
+                            itemCount: list.length,
+                            itemBuilder: (context, index) {
+                              return ActionItemList(
+                                  checkDetail: list[index],
+                                  currentMode: Mode.changeorder,
+                                  name: list[index].itemname,
+                                  sepcialRequest: specialRequestProcess(
+                                      list[index].specialRequest),
+                                  price:
+                                      currencyFormat.format(list[index].amount),
+                                  isDone: false);
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          height: 80,
-                          child: Center(
-                            child: Text(
-                              'order.change_order'.tr().toUpperCase(),
-                              style: const TextStyle(
-                                  color: activeColor,
-                                  fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: SizedBox(
+                            width: 200,
+                            child: CustomElevatedButton(
+                              buttonColors: orderBloc
+                                      .state.listSelectedCheckDetail.isNotEmpty
+                                  ? activeColor
+                                  : deactiveColor,
+                              text: 'order.confirm'.tr(),
+                              callback: () {
+                                if (orderBloc
+                                    .state.listSelectedCheckDetail.isNotEmpty) {
+                                  Navigator.of(context).pop();
+                                  showTableBottomModal(context);
+                                }
+                              },
                             ),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Container(
-                            height: 350,
-                            width: double.infinity,
-                            child: Scrollbar(
-                              child: ListView.separated(
-                                separatorBuilder: (context, index) {
-                                  return const Divider(
-                                    color: dividerColor,
-                                  );
-                                },
-                                itemCount: list.length,
-                                itemBuilder: (context, index) {
-                                  return ActionItemList(
-                                      checkDetail: list[index],
-                                      currentMode: Mode.changeorder,
-                                      name: list[index].itemname,
-                                      sepcialRequest: specialRequestProcess(
-                                          list[index].specialRequest),
-                                      price: currencyFormat
-                                          .format(list[index].amount),
-                                      isDone: false);
-                                },
-                              ),
+                          child: SizedBox(
+                            width: 200,
+                            child: CustomElevatedButton(
+                              buttonColors: voidColor,
+                              text: 'order.close'.tr(),
+                              callback: () {
+                                Navigator.of(context).pop();
+                                tableBloc.add(TableEvent.ResetAction());
+                              },
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }),
+      );
+    },
+  );
+}
+
+Future<dynamic> splitOrderDialog(BuildContext context) {
+  final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+  final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
+  TextEditingController percentController = TextEditingController();
+  final _formKeyNote = GlobalKey<FormState>();
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: tableBloc),
+          BlocProvider.value(value: orderBloc)
+        ],
+        child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+            builder: (context, state) {
+          return Dialog(
+            insetPadding:
+                const EdgeInsets.symmetric(vertical: 80.0, horizontal: 400.0),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Stack(
+                children: <Widget>[
+                  Form(
+                    key: _formKeyNote,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Text(
+                            'order.split_order'.tr().toUpperCase(),
+                            style: const TextStyle(
+                                color: activeColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: percentController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null ||
+                                  int.parse(value) < 1 ||
+                                  int.parse(value) > 100) {
+                                return 'order.error.split_order_error'.tr();
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[100]!),
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                fillColor: Colors.grey[100],
+                                filled: true,
+                                prefixIcon: const Icon(Icons.percent)),
+                          ),
+                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
                               padding:
@@ -388,14 +497,12 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
                               child: SizedBox(
                                 width: 200,
                                 child: CustomElevatedButton(
-                                  buttonColors: orderBloc.state
-                                          .listSelectedCheckDetail.isNotEmpty
-                                      ? activeColor
-                                      : deactiveColor,
                                   text: 'order.confirm'.tr(),
                                   callback: () {
-                                    if (orderBloc.state.listSelectedCheckDetail
-                                        .isNotEmpty) {
+                                    if (_formKeyNote.currentState!.validate()) {
+                                      orderBloc.add(SelectPercentForSplitOrder(
+                                          percent: int.parse(
+                                              percentController.text)));
                                       Navigator.of(context).pop();
                                       showTableBottomModal(context);
                                     }
@@ -422,124 +529,15 @@ Future<dynamic> changeOrderDialog(BuildContext context) {
                         ),
                       ],
                     ),
-                  ],
-                ),
-              );
-            }));
-      });
-}
-
-Future<dynamic> splitOrderDialog(BuildContext context) {
-  final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
-  final TableLayoutBloc tableBloc = BlocProvider.of<TableLayoutBloc>(context);
-  TextEditingController percentController = TextEditingController();
-  final _formKeyNote = GlobalKey<FormState>();
-  return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: tableBloc),
-              BlocProvider.value(value: orderBloc)
-            ],
-            child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
-                builder: (context, state) {
-              return Dialog(
-                insetPadding: const EdgeInsets.symmetric(
-                    vertical: 80.0, horizontal: 400.0),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Stack(
-                    children: <Widget>[
-                      Form(
-                        key: _formKeyNote,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Text(
-                                'order.split_order'.tr().toUpperCase(),
-                                style: const TextStyle(
-                                    color: activeColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: percentController,
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null ||
-                                      int.parse(value) < 1 ||
-                                      int.parse(value) > 100) {
-                                    return 'order.error.split_order_error'.tr();
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey[100]!),
-                                        borderRadius:
-                                            BorderRadius.circular(20.0)),
-                                    fillColor: Colors.grey[100],
-                                    filled: true,
-                                    prefixIcon: const Icon(Icons.percent)),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: SizedBox(
-                                    width: 200,
-                                    child: CustomElevatedButton(
-                                      text: 'order.confirm'.tr(),
-                                      callback: () {
-                                        if (_formKeyNote.currentState!
-                                            .validate()) {
-                                          orderBloc.add(
-                                              SelectPercentForSplitOrder(
-                                                  percent: int.parse(
-                                                      percentController.text)));
-                                          Navigator.of(context).pop();
-                                          showTableBottomModal(context);
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: SizedBox(
-                                    width: 200,
-                                    child: CustomElevatedButton(
-                                      buttonColors: voidColor,
-                                      text: 'order.close'.tr(),
-                                      callback: () {
-                                        Navigator.of(context).pop();
-                                        tableBloc.add(TableEvent.ResetAction());
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-              );
-            }));
-      });
+                ],
+              ),
+            ),
+          );
+        }),
+      );
+    },
+  );
 }
 
 Future<dynamic> showTableBottomModal(
@@ -578,115 +576,116 @@ Future<dynamic> voidReasonDialog(BuildContext context, int checkdetailid) {
   final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
 
   return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return BlocProvider<OrderLayoutBloc>.value(
-          value: orderBloc,
-          child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
-              builder: (context, state) {
-            return Dialog(
-              insetPadding:
-                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Column(
-                      children: [
-                        Container(
-                          height: 80,
-                          child: Center(
-                            child: Text(
-                              'order.void_reason_title'.tr().toUpperCase(),
-                              style: const TextStyle(
-                                  color: activeColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
+    context: context,
+    builder: (BuildContext context) {
+      return BlocProvider<OrderLayoutBloc>.value(
+        value: orderBloc,
+        child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+            builder: (context, state) {
+          return Dialog(
+            insetPadding:
+                const EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 80,
+                        child: Center(
+                          child: Text(
+                            'order.void_reason_title'.tr().toUpperCase(),
+                            style: const TextStyle(
+                                color: activeColor,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5.0),
-                          child: state.orderLayoutStatus.isLoading
-                              ? const CircularProgressIndicator()
-                              : Container(
-                                  height: 350,
-                                  width: double.infinity,
-                                  child: Scrollbar(
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return const Divider(
-                                          color: dividerColor,
-                                        );
-                                      },
-                                      itemCount:
-                                          orderBloc.state.listVoidReason.length,
-                                      itemBuilder: (context, index) {
-                                        return ListTile(
-                                          title: Text(orderBloc.state
-                                              .listVoidReason[index].name),
-                                          trailing: Radio<VoidReason>(
-                                            groupValue: orderBloc
-                                                .state.selectedVoidReason,
-                                            value: orderBloc
-                                                .state.listVoidReason[index],
-                                            onChanged: (value) {
-                                              orderBloc.add(SelectVoidReason(
-                                                  voidReason: value!));
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5.0),
-                                child: SizedBox(
-                                  child: CustomElevatedButton(
-                                    text: 'order.confirm'.tr(),
-                                    callback: () {
-                                      orderBloc.add(VoidACheck(
-                                          checkid: orderBloc.state.checkId));
-                                      Navigator.of(context)
-                                          .pushNamed('/tableoverview');
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5.0),
+                        child: state.orderLayoutStatus.isLoading
+                            ? const CircularProgressIndicator()
+                            : SizedBox(
+                                height: 350,
+                                width: double.infinity,
+                                child: Scrollbar(
+                                  child: ListView.separated(
+                                    separatorBuilder: (context, index) {
+                                      return const Divider(
+                                        color: dividerColor,
+                                      );
+                                    },
+                                    itemCount:
+                                        orderBloc.state.listVoidReason.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title: Text(orderBloc
+                                            .state.listVoidReason[index].name),
+                                        trailing: Radio<VoidReason>(
+                                          groupValue: orderBloc
+                                              .state.selectedVoidReason,
+                                          value: orderBloc
+                                              .state.listVoidReason[index],
+                                          onChanged: (value) {
+                                            orderBloc.add(SelectVoidReason(
+                                                voidReason: value!));
+                                          },
+                                        ),
+                                      );
                                     },
                                   ),
+                                ),
+                              ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    orderBloc.add(VoidACheck(
+                                        checkid: orderBloc.state.checkId));
+                                    Navigator.of(context)
+                                        .pushNamed('/tableoverview');
+                                  },
                                 ),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5.0),
-                                child: SizedBox(
-                                  child: CustomElevatedButton(
-                                    buttonColors: voidColor,
-                                    text: 'order.close'.tr(),
-                                    callback: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                child: CustomElevatedButton(
+                                  buttonColors: voidColor,
+                                  text: 'order.close'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                  },
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            );
-          }),
-        );
-      });
+            ),
+          );
+        }),
+      );
+    },
+  );
 }

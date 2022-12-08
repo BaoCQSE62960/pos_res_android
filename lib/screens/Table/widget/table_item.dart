@@ -74,17 +74,11 @@ class _TableItemState extends State<TableItem> {
                   }
                 }
                 if (tableBloc.state.currentSelectedMode == SelectedMode.NONE) {
-                  // if (tableDetail.checkid == 0) {
-                  //   tableBloc.add(OpenTable(tableID: tableDetail.id));
-                  // } else {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
                         return OrderScreen(
-                          // checkid: tableDetail.checkid == 0
-                          //     ? tableBloc.state.currentTableOpenID
-                          //     : tableDetail.checkid,
                           tableid: tableDetail.id,
                           checkid: tableDetail.checkid,
                           loginMsg: loginMsg,
@@ -92,7 +86,6 @@ class _TableItemState extends State<TableItem> {
                       },
                     ),
                   );
-                  // }
                 }
               },
               child: Container(

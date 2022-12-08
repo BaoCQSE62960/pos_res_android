@@ -64,21 +64,6 @@ class _BillInfoState extends State<BillInfo> {
                 const TextStyle(fontSize: defaultSize * 4.5, color: textColor),
           ),
         ),
-        // TextFormField(
-        //   readOnly: true,
-        //   decoration: const InputDecoration(
-        //     filled: true,
-        //     fillColor: deactiveLightColor,
-        //     contentPadding: EdgeInsets.fromLTRB(defaultSize * 4, 0, 0, 0),
-        //     border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(30)),
-        //       borderSide: BorderSide.none,
-        //     ),
-        //     hintText: "Ca: "
-        //         "Ca 1",
-        //     hintStyle: TextStyle(fontSize: defaultSize * 4.5, color: textColor),
-        //   ),
-        // ),
         TextFormField(
           readOnly: true,
           decoration: InputDecoration(

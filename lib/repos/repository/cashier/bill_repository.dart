@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
@@ -18,7 +16,6 @@ class BillRepository {
 
     List<Bill> list = [];
     if (res.statusCode == 200) {
-      print('Get bill list successful');
       List<dynamic> body = jsonDecode(res.body);
       list = ListBill.fromJson(body).list;
       return list;
@@ -34,9 +31,7 @@ class BillRepository {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get bill item successful');
       List<BillItem> list = ListBillItemDetail.fromJson([body]).list;
-      print('Map bill item successful');
       return list;
     } else {
       throw Exception('cautch at getBillItem');
@@ -51,10 +46,8 @@ class BillRepository {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get bill detail successful');
       List<BillDetailModel> list =
           ListBillDetailInfo.fromJson(body['billdetail']).list;
-      print('Map bill detail successful');
       return list;
     } else {
       throw Exception('cautch at getBillItem');
@@ -69,10 +62,8 @@ class BillRepository {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get bill payment successful');
       List<BillPayment> list =
           ListBillPayment.fromJson(body['paymentdetail']).list;
-      print('Map bill payment successful');
       return list;
     } else {
       throw Exception('cautch at getBillPayment');
@@ -86,20 +77,16 @@ class BillRepository {
     Map data = {"billid": billId};
     var body = json.encode(data);
 
-    print(body);
     Response res = await post(
         Uri.parse(uriConnect + '/orderprocess/bill/refund/'),
         headers: headers,
         body: body);
 
-    print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
-      print("refund success" + res.body);
       msg = res.body;
     } else {
       msg = res.body;
-      print("msg: " + msg);
     }
 
     return [result, msg];

@@ -33,7 +33,6 @@ class _CheckItemDetailState extends State<CheckItemDetail> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      // flex: 4,
       child: Container(
         width: defaultPadding * 20,
         height: defaultPadding * 43.5,
@@ -42,8 +41,6 @@ class _CheckItemDetailState extends State<CheckItemDetail> {
         ),
         child: Column(
           children: [
-            // const Expanded(flex: 1, child: OrderGeneralInfo()),
-            // const Divider(color: dividerColor),
             Expanded(
               flex: 16,
               child: Scrollbar(
@@ -118,11 +115,12 @@ class _CheckItemDetailState extends State<CheckItemDetail> {
                                   Row(
                                     children: [
                                       Text(
-                                          moneyFormat.format(
-                                              checkDetail[index].subtotal),
-                                          style: TextStyle(
-                                              color: textColor2,
-                                              fontWeight: FontWeight.bold)),
+                                        moneyFormat.format(
+                                            checkDetail[index].subtotal),
+                                        style: TextStyle(
+                                            color: textColor2,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ],
                                   ),
                                 ],

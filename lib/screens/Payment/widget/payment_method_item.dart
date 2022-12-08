@@ -16,9 +16,6 @@ class PaymentMethodItem extends StatefulWidget {
 class _PaymentMethodItemState extends State<PaymentMethodItem> {
   late Payment payment;
   late Color currentColor;
-  String methodName = "";
-  int methodId = 0;
-  List<String> methods = [];
 
   @override
   void initState() {
@@ -35,7 +32,6 @@ class _PaymentMethodItemState extends State<PaymentMethodItem> {
     }
 
     return Container(
-      // margin: const EdgeInsets.all(defaultPadding * 0.25),
       decoration: BoxDecoration(
         color: deactiveColor,
         borderRadius: BorderRadius.circular(15.0),
@@ -55,10 +51,7 @@ class _PaymentMethodItemState extends State<PaymentMethodItem> {
             backgroundColor: currentColor,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              // side: BorderSide(color: primaryColor),
             ),
-            // maximumSize:
-            //     const Size(defaultPadding * 8, defaultPadding * 8),
           ),
           onPressed: widget.onPress,
           child: Container(

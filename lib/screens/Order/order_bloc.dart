@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_function_literals_in_foreach_calls, unused_local_variable, library_prefixes
+// ignore_for_file: unused_local_variable, library_prefixes
 
 import 'dart:async';
 
@@ -255,7 +255,6 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
       emit(
         state.copywith(orderLayoutStatus: OrderLayoutStatus.loading),
       );
-      // LoadData(tableid: state.tableId, checkid: state.checkId);
       LoadData(checkid: state.checkId, tableid: state.tableId);
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
@@ -549,14 +548,14 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   void _sendOrder(SendOrder event, Emitter<OrderLayoutState> emit) async {
     try {
       List<ItemDTO> items = [];
-      state.check.checkDetail.forEach((checkDetailElement) {
+      for (var checkDetailElement in state.check.checkDetail) {
         if (checkDetailElement.isLocal) {
           List<SpecialRequestDTO> specialRequest = [];
-          checkDetailElement.specialRequest.forEach((specialRequestElement) {
+          for (var specialRequestElement in checkDetailElement.specialRequest) {
             SpecialRequestDTO specialRequestDTO =
                 SpecialRequestDTO(specialrequestid: specialRequestElement.id);
             specialRequest.add(specialRequestDTO);
-          });
+          }
           ItemDTO itemDTO = ItemDTO(
               itemid: checkDetailElement.itemid.toString(),
               itemprice: checkDetailElement.amount.toString(),
@@ -575,7 +574,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
               listSpecialRequestDTO: specialRequest);
           items.add(itemDTO);
         }
-      });
+      }
       CheckDTO checkDTO =
           CheckDTO(checkid: state.check.checkid.toString(), listItemDTO: items);
       http.Response response = await checkRepository.updateCheck(checkDTO);

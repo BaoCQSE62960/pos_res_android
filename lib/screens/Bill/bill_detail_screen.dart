@@ -89,7 +89,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
         borderRadius: const BorderRadius.all(Radius.circular(30)),
         constraints: const BoxConstraints(
           minHeight: defaultPadding * 2,
-          // minWidth: defaultPadding * 11.7,
           minWidth: defaultPadding * 14.9,
         ),
         isSelected: _selectedTab,
@@ -181,11 +180,6 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                             ),
                           ],
                         ),
-                        // SizedBox(
-                        //     height: MediaQuery.of(context).size.height -
-                        //         defaultPadding * 4,
-                        //     width: MediaQuery.of(context).size.width * 0.4,
-                        //     child: const BillItemDetail()),
                       ],
                     ),
                   ],

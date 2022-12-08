@@ -23,12 +23,13 @@ class _CheckDatatableState extends State<CheckDatatable> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: checkList(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ViewListChecks(list: checks);
-          }
-          return const Center(child: CircularProgressIndicator());
-        });
+      future: checkList(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return ViewListChecks(list: checks);
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }

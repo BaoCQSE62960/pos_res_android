@@ -22,17 +22,12 @@ class _LoginScreenImageState extends State<LoginScreenImage> {
 
   @override
   Widget build(BuildContext context) {
-    // String logoURL = "assets/images/Logo.png";
     return FutureBuilder(
       future: getLogoUrl(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return Column(
             children: [
-              // const Text(
-              //   "CHÀO MỪNG ĐẾN VỚI",
-              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              // ),
               const SizedBox(height: defaultPadding * 2),
               Container(
                 width: 390,
@@ -49,19 +44,15 @@ class _LoginScreenImageState extends State<LoginScreenImage> {
                 ),
                 child: Row(
                   children: [
-                    // const Spacer(),
                     Expanded(
                       flex: 8,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        // child: Image.asset(logoURL),
                         child: Image.network(
                           logoURL,
-                          // fit: BoxFit.fill,
                         ),
                       ),
                     ),
-                    // const Spacer(),
                   ],
                 ),
               ),

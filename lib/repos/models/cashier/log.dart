@@ -25,8 +25,6 @@ class CashierLog {
     return CashierLog(
       id: json['id'],
       shiftname: json['shiftname'],
-      // creationtime:
-      //     DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS').parse(json['creationtime']),
       creationtime: DateTime.parse(json['creationtime']),
       type: json['type'],
       amount: num.parse(json['amount']),

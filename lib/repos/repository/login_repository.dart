@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:http/http.dart';
 import 'dart:convert';
 
@@ -20,15 +18,12 @@ class LoginRepository {
     Response res = await post(Uri.parse(uriConnect + '/login/pos'),
         headers: {"Content-Type": "application/json"}, body: body);
 
-    print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
       _updateCookie(res);
-      print("login success" + res.body);
       msg = res.body;
     } else {
       msg = res.body;
-      print("msg: " + msg);
     }
 
     return [result, msg];
@@ -41,34 +36,11 @@ class LoginRepository {
         headers: {"Content-Type": "application/json"});
     if (res.statusCode == 200) {
       result = jsonDecode(res.body)['restaurantimage'] as String;
-      print(res.body);
     } else {
       return "";
     }
     return result;
   }
-  // Future getLogo() async {
-  //   String url = "";
-  //   List split = [];
-
-  //   Response res = await get(Uri.parse(uriConnect + '/login'),
-  //       headers: {"Content-Type": "application/json"});
-  //   print(res.statusCode);
-  //   if (res.statusCode == 200) {
-  //     url = res.body;
-  //     if (url.contains("restaurantimage")) {
-  //       split = url.split(':');
-  //       url = split[1] + ":" + split[2];
-  //     }
-  //     split = url.split('"');
-  //     url = split[1];
-  //     _updateCookie(res);
-  //     print("get logo" + res.body);
-  //   } else {
-  //     print("msg: " + res.body);
-  //   }
-  //   return url;
-  // }
 
   //get shift
   Future<List<Shift>> getShifts() async {
@@ -76,14 +48,11 @@ class LoginRepository {
     Response res =
         await get(Uri.parse(uriConnect + '/login/shift/'), headers: headers);
     if (res.statusCode == 200) {
-      print('Get shift successful');
       Map<String, dynamic> body = jsonDecode(res.body);
       List<Shift> list = ListShift.fromJson(body['shiftList']).list;
       return list;
     } else {
       throw Exception('Failed to load shift');
-      // print('Failed to load shift ' + res.body);
-      // return [];
     }
   }
 
@@ -95,21 +64,16 @@ class LoginRepository {
     Map data = {"shiftid": shiftId, "amount": amount};
     var body = json.encode(data);
 
-    print(body);
     Response res = await put(
         Uri.parse(uriConnect + '/login/cashieropen/$shiftId'),
         headers: headers,
         body: body);
 
-    print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
-      // _updateCookie(res);
-      print("open successful" + res.body);
       msg = res.body;
     } else {
       msg = res.body;
-      print("msg: " + msg);
     }
 
     return [result, msg];
@@ -123,18 +87,14 @@ class LoginRepository {
     Map data = {"amount": amount};
     var body = json.encode(data);
 
-    print(body);
     Response res = await put(Uri.parse(uriConnect + '/logout/cashierclose/'),
         headers: headers, body: body);
 
-    print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
-      print("close successful" + res.body);
       msg = res.body;
     } else {
       msg = res.body;
-      print("msg: " + msg);
     }
 
     return [result, msg];
@@ -149,13 +109,9 @@ class LoginRepository {
         await get(Uri.parse(uriConnect + '/logout/role/'), headers: headers);
     if (res.statusCode == 200) {
       result = true;
-      print('Get role successful' + res.body);
       msg = res.body;
-      print(msg);
     } else {
-      print('Failed to load role ' + res.body);
       msg = res.body;
-      print(msg);
     }
     return [result, msg];
   }
@@ -167,12 +123,9 @@ class LoginRepository {
     bool result = false;
     Response res =
         await post(Uri.parse(uriConnect + '/logout/'), headers: headers);
-    print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
-      print("logout success" + res.body);
     } else {
-      print(res.body);
       msg = res.body;
     }
     return [result, msg];

@@ -21,24 +21,24 @@ class CustomOutlinedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      // width: 143,
       width: 186,
       child: OutlinedButton.icon(
-          style: isOutlined
-              ? OutlinedButton.styleFrom(
-                  shadowColor: shadowColor,
-                  elevation: 3,
-                  backgroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.transparent))
-              : OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.transparent)),
-          onPressed: function,
-          icon: icons,
-          label: Text(
-            text,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 15, color: textColors),
-          )),
+        style: isOutlined
+            ? OutlinedButton.styleFrom(
+                shadowColor: shadowColor,
+                elevation: 3,
+                backgroundColor: Colors.white,
+                side: const BorderSide(color: Colors.transparent))
+            : OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.transparent)),
+        onPressed: function,
+        icon: icons,
+        label: Text(
+          text,
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 15, color: textColors),
+        ),
+      ),
     );
   }
 }

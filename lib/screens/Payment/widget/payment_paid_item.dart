@@ -40,8 +40,6 @@ class _PaymentPaidItemState extends State<PaymentPaidItem> {
     }
     return Column(
       children: [
-        // const Expanded(flex: 1, child: OrderGeneralInfo()),
-        // const Divider(color: dividerColor),
         Expanded(
           flex: 10,
           child: Scrollbar(
@@ -137,34 +135,11 @@ class _PaymentPaidItemState extends State<PaymentPaidItem> {
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 20),
-                //   child: Row(
-                //     children: [
-                //       Text(
-                //         "Tổng thanh toán",
-                //         style: TextStyle(
-                //             color: textColor2,
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 20),
-                //       ),
-                //       const Spacer(),
-                //       Text(
-                //         "69.300",
-                //         style: TextStyle(
-                //             color: textColor2,
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 20),
-                //       )
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
         ),
         Expanded(
-          // flex: 1,
           flex: 4,
           child: Padding(
             padding: const EdgeInsets.only(

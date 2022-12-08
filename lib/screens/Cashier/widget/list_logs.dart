@@ -56,8 +56,6 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              // width: MediaQuery.of(context).size.width / 5 +
-              //     defaultPadding * 5.55,
               width: MediaQuery.of(context).size.width / 3,
               height: defaultPadding * 3,
               child: Padding(
@@ -79,10 +77,6 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                       borderSide: BorderSide.none,
                     ),
                     hintText: "Tên thu ngân",
-                    // prefixIcon: Padding(
-                    //   padding: EdgeInsets.all(defaultPadding),
-                    //   child: Icon(Icons.lock),
-                    // ),
                   ),
                   onChanged: (String input) {
                     setState(
@@ -103,7 +97,6 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
           height: MediaQuery.of(context).size.height - defaultPadding * 5,
           width: MediaQuery.of(context).size.width - defaultPadding * 5,
           child: DataTable2(
-              // PaginatedDataTable
               sortAscending: isAscending,
               sortColumnIndex: sortColumnIndex,
               columns: [
@@ -119,7 +112,6 @@ class _ViewListCashierLogState extends State<ViewListCashierLog> {
                   label: Text(
                     'Ca làm việc',
                     style: TextStyle(
-                      // fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

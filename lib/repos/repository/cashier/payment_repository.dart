@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -22,9 +20,7 @@ class PaymentRepository {
 
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
-      print('Get payment method successful');
       List<Payment> list = ListPaymentMethod.fromJson(body).list;
-      print('Map payment method successful');
       return list;
     } else {
       throw Exception('cautch at getPaymentMethodList');
@@ -47,13 +43,11 @@ class PaymentRepository {
       data['checkid'] = checkId.toString();
       data['paymentlist'] = paymentList.map((e) => e.toJson()).toList();
       String body = jsonEncode(data);
-      print(body);
       Response res = await post(
           Uri.parse(uriConnect + '/orderprocess/check/process/'),
           headers: headers,
           body: body);
       if (res.statusCode == 200) {
-        print('process check successful');
         return true;
       } else {
         Map<String, dynamic> body = jsonDecode(res.body);

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/cashier/payment.dart';
-import 'package:pos_res_android/repos/services/cashier/payment_service.dart';
 
 // ignore: must_be_immutable
 class PaymentActionButton extends StatefulWidget {
@@ -21,10 +19,9 @@ class PaymentActionButton extends StatefulWidget {
 }
 
 class _PaymentActionButtonState extends State<PaymentActionButton> {
-  final LocalStorage storage = LocalStorage('paid');
-  PaymentService service = PaymentService();
   late List<PaymentProcess> paidList;
   late int checkId;
+
   @override
   void initState() {
     super.initState();
@@ -37,49 +34,6 @@ class _PaymentActionButtonState extends State<PaymentActionButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // SizedBox(
-        //   height: defaultPadding * 3,
-        //   width: defaultPadding * 8.5,
-        //   child: Hero(
-        //     tag: "close_check_btn",
-        //     child: ElevatedButton(
-        //       style: ElevatedButton.styleFrom(
-        //         backgroundColor: activeColor,
-        //         shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(5),
-        //         ),
-        //       ),
-        //       onPressed: () async {
-        //         PaymentService service = PaymentService();
-        //         bool result =
-        //             await service.processCheck(checkId, paidList, context);
-        //         if (result) {
-        //           Navigator.of(context).pop();
-        //           storage.deleteItem(checkId.toString());
-        //         }
-        //       },
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //         children: const [
-        //           Icon(
-        //             Icons.document_scanner,
-        //             size: defaultSize * 6,
-        //             color: textLightColor,
-        //           ),
-        //           Text(
-        //             "Đóng hóa đơn",
-        //             style: TextStyle(
-        //               fontSize: defaultSize * 3,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // Container(
-        //   width: defaultPadding * 0.5,
-        // ),
         SizedBox(
           height: defaultPadding * 3,
           width: defaultPadding * 8.5,

@@ -23,26 +23,25 @@ class CustomMajorButton extends StatelessWidget {
       width: 100,
       height: double.infinity,
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            backgroundColor: color,
-            shadowColor: color,
-            elevation: 3,
-          ),
-          onPressed: function,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                text,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: textColors),
-              )
-            ],
-          )),
+        style: ElevatedButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          backgroundColor: color,
+          shadowColor: color,
+          elevation: 3,
+        ),
+        onPressed: function,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: 12, color: textColors),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -63,12 +63,8 @@ class _SideBarState extends State<SideBar> {
           color: sideBarColor,
           child: SizedBox(
             height: MediaQuery.of(context).size.height - defaultPadding * 1.4,
-            // width: defaultPadding * 6,
-            //width: MediaQuery.of(context).size.width / 14,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // mainAxisSize: MainAxisSize.max,
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 TextButton(
                   onPressed: () {
@@ -77,10 +73,7 @@ class _SideBarState extends State<SideBar> {
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
-                    // textStyle: GoogleFonts.fredokaOne(),
                   ),
-                  // color: sideBarColor,
-                  // padding: const EdgeInsets.all(20),
                   child: Column(
                     // Replace with a Row for horizontal icon + text
                     children: const <Widget>[
@@ -136,7 +129,6 @@ class _SideBarState extends State<SideBar> {
                 ),
                 Container(
                   color: sideBarColor,
-                  // height: defaultPadding * 28.5,
                   height: defaultPadding * 26.25,
                 ),
                 Visibility(

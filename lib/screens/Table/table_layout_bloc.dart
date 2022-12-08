@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_res_android/repos/models/waiter/dto/detaillistDTO.dart';
@@ -22,7 +24,6 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
     on<ChangeTableProcess>(_mapChangeTableProcessEventToStage);
     on<SplitOrderProcess>(_mapSplitOrderProcessEventToStage);
     on<ChangeFilter>(_mapChangeFilterProcessEventToStage);
-    // on<OpenTable>(_mapOpenTableProcessEventToStage);
     on<LoadData>(_loadData);
   }
 
@@ -157,7 +158,6 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
           currentTableID: event.currentCheckID,
           targetTableID: event.targatTableID,
           detailList: detailListItemDTO);
-      // ignore: unused_local_variable
       http.Response response =
           await tableOverviewRepository.transferCheck(transferCheckDTO);
       emit(
@@ -172,7 +172,6 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
 
   void _mapSplitOrderProcessEventToStage(
       SplitOrderProcess event, Emitter<TableLayoutState> emit) async {
-    // ignore: unused_local_variable
     String? message;
     emit(
       state.copywith(tableLayoutStatus: TableLayoutStatus.loading),
@@ -182,7 +181,6 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
           currentCheckID: event.currentCheckID,
           targetTableID: event.targetTableID,
           percent: event.percent);
-      // ignore: unused_local_variable
       http.Response response =
           await tableOverviewRepository.splitCheck(splitCheckDTO);
       if (response.body.isEmpty) {
@@ -207,7 +205,6 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
       TransferTableDTO transferTableDTO = TransferTableDTO(
           currentCheckID: event.currentCheckID,
           targetCheckID: event.targetTableID);
-      // ignore: unused_local_variable
       http.Response response =
           await tableOverviewRepository.transferTable(transferTableDTO);
       emit(
@@ -230,21 +227,4 @@ class TableLayoutBloc extends Bloc<TableLayoutEvent, TableLayoutState> {
       emit(state.copywith(tableLayoutStatus: TableLayoutStatus.error));
     }
   }
-
-  // Future<void> _mapOpenTableProcessEventToStage(
-  //     OpenTable event, Emitter<TableLayoutState> emit) async {
-  //   emit(state.copywith(
-  //       tableItemStatus: TableItemStatus.loading,
-  //       currentProcessTableID: event.tableID));
-  //   try {
-  //     OpenTableDTO openTableDTO =
-  //         await tableOverviewRepository.openTable(event.tableID);
-  //     emit(state.copywith(
-  //         currentTableOpenID: openTableDTO.checkid,
-  //         tableItemStatus: TableItemStatus.success,
-  //         currentProcessTableID: 0));
-  //   } catch (error) {
-  //     emit(state.copywith(tableItemStatus: TableItemStatus.error));
-  //   }
-  // }
 }

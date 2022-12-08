@@ -25,8 +25,6 @@ class OrderCustomerInfo extends StatefulWidget {
 }
 
 class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
-  String msg = "";
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -70,135 +68,132 @@ class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
         ? ''
         : orderBloc.state.tableInfo.cover.toString();
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            contentPadding: const EdgeInsets.all(0),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            content: Stack(
-              children: <Widget>[
-                Form(
-                  key: widget._formKeyCustomer,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'order.customer_info'.tr().toUpperCase(),
-                            style: const TextStyle(
-                                color: activeColor,
-                                fontWeight: FontWeight.bold),
-                          ),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(0),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          content: Stack(
+            children: <Widget>[
+              Form(
+                key: widget._formKeyCustomer,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'order.customer_info'.tr().toUpperCase(),
+                          style: const TextStyle(
+                              color: activeColor, fontWeight: FontWeight.bold),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            controller: guestNameController,
-                            validator: (value) {
-                              if (value != null &&
-                                  value.length > DEFAULT_MAX_LENGTH_NAME) {
-                                return 'order.error.customer_name_error'.tr();
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'order.customer_name'.tr(),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey[100]!),
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                fillColor: Colors.grey[100],
-                                filled: true,
-                                prefixIcon: const Icon(Icons.person)),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: guestNameController,
+                          validator: (value) {
+                            if (value != null &&
+                                value.length > DEFAULT_MAX_LENGTH_NAME) {
+                              return 'order.error.customer_name_error'.tr();
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'order.customer_name'.tr(),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey[100]!),
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              fillColor: Colors.grey[100],
+                              filled: true,
+                              prefixIcon: const Icon(Icons.person)),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            controller: coverController,
-                            validator: (value) {
-                              if (value != null &&
-                                  value.length > DEFAULT_MAX_LENGTH_COVER) {
-                                return 'order.error.customer_cover_error';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'order.number_of_seats'.tr(),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey[100]!),
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                fillColor: Colors.grey[100],
-                                filled: true,
-                                prefixIcon: const Icon(Icons.event_seat)),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: coverController,
+                          validator: (value) {
+                            if (value != null &&
+                                value.length > DEFAULT_MAX_LENGTH_COVER) {
+                              return 'order.error.customer_cover_error';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'order.number_of_seats'.tr(),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey[100]!),
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              fillColor: Colors.grey[100],
+                              filled: true,
+                              prefixIcon: const Icon(Icons.event_seat)),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: CustomElevatedButton(
-                                    text: 'order.confirm'.tr(),
-                                    callback: () {
-                                      if (widget.status == "ACTIVE") {
-                                        if (widget
-                                            ._formKeyCustomer.currentState!
-                                            .validate()) {
-                                          orderBloc.add(UpdateInfo(
-                                              guestname:
-                                                  guestNameController.text,
-                                              cover: coverController
-                                                      .text.isEmpty
-                                                  ? 0
-                                                  : int.parse(
-                                                      coverController.text)));
-                                          Navigator.pop(context);
-                                        }
-                                      } else {
-                                        Navigator.of(context).pop();
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    if (widget.status == "ACTIVE") {
+                                      if (widget._formKeyCustomer.currentState!
+                                          .validate()) {
+                                        orderBloc.add(UpdateInfo(
+                                            guestname: guestNameController.text,
+                                            cover: coverController.text.isEmpty
+                                                ? 0
+                                                : int.parse(
+                                                    coverController.text)));
+                                        Navigator.pop(context);
                                       }
-                                    },
-                                  ),
+                                    } else {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
                                 ),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5.0),
-                                child: SizedBox(
-                                  // width: double.infinity,
-                                  child: CustomElevatedButton(
-                                    buttonColors: voidColor,
-                                    text: 'order.close'.tr(),
-                                    callback: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                // width: double.infinity,
+                                child: CustomElevatedButton(
+                                  buttonColors: voidColor,
+                                  text: 'order.close'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                  },
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          );
-        });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<dynamic> showNoteDialog(BuildContext context) {

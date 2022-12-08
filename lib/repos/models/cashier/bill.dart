@@ -142,12 +142,6 @@ class BillPayment {
       amountreceive: num.parse(json['amountreceive']),
     );
   }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data['paymentmethodname'] = paymentmethodname;
-  //   return data;
-  // }
 }
 
 class ListBill {

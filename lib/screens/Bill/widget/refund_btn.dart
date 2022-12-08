@@ -115,9 +115,6 @@ class _RefundBtnState extends State<RefundBtn> {
                       onPressed: () async {
                         result = await refundPayment(billId);
                         if (result[0] == true) {
-                          // ignore: avoid_print
-                          print(billItem[0].status);
-                          // Navigator.of(context).pop();
                           Navigator.of(context).pushNamed('/billlist');
                           msg = "Hoàn tiền thành công!";
                           _successDialog(msg);

@@ -23,12 +23,13 @@ class _LogDatatableState extends State<LogDatatable> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: cashierLogList(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ViewListCashierLog(list: logs);
-          }
-          return const Center(child: CircularProgressIndicator());
-        });
+      future: cashierLogList(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return ViewListCashierLog(list: logs);
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }

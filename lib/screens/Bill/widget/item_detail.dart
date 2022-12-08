@@ -40,8 +40,6 @@ class _BillItemDetailState extends State<BillItemDetail> {
       ),
       child: Column(
         children: [
-          // const Expanded(flex: 1, child: OrderGeneralInfo()),
-          // const Divider(color: dividerColor),
           Expanded(
             flex: 16,
             child: Scrollbar(

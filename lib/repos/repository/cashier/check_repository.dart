@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
@@ -17,9 +15,7 @@ class CheckRepository {
 
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
-      print('Get check list successful');
       List<Check> list = ListCheck.fromJson(body).list;
-      print('Map check list successful');
       return list;
     } else {
       throw Exception('cautch at getCheckList');
@@ -34,9 +30,7 @@ class CheckRepository {
     if (res.statusCode == 200) {
       if (res.body.isNotEmpty) {
         Map<String, dynamic> body = jsonDecode(res.body);
-        print('Get check item successful');
         List<CheckItem> list = ListCheckItemDetail.fromJson([body]).list;
-        print('Map check item successful');
         return list;
       } else {
         List<CheckItem> list = [];
@@ -55,10 +49,8 @@ class CheckRepository {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get check detail successful');
       List<CheckDetailModel> list =
           ListCheckDetailInfo.fromJson(body['checkdetail']).list;
-      print('Map check detail successful');
       return list;
     } else {
       throw Exception('cautch at getCheckItem');

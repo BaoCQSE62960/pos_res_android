@@ -4,8 +4,6 @@ import 'package:pos_res_android/common/widgets/responsive.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Login/widget/login_form.dart';
 import 'package:pos_res_android/screens/Login/widget/login_screen_image.dart';
-// ignore: library_prefixes
-// import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -43,14 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: const [
                     SizedBox(
                       width: 360,
-                      child: LoginForm(
-                          // socket: socket,
-                          ),
+                      child: LoginForm(),
                     ),
                   ],
                 ),
               ),
-              // const SizedBox(width: defaultPadding * 3),
             ],
           ),
         ),

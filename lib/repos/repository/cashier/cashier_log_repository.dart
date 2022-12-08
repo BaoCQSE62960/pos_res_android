@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import 'package:localstorage/localstorage.dart';
@@ -17,9 +15,7 @@ class CashierLogRepository {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get cashier log list successful');
       List<CashierLog> list = ListCashierLog.fromJson(body['list']).list;
-      print('Map cashier log list successful');
       return list;
     } else {
       throw Exception('cautch at getCashierLogList');
@@ -33,9 +29,7 @@ class CashierLogRepository {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get cashier log successful');
       List<CashierLogItem> list = CashierLogAmount.fromJson([body]).list;
-      print('Map cashier log successful');
       return list;
     } else {
       throw Exception('cautch at getCashierLogAmount');
@@ -50,18 +44,14 @@ class CashierLogRepository {
     Map data = {"id": logId, "amount": amount};
     var body = json.encode(data);
 
-    print(body);
     Response res = await put(Uri.parse(uriConnect + '/cashierlog/$logId'),
         headers: headers, body: body);
 
-    print(res.statusCode);
     if (res.statusCode == 200) {
       result = true;
-      print('put amount successful');
       msg = res.body;
     } else {
       msg = res.body;
-      print("msg: " + msg);
     }
     return [result, msg];
   }

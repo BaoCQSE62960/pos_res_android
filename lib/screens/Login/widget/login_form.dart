@@ -16,7 +16,6 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   List<Shift> list = [];
   LoginService service = LoginService();
-  String dropdownValue = "";
   List result = [];
 
   Future loginToSystem(String username, String password) async {
@@ -178,10 +177,8 @@ class _LoginFormState extends State<LoginForm> {
                 minimumSize: const Size(double.infinity, 56),
               ),
               onPressed: () {
-                // socket.disconnectServer();
                 SystemNavigator.pop();
               },
-              // onPressed: () => exit(0),
               child: Text(
                 "Thoát".toUpperCase(),
               ),

@@ -11,7 +11,7 @@ class MomoService {
     return repos.getMomoItem();
   }
 
-  Future<String> getPayment(String amount) {
+  Future<List<String>> getPayment(String amount) {
     return repos.getMomoPayment(amount);
   }
 }

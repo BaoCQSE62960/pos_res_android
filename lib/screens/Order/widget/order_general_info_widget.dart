@@ -15,6 +15,7 @@ class OrderGeneralInfo extends StatefulWidget {
 
 class _OrderGeneralInfoState extends State<OrderGeneralInfo> {
   final newFormat = DateFormat('HH:mm');
+
   @override
   Widget build(BuildContext context) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);

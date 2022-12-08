@@ -25,13 +25,9 @@ class _ViewListChecksState extends State<ViewListChecks> {
   List currentUserRole = [];
   List<Check> checks = [];
   List<Check> checkFilter = [];
-  // List<CheckItem> checkItem = [];
-  // List<CheckDetailModel> checkDetail = [];
 
   String statusFilter = "";
   String loginMsg = "";
-  // int? sortColumnIndex;
-  // bool isAscending = false;
   final newFormat = DateFormat('yyyy-MM-dd');
   final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
@@ -41,26 +37,11 @@ class _ViewListChecksState extends State<ViewListChecks> {
     const Text('Đóng'),
   ];
 
-  // void convertFutureListToList(
-  //     Future getCheckItem, List<CheckItem> checkItem) async {
-  //   checkItem = await getCheckItem;
-  // }
-
   Future getCurrentUserRole() async {
     LoginService service = LoginService();
     currentUserRole = await service.getRole();
     return currentUserRole;
   }
-
-  // Future getCheckItemDetail(int checkId) async {
-  //   checkItem = await service.getCheckItem(checkId);
-  //   return checkItem;
-  // }
-
-  // Future getCheckDetailInfo(int checkId) async {
-  //   checkDetail = await service.getCheckDetail(checkId);
-  //   return checkDetail;
-  // }
 
   @override
   void initState() {
@@ -80,8 +61,6 @@ class _ViewListChecksState extends State<ViewListChecks> {
             children: [
               const SizedBox(
                 height: defaultPadding * 3,
-                // width: defaultPadding * 2,
-                // color: deactiveLightColor,
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: defaultPadding * 0.25,
@@ -89,15 +68,8 @@ class _ViewListChecksState extends State<ViewListChecks> {
                   ),
                   child: TransactionTab(),
                 ),
-                // decoration: const BoxDecoration(
-                //   border: Border(
-                //     right: BorderSide(color: primaryColor),
-                //   ),
-                // ),
               ),
               SizedBox(
-                // width: MediaQuery.of(context).size.width / 5 +
-                //     defaultPadding * 5.55,
                 width: MediaQuery.of(context).size.width / 3,
                 height: defaultPadding * 3,
                 child: Padding(
@@ -121,10 +93,6 @@ class _ViewListChecksState extends State<ViewListChecks> {
                         borderSide: BorderSide.none,
                       ),
                       hintText: "Mã đơn hàng",
-                      // prefixIcon: Padding(
-                      //   padding: EdgeInsets.all(defaultPadding),
-                      //   child: Icon(Icons.lock),
-                      // ),
                     ),
                     onChanged: (String input) {
                       setState(
@@ -145,18 +113,11 @@ class _ViewListChecksState extends State<ViewListChecks> {
                   left: defaultPadding * 0.25,
                 ),
                 child: ToggleButtons(
-                  //       for (int i = 0; i < _selectedFruits.length; i++) {
-                  //         _selectedFruits[i] = i == index;
                   onPressed: (int index) {
                     setState(() {
                       for (int i = 0; i < _selectedStatus.length; i++) {
                         _selectedStatus[i] = i == index;
                         statusFilter = selectedStatus[index];
-                        // _selectedStatus[index] =
-                        //     !_selectedStatus[index];
-                        // if (index == 0 && _selectedStatus[index]) {
-                        // } else if (index == 0 &&
-                        //     !_selectedStatus[index]) {
                         checkFilter = checks
                             .where((element) =>
                                 element.status.contains(statusFilter))
@@ -172,7 +133,6 @@ class _ViewListChecksState extends State<ViewListChecks> {
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   constraints: const BoxConstraints(
                     minHeight: defaultPadding * 2,
-                    // minWidth: defaultPadding * 6.5,
                     minWidth: defaultPadding * 9,
                   ),
                   isSelected: _selectedStatus,
@@ -186,18 +146,14 @@ class _ViewListChecksState extends State<ViewListChecks> {
           height: MediaQuery.of(context).size.height - defaultPadding * 8,
           width: MediaQuery.of(context).size.width - defaultPadding * 5,
           child: DataTable2(
-              // sortAscending: isAscending,
-              // sortColumnIndex: sortColumnIndex,
               columns: const [
                 DataColumn(
                   label: Text(
                     'Ngày',
                     style: TextStyle(
-                      // fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // onSort: onSort,
                 ),
                 DataColumn(
                   label: Text(
@@ -275,12 +231,9 @@ class _ViewListChecksState extends State<ViewListChecks> {
                     DataCell(Text(statusShow)),
                   ],
                   onLongPress: () async {
-                    // checkItem = await getCheckItemDetail(checkFilter.id);
-                    // checkDetail = await getCheckDetailInfo(checkFilter.id);
                     currentUserRole = await getCurrentUserRole();
                     loginMsg = currentUserRole[1];
 
-                    // if (statusShow == 'Hoạt động') {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -292,19 +245,6 @@ class _ViewListChecksState extends State<ViewListChecks> {
                         },
                       ),
                     );
-                    // } else {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return CheckDetailScreen(
-                    //         listCheck: checkItem,
-                    //         listDetail: checkDetail,
-                    //       );
-                    //     },
-                    //   ),
-                    // );
-                    // }
                   },
                 );
               }).toList()),
@@ -312,25 +252,4 @@ class _ViewListChecksState extends State<ViewListChecks> {
       ],
     );
   }
-
-  // void onSort(int columnIndex, bool ascending) {
-  //   if (columnIndex == 0) {
-  //     checkFilter.sort((check1, check2) => compareString(
-  //         ascending, '${check1.creationtime}', '${check2.creationtime}'));
-  //   } else if (columnIndex == 1) {
-  //     checkFilter.sort((check1, check2) =>
-  //         compareString(ascending, check1.checkno, check2.checkno));
-  //   } else if (columnIndex == 6) {
-  //     checkFilter.sort((check1, check2) =>
-  //         compareString(ascending, check1.status, check2.status));
-  //   }
-
-  //   setState(() {
-  //     this.sortColumnIndex = columnIndex;
-  //     this.isAscending = ascending;
-  //   });
-  // }
-
-  // int compareString(bool ascending, String value1, String value2) =>
-  //     ascending ? value1.compareTo(value2) : value2.compareTo(value1);
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
 
@@ -18,9 +18,7 @@ class MomoRepository {
 
     if (res.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(res.body);
-      print('Get Momo item successful');
       List<Momo> list = ListMomo.fromJson([body]).list;
-      print('Map Momo item successful');
       return list;
     } else {
       throw Exception('cautch at getMomoItem');
@@ -30,8 +28,9 @@ class MomoRepository {
   // cookie
   final LocalStorage storage = LocalStorage('cookie');
 
-  Future<String> getMomoPayment(String amount) async {
+  Future<List<String>> getMomoPayment(String amount) async {
     String url = '';
+    String transactionid = '';
     Map<String, String> headers = {"content-type": "application/json"};
     Map<String, dynamic> data = <String, dynamic>{};
     Map<String, dynamic> result = <String, dynamic>{};
@@ -54,8 +53,6 @@ class MomoRepository {
     var byte = utf8.encode(convert);
     var hmac256 = Hmac(sha256, key);
     String signature = hmac256.convert(byte).toString();
-    print(requestId);
-    print('signature: $signature');
 
     data = {
       "partnerCode": partnerCode,
@@ -73,18 +70,13 @@ class MomoRepository {
 
     String json = jsonEncode(data);
     Response res = await post(Uri.parse(uriMomo), headers: headers, body: json);
-    print(res.body);
     if (res.statusCode == 200) {
       result = jsonDecode(res.body);
       if (result['resultCode'] == 0) {
+        transactionid = result['orderId'];
         url = result['payUrl'];
-        print(url);
-      } else {
-        print('result khác 0');
       }
-    } else {
-      print('Status code khác 200');
     }
-    return url;
+    return [url, transactionid];
   }
 }

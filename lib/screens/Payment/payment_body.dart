@@ -263,48 +263,29 @@ class _PaymentBodyState extends State<PaymentBody> {
                     }
                     if (confirm) {
                       if (checkDuplicatePaid(payment)) {
+                        String transactionid = '';
                         if (payment.name.toUpperCase() == "MOMO") {
                           MomoService service = MomoService();
-                          String url = await service.getPayment(amount);
+                          List<String> inform =
+                              await service.getPayment(amount);
+                          String url = inform[0];
+                          transactionid = inform[1];
                           var result = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DisplayWebView(url: url),
                               ));
-                          // ignore: avoid_print
-                          print(result);
                           if (result != null && result) {
                             paidList.add(PaymentProcess(
+                                transactionid: transactionid,
                                 id: payment.id,
                                 name: payment.name,
                                 amount: num.parse(amount)));
                             storage.setItem(check.checkid.toString(), paidList);
                           }
-                          // else in lỗi
-
-                          // } else if (payment.name.toUpperCase() == "TIỀN MẶT") {
-                          //   // ignore: avoid_print
-                          //   print(amount);
-                          //   if (amount.substring(amount.length - 2) != "00") {
-                          //     msg = "Xin nhập số tiền hợp lệ";
-                          //     _simpleFailDialog();
-                          //   } else if (amount.substring(amount.length - 3) !=
-                          //           "500" &&
-                          //       amount.substring(amount.length - 3) != "000") {
-                          //     msg = "Xin nhập số tiền hợp lệ";
-                          //     _simpleFailDialog();
-                          //   } else {
-                          //     paidList.add(PaymentProcess(
-                          //         id: payment.id,
-                          //         name: payment.name,
-                          //         amount: num.parse(amount).round()));
-                          //     storage.setItem(check.checkid.toString(), paidList);
-                          //   }
                         } else {
-                          // ignore: avoid_print
-                          print(amount);
-
                           paidList.add(PaymentProcess(
+                              transactionid: transactionid,
                               id: payment.id,
                               name: payment.name,
                               amount: num.parse(amount).round()));

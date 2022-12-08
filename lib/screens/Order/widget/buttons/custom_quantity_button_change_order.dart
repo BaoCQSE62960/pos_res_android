@@ -7,8 +7,8 @@ import 'package:pos_res_android/screens/Order/order.dart';
 enum QuantityUpdateMode { increase, decrease }
 
 class CustomQuantityButtonChangeOrder extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
-  const CustomQuantityButtonChangeOrder({Key? key, required this.checkDetail});
+  const CustomQuantityButtonChangeOrder({Key? key, required this.checkDetail})
+      : super(key: key);
 
   final CheckDetail checkDetail;
 
@@ -120,9 +120,6 @@ class CustomQuantityButtonChangeOrder extends StatelessWidget {
 
   bool isAllowToUpdateQuantity(double currentQuantity, double availableQuantity,
       QuantityUpdateMode updateMode) {
-    // if (currentQuantity < 1 || availableQuantity < 1) {
-    //   return true;
-    // } else {
     if (updateMode == QuantityUpdateMode.increase) {
       if (currentQuantity == availableQuantity) {
         return false;
@@ -135,7 +132,6 @@ class CustomQuantityButtonChangeOrder extends StatelessWidget {
       } else {
         return true;
       }
-      // }
     }
     return false;
   }

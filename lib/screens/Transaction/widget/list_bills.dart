@@ -28,7 +28,6 @@ class _ViewListBillsState extends State<ViewListBills> {
   List<BillPayment> billPayment = [];
 
   String statusFilter = "";
-  String msg = "";
   final newFormat = DateFormat('yyyy-MM-dd');
   final moneyFormat = NumberFormat.decimalPattern('vi_VN');
 
@@ -77,15 +76,8 @@ class _ViewListBillsState extends State<ViewListBills> {
                   ),
                   child: BillTab(),
                 ),
-                // decoration: const BoxDecoration(
-                //   border: Border(
-                //     right: BorderSide(color: primaryColor),
-                //   ),
-                // ),
               ),
               SizedBox(
-                // width: MediaQuery.of(context).size.width / 5 +
-                //     defaultPadding * 5.55,
                 width: MediaQuery.of(context).size.width / 3,
                 height: defaultPadding * 3,
                 child: Padding(
@@ -155,7 +147,6 @@ class _ViewListBillsState extends State<ViewListBills> {
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   constraints: const BoxConstraints(
                     minHeight: defaultPadding * 2,
-                    // minWidth: defaultPadding * 9.75,
                     minWidth: defaultPadding * 13.5,
                   ),
                   isSelected: _selectedStatus,
@@ -174,7 +165,6 @@ class _ViewListBillsState extends State<ViewListBills> {
                   label: Text(
                     'Ngày',
                     style: TextStyle(
-                      // fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -266,7 +256,6 @@ class _ViewListBillsState extends State<ViewListBills> {
                           },
                         ),
                       );
-                      // }
                     },
                   );
                 },

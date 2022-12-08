@@ -28,7 +28,6 @@ class SimpleBlocDelegate extends BlocObserver {
   }
 }
 
-// void main() => runApp(const MyApp());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();

@@ -100,7 +100,7 @@ class _ViewListBillsState extends State<ViewListBills> {
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         borderSide: BorderSide.none,
                       ),
-                      hintText: "Mã thanh toán",
+                      hintText: "Mã hóa đơn",
                     ),
                     onChanged: (String input) {
                       setState(
@@ -171,7 +171,7 @@ class _ViewListBillsState extends State<ViewListBills> {
                 ),
                 DataColumn(
                   label: Text(
-                    'Mã thanh toán',
+                    'Mã hóa đơn',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

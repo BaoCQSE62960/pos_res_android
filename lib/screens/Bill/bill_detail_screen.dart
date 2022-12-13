@@ -32,11 +32,11 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
   List<BillDetailModel> billDetail = [];
   List<BillPayment> billPayment = [];
   final List<bool> _selectedTab = <bool>[true, false];
-  final List<String> selectedTab = <String>["Đơn hàng", "Thanh toán"];
+  final List<String> selectedTab = <String>["Chi tiết đơn", "Thanh toán"];
 
   String tabFilter = "";
   List<Widget> tab = <Widget>[
-    const Text('Đơn hàng'),
+    const Text('Chi tiết đơn'),
     const Text('Thanh toán'),
   ];
 
@@ -72,7 +72,7 @@ class _BillDetailScreenState extends State<BillDetailScreen> {
                 if (i == _selectedTab.length) {
                   tabFilter = "";
                 }
-                if (tabFilter == "Đơn hàng") {
+                if (tabFilter == "Chi tiết đơn") {
                   swap = false;
                 } else {
                   swap = true;

@@ -92,7 +92,7 @@ class _ViewListChecksState extends State<ViewListChecks> {
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         borderSide: BorderSide.none,
                       ),
-                      hintText: "Mã đơn hàng",
+                      hintText: "Mã hóa đơn",
                     ),
                     onChanged: (String input) {
                       setState(
@@ -157,7 +157,7 @@ class _ViewListChecksState extends State<ViewListChecks> {
                 ),
                 DataColumn(
                   label: Text(
-                    'Mã đơn hàng',
+                    'Mã hóa đơn',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

@@ -152,7 +152,7 @@ Container calculatePriceWidget(
                   }
                 },
                 icons: const Icon(
-                  Icons.notifications,
+                  Icons.change_circle,
                   color: warningColor,
                 ),
                 text: 'order.change'.tr(),

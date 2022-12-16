@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/utils/socket.dart';
@@ -33,9 +35,10 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
   @override
   void initState() {
     super.initState();
-
     socket.declareSocket();
     socket.connectServer();
+    Timer.periodic(
+        const Duration(seconds: 30), (Timer t) => socket.connectServer());
   }
 
   @override

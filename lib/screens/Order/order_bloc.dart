@@ -65,6 +65,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     on<ServedACheckDetail>(_servedACheckDetail);
     on<RemindACheckDetail>(_remindACheckDetail);
     on<RemoveLocalCheckDetail>(_removeLocalCheckDetail);
+    on<ResetSelectedCheckDetail>(_resetSelectedCheckDetail);
   }
 
   final MajorGroupRepositoryImpl majorGroupRepository;
@@ -108,12 +109,18 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
         state.copywith(
             selectedVoidReason: listVoidReason[0],
             listVoidReason: listVoidReason,
-            currentSelectedMenuID: listMenu[0].id,
+            currentSelectedMenuID: state.currentSelectedMenuID == 0
+                ? listMenu[0].id
+                : state.currentSelectedMenuID,
             checkId: event.checkid,
             tableId: event.tableid,
             listMajorGroups: listMajorGroups,
             listMenus: listMenu,
-            listItems: listItem,
+            listItems: listItem
+                .where((element) => state.currentSelectedMajorID != 0
+                    ? element.majorgroupid == state.currentSelectedMajorID
+                    : true)
+                .toList(),
             listFullItems: listFullItem,
             check: check,
             tableInfo: tableInfo,
@@ -610,6 +617,17 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
         state.copywith(
             check: state.check, orderLayoutStatus: OrderLayoutStatus.success),
       );
+    } catch (error) {
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
+    }
+  }
+
+  void _resetSelectedCheckDetail(
+      ResetSelectedCheckDetail event, Emitter<OrderLayoutState> emit) async {
+    emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.loading));
+    try {
+      state.listSelectedCheckDetail.clear();
+      emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.success));
     } catch (error) {
       emit(state.copywith(orderLayoutStatus: OrderLayoutStatus.error));
     }

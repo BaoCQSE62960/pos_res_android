@@ -147,3 +147,7 @@ class RemoveLocalCheckDetail extends OrderLayoutEvent {
 
   final int checkDetailID;
 }
+
+class ResetSelectedCheckDetail extends OrderLayoutEvent {
+  ResetSelectedCheckDetail();
+}

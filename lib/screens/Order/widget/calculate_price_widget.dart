@@ -230,6 +230,7 @@ Future<dynamic> showChangeBottomSheet(BuildContext context) {
             GestureDetector(
                 onTap: () {
                   tableBloc.add(TableEvent.ChangeOrder());
+                  orderBloc.add(ResetSelectedCheckDetail());
                   changeOrderDialog(context);
                 },
                 child: ListTile(

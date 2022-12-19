@@ -83,6 +83,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
     }
 
     try {
+      final int taxValue = await checkRepository.getTaxValue();
       final List<MajorGroup> listMajorGroups =
           await majorGroupRepository.getMajorGroups();
       final List<Menu> listMenu = await menuRepository.getMenu();
@@ -124,6 +125,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
             listFullItems: listFullItem,
             check: check,
             tableInfo: tableInfo,
+            taxValue: taxValue,
             orderLayoutStatus: OrderLayoutStatus.success),
       );
     } catch (error) {
@@ -592,8 +594,7 @@ class OrderLayoutBloc extends Bloc<OrderLayoutEvent, OrderLayoutState> {
   }
 
   double calculateTaxValueForItem(double price) {
-    // Get tax value from BE
-    return (price * 10 / 100);
+    return (price * state.taxValue / 100);
   }
 
   FutureOr<void> _removeLocalCheckDetail(

@@ -68,7 +68,7 @@ class _SideBarState extends State<SideBar> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).popAndPushNamed('/tableoverview');
+                    Navigator.of(context).pushNamed('/tableoverview');
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,

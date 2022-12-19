@@ -114,4 +114,17 @@ class CheckRepositoryImpl extends CheckService {
       throw Exception('Failed to remind a check detail.');
     }
   }
+
+  @override
+  Future<int> getTaxValue() async {
+    headers = storage.getItem('headers');
+    Response response =
+        await get(Uri.parse(uriConnect + "/order/taxvalue/"), headers: headers);
+    var responseJson = json.decode(response.body);
+    if (response.statusCode == 200) {
+      return responseJson['taxvalue'];
+    } else {
+      throw Exception('Failed to get tax value detail.');
+    }
+  }
 }

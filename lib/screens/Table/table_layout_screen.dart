@@ -33,7 +33,6 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
   @override
   void initState() {
     super.initState();
-
     socket.declareSocket();
     socket.connectServer();
   }

@@ -12,4 +12,5 @@ abstract class CheckService {
   Future<http.Response> voidCheckDetail(int id, VoidReasonDTO voidReasonDTO);
   Future<http.Response> servedCheckDetail(int id);
   Future<http.Response> remindCheckDetail(int id);
+  Future<int> getTaxValue();
 }

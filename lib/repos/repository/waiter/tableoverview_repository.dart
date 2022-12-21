@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:pos_res_android/config/routes.dart';
+import 'package:pos_res_android/repos/models/waiter/dto/splitCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferCheckDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/dto/transferTableDTO.dart';
 import 'package:pos_res_android/repos/models/waiter/tableoverview.dart';
@@ -15,8 +16,11 @@ class TableOverviewRepositoryImpl extends TableOverviewService {
 
   @override
   Future<TableOverview> getTableOverviewByLocationID(String locationID) async {
-    http.Response response = await http
-        .get(Uri.parse(uriConnect + "/tableoverview/location/" + locationID));
+    headers = storage.getItem('headers');
+    http.Response response = await http.get(
+      Uri.parse(uriConnect + "/tableoverview/location/" + locationID),
+      headers: headers,
+    );
     var responseJson = json.decode(response.body);
     if (response.statusCode == 200) {
       return TableOverview.fromJson(responseJson);
@@ -41,16 +45,26 @@ class TableOverviewRepositoryImpl extends TableOverviewService {
   }
 
   @override
-  Future<http.Response> transferTable(TransferTableDTO transferTableDTO,
-      int currentTableID, int targetTableID) async {
+  Future<http.Response> transferTable(TransferTableDTO transferTableDTO) async {
     headers = storage.getItem('headers');
     var body = json.encode(transferTableDTO.toJson());
     http.Response response = await http.put(
-        Uri.parse(uriConnect +
-            "/tableoverview/transfer/table1/" +
-            currentTableID.toString() +
-            "/table2/" +
-            targetTableID.toString()),
+        Uri.parse(uriConnect + '/tableoverview/transfer/table'),
+        headers: headers,
+        body: body);
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to transfer table');
+    }
+  }
+
+  @override
+  Future<http.Response> splitCheck(SplitCheckDTO splitCheckDTO) async {
+    headers = storage.getItem('headers');
+    var body = json.encode(splitCheckDTO.toJson());
+    http.Response response = await http.put(
+        Uri.parse(uriConnect + "/transferdetail/transfer/percent"),
         headers: headers,
         body: body);
     if (response.statusCode == 200) {

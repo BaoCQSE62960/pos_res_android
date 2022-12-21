@@ -13,25 +13,28 @@
         "search": "Tìm kiếm",
         "customer": "Khách hàng",
         "note": "Ghi chú",
-        "order_id": "Đơn hàng",
+        "order_id": "Mã hóa đơn",
         "open_time": "Mở vào",
         "out_of_stock": "Hết hàng",
+        "warning_out_of_stock": "Sắp hết hàng",
         "confirm": "Xác nhận",
         "customer_name": "Tên khách hàng",
-        "number_of_seats": "Số ghế",
+        "number_of_seats": "Số khách",
         "customer_info": "Thông tin khách hàng",
         "check_note": "Ghi chú đơn hàng",
         "check_note_hint": "Ghi chú ...",
         "special_request_title": "Yêu cầu đặc biệt",
-        "void_reason_title": "Hủy đơn",
+        "void_reason_title": "Lý do hủy",
         "change_order": "Chuyển đơn",
         "change_table": "Chuyển bàn",
+        "split_order": "Chia đơn",
         "all": "Tất cả",
         "close": "Đóng",
         "error": {
             "customer_name_error": "Tên không được dài quá 50 ký tự",
-            "customer_cover_error": "Số ghế không được dài quá 2 ký tự",
-            "customer_note_error": "Ghi chú không được dài quá 250 ký tự"
+            "customer_cover_error": "Số khách không được dài quá 2 ký tự",
+            "customer_note_error": "Ghi chú không được dài quá 250 ký tự",
+            "split_order_error": "Phần trăm không hợp lệ"
         }
     },
     "change_shift":
@@ -42,6 +45,11 @@
     {
         "change_order_dialog_title": "Xác nhận chuyển đơn",
         "change_order_dialog_message": "Bạn có đồng ý chuyển hóa đơn này sang bàn #{} ?"
+    },
+    "split_order":
+    {
+        "split_order_dialog_title": "Xác nhận chia đơn",
+        "split_order_dialog_message": "Bạn có đồng ý chia hóa đơn này sang bàn #{} ?"
     },
     "change_table":
     {

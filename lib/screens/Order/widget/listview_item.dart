@@ -9,7 +9,6 @@ import 'package:pos_res_android/screens/Order/widget/buttons/custom_quantity_but
 enum Mode { orderdetail, changeorder }
 
 class ActionItemList extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
   const ActionItemList(
       {Key? key,
       required this.name,
@@ -17,7 +16,8 @@ class ActionItemList extends StatelessWidget {
       required this.price,
       required this.isDone,
       required this.checkDetail,
-      this.currentMode = Mode.orderdetail});
+      this.currentMode = Mode.orderdetail})
+      : super(key: key);
   final String name;
   final String sepcialRequest;
   final String price;
@@ -51,19 +51,31 @@ class ActionItemList extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: TextStyle(color: textColor2),
-                        ),
-                        const Spacer(),
-                        Text(sepcialRequest,
-                            style: TextStyle(
-                                color: textColor2,
-                                fontStyle: FontStyle.italic)),
-                      ]),
+                  Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: TextStyle(color: textColor2),
+                          ),
+                          const Spacer(),
+                          Text(sepcialRequest,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: textColor2,
+                                  fontStyle: FontStyle.italic)),
+                          Text(checkDetail.note,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: textColor2,
+                                  fontStyle: FontStyle.italic))
+                        ]),
+                  ),
                   const Spacer(),
                   Row(
                     children: [

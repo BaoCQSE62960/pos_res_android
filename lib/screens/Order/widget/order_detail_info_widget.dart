@@ -1,8 +1,12 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
+import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/repos/models/waiter/specialrequests.dart';
 import 'package:pos_res_android/repos/models/waiter/voidreason.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
@@ -10,13 +14,28 @@ import 'package:pos_res_android/screens/Order/widget/buttons/custom_elevated_but
 import 'package:pos_res_android/screens/Order/widget/listview_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-final currencyFormat = NumberFormat("#,##0", "en_US");
+final currencyFormat = NumberFormat.decimalPattern('vi_VN');
 
+// ignore: constant_identifier_names
+const int DEFAULT_MAX_LENGTH_NOTE = 250;
+
+// ignore: must_be_immutable
 class OrderDetailInfo extends StatelessWidget {
   OrderDetailInfo({
     Key? key,
   }) : super(key: key);
-  final _formKey = GlobalKey<FormState>();
+
+  String msg = "";
+
+  Future<void> _simpleFailDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return WarningPopUp(msg: msg);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +49,38 @@ class OrderDetailInfo extends StatelessWidget {
         },
         itemCount: orderBloc.state.check.checkDetail.length,
         itemBuilder: (context, index) {
-          return Slidable(
-            child: ActionItemList(
-                checkDetail: orderBloc.state.check.checkDetail[index],
-                name: orderBloc.state.check.checkDetail[index].itemname,
-                sepcialRequest: specialRequestProcess(
-                    orderBloc.state.check.checkDetail[index].specialRequest),
-                price: orderBloc.state.check.checkDetail[index].isLocal
-                    ? currencyFormat.format(
-                        orderBloc.state.check.checkDetail[index].amount *
-                            orderBloc.state.check.checkDetail[index].quantity)
-                    : currencyFormat.format(
-                        orderBloc.state.check.checkDetail[index].amount),
-                isDone: false),
-            startActionPane: startActionPaneBuilder(
-                orderBloc.state.check.checkDetail[index].status,
-                orderBloc.state.check.checkDetail[index],
-                orderBloc),
-            endActionPane: RemindOrderActionPane(
-                context, orderBloc.state.check.checkDetail[index], orderBloc),
+          return GestureDetector(
+            onDoubleTap: () {
+              final Item? item = orderBloc.state.listFullItems.firstWhere(
+                  (element) =>
+                      (orderBloc.state.check.checkDetail[index].itemid ==
+                          element.id));
+              if (item != null && !item.status.isOutofStock) {
+                orderBloc.add(AddItem(
+                    checkDetail: orderBloc.state.check.checkDetail[index]));
+              } else {
+                msg = "Món hiện đang không khả dụng";
+                _simpleFailDialog(context);
+              }
+            },
+            child: Slidable(
+              child: ActionItemList(
+                  checkDetail: orderBloc.state.check.checkDetail[index],
+                  name: orderBloc.state.check.checkDetail[index].itemname,
+                  sepcialRequest: specialRequestProcess(
+                      orderBloc.state.check.checkDetail[index].specialRequest),
+                  price: orderBloc.state.check.checkDetail[index].isLocal
+                      ? currencyFormat.format(
+                          orderBloc.state.check.checkDetail[index].amount *
+                              orderBloc.state.check.checkDetail[index].quantity)
+                      : currencyFormat.format(
+                          orderBloc.state.check.checkDetail[index].amount),
+                  isDone: false),
+              startActionPane: startActionPaneBuilder(
+                  orderBloc.state.check.checkDetail[index].status,
+                  orderBloc.state.check.checkDetail[index],
+                  orderBloc),
+            ),
           );
         },
       ),
@@ -64,14 +96,15 @@ class OrderDetailInfo extends StatelessWidget {
         return LocalOrderActionPane(checkDetail, orderBloc);
       case 'RECALL':
         return DoneOrderActionPane(checkDetail, orderBloc);
-      case 'WAITING':
+      case 'SERVED':
         return DoneOrderActionPane(checkDetail, orderBloc);
+      case 'WAITING':
+        return RemindOrderActionPane(checkDetail, orderBloc);
       default:
         return null;
     }
   }
 
-  // ignore: non_constant_identifier_names
   ActionPane WaitingOrderActionPane(
       CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
@@ -79,19 +112,39 @@ class OrderDetailInfo extends StatelessWidget {
       children: [
         SlidableAction(
           onPressed: (context) {
+            voidReasonDialog(context, checkDetail.checkdetailid);
+          },
+          backgroundColor: voidColor,
+          foregroundColor: Colors.white,
+          icon: Icons.delete,
+        ),
+        SlidableAction(
+          onPressed: (context) {
+            orderBloc.add(LoadSpecialRequestsForItem(
+                itemid: checkDetail.itemid,
+                checkdetailid: checkDetail.checkdetailidLocal));
+            specialRequestDialog(context, checkDetail.checkdetailid, false);
+          },
+          backgroundColor: deactiveColor,
+          foregroundColor: Colors.white,
+          icon: Icons.note_alt,
+        ),
+        SlidableAction(
+          onPressed: (context) {
             orderBloc.add(
                 ServedACheckDetail(checkdetailid: checkDetail.checkdetailid));
+            orderBloc.add(LoadData(
+                checkid: orderBloc.state.checkId,
+                tableid: orderBloc.state.tableId));
           },
           backgroundColor: activeColor,
           foregroundColor: Colors.white,
           icon: Icons.done,
         )
       ],
-      extentRatio: 0.2,
     );
   }
 
-  // ignore: non_constant_identifier_names
   ActionPane LocalOrderActionPane(
       CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
@@ -99,22 +152,29 @@ class OrderDetailInfo extends StatelessWidget {
       children: [
         SlidableAction(
           onPressed: (context) {
+            orderBloc.add(RemoveLocalCheckDetail(
+                checkDetailID: checkDetail.checkdetailidLocal));
+          },
+          backgroundColor: voidColor,
+          foregroundColor: Colors.white,
+          icon: Icons.remove,
+        ),
+        SlidableAction(
+          onPressed: (context) {
             orderBloc.add(LoadSpecialRequestsForItem(
                 itemid: checkDetail.itemid,
                 checkdetailid: checkDetail.checkdetailidLocal));
-            specialRequestDialog(context, checkDetail.checkdetailidLocal);
+            specialRequestDialog(context, checkDetail.checkdetailidLocal, true);
           },
           backgroundColor: warningColor,
           foregroundColor: Colors.white,
-          icon: Icons.share,
-          // label: 'order.special_request'.tr(),
+          icon: Icons.note_alt,
         )
       ],
-      extentRatio: 0.2,
+      extentRatio: 1 / 3,
     );
   }
 
-  // ignore: non_constant_identifier_names
   ActionPane DoneOrderActionPane(
       CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
@@ -128,16 +188,46 @@ class OrderDetailInfo extends StatelessWidget {
           foregroundColor: Colors.white,
           icon: Icons.delete,
         ),
+        SlidableAction(
+          onPressed: (context) {
+            orderBloc.add(LoadSpecialRequestsForItem(
+                itemid: checkDetail.itemid,
+                checkdetailid: checkDetail.checkdetailidLocal));
+            specialRequestDialog(context, checkDetail.checkdetailid, false);
+          },
+          backgroundColor: deactiveColor,
+          foregroundColor: Colors.white,
+          icon: Icons.note_alt,
+        ),
       ],
-      extentRatio: 0.2,
+      extentRatio: 1 / 3,
     );
   }
 
-  ActionPane RemindOrderActionPane(BuildContext context,
+  ActionPane RemindOrderActionPane(
       CheckDetail checkDetail, OrderLayoutBloc orderBloc) {
     return ActionPane(
       motion: const ScrollMotion(),
       children: [
+        SlidableAction(
+          onPressed: (context) {
+            voidReasonDialog(context, checkDetail.checkdetailid);
+          },
+          backgroundColor: voidColor,
+          foregroundColor: Colors.white,
+          icon: Icons.delete,
+        ),
+        SlidableAction(
+          onPressed: (context) {
+            orderBloc.add(LoadSpecialRequestsForItem(
+                itemid: checkDetail.itemid,
+                checkdetailid: checkDetail.checkdetailidLocal));
+            specialRequestDialog(context, checkDetail.checkdetailid, false);
+          },
+          backgroundColor: deactiveColor,
+          foregroundColor: Colors.white,
+          icon: Icons.note_alt,
+        ),
         SlidableAction(
           onPressed: (context) {
             orderBloc.add(
@@ -146,10 +236,8 @@ class OrderDetailInfo extends StatelessWidget {
           backgroundColor: warningColor,
           foregroundColor: Colors.white,
           icon: Icons.notification_important_sharp,
-          // label: 'order.void'.tr(),
         ),
       ],
-      extentRatio: 0.2,
     );
   }
 
@@ -159,235 +247,313 @@ class OrderDetailInfo extends StatelessWidget {
       if (key == 0) {
         result = value.name;
       } else {
-        result = result + " ," + value.name;
+        result = result + ", " + value.name;
       }
     });
     return result;
   }
 
   Future<dynamic> specialRequestDialog(
-      BuildContext context, int checkdetailid) {
+      BuildContext context, int checkdetailid, bool isLocal) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
+    TextEditingController noteController = TextEditingController();
+    CheckDetail currentCheck;
+    if (isLocal) {
+      currentCheck = orderBloc.state.check.checkDetail
+          .firstWhere((element) => element.checkdetailidLocal == checkdetailid);
+    } else {
+      currentCheck = orderBloc.state.check.checkDetail
+          .firstWhere((element) => element.checkdetailid == checkdetailid);
+    }
+    noteController.text = currentCheck.note;
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return BlocProvider<OrderLayoutBloc>.value(
-            value: orderBloc,
-            child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
-                builder: (context, state) {
-              return Dialog(
-                insetPadding: const EdgeInsets.symmetric(
-                    vertical: 50.0, horizontal: 400.0),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 80,
-                            child: Center(
-                              child: Text(
-                                'order.special_request_title'
-                                    .tr()
-                                    .toUpperCase(),
-                                style: const TextStyle(
-                                    color: activeColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider<OrderLayoutBloc>.value(
+          value: orderBloc,
+          child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+              builder: (context, state) {
+            return Dialog(
+              insetPadding:
+                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 80,
+                          child: Center(
+                            child: Text(
+                              'order.special_request_title'.tr().toUpperCase(),
+                              style: const TextStyle(
+                                  color: activeColor,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 5.0, left: 10, right: 10),
-                            child: SizedBox(
-                              height: 100,
-                              width: double.infinity,
-                              child: TextField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                minLines: 4,
-                                decoration: InputDecoration(
-                                    hintText: 'order.check_note_hint'.tr(),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey[100]!),
-                                        borderRadius:
-                                            BorderRadius.circular(20.0)),
-                                    fillColor: Colors.grey[100],
-                                    filled: true),
-                              ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 5.0, left: 10, right: 10),
+                          child: SizedBox(
+                            height: 100,
+                            width: double.infinity,
+                            child: TextFormField(
+                              controller: noteController,
+                              validator: (value) {
+                                if (value != null &&
+                                    value.length > DEFAULT_MAX_LENGTH_NOTE) {
+                                  return 'order.error.customer_cover_error';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  hintText: 'order.check_note_hint'.tr(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey[100]!),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  fillColor: Colors.grey[100],
+                                  filled: true),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5.0),
-                            child: state.orderLayoutStatus.isLoading
-                                ? const CircularProgressIndicator()
-                                : SizedBox(
-                                    height: 350,
-                                    width: double.infinity,
-                                    child: Scrollbar(
-                                      child: ListView.separated(
-                                        separatorBuilder: (context, index) {
-                                          return const Divider(
-                                            color: dividerColor,
-                                          );
-                                        },
-                                        itemCount: orderBloc
-                                            .state.listSpecialRequest.length,
-                                        itemBuilder: (context, index) {
-                                          return CheckboxListTile(
-                                            title: Text(orderBloc
-                                                .state
-                                                .listSpecialRequest[index]
-                                                .name),
-                                            value: state
-                                                    .listSelectedSpecialRequest
-                                                    .isEmpty
-                                                ? false
-                                                : state
-                                                    .listSelectedSpecialRequest
-                                                    .any((element) =>
-                                                        element.id ==
-                                                        orderBloc
-                                                            .state
-                                                            .listSpecialRequest[
-                                                                index]
-                                                            .id),
-                                            onChanged: (value) {
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5.0),
+                          child: state.orderLayoutStatus.isLoading
+                              ? const CircularProgressIndicator()
+                              : SizedBox(
+                                  height: 350,
+                                  width: double.infinity,
+                                  child: Scrollbar(
+                                    child: ListView.separated(
+                                      separatorBuilder: (context, index) {
+                                        return const Divider(
+                                          color: dividerColor,
+                                        );
+                                      },
+                                      itemCount: orderBloc
+                                          .state.listSpecialRequest.length,
+                                      itemBuilder: (context, index) {
+                                        return CheckboxListTile(
+                                          activeColor: isLocal
+                                              ? activeColor
+                                              : deactiveColor,
+                                          title: Text(orderBloc.state
+                                              .listSpecialRequest[index].name),
+                                          value: !isLocal
+                                              ? (currentCheck.specialRequest
+                                                  .any((element) =>
+                                                      element.name ==
+                                                      orderBloc
+                                                          .state
+                                                          .listSpecialRequest[
+                                                              index]
+                                                          .name))
+                                              : (state.listSelectedSpecialRequest
+                                                      .isEmpty
+                                                  ? false
+                                                  : state
+                                                      .listSelectedSpecialRequest
+                                                      .any((element) =>
+                                                          element.name ==
+                                                          orderBloc
+                                                              .state
+                                                              .listSpecialRequest[
+                                                                  index]
+                                                              .name)),
+                                          onChanged: (value) {
+                                            if (isLocal) {
                                               orderBloc.add(
                                                   SelectSpecialRequestForItem(
                                                       specialRequests: orderBloc
                                                               .state
                                                               .listSpecialRequest[
                                                           index]));
-                                            },
-                                          );
-                                        },
-                                      ),
+                                            }
+                                          },
+                                        );
+                                      },
                                     ),
                                   ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: CustomElevatedButton(
-                                text: 'order.confirm'.tr(),
-                                callback: () {
-                                  orderBloc.add(UpdateSpecialRequestForItem(
-                                      checkdetailid: checkdetailid));
-                                },
+                                ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: CustomElevatedButton(
+                                    buttonColors:
+                                        isLocal ? activeColor : deactiveColor,
+                                    text: 'order.confirm'.tr(),
+                                    callback: () {
+                                      if (isLocal) {
+                                        orderBloc.add(
+                                            UpdateSpecialRequestForItem(
+                                                checkdetailid: checkdetailid,
+                                                note: noteController.text));
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  child: CustomElevatedButton(
+                                    buttonColors: voidColor,
+                                    text: 'order.close'.tr(),
+                                    callback: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              );
-            }),
-          );
-        });
+              ),
+            );
+          }),
+        );
+      },
+    );
   }
 
   Future<dynamic> voidReasonDialog(BuildContext context, int checkdetailid) {
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return BlocProvider<OrderLayoutBloc>.value(
-            value: orderBloc,
-            child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
-                builder: (context, state) {
-              return Dialog(
-                insetPadding:
-                    EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            child: Center(
-                              child: Text(
-                                'order.void_reason_title'.tr().toUpperCase(),
-                                style: const TextStyle(
-                                    color: activeColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider<OrderLayoutBloc>.value(
+          value: orderBloc,
+          child: BlocBuilder<OrderLayoutBloc, OrderLayoutState>(
+              builder: (context, state) {
+            return Dialog(
+              insetPadding:
+                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 400.0),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 80,
+                          child: Center(
+                            child: Text(
+                              'order.void_reason_title'.tr().toUpperCase(),
+                              style: const TextStyle(
+                                  color: activeColor,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5.0),
-                            child: state.orderLayoutStatus.isLoading
-                                ? const CircularProgressIndicator()
-                                : Container(
-                                    height: 350,
-                                    width: double.infinity,
-                                    child: Scrollbar(
-                                      child: ListView.separated(
-                                        separatorBuilder: (context, index) {
-                                          return const Divider(
-                                            color: dividerColor,
-                                          );
-                                        },
-                                        itemCount: orderBloc
-                                            .state.listVoidReason.length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            title: Text(orderBloc.state
-                                                .listVoidReason[index].name),
-                                            trailing: Radio<VoidReason>(
-                                              groupValue: orderBloc
-                                                  .state.selectedVoidReason,
-                                              value: orderBloc
-                                                  .state.listVoidReason[index],
-                                              onChanged: (value) {
-                                                orderBloc.add(SelectVoidReason(
-                                                    voidReason: value!));
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5.0),
+                          child: state.orderLayoutStatus.isLoading
+                              ? const CircularProgressIndicator()
+                              : SizedBox(
+                                  height: 350,
+                                  width: double.infinity,
+                                  child: Scrollbar(
+                                    child: ListView.separated(
+                                      separatorBuilder: (context, index) {
+                                        return const Divider(
+                                          color: dividerColor,
+                                        );
+                                      },
+                                      itemCount:
+                                          orderBloc.state.listVoidReason.length,
+                                      itemBuilder: (context, index) {
+                                        return ListTile(
+                                          title: Text(orderBloc.state
+                                              .listVoidReason[index].name),
+                                          trailing: Radio<VoidReason>(
+                                            groupValue: orderBloc
+                                                .state.selectedVoidReason,
+                                            value: orderBloc
+                                                .state.listVoidReason[index],
+                                            onChanged: (value) {
+                                              orderBloc.add(SelectVoidReason(
+                                                  voidReason: value!));
+                                            },
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: CustomElevatedButton(
-                                text: 'order.confirm'.tr(),
-                                callback: () {
-                                  orderBloc.add(VoidACheckDetail(
-                                      checkdetailid: checkdetailid));
-                                  orderBloc.add(LoadData(
-                                      tableid: orderBloc.state.tableId,
-                                      checkid: orderBloc.state.checkId));
-                                  Navigator.pop(context);
-                                },
+                                ),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: CustomElevatedButton(
+                                    text: 'order.confirm'.tr(),
+                                    callback: () {
+                                      orderBloc.add(VoidACheckDetail(
+                                          checkdetailid: checkdetailid));
+                                      orderBloc.add(LoadData(
+                                          checkid: orderBloc.state.checkId,
+                                          tableid: orderBloc.state.tableId));
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5.0),
+                                child: SizedBox(
+                                  child: CustomElevatedButton(
+                                    buttonColors: voidColor,
+                                    text: 'order.close'.tr(),
+                                    callback: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              );
-            }),
-          );
-        });
+              ),
+            );
+          }),
+        );
+      },
+    );
   }
 }

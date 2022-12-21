@@ -15,12 +15,22 @@ class _SideBarState extends State<SideBar> {
   List result = [];
   LoginService service = LoginService();
   String closingAmount = "";
-  late int amount;
+  late num amount;
+  String msg = "";
+  String role = "";
+  bool isCashier = true;
 
-  Future getCurrentUserRole() async {
-    LoginService service = LoginService();
+  getCurrentUserRole() async {
     currentUserRole = await service.getRole();
-    return currentUserRole;
+    setState(() {
+      if (currentUserRole[1].toString().contains("CASHIER")) {
+        role = "CASHIER";
+        isCashier = true;
+      } else {
+        role = "";
+        isCashier = false;
+      }
+    });
   }
 
   Future logoutFromSystem() async {
@@ -29,15 +39,20 @@ class _SideBarState extends State<SideBar> {
     return result;
   }
 
-  Future<void> _missingAmountDialog() async {
+  Future<void> _messageDialog(String msg) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        String msg = "Xin hãy nhập số tiền!";
         return WarningPopUp(msg: msg);
       },
     );
+  }
+
+  @override
+  void initState() {
+    getCurrentUserRole();
+    super.initState();
   }
 
   @override
@@ -48,12 +63,8 @@ class _SideBarState extends State<SideBar> {
           color: sideBarColor,
           child: SizedBox(
             height: MediaQuery.of(context).size.height - defaultPadding * 1.4,
-            // width: defaultPadding * 6,
-            //width: MediaQuery.of(context).size.width / 14,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // mainAxisSize: MainAxisSize.max,
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 TextButton(
                   onPressed: () {
@@ -61,10 +72,7 @@ class _SideBarState extends State<SideBar> {
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: sideBarColor,
-                    // textStyle: GoogleFonts.fredokaOne(),
                   ),
-                  // color: sideBarColor,
-                  // padding: const EdgeInsets.all(20),
                   child: Column(
                     // Replace with a Row for horizontal icon + text
                     children: const <Widget>[
@@ -84,72 +92,88 @@ class _SideBarState extends State<SideBar> {
                     ],
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/search/checklist');
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: sideBarColor,
-                  ),
-                  child: Column(
-                    children: const <Widget>[
-                      Icon(
-                        Icons.search,
-                        size: defaultSize * 12.5,
-                        color: textLightColor,
-                      ),
-                      Text(
-                        "TÌM HÓA ĐƠN",
-                        style: TextStyle(
-                          fontSize: defaultSize * 2.125,
-                          fontWeight: FontWeight.w700,
+                Visibility(
+                  visible: isCashier,
+                  child: TextButton(
+                    onPressed: () {
+                      if (role == "CASHIER") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('/checklist');
+                      } else {
+                        msg = "Vai trò của người dùng không phù hợp";
+                        _messageDialog(msg);
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: sideBarColor,
+                    ),
+                    child: Column(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.search,
+                          size: defaultSize * 12.5,
                           color: textLightColor,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "TÌM HÓA ĐƠN",
+                          style: TextStyle(
+                            fontSize: defaultSize * 2.125,
+                            fontWeight: FontWeight.w700,
+                            color: textLightColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Container(
                   color: sideBarColor,
-                  // height: defaultPadding * 28.5,
-                  height: defaultPadding * 26,
+                  height: defaultPadding * 26.25,
                 ),
-                TextButton(
-                  onPressed: () async {
-                    Navigator.of(context).pushNamed('/cashierlog');
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: sideBarColor,
-                  ),
-                  child: Column(
-                    children: const <Widget>[
-                      Icon(
-                        Icons.text_snippet,
-                        size: defaultSize * 12,
-                        color: textLightColor,
-                      ),
-                      Text(
-                        'NHẬT KÝ',
-                        style: TextStyle(
-                          fontSize: defaultSize * 2.5,
-                          fontWeight: FontWeight.w700,
+                Visibility(
+                  visible: isCashier,
+                  child: TextButton(
+                    onPressed: () {
+                      if (role == "CASHIER") {
+                        Navigator.of(context)
+                            .pushReplacementNamed('/cashierlog');
+                      } else {
+                        msg = "Vai trò của người dùng không phù hợp";
+                        _messageDialog(msg);
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: sideBarColor,
+                    ),
+                    child: Column(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.text_snippet,
+                          size: defaultSize * 12,
                           color: textLightColor,
                         ),
-                      ),
-                    ],
+                        Text(
+                          'NHẬT KÝ',
+                          style: TextStyle(
+                            fontSize: defaultSize * 2.5,
+                            fontWeight: FontWeight.w700,
+                            color: textLightColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 TextButton(
                   onPressed: () async {
-                    currentUserRole = await getCurrentUserRole();
-                    if (currentUserRole[1].toString().contains("CASHIER")) {
+                    if (role == "CASHIER") {
                       _closingDialog();
                     } else {
                       result = await logoutFromSystem();
                       if (result[0] == true) {
-                        Navigator.of(context).pushNamed('/login');
+                        Navigator.of(context).pushReplacementNamed('/login');
                       } else {
-                        Navigator.of(context).pushNamed('/login');
+                        Navigator.of(context).pushReplacementNamed('/login');
                         _logoutFailDialog();
                       }
                     }
@@ -258,16 +282,33 @@ class _SideBarState extends State<SideBar> {
                           child: const Text('Xác nhận'),
                           onPressed: () async {
                             if (closingAmount.isEmpty) {
-                              _missingAmountDialog();
+                              msg = "Xin hãy nhập số tiền";
+                              _messageDialog(msg);
                             } else {
                               amount = int.parse(closingAmount);
-                              service.close(amount);
-                              result = await logoutFromSystem();
-                              if (result[0] == true) {
-                                Navigator.of(context).pushNamed('/login');
+                              if (amount < 0 ||
+                                  closingAmount.substring(
+                                          closingAmount.length - 2) !=
+                                      "00") {
+                                msg = "Xin nhập số tiền hợp lệ";
+                                _messageDialog(msg);
+                              } else if (closingAmount.substring(
+                                          closingAmount.length - 3) !=
+                                      "500" &&
+                                  closingAmount.substring(
+                                          closingAmount.length - 3) !=
+                                      "000") {
+                                msg = "Xin nhập số tiền hợp lệ";
+                                _messageDialog(msg);
                               } else {
-                                Navigator.of(context).pushNamed('/login');
-                                _logoutFailDialog();
+                                service.close(amount);
+                                result = await logoutFromSystem();
+                                if (result[0] == true) {
+                                  Navigator.of(context).pushNamed('/login');
+                                } else {
+                                  Navigator.of(context).pushNamed('/login');
+                                  _logoutFailDialog();
+                                }
                               }
                             }
                             closingAmount = "";

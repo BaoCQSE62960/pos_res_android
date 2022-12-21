@@ -6,7 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:pos_res_android/repos/models/waiter/item.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 
-final currencyFormat = NumberFormat("#,##0", "en_US");
+final currencyFormat = NumberFormat.decimalPattern('vi_VN');
 
 class MenuItemCard extends StatelessWidget {
   const MenuItemCard(
@@ -14,24 +14,27 @@ class MenuItemCard extends StatelessWidget {
       required this.imageURL,
       required this.name,
       required this.price,
-      required this.isOutOfStock,
+      required this.status,
       required this.item})
       : super(key: key);
 
   final String imageURL;
   final String name;
   final String price;
-  final bool isOutOfStock;
+  final String status;
   final Item item;
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return ClipRRect(
-      child: isOutOfStock
+      child: !status.isInofStock
           ? Banner(
               location: BannerLocation.topEnd,
-              message: 'order.out_of_stock'.tr(),
+              message: status.isOutofStock
+                  ? 'order.out_of_stock'.tr()
+                  : 'order.warning_out_of_stock'.tr(),
               child: MenuItemDetail(),
             )
           : MenuItemDetail(),
@@ -69,7 +72,7 @@ class MenuItemCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
-                currencyFormat.format(int.parse(price)),
+                currencyFormat.format(num.parse(price)),
                 style: TextStyle(
                     color: textColor2,
                     fontWeight: FontWeight.bold,

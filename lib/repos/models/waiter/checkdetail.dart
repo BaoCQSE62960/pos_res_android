@@ -16,29 +16,29 @@ class CheckDetail {
       required this.isLocal});
 
   final int checkdetailidLocal;
-  int checkdetailquantityLocal;
+  double checkdetailquantityLocal;
   final int checkdetailid;
   final int itemid;
   final String itemname;
-  int quantity;
-  final String note;
+  double quantity;
+  String note;
   final bool isreminded;
-  int amount;
+  double amount;
   final String status;
   final bool isLocal;
   List<SpecialRequests> specialRequest;
 
   factory CheckDetail.fromJson(Map<String, dynamic> json) => CheckDetail(
       checkdetailidLocal: -1,
-      checkdetailquantityLocal: json['quantity'],
+      checkdetailquantityLocal: double.parse(json['quantity'].toString()),
       isLocal: false,
       checkdetailid: json['checkdetailid'],
       itemid: json['itemid'],
       itemname: json['itemname'],
-      quantity: json['quantity'],
+      quantity: double.parse(json['quantity'].toString()),
       note: json['note'] ?? '',
       isreminded: json['isreminded'],
-      amount: int.parse(json['subtotal']),
+      amount: double.parse(json['subtotal'].toString()),
       status: json['status'],
       specialRequest: (json['specialrequest'] as List)
           .map((e) => SpecialRequests.fromJson(e))

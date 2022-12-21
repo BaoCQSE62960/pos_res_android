@@ -62,7 +62,6 @@ class _LocationFilterState extends State<LocationFilter> {
     return GridView(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
-        // crossAxisSpacing: 16,
         mainAxisSpacing: defaultPadding * 0.5,
         childAspectRatio: 0.3,
       ),
@@ -87,11 +86,10 @@ class _LocationFilterState extends State<LocationFilter> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                        // width: MediaQuery.of(context).size.width,
                         height: defaultPadding * 2.5,
                         child: tableBloc.state.tableLayoutStatus.isSuccess
                             ? locationItem(listLocation.length, tableBloc)
-                            : SizedBox()),
+                            : const SizedBox()),
                   ],
                 ),
               );

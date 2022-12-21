@@ -48,9 +48,6 @@ class TransactionTab extends StatelessWidget {
               ),
             ),
           ),
-          // Container(
-          //   width: defaultPadding * 0.5,
-          // ),
           SizedBox(
             height: defaultPadding * 2.5,
             width: defaultPadding * 10,

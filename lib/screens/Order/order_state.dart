@@ -26,18 +26,21 @@ class OrderLayoutState extends Equatable {
   OrderLayoutState(
       {this.orderLayoutStatus = OrderLayoutStatus.initial,
       this.currentSelectedMajorID = 0,
-      this.currentSelectedMenuID = 1,
+      this.currentSelectedMenuID = 0,
       this.currentMode = CurrentMode.order,
       this.specialRequestNote = '',
       this.currentLocalID = 0,
       this.checkId = 0,
       this.tableId = 0,
+      this.percent = 10,
+      this.taxValue = 10,
       List<MajorGroup>? listMajorGroups,
       Check? check,
       TableInfo? tableInfo,
       Note? note,
       List<Menu>? listMenus,
       List<Item>? listItems,
+      List<Item>? listFullItems,
       List<SpecialRequests>? listSpecialRequest,
       List<VoidReason>? listVoidReason,
       List<SpecialRequests>? listSelectedSpecialRequest,
@@ -46,6 +49,7 @@ class OrderLayoutState extends Equatable {
       : listMajorGroups = listMajorGroups ?? const [],
         listMenus = listMenus ?? const [],
         listItems = listItems ?? const [],
+        listFullItems = listFullItems ?? const [],
         listSpecialRequest = listSpecialRequest ?? const [],
         listSelectedSpecialRequest = listSelectedSpecialRequest ?? const [],
         listSelectedCheckDetail = listSelectedCheckDetail ?? const [],
@@ -58,6 +62,7 @@ class OrderLayoutState extends Equatable {
   final List<MajorGroup> listMajorGroups;
   final List<Menu> listMenus;
   final List<Item> listItems;
+  final List<Item> listFullItems;
   final int currentSelectedMajorID;
   final int currentSelectedMenuID;
   final Check check;
@@ -69,11 +74,12 @@ class OrderLayoutState extends Equatable {
   List<CheckDetail> listSelectedCheckDetail;
   VoidReason selectedVoidReason;
   String specialRequestNote;
-  // ignore: prefer_typing_uninitialized_variables
-  final currentMode;
+  final CurrentMode currentMode;
   int currentLocalID;
   int checkId;
   int tableId;
+  int percent;
+  int taxValue;
 
   @override
   List<Object?> get props => [
@@ -81,6 +87,7 @@ class OrderLayoutState extends Equatable {
         listMenus,
         listMajorGroups,
         listItems,
+        listFullItems,
         check,
         currentSelectedMajorID,
         currentSelectedMenuID,
@@ -94,13 +101,16 @@ class OrderLayoutState extends Equatable {
         specialRequestNote,
         currentLocalID,
         checkId,
-        tableId
+        tableId,
+        percent,
+        taxValue
       ];
 
   OrderLayoutState copywith(
       {List<MajorGroup>? listMajorGroups,
       List<Menu>? listMenus,
       List<Item>? listItems,
+      List<Item>? listFullItems,
       int? currentSelectedMajorID,
       int? currentSelectedMenuID,
       CurrentMode? currentMode,
@@ -116,6 +126,8 @@ class OrderLayoutState extends Equatable {
       int? currentLocalID,
       int? checkId,
       int? tableId,
+      int? percent,
+      int? taxValue,
       required OrderLayoutStatus orderLayoutStatus}) {
     return OrderLayoutState(
         currentSelectedMajorID:
@@ -125,6 +137,7 @@ class OrderLayoutState extends Equatable {
         listMajorGroups: listMajorGroups ?? this.listMajorGroups,
         listMenus: listMenus ?? this.listMenus,
         listItems: listItems ?? this.listItems,
+        listFullItems: listFullItems ?? this.listFullItems,
         listSpecialRequest: listSpecialRequest ?? this.listSpecialRequest,
         listVoidReason: listVoidReason ?? this.listVoidReason,
         listSelectedSpecialRequest:
@@ -140,6 +153,8 @@ class OrderLayoutState extends Equatable {
         currentLocalID: currentLocalID ?? this.currentLocalID,
         checkId: checkId ?? this.checkId,
         tableId: tableId ?? this.tableId,
+        percent: percent ?? this.percent,
+        taxValue: taxValue ?? this.taxValue,
         orderLayoutStatus: orderLayoutStatus);
   }
 }

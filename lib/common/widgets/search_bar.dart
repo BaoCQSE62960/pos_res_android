@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/screens/Order/order.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
@@ -9,6 +11,7 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final OrderLayoutBloc orderBloc = BlocProvider.of<OrderLayoutBloc>(context);
     return Container(
       decoration: const BoxDecoration(boxShadow: [
         BoxShadow(color: dividerColor),
@@ -17,7 +20,12 @@ class SearchBar extends StatelessWidget {
       ]),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-        child: TextField(
+        child: TextFormField(
+          onChanged: (value) {
+            orderBloc.add(
+              LoadData(checkid: orderBloc.state.checkId, searchQuery: value),
+            );
+          },
           decoration: InputDecoration(
               hintText: 'order.search'.tr(),
               enabledBorder: OutlineInputBorder(

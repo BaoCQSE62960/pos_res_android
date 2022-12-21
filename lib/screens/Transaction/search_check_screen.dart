@@ -27,13 +27,6 @@ class _SearchCheckScreenState extends State<SearchCheckScreen> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Container(
-                    //   color: deactiveLightColor,
-                    //   height: MediaQuery.of(context).size.height -
-                    //       defaultPadding * 8,
-                    //   width: MediaQuery.of(context).size.width -
-                    //       MediaQuery.of(context).size.width / 14,
-                    // ),
                     Container(
                       color: textLightColor,
                       height: MediaQuery.of(context).size.height -

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/common/utils/socket.dart';
@@ -13,6 +15,7 @@ import 'package:pos_res_android/repos/repository/waiter/specialrequests_reposito
 import 'package:pos_res_android/repos/repository/waiter/tableinfo_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/tableoverview_repository.dart';
 import 'package:pos_res_android/repos/repository/waiter/voidreason_repository.dart';
+// ignore: library_prefixes
 import 'package:pos_res_android/screens/Order/order.dart' as OrderBloc;
 import 'package:pos_res_android/screens/Table/table_layout_bloc.dart';
 import 'package:pos_res_android/screens/Table/table_layout_event.dart';
@@ -32,9 +35,10 @@ class _TableLayoutScreenState extends State<TableLayoutScreen> {
   @override
   void initState() {
     super.initState();
-
     socket.declareSocket();
     socket.connectServer();
+    Timer.periodic(
+        const Duration(seconds: 30), (Timer t) => socket.connectServer());
   }
 
   @override

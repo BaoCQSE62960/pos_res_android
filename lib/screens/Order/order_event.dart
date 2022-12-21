@@ -1,3 +1,5 @@
+// ignore_for_file: library_prefixes
+
 import 'package:equatable/equatable.dart';
 import 'package:pos_res_android/repos/models/waiter/checkdetail.dart';
 import 'package:pos_res_android/repos/models/waiter/item.dart';
@@ -14,10 +16,11 @@ class OrderLayoutEvent extends Equatable {
 }
 
 class LoadData extends OrderLayoutEvent {
-  LoadData({required this.tableid, required this.checkid});
+  LoadData({required this.checkid, this.tableid, this.searchQuery});
 
   final int checkid;
-  final int tableid;
+  final int? tableid;
+  final String? searchQuery;
 }
 
 class ChangeMenu extends OrderLayoutEvent {
@@ -36,10 +39,12 @@ class ChangeMode extends OrderLayoutEvent {
   ChangeMode();
 }
 
+// ignore: must_be_immutable
 class AddItem extends OrderLayoutEvent {
-  AddItem({required this.item});
+  AddItem({this.item, this.checkDetail});
 
-  final Item item;
+  Item? item;
+  CheckDetail? checkDetail;
 }
 
 class UpdateInfo extends OrderLayoutEvent {
@@ -75,6 +80,12 @@ class SelectCheckDetailForChangeOrder extends OrderLayoutEvent {
   final CheckDetail checkDetail;
 }
 
+class SelectPercentForSplitOrder extends OrderLayoutEvent {
+  SelectPercentForSplitOrder({required this.percent});
+
+  final int percent;
+}
+
 class SelectVoidReason extends OrderLayoutEvent {
   SelectVoidReason({required this.voidReason});
 
@@ -106,9 +117,11 @@ class RemindACheckDetail extends OrderLayoutEvent {
 }
 
 class UpdateSpecialRequestForItem extends OrderLayoutEvent {
-  UpdateSpecialRequestForItem({required this.checkdetailid});
+  UpdateSpecialRequestForItem(
+      {required this.checkdetailid, required this.note});
 
   final int checkdetailid;
+  final String note;
 }
 
 class UpdateQuantity extends OrderLayoutEvent {
@@ -127,4 +140,14 @@ class UpdateQuantityChangeOrder extends OrderLayoutEvent {
 
 class SendOrder extends OrderLayoutEvent {
   SendOrder();
+}
+
+class RemoveLocalCheckDetail extends OrderLayoutEvent {
+  RemoveLocalCheckDetail({required this.checkDetailID});
+
+  final int checkDetailID;
+}
+
+class ResetSelectedCheckDetail extends OrderLayoutEvent {
+  ResetSelectedCheckDetail();
 }

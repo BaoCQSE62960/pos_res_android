@@ -16,13 +16,8 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   List<Shift> list = [];
   LoginService service = LoginService();
-  String dropdownValue = "";
-
-// class LoginForm extends StatelessWidget {
-  // Socket socket;
-  // LoginForm({Key? key, required this.socket}) : super(key: key);
-
   List result = [];
+
   Future loginToSystem(String username, String password) async {
     LoginService service = LoginService();
     result = await service.login(username, password);
@@ -152,7 +147,7 @@ class _LoginFormState extends State<LoginForm> {
                   if (result[1].toString().contains("CASHIER")) {
                     list = await service.getShifts();
                     if (list.isEmpty) {
-                      msg = "Không có dữ liệu!";
+                      msg = "Không có ca làm việc";
                       _simpleFailDialog();
                     } else {
                       _openingDialog();
@@ -182,10 +177,8 @@ class _LoginFormState extends State<LoginForm> {
                 minimumSize: const Size(double.infinity, 56),
               ),
               onPressed: () {
-                // socket.disconnectServer();
                 SystemNavigator.pop();
               },
-              // onPressed: () => exit(0),
               child: Text(
                 "Thoát".toUpperCase(),
               ),

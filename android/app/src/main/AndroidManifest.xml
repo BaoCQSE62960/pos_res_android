@@ -2,7 +2,7 @@
     package="com.example.pos_res_android">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="pos_res_android"
+        android:label="Point of Sale"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

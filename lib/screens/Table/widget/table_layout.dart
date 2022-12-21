@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
@@ -35,7 +34,7 @@ class TableLayout extends StatelessWidget {
               crossAxisCount: 6,
               crossAxisSpacing: defaultPadding,
               mainAxisSpacing: defaultPadding * 0.5,
-              childAspectRatio: 1.55,
+              childAspectRatio: 1.62,
             ),
             children: list),
       ),

@@ -1,27 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:pos_res_android/common/widgets/success_popup.dart';
+import 'package:pos_res_android/common/widgets/warning_popup.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/cashier/bill.dart';
+import 'package:pos_res_android/repos/services/cashier/bill_service.dart';
 
 class RefundBtn extends StatefulWidget {
-  const RefundBtn({Key? key}) : super(key: key);
+  final List<BillItem> list;
+  const RefundBtn({Key? key, required this.list}) : super(key: key);
 
   @override
   State<RefundBtn> createState() => _RefundBtnState();
 }
 
 class _RefundBtnState extends State<RefundBtn> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
+  List<BillItem> billItem = [];
+  List result = [];
+  bool refundable = true;
+  String msg = "";
 
-// class RefundBtn extends StatelessWidget {
-//   const RefundBtn({Key? key}) : super(key: key);
+  Future refundPayment(int billId) async {
+    BillService service = BillService();
+    result = await service.refund(billId);
+    return result;
+  }
+
+  Future<void> _successDialog(String msg) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return SuccessPopUp(msg: msg);
+      },
+    );
+  }
+
+  Future<void> _warningDialog() async {
+    List split1, split2;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        String finalMsg = result[1];
+        if (finalMsg.contains("msg")) {
+          split1 = finalMsg.split(':');
+          finalMsg = split1[1];
+        }
+        split2 = finalMsg.split('"');
+        finalMsg = split2[1];
+        return WarningPopUp(msg: finalMsg);
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    billItem = widget.list;
+    if (billItem[0].status == "REFUND") {
+      refundable = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "refund_btn",
+    return Visibility(
+      visible: refundable,
       child: SizedBox(
         height: defaultPadding * 2.5,
         child: ElevatedButton(
@@ -32,7 +76,7 @@ class _RefundBtnState extends State<RefundBtn> {
             ),
           ),
           onPressed: () {
-            _refundDialog();
+            _refundDialog(billItem[0].id);
           },
           child: Text(
             "Hoàn tiền".toUpperCase(),
@@ -42,7 +86,7 @@ class _RefundBtnState extends State<RefundBtn> {
     );
   }
 
-  Future<void> _refundDialog() async {
+  Future<void> _refundDialog(int billId) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -55,14 +99,6 @@ class _RefundBtnState extends State<RefundBtn> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          // content: SingleChildScrollView(
-          //   child: Column(
-          //     children: <Widget>[
-          //       Text('This is a demo alert dialog.'),
-          //       Text('Would you like to approve of this message?'),
-          //     ],
-          //   ),
-          // ),
           actions: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -76,9 +112,16 @@ class _RefundBtnState extends State<RefundBtn> {
                     width: defaultPadding * 6,
                     child: ElevatedButton(
                       child: const Text('Xác nhận'),
-                      onPressed: () {
-                        // print('Confirmed');
-                        Navigator.of(context).pop();
+                      onPressed: () async {
+                        result = await refundPayment(billId);
+                        if (result[0] == true) {
+                          Navigator.of(context).pushNamed('/billlist');
+                          msg = "Hoàn tiền thành công!";
+                          _successDialog(msg);
+                        }
+                        if (result[0] == false) {
+                          _warningDialog();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: activeColor,

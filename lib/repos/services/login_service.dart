@@ -8,6 +8,10 @@ class LoginService {
     return repos.login(username, password);
   }
 
+  Future getLogo() async {
+    return repos.getLogo();
+  }
+
   Future logout() async {
     return repos.logout();
   }
@@ -20,11 +24,11 @@ class LoginService {
     return repos.getRole();
   }
 
-  Future open(int shiftId, int amount) async {
+  Future open(int shiftId, num amount) async {
     return repos.open(shiftId, amount);
   }
 
-  Future close(int amount) async {
+  Future close(num amount) async {
     return repos.close(amount);
   }
 }

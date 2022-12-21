@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
@@ -10,11 +12,19 @@ const int DEFAULT_MAX_LENGTH_NAME = 50;
 const int DEFAULT_MAX_LENGTH_COVER = 2;
 const int DEFAULT_MAX_LENGTH_NOTE = 250;
 
-class OrderCustomerInfo extends StatelessWidget {
-  OrderCustomerInfo({Key? key, required this.context}) : super(key: key);
-  final _formKey = GlobalKey<FormState>();
+class OrderCustomerInfo extends StatefulWidget {
+  OrderCustomerInfo({Key? key, required this.context, required this.status})
+      : super(key: key);
+  final _formKeyCustomer = GlobalKey<FormState>();
+  final _formKeyNote = GlobalKey<FormState>();
   final BuildContext context;
+  final String status;
 
+  @override
+  State<OrderCustomerInfo> createState() => _OrderCustomerInfoState();
+}
+
+class _OrderCustomerInfoState extends State<OrderCustomerInfo> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,28 +68,18 @@ class OrderCustomerInfo extends StatelessWidget {
         ? ''
         : orderBloc.state.tableInfo.cover.toString();
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            content: Stack(
-              children: <Widget>[
-                Positioned(
-                  right: -30.0,
-                  top: -30.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ),
-                Form(
-                  key: _formKey,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(0),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          content: Stack(
+            children: <Widget>[
+              Form(
+                key: widget._formKeyCustomer,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -98,7 +98,7 @@ class OrderCustomerInfo extends StatelessWidget {
                           validator: (value) {
                             if (value != null &&
                                 value.length > DEFAULT_MAX_LENGTH_NAME) {
-                              return 'order.error.customer_name_error';
+                              return 'order.error.customer_name_error'.tr();
                             }
                             return null;
                           },
@@ -135,27 +135,65 @@ class OrderCustomerInfo extends StatelessWidget {
                               prefixIcon: const Icon(Icons.event_seat)),
                         ),
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: CustomElevatedButton(
-                          text: 'order.confirm'.tr(),
-                          callback: () {
-                            if (_formKey.currentState!.validate()) {
-                              orderBloc.add(UpdateInfo(
-                                  guestname: guestNameController.text,
-                                  cover: int.parse(coverController.text)));
-                              Navigator.pop(context);
-                            }
-                          },
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    if (widget.status == "ACTIVE") {
+                                      if (widget._formKeyCustomer.currentState!
+                                          .validate()) {
+                                        orderBloc.add(UpdateInfo(
+                                            guestname: guestNameController.text,
+                                            cover: coverController.text.isEmpty
+                                                ? 0
+                                                : int.parse(
+                                                    coverController.text)));
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                // width: double.infinity,
+                                child: CustomElevatedButton(
+                                  buttonColors: voidColor,
+                                  text: 'order.close'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          );
-        });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<dynamic> showNoteDialog(BuildContext context) {
@@ -164,79 +202,105 @@ class OrderCustomerInfo extends StatelessWidget {
     noteController.text =
         orderBloc.state.note.note.isEmpty ? '' : orderBloc.state.note.note;
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            insetPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 400.0),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Stack(
-                children: <Widget>[
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'order.check_note'.tr().toUpperCase(),
-                            style: const TextStyle(
-                                color: activeColor,
-                                fontWeight: FontWeight.bold),
-                          ),
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 400.0),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Stack(
+              children: <Widget>[
+                Form(
+                  key: widget._formKeyNote,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'order.check_note'.tr().toUpperCase(),
+                          style: const TextStyle(
+                              color: activeColor, fontWeight: FontWeight.bold),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            controller: noteController,
-                            validator: (value) {
-                              if (value != null &&
-                                  value.length > DEFAULT_MAX_LENGTH_COVER) {
-                                return 'order.error.customer_note_error';
-                              }
-                              return null;
-                            },
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            minLines: 20,
-                            decoration: InputDecoration(
-                                hintText: 'order.check_note_hint'.tr(),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey[100]!),
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                fillColor: Colors.grey[100],
-                                filled: true,
-                                prefixIcon: const Icon(Icons.note)),
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: noteController,
+                          validator: (value) {
+                            if (value != null &&
+                                value.length > DEFAULT_MAX_LENGTH_NOTE) {
+                              return 'order.error.customer_note_error';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'order.check_note_hint'.tr(),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey[100]!),
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              fillColor: Colors.grey[100],
+                              filled: true,
+                              prefixIcon: const Icon(Icons.note)),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: CustomElevatedButton(
-                              text: 'order.confirm'.tr(),
-                              callback: () {
-                                if (_formKey.currentState!.validate()) {
-                                  orderBloc.add(
-                                      UpdateNote(note: noteController.text));
-                                  Navigator.pop(context);
-                                }
-                              },
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: CustomElevatedButton(
+                                  text: 'order.confirm'.tr(),
+                                  callback: () {
+                                    if (widget.status == "ACTIVE") {
+                                      if (widget._formKeyNote.currentState!
+                                          .validate()) {
+                                        orderBloc.add(UpdateNote(
+                                            note: noteController.text));
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5.0),
+                              child: SizedBox(
+                                // width: double.infinity,
+                                child: CustomElevatedButton(
+                                  buttonColors: voidColor,
+                                  text: 'order.close'.tr(),
+                                  callback: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

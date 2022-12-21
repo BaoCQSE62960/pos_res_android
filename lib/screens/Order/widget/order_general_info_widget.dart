@@ -4,10 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos_res_android/config/theme.dart';
 import 'package:pos_res_android/screens/Order/order.dart';
 
-class OrderGeneralInfo extends StatelessWidget {
+class OrderGeneralInfo extends StatefulWidget {
   const OrderGeneralInfo({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<OrderGeneralInfo> createState() => _OrderGeneralInfoState();
+}
+
+class _OrderGeneralInfoState extends State<OrderGeneralInfo> {
+  final newFormat = DateFormat('HH:mm');
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +31,12 @@ class OrderGeneralInfo extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            'order.open_time'.tr() + ' ' + orderBloc.state.check.creationtime,
+            'order.open_time'.tr() +
+                ' ' +
+                (orderBloc.state.check.creationtime.isNotEmpty
+                    ? newFormat.format(
+                        DateTime.parse(orderBloc.state.check.creationtime))
+                    : ''),
             style: const TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 15,

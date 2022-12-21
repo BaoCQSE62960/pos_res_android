@@ -19,34 +19,34 @@ class CustomToolButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // width: 80,
       width: 110,
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: color,
-            shadowColor: color,
-            elevation: 3,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          shadowColor: color,
+          elevation: 3,
+        ),
+        onPressed: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 4,
+            bottom: 2,
           ),
-          onPressed: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 4,
-              bottom: 2,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                icons,
-                Text(
-                  text,
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 11,
-                      color: textColors),
-                )
-              ],
-            ),
-          )),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              icons,
+              Text(
+                text,
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 11,
+                    color: textColors),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

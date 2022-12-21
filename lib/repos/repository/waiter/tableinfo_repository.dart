@@ -13,8 +13,10 @@ class TableInfoRepositoryImpl extends TableInfoService {
 
   @override
   Future<TableInfo> getTableInfoByCheckID(String checkID) async {
-    http.Response response = await http
-        .get(Uri.parse(uriConnect + "/order/check/" + checkID + "/info/"));
+    headers = storage.getItem('headers');
+    http.Response response = await http.get(
+        Uri.parse(uriConnect + "/order/check/" + checkID + "/info/"),
+        headers: headers);
     var responseJson = json.decode(response.body);
     if (response.statusCode == 200) {
       return TableInfo.fromJson(responseJson);

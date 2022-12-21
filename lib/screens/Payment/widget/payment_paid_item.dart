@@ -1,16 +1,45 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_res_android/config/theme.dart';
+import 'package:pos_res_android/repos/models/cashier/payment.dart';
 import 'package:pos_res_android/screens/Payment/widget/payment_action_button.dart';
 
-class PaymentPaidItem extends StatelessWidget {
-  const PaymentPaidItem({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class PaymentPaidItem extends StatefulWidget {
+  Function() undo;
+  List<PaymentProcess> paidList;
+  int checkId;
+  PaymentPaidItem({
+    Key? key,
+    required this.checkId,
+    required this.paidList,
+    required this.undo,
+  }) : super(key: key);
+
+  @override
+  State<PaymentPaidItem> createState() => _PaymentPaidItemState();
+}
+
+class _PaymentPaidItemState extends State<PaymentPaidItem> {
+  late List<PaymentProcess> paidList;
+  late int checkId;
+  final moneyFormat = NumberFormat.decimalPattern('vi_VN');
+
+  @override
+  void initState() {
+    super.initState();
+    paidList = widget.paidList;
+    checkId = widget.checkId;
+  }
 
   @override
   Widget build(BuildContext context) {
+    num total = 0;
+    for (var e in paidList) {
+      total += e.amount;
+    }
     return Column(
       children: [
-        // const Expanded(flex: 1, child: OrderGeneralInfo()),
-        // const Divider(color: dividerColor),
         Expanded(
           flex: 10,
           child: Scrollbar(
@@ -23,8 +52,9 @@ class PaymentPaidItem extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: 1,
+              itemCount: paidList.length,
               itemBuilder: (context, index) {
+                PaymentProcess payment = paidList.elementAt(index);
                 return Container(
                   margin: const EdgeInsets.all(10),
                   width: double.infinity,
@@ -41,7 +71,7 @@ class PaymentPaidItem extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Tiền mặt",
+                                      payment.name,
                                       style: TextStyle(
                                         color: textColor2,
                                         fontSize: defaultSize * 4,
@@ -52,7 +82,7 @@ class PaymentPaidItem extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    "50.000",
+                                    moneyFormat.format(payment.amount),
                                     style: TextStyle(
                                       color: textColor2,
                                       fontSize: defaultSize * 4,
@@ -95,7 +125,7 @@ class PaymentPaidItem extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        "50.000",
+                        moneyFormat.format(total),
                         style: TextStyle(
                           color: textColor2,
                           fontSize: defaultSize * 5,
@@ -105,40 +135,21 @@ class PaymentPaidItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 20),
-                //   child: Row(
-                //     children: [
-                //       Text(
-                //         "Tổng thanh toán",
-                //         style: TextStyle(
-                //             color: textColor2,
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 20),
-                //       ),
-                //       const Spacer(),
-                //       Text(
-                //         "69.300",
-                //         style: TextStyle(
-                //             color: textColor2,
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 20),
-                //       )
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
         ),
-        const Expanded(
-          // flex: 1,
+        Expanded(
           flex: 4,
           child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               bottom: defaultPadding * 0.75,
             ),
-            child: PaymentActionButton(),
+            child: PaymentActionButton(
+              checkId: checkId,
+              paidList: paidList,
+              undo: widget.undo,
+            ),
           ),
         ),
       ],
